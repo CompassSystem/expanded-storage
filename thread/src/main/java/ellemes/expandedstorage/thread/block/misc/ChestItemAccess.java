@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.block.misc;
 
-import ellemes.expandedstorage.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.block.misc.DoubleItemAccess;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.block.misc.DoubleItemAccess;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;

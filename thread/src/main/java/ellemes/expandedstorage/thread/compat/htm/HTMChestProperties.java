@@ -2,8 +2,8 @@ package ellemes.expandedstorage.thread.compat.htm;
 
 import com.github.fabricservertools.htm.HTMContainerLock;
 import com.github.fabricservertools.htm.api.LockableObject;
-import ellemes.expandedstorage.block.entity.OldChestBlockEntity;
-import ellemes.expandedstorage.block.misc.Property;
+import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
+import ellemes.expandedstorage.common.block.misc.Property;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public final class HTMChestProperties {

@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.compat.htm;
 
 import com.github.fabricservertools.htm.HTMContainerLock;
-import ellemes.expandedstorage.block.misc.BasicLockable;
+import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;

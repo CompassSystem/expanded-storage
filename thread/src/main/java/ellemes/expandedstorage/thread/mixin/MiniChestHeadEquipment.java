@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread.mixin;
 
-import ellemes.expandedstorage.block.MiniChestBlock;
+import ellemes.expandedstorage.common.block.MiniChestBlock;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;

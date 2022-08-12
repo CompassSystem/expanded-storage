@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.forge.datagen.providers;
 
-import ellemes.expandedstorage.Utils;
-import ellemes.expandedstorage.datagen.providers.ModelHelper;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.datagen.providers.ModelHelper;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

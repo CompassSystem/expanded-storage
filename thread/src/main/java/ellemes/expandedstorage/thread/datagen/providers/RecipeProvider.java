@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
-import ellemes.expandedstorage.datagen.providers.RecipeHelper;
+import ellemes.expandedstorage.common.datagen.providers.RecipeHelper;
 import ellemes.expandedstorage.thread.datagen.content.ThreadTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;

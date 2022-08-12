@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.forge.block.misc;
 
-import ellemes.expandedstorage.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.block.strategies.ItemAccess;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 

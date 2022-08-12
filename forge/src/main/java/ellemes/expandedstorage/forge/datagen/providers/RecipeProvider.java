@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.forge.datagen.providers;
 
-import ellemes.expandedstorage.datagen.providers.RecipeHelper;
+import ellemes.expandedstorage.common.datagen.providers.RecipeHelper;
 import ellemes.expandedstorage.forge.datagen.content.ForgeTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;

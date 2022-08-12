@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
-import ellemes.expandedstorage.datagen.providers.BlockLootTableHelper;
+import ellemes.expandedstorage.common.datagen.providers.BlockLootTableHelper;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.data.loot.BlockLoot;

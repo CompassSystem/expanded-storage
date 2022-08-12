@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.fabric.mixin;
 
-import ellemes.expandedstorage.block.ChestBlock;
-import ellemes.expandedstorage.block.MiniChestBlock;
+import ellemes.expandedstorage.common.block.ChestBlock;
+import ellemes.expandedstorage.common.block.MiniChestBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import virtuoel.towelette.api.Fluidloggable;
 

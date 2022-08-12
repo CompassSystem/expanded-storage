@@ -1,16 +1,16 @@
 package ellemes.expandedstorage.forge;
 
-import ellemes.expandedstorage.CommonMain;
-import ellemes.expandedstorage.misc.TagReloadListener;
-import ellemes.expandedstorage.Utils;
-import ellemes.expandedstorage.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.block.misc.BasicLockable;
+import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.misc.TagReloadListener;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
 import ellemes.expandedstorage.forge.item.MiniChestBlockItem;
-import ellemes.expandedstorage.registration.Content;
-import ellemes.expandedstorage.registration.NamedValue;
+import ellemes.expandedstorage.common.registration.Content;
+import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

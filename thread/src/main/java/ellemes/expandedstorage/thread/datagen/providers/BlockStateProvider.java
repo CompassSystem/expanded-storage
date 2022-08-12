@@ -1,7 +1,6 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
-import ellemes.expandedstorage.datagen.content.ModItems;
-import ellemes.expandedstorage.datagen.providers.ModelHelper;
+import ellemes.expandedstorage.common.datagen.providers.ModelHelper;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.models.BlockModelGenerators;

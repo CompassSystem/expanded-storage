@@ -2,8 +2,8 @@ package ellemes.expandedstorage.common.mixin;
 
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
-import ellemes.expandedstorage.fixer.ES1_17_1Schema2707v1;
-import ellemes.expandedstorage.fixer.ES1_18_0Schema2851v1;
+import ellemes.expandedstorage.common.fixer.ES1_17_1Schema2707v1;
+import ellemes.expandedstorage.common.fixer.ES1_18_0Schema2851v1;
 import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.util.datafix.fixes.AddNewChoices;
 import net.minecraft.util.datafix.fixes.BlockRenameFix;

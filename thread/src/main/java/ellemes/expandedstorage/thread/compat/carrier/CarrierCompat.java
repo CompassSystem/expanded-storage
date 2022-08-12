@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.compat.carrier;
 
-import ellemes.expandedstorage.block.AbstractChestBlock;
-import ellemes.expandedstorage.block.ChestBlock;
+import ellemes.expandedstorage.common.block.AbstractChestBlock;
+import ellemes.expandedstorage.common.block.ChestBlock;
 import me.steven.carrier.api.CarriableRegistry;
 
 public final class CarrierCompat {

@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.forge.datagen.providers;
 
-import ellemes.expandedstorage.Utils;
-import ellemes.expandedstorage.datagen.providers.BlockLootTableHelper;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.datagen.providers.BlockLootTableHelper;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;

@@ -2,8 +2,8 @@ package ellemes.expandedstorage.forge.item;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
-import ellemes.expandedstorage.CommonMain;
-import ellemes.expandedstorage.block.entity.ChestBlockEntity;
+import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;

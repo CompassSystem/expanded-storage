@@ -1,11 +1,11 @@
 package ellemes.expandedstorage.quilt;
 
-import ellemes.expandedstorage.misc.TagReloadListener;
-import ellemes.expandedstorage.Utils;
-import ellemes.expandedstorage.block.BarrelBlock;
-import ellemes.expandedstorage.registration.Content;
-import ellemes.expandedstorage.registration.ContentConsumer;
-import ellemes.expandedstorage.registration.NamedValue;
+import ellemes.expandedstorage.common.misc.TagReloadListener;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.block.BarrelBlock;
+import ellemes.expandedstorage.common.registration.Content;
+import ellemes.expandedstorage.common.registration.ContentConsumer;
+import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.renderer.RenderType;

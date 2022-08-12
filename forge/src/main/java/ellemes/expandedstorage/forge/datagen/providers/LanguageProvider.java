@@ -1,8 +1,8 @@
 package ellemes.expandedstorage.forge.datagen.providers;
 
-import ellemes.expandedstorage.Utils;
-import ellemes.expandedstorage.datagen.content.ModBlocks;
-import ellemes.expandedstorage.datagen.content.ModItems;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.datagen.content.ModBlocks;
+import ellemes.expandedstorage.common.datagen.content.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.CreativeModeTab;

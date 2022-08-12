@@ -2,7 +2,7 @@ package ellemes.expandedstorage.thread.compat.carrier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import ellemes.expandedstorage.block.entity.OldChestBlockEntity;
+import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import me.steven.carrier.api.Carriable;
 import me.steven.carrier.api.CarriablePlacementContext;
 import me.steven.carrier.api.CarrierComponent;

@@ -1,11 +1,11 @@
 package ellemes.expandedstorage.forge;
 
 import ellemes.container_library.api.v3.client.ScreenOpeningApi;
-import ellemes.expandedstorage.CommonMain;
-import ellemes.expandedstorage.client.ChestBlockEntityRenderer;
-import ellemes.expandedstorage.entity.ChestMinecart;
-import ellemes.expandedstorage.registration.Content;
-import ellemes.expandedstorage.registration.NamedValue;
+import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
+import ellemes.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.common.registration.Content;
+import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.MinecartRenderer;

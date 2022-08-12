@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.block.misc;
 
-import ellemes.expandedstorage.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.block.strategies.ItemAccess;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
