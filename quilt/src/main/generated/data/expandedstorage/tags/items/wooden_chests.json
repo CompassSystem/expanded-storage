@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#c:wooden_chests",
-    "expandedstorage:pumpkin_chest",
-    "expandedstorage:present"
-  ]
-}

@@ -1,0 +1,15 @@
+package ellemes.expandedstorage.thread.compat.carrier;
+
+import ellemes.expandedstorage.common.block.ChestBlock;
+import me.steven.carrier.api.CarriableRegistry;
+import ninjaphenix.expandedstorage.block.AbstractChestBlock;
+
+public final class CarrierCompat {
+    public static void registerChestBlock(ChestBlock block) {
+        CarriableRegistry.INSTANCE.register(block.getBlockId(), new CarriableChest(block.getBlockId(), block));
+    }
+
+    public static void registerOldChestBlock(AbstractChestBlock block) {
+        CarriableRegistry.INSTANCE.register(block.getBlockId(), new CarriableOldChest(block.getBlockId(), block));
+    }
+}

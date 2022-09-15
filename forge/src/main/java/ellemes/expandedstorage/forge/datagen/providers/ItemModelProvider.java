@@ -1,11 +1,12 @@
 package ellemes.expandedstorage.forge.datagen.providers;
 
-import ellemes.expandedstorage.Utils;
-import ellemes.expandedstorage.forge.datagen.content.ModItems;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.datagen.providers.ModelHelper;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public final class ItemModelProvider extends net.minecraftforge.client.model.generators.ItemModelProvider {
     public ItemModelProvider(DataGenerator generator, ExistingFileHelper fileHelper) {
@@ -14,22 +15,7 @@ public final class ItemModelProvider extends net.minecraftforge.client.model.gen
 
     @Override
     protected void registerModels() {
-        this.simple(ModItems.STORAGE_MUTATOR);
-        this.simple(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
-        this.simple(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);
-        this.simple(ModItems.WOOD_TO_DIAMOND_CONVERSION_KIT);
-        this.simple(ModItems.WOOD_TO_OBSIDIAN_CONVERSION_KIT);
-        this.simple(ModItems.WOOD_TO_NETHERITE_CONVERSION_KIT);
-        this.simple(ModItems.IRON_TO_GOLD_CONVERSION_KIT);
-        this.simple(ModItems.IRON_TO_DIAMOND_CONVERSION_KIT);
-        this.simple(ModItems.IRON_TO_OBSIDIAN_CONVERSION_KIT);
-        this.simple(ModItems.IRON_TO_NETHERITE_CONVERSION_KIT);
-        this.simple(ModItems.GOLD_TO_DIAMOND_CONVERSION_KIT);
-        this.simple(ModItems.GOLD_TO_OBSIDIAN_CONVERSION_KIT);
-        this.simple(ModItems.GOLD_TO_NETHERITE_CONVERSION_KIT);
-        this.simple(ModItems.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT);
-        this.simple(ModItems.DIAMOND_TO_NETHERITE_CONVERSION_KIT);
-        this.simple(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT);
+        ModelHelper.registerItemModels(this::simple);
 
         //this.chest(ModItems.WOOD_CHEST);
         //this.chest(ModItems.PUMPKIN_CHEST);
@@ -56,23 +42,23 @@ public final class ItemModelProvider extends net.minecraftforge.client.model.gen
 
     @SuppressWarnings("ConstantConditions")
     private void simple(Item item) {
-        String itemId = item.getRegistryName().getPath();
+        String itemId = ForgeRegistries.ITEMS.getKey(item).getPath();
         this.withExistingParent(itemId, mcLoc("item/generated")).texture("layer0", "item/" + itemId);
     }
 
     @SuppressWarnings("ConstantConditions")
     private void chest(Item item) {
-        this.withExistingParent(item.getRegistryName().getPath(), mcLoc("item/chest"));
+        this.withExistingParent(ForgeRegistries.ITEMS.getKey(item).getPath(), mcLoc("item/chest"));
     }
 
     @SuppressWarnings("ConstantConditions")
     private void oldChest(BlockItem item) {
-        this.getBuilder(item.getRegistryName().getPath()).parent(this.getExistingFile(Utils.id("block/" + item.getBlock().getRegistryName().getPath() + "/single")));
+        this.getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(this.getExistingFile(Utils.id("block/" + ForgeRegistries.BLOCKS.getKey(item.getBlock()).getPath() + "/single")));
     }
 
     @SuppressWarnings("ConstantConditions")
     private void barrel(BlockItem item) {
-        this.getBuilder(item.getRegistryName().getPath()).parent(this.getExistingFile(Utils.id("block/" + item.getBlock().getRegistryName().getPath())));
+        this.getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(this.getExistingFile(Utils.id("block/" + ForgeRegistries.BLOCKS.getKey(item.getBlock()).getPath())));
     }
 
     @Override

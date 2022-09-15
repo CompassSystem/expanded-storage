@@ -6,8 +6,10 @@
     "version": "${version}",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": "ellemes.expandedstorage.quilt.Main",
-      "fabric-datagen": "ellemes.expandedstorage.quilt.datagen.Main"
+      "init": "ellemes.expandedstorage.quilt.QuiltMain",
+      "client_init": "ellemes.expandedstorage.quilt.QuiltClient",
+      "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
+      "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat"
     },
     "depends": [
       {
@@ -22,46 +24,16 @@
         "id": "minecraft",
         "versions": "~1.18.2"
       },
-      {
-        "id": "org.quiltmc.qsl.block:quilt_block_extensions",
-        "versions": ">=1.1.0-beta.5"
-      },
-      {
-        "id": "org.quiltmc.qsl.core:quilt_networking",
-        "versions": ">=1.1.0-beta.5"
-      },
-      {
-        "id": "org.quiltmc.qsl.core:quilt_registry",
-        "versions": ">=1.1.0-beta.5"
-      },
-      {
-        "id": "org.quiltmc.qsl.core:quilt_resource_loader",
-        "versions": ">=1.1.0-beta.5"
-      },
-      {
-        "id": "org.quiltmc.qsl.item:quilt_item_group",
-        "versions": ">=1.1.0-beta.5"
-      },
-      {
-        "id": "org.quiltmc.qsl.gui:quilt_tooltip",
-        "versions": ">=1.1.0-beta.5"
-      },
-      {
-        "id": "org.quiltmc.quilted-fabric-api:quilted_fabric_api_base",
-        "versions": ">=1.0.0-beta.7"
-      },
-      {
-        "id": "org.quiltmc.quilted-fabric-api:quilted_fabric_rendering_v1",
-        "versions": ">=1.0.0-beta.7"
-      },
-      {
-        "id": "org.quiltmc.quilted-fabric-api:quilted_fabric_textures_v0",
-        "versions": ">=1.0.0-beta.7"
-      },
-      {
-        "id": "org.quiltmc.quilted-fabric-api:quilted_fabric_transfer_api_v1",
-        "versions": ">=1.0.0-beta.7"
-      }
+      "org.quiltmc.qsl.block:quilt_block_extensions",
+      "org.quiltmc.qsl.core:quilt_networking",
+      "org.quiltmc.qsl.core:quilt_registry",
+      "org.quiltmc.qsl.core:quilt_resource_loader",
+      "org.quiltmc.qsl.item:quilt_item_group",
+      "org.quiltmc.qsl.gui:quilt_tooltip",
+      "org.quiltmc.quilted-fabric-api:quilted_fabric_api_base",
+      "org.quiltmc.quilted-fabric-api:quilted_fabric_rendering_v1",
+      "org.quiltmc.quilted-fabric-api:quilted_fabric_textures_v0",
+      "org.quiltmc.quilted-fabric-api:quilted_fabric_transfer_api_v1"
     ],
     "metadata": {
       "name": "Expanded Storage",
@@ -70,9 +42,9 @@
         "Ellemes": "Owner"
       },
       "contact": {
-        "homepage": "https://modrinth.com/mod/expanded-storage",
-        "issues": "https://github.com/Ellemes/expanded-storage",
-        "sources": "https://github.com/Ellemes/ExpandedStorage"
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
+        "issues": "https://github.com/Ellemes/expanded-storage/issues/",
+        "sources": "https://github.com/Ellemes/ExpandedStorage/"
       },
       "license": [
       ],
@@ -81,6 +53,7 @@
   },
   "mixin": [
     "expandedstorage-common.mixin.json",
+    "expandedstorage-thread.mixin.json",
     "expandedstorage-quilt.mixin.json"
   ]
 }

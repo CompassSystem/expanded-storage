@@ -1,7 +1,3 @@
-import me.hypherionmc.cursegradle.CurseProject
-import me.hypherionmc.cursegradle.Options
-import org.gradle.configurationcache.extensions.capitalized
-
 plugins {
     id("ellemes.gradle.mod").apply(false)
 }
@@ -21,7 +17,18 @@ repositories {
             includeGroup("net.devtech")
         }
     }
-
+    // For Mod Menu
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "TerraformersMC"
+                url = uri("https://maven.terraformersmc.com/")
+            }
+        }
+        filter {
+            includeGroup("com.terraformersmc")
+        }
+    }
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
@@ -30,8 +37,8 @@ val excludeFabric: (ModuleDependency) -> Unit = {
     it.exclude("net.fabricmc.fabric-api")
 }
 
-mod {
-    fabricApi(
+dependencies {
+    listOf(
             "fabric-api-base",
             "fabric-data-generation-api-v1",
             "fabric-blockrenderlayer-v1",
@@ -40,10 +47,14 @@ mod {
             "fabric-textures-v0",
             "fabric-lifecycle-events-v1",
             "fabric-transfer-api-v1"
-    )
-}
+    ).forEach {
+        modImplementation(mod.fabricApi().module(it))
+    }
 
-dependencies {
+    modCompileOnly("com.terraformersmc:modmenu:${project.properties["modmenu_version"]}") {
+        excludeFabric(this)
+    }
+
     modImplementation("ellemes:${properties["container_library_artifact"]}-fabric:${properties["container_library_version"]}")
 
     // For chest module
@@ -73,76 +84,14 @@ dependencies {
 //    }
 //}
 
-val releaseModTask = tasks.getByName("releaseMod")
-val modVersion = properties["mod_version"] as String
-val modReleaseType = if ("alpha" in modVersion) "alpha" else if ("beta" in modVersion) "beta" else "release"
-var modChangelog = rootDir.resolve("changelog.md").readText(Charsets.UTF_8)
-val modTargetVersions = mutableListOf(properties["minecraft_version"] as String)
-val modUploadDebug = System.getProperty("MOD_UPLOAD_DEBUG", "false") == "true" // -DMOD_UPLOAD_DEBUG=true
+val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://github.com/Ellemes/ExpandedStorage")
 
-fun String.execute() = org.codehaus.groovy.runtime.ProcessGroovyMethods.execute(this)
-val Process.text: String? get() = org.codehaus.groovy.runtime.ProcessGroovyMethods.getText(this)
-val commit = "git rev-parse HEAD".execute().text
-modChangelog += "\nCommit: https://github.com/Ellemes/ExpandedStorage/commit/$commit"
-
-(properties["extra_game_versions"] as String).split(",").forEach {
-    if (it != "") {
-        modTargetVersions.add(it)
-    }
-}
-
-curseforge {
-    options(closureOf<Options> {
-        debug = modUploadDebug
-        javaVersionAutoDetect = false
-        javaIntegration = false
-        forgeGradleIntegration = false
-        fabricIntegration = false
-        detectFabricApi = false
+u.configureCurseForge {
+    relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
+        requiredDependency("fabric-api")
+        requiredDependency("ellemes-container-library")
+        optionalDependency("htm")
+        optionalDependency("carrier")
+        optionalDependency("towelette")
     })
-
-    project(closureOf<CurseProject> {
-        apiKey = System.getenv("CURSEFORGE_TOKEN")
-        id = properties["curseforge_fabric_project_id"]
-        releaseType = modReleaseType
-        mainArtifact(tasks.getByName("minJar"), closureOf<me.hypherionmc.cursegradle.CurseArtifact> {
-            displayName = project.name.capitalized() + " " + modVersion
-            artifact = tasks.getByName("minJar")
-        })
-        relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
-            requiredDependency("fabric-api")
-            requiredDependency("ellemes-container-library")
-            optionalDependency("htm")
-            optionalDependency("carrier")
-            optionalDependency("towelette")
-        })
-        changelogType = "markdown"
-        changelog = modChangelog
-        gameVersionStrings = listOf(project.name.capitalized(), "Java " + java.targetCompatibility.majorVersion) + modTargetVersions
-    })
-}
-
-modrinth {
-    debugMode.set(modUploadDebug)
-    detectLoaders.set(false)
-
-    projectId.set(properties["modrinth_project_id"] as String)
-    versionType.set(modReleaseType)
-    versionNumber.set(modVersion  + "+" + project.name)
-    versionName.set(project.name.capitalized() + " " + modVersion)
-    uploadFile.set(tasks.getByName("minJar"))
-    dependencies {
-        required.project("P7dR8mSH") // fabric-api
-        required.project("KV8SBboh") // ellemes-container-library
-        optional.project("IEPAK5x6") // htm
-        // optional.project("carrier") // carrier (not on modrinth)
-        optional.project("bnesqDoc") // towelette
-    }
-    changelog.set(modChangelog)
-    gameVersions.set(modTargetVersions)
-    loaders.set(listOf(project.name))
-}
-
-afterEvaluate {
-    releaseModTask.finalizedBy(listOf("modrinth", "curseforge" + properties["curseforge_fabric_project_id"]))
 }

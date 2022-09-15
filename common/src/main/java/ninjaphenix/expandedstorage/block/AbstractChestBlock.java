@@ -1,11 +1,10 @@
 package ninjaphenix.expandedstorage.block;
 
-import ellemes.expandedstorage.Common;
-import ellemes.expandedstorage.Utils;
-import ellemes.expandedstorage.block.OpenableBlock;
-import ellemes.expandedstorage.block.entity.OldChestBlockEntity;
-import ellemes.expandedstorage.block.misc.Property;
-import ellemes.expandedstorage.block.misc.PropertyRetriever;
+import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.OpenableBlock;
+import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
+import ellemes.expandedstorage.common.block.misc.Property;
+import ellemes.expandedstorage.common.block.misc.PropertyRetriever;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -26,8 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import ninjaphenix.container_library.api.v2.OpenableBlockEntityV2;
-import ninjaphenix.container_library.api.v2.helpers.OpenableBlockEntitiesV2;
 import ninjaphenix.expandedstorage.api.ExpandedStorageAccessors;
 import ninjaphenix.expandedstorage.block.misc.CursedChestType;
 import org.jetbrains.annotations.ApiStatus;
@@ -148,12 +145,12 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
 
     protected <T extends OldChestBlockEntity> BlockEntityType<T> getBlockEntityType() {
         //noinspection unchecked
-        return (BlockEntityType<T>) Common.getOldChestBlockEntityType();
+        return (BlockEntityType<T>) CommonMain.getOldChestBlockEntityType();
     }
 
     @Override
     public ResourceLocation getBlockType() {
-        return Common.OLD_CHEST_BLOCK_TYPE;
+        return CommonMain.OLD_CHEST_BLOCK_TYPE;
     }
 
     @Override
@@ -262,16 +259,19 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     }
 
     @Override
-    public OpenableBlockEntityV2 getOpenableBlockEntity(Level world, BlockState state, BlockPos pos) {
-        return AbstractChestBlock.createPropertyRetriever(this, state, world, pos, false).get(new Property<OldChestBlockEntity, OpenableBlockEntityV2>() {
+    public OpenableInventory getOpenableInventory(BlockContext context) {
+        Level world = context.getWorld();
+        BlockPos pos = context.getBlockPos();
+        BlockState state = world.getBlockState(pos);
+        return AbstractChestBlock.createPropertyRetriever(this, state, world, pos, false).get(new Property<OldChestBlockEntity, OpenableInventory>() {
             @Override
-            public OpenableBlockEntityV2 get(OldChestBlockEntity first, OldChestBlockEntity second) {
-                Component name = first.hasCustomName() ? first.getName() : second.hasCustomName() ? second.getName() : Utils.translation("container.expandedstorage.generic_double", first.getName());
-                return new OpenableBlockEntitiesV2(name, first, second);
+            public OpenableInventory get(OldChestBlockEntity first, OldChestBlockEntity second) {
+                Component name = first.hasCustomName() ? first.getName() : second.hasCustomName() ? second.getName() : Component.translatable("container.expandedstorage.generic_double", first.getName());
+                return OpenableInventories.of(name, first, second);
             }
 
             @Override
-            public OpenableBlockEntityV2 get(OldChestBlockEntity single) {
+            public OpenableInventory get(OldChestBlockEntity single) {
                 return single;
             }
         }).orElse(null);

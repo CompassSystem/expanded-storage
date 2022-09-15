@@ -15,21 +15,29 @@
   },
   "entrypoints": {
     "main": [
-      "ellemes.expandedstorage.fabric.Main"
+      "ellemes.expandedstorage.fabric.FabricMain"
+    ],
+    "client": [
+      "ellemes.expandedstorage.fabric.FabricClient"
     ],
     "fabric-datagen": [
-      "ellemes.expandedstorage.fabric.datagen.Main"
+      "ellemes.expandedstorage.thread.datagen.Main"
+    ],
+    "modmenu": [
+      "ellemes.expandedstorage.thread.client.ModMenuCompat"
     ]
   },
   "environment": "*",
   "authors": ["Ellemes"],
   "mixins": [
     "expandedstorage-common.mixin.json",
+    "expandedstorage-thread.mixin.json",
     "expandedstorage-fabric.mixin.json"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage-fabric/",
-    "issues": "https://github.com/Ellemes/expanded-storage/issues/"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
+    "issues": "https://github.com/Ellemes/expanded-storage/issues/",
+    "sources": "https://github.com/Ellemes/ExpandedStorage/"
   },
   "icon": "icon.png",
   "id": "expandedstorage",
