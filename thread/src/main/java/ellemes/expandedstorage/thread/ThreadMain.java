@@ -2,7 +2,6 @@ package ellemes.expandedstorage.thread;
 
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
-import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
@@ -40,6 +39,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import ninjaphenix.expandedstorage.block.AbstractChestBlock;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

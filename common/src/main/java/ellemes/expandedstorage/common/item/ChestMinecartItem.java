@@ -78,7 +78,7 @@ public class ChestMinecartItem extends Item {
             ChestMinecart cart = ChestMinecart.createMinecart(level, posVec, cartId); // 1/16th of a block above the rail
             if (stack.hasCustomHoverName()) cart.setCustomName(stack.getHoverName());
             level.addFreshEntity(cart);
-            level.gameEvent(GameEvent.ENTITY_PLACE, pos, GameEvent.Context.of(context.getPlayer(), level.getBlockState(pos.below())));
+            level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
         }
         stack.shrink(1);
         return InteractionResult.sidedSuccess(level.isClientSide());

@@ -1,10 +1,14 @@
 package ninjaphenix.expandedstorage.block;
 
+import ellemes.container_library.api.v3.OpenableInventory;
+import ellemes.container_library.api.v3.context.BlockContext;
+import ellemes.container_library.api.v3.helpers.OpenableInventories;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.Property;
 import ellemes.expandedstorage.common.block.misc.PropertyRetriever;
+import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -266,7 +270,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return AbstractChestBlock.createPropertyRetriever(this, state, world, pos, false).get(new Property<OldChestBlockEntity, OpenableInventory>() {
             @Override
             public OpenableInventory get(OldChestBlockEntity first, OldChestBlockEntity second) {
-                Component name = first.hasCustomName() ? first.getName() : second.hasCustomName() ? second.getName() : Component.translatable("container.expandedstorage.generic_double", first.getName());
+                Component name = first.hasCustomName() ? first.getName() : second.hasCustomName() ? second.getName() : Utils.translation("container.expandedstorage.generic_double", first.getName());
                 return OpenableInventories.of(name, first, second);
             }
 

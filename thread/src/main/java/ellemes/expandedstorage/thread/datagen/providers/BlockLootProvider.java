@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.data.loot.BlockLoot;
 
 
-// IDE error?
 public final class BlockLootProvider extends FabricBlockLootTableProvider {
     public BlockLootProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);

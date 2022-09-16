@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
-import java.util.function.Predicate;
 
 public interface WrappedInventory extends WorldlyContainer {
     WorldlyContainer getInventory();
@@ -81,11 +80,6 @@ public interface WrappedInventory extends WorldlyContainer {
     @Override
     default boolean hasAnyOf(Set<Item> set) {
         return getInventory().hasAnyOf(set);
-    }
-
-    @Override
-    default boolean hasAnyMatching(Predicate<ItemStack> predicate) {
-        return getInventory().hasAnyMatching(predicate);
     }
 
     @Override
