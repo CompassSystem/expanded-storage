@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "expandedstorage:bamboo_chest"
+      "expandedstorage:storage_mutator"
     ]
   },
   "criteria": {
-    "has_previous_block": {
+    "has_chest": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "c:wooden_chests"
+            "tag": "expandedstorage:wooden_chests"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "expandedstorage:bamboo_chest"
+        "recipe": "expandedstorage:storage_mutator"
       }
     }
   },
   "requirements": [
     [
-      "has_previous_block",
+      "has_chest",
       "has_the_recipe"
     ]
   ]

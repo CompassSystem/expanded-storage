@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "expandedstorage:bamboo_chest"
+      "expandedstorage:candy_cane_mini_present"
     ]
   },
   "criteria": {
@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:wooden_chests"
+            "items": [
+              "expandedstorage:white_mini_present"
+            ]
           }
         ]
       }
@@ -19,7 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "expandedstorage:bamboo_chest"
+        "recipe": "expandedstorage:candy_cane_mini_present"
       }
     }
   },
