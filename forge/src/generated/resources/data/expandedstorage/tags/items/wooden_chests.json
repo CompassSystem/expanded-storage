@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "expandedstorage:pumpkin_chest",
+    "expandedstorage:present",
+    "expandedstorage:bamboo_chest",
+    "#forge:chests/wooden"
+  ]
+}
