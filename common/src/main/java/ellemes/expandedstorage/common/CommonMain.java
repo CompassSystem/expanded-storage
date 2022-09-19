@@ -38,7 +38,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.datafix.fixes.References;
@@ -47,6 +46,7 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -326,15 +326,15 @@ public final class CommonMain {
             ObjectConsumer chestMaker = (id, stat, tier, settings) -> {
                 NamedValue<ChestBlock> block = new NamedValue<>(id, () -> new ChestBlock(tier.getBlockSettings().apply(settings), id, tier.getId(), stat, tier.getSlotCount()));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> chestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
-//                ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
-//                NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> new ChestMinecartItem(new Item.Properties().tab(group), cartId));
-//                NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> EntityType.Builder.<ChestMinecart>of((type, level) -> {
-//                    return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
-//                }, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8).build(cartId.getPath()));
+                ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
+                NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> new ChestMinecartItem(new Item.Properties().tab(group), cartId));
+                NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> EntityType.Builder.<ChestMinecart>of((type, level) -> {
+                    return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
+                }, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8).build(cartId.getPath()));
                 chestBlocks.add(block);
                 chestItems.add(item);
-//                chestMinecartEntityTypes.add(cartEntityType);
-//                chestMinecartItems.add(cartItem);
+                chestMinecartEntityTypes.add(cartEntityType);
+                chestMinecartItems.add(cartItem);
             };
 
             chestMaker.apply(Utils.id("wood_chest"), woodStat, woodTier, woodSettings);
@@ -501,30 +501,30 @@ public final class CommonMain {
                                             // note: other state is updated via neighbour update
                                             tag.remove("pos");
                                             //noinspection ConstantConditions
-                                            player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.merge_end"), true);
+                                            player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_end"), true);
                                         }
                                         return InteractionResult.SUCCESS;
                                     } else {
                                         //noinspection ConstantConditions
-                                        player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.merge_wrong_facing"), true);
+                                        player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_wrong_facing"), true);
                                     }
                                 } else {
                                     //noinspection ConstantConditions
-                                    player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.merge_already_double_chest"), true);
+                                    player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_already_double_chest"), true);
                                 }
                             } else {
                                 //noinspection ConstantConditions
-                                player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.merge_wrong_block", state.getBlock().getName()), true);
+                                player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_wrong_block"), true);
                             }
                         } else {
                             //noinspection ConstantConditions
-                            player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.merge_not_adjacent"), true);
+                            player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_not_adjacent"), true);
                         }
                     } else {
                         if (!world.isClientSide()) {
                             tag.put("pos", NbtUtils.writeBlockPos(pos));
                             //noinspection ConstantConditions
-                            player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.merge_start", Utils.ALT_USE), true);
+                            player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_start", Utils.ALT_USE), true);
                         }
                         return InteractionResult.SUCCESS;
                     }

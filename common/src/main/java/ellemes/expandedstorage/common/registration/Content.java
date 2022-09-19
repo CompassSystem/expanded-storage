@@ -23,24 +23,18 @@ import java.util.List;
 
 public class Content {
     private final List<ResourceLocation> stats;
-//    private final List<NamedValue<Item>> baseItems;
 
     private final List<NamedValue<ChestBlock>> chestBlocks;
     private final List<NamedValue<BlockItem>> chestItems;
     private final List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes;
-    //    private final List<NamedValue<ChestMinecartItem>> chestMinecartItems;
     private final NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
 
     private final List<NamedValue<AbstractChestBlock>> oldChestBlocks;
-    //    private final List<NamedValue<BlockItem>> oldChestItems;
     private final NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
 
     private final List<NamedValue<BarrelBlock>> barrelBlocks;
-    //    private final List<NamedValue<BlockItem>> barrelItems;
     private final NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
 
-    //    private final List<NamedValue<MiniChestBlock>> miniChestBlocks;
-    //    private final List<NamedValue<BlockItem>> miniChestItems;
     private final NamedValue<BlockEntityType<MiniChestBlockEntity>> miniChestBlockEntityType;
 
     private final List<NamedValue<? extends OpenableBlock>> blocks;
@@ -70,33 +64,27 @@ public class Content {
             NamedValue<BlockEntityType<MiniChestBlockEntity>> miniChestBlockEntityType
     ) {
         this.stats = stats;
-//        this.baseItems = baseItems;
 
         this.chestBlocks = chestBlocks;
         this.chestItems = chestItems;
         this.chestMinecartEntityTypes = chestMinecartEntityTypes;
-//        this.chestMinecartItems = chestMinecartItems;
         this.chestBlockEntityType = chestBlockEntityType;
 
         this.oldChestBlocks = oldChestBlocks;
-//        this.oldChestItems = oldChestItems;
         this.oldChestBlockEntityType = oldChestBlockEntityType;
 
         this.barrelBlocks = barrelBlocks;
-//        this.barrelItems = barrelItems;
         this.barrelBlockEntityType = barrelBlockEntityType;
 
-//        this.miniChestBlocks = miniChestBlocks;
-//        this.miniChestItems = miniChestItems;
         this.miniChestBlockEntityType = miniChestBlockEntityType;
 
-        this.blocks = new ArrayList<>();
+        blocks = new ArrayList<>();
         blocks.addAll(chestBlocks);
         blocks.addAll(oldChestBlocks);
         blocks.addAll(barrelBlocks);
         blocks.addAll(miniChestBlocks);
 
-        this.items = new ArrayList<>();
+        items = new ArrayList<>();
         items.addAll(baseItems);
         items.addAll(chestItems);
         items.addAll(chestMinecartItems);
@@ -104,17 +92,13 @@ public class Content {
         items.addAll(barrelItems);
         items.addAll(miniChestItems);
 
-        this.entityTypes = new ArrayList<>();
+        entityTypes = new ArrayList<>();
         entityTypes.addAll(chestMinecartEntityTypes);
     }
 
     public List<ResourceLocation> getStats() {
         return stats;
     }
-
-//    public List<NamedValue<Item>> getBaseItems() {
-//        return baseItems;
-//    }
 
     public List<NamedValue<ChestBlock>> getChestBlocks() {
         return chestBlocks;
@@ -128,10 +112,6 @@ public class Content {
         return chestMinecartEntityTypes;
     }
 
-    //    public List<NamedValue<ChestMinecartItem>> getChestMinecartItems() {
-//        return chestMinecartItems;
-//    }
-
     public NamedValue<BlockEntityType<ChestBlockEntity>> getChestBlockEntityType() {
         return chestBlockEntityType;
     }
@@ -139,10 +119,6 @@ public class Content {
     public List<NamedValue<AbstractChestBlock>> getOldChestBlocks() {
         return oldChestBlocks;
     }
-
-//    public List<NamedValue<BlockItem>> getOldChestItems() {
-//        return oldChestItems;
-//    }
 
     public NamedValue<BlockEntityType<OldChestBlockEntity>> getOldChestBlockEntityType() {
         return oldChestBlockEntityType;
@@ -152,21 +128,9 @@ public class Content {
         return barrelBlocks;
     }
 
-//    public List<NamedValue<BlockItem>> getBarrelItems() {
-//        return barrelItems;
-//    }
-
     public NamedValue<BlockEntityType<BarrelBlockEntity>> getBarrelBlockEntityType() {
         return barrelBlockEntityType;
     }
-
-//    public List<NamedValue<MiniChestBlock>> getMiniChestBlocks() {
-//        return miniChestBlocks;
-//    }
-
-//    public List<NamedValue<BlockItem>> getMiniChestItems() {
-//        return miniChestItems;
-//    }
 
     public NamedValue<BlockEntityType<MiniChestBlockEntity>> getMiniChestBlockEntityType() {
         return miniChestBlockEntityType;
