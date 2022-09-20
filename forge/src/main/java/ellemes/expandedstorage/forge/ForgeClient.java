@@ -2,11 +2,14 @@ package ellemes.expandedstorage.forge;
 
 import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +19,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.stream.Collectors;
 
@@ -33,6 +37,12 @@ public class ForgeClient {
             }
             for (ResourceLocation texture : CommonMain.getChestTextures(content.getChestBlocks().stream().map(NamedValue::getName).collect(Collectors.toList()))) {
                 event.addSprite(texture);
+            }
+        });
+
+        modBus.addListener((FMLClientSetupEvent event) -> {
+            for (NamedValue<BarrelBlock> block : content.getBarrelBlocks()) {
+                ItemBlockRenderTypes.setRenderLayer(block.getValue(), RenderType.cutoutMipped());
             }
         });
 
