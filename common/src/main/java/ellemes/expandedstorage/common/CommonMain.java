@@ -329,7 +329,7 @@ public final class CommonMain {
                 ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
                 NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> new ChestMinecartItem(new Item.Properties().tab(group), cartId));
                 NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> EntityType.Builder.<ChestMinecart>of((type, level) -> {
-                    return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
+                    return new ChestMinecart(type, level, item.getValue(), block.getValue());
                 }, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8).build(cartId.getPath()));
                 chestBlocks.add(block);
                 chestItems.add(item);
