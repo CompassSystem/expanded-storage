@@ -1,3 +1,2 @@
-- Add bamboo chest.
-- Update to container library v3 incubating api.
-- Expose chest inventories which should fix issues with computer craft, Tom's simple storage mod and ledger.
+- Add chest mine-carts
+  - Still missing textures & conversion kit behaviour.
