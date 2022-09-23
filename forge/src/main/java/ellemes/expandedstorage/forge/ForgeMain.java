@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.forge;
 
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
@@ -72,7 +73,7 @@ public final class ForgeMain {
                         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
                             return LazyOptional.of(() -> {
                                 //noinspection unchecked
-                                return (T) CommonMain.getItemAccess(entity.getLevel(), entity.getBlockPos(), entity.getBlockState(), entity).orElseThrow();
+                                return (T) CommonMain.getItemAccess(entity.getLevel(), entity.getBlockPos(), entity.getBlockState(), entity).map(ItemAccess::get).orElseThrow();
                             });
                         }
                         return LazyOptional.empty();

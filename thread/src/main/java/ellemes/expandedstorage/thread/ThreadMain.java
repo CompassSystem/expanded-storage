@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.thread;
 
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
@@ -49,7 +50,7 @@ public class ThreadMain {
     @SuppressWarnings({"UnstableApiUsage"})
     public static Storage<ItemVariant> getItemAccess(Level world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
         //noinspection unchecked
-        return (Storage<ItemVariant>) CommonMain.getItemAccess(world, pos, state, blockEntity).orElse(null);
+        return (Storage<ItemVariant>) CommonMain.getItemAccess(world, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
     public static void constructContent(boolean htmPresent, CreativeModeTab group, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {
