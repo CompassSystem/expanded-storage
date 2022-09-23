@@ -12,6 +12,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -24,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public final class StorageMutator extends Item {
+public final class StorageMutator extends Item implements EntityInteractableItem {
     public StorageMutator(Properties settings) {
         super(settings);
     }
@@ -97,7 +98,12 @@ public final class StorageMutator extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag context) {
         MutationMode mode = StorageMutator.getMode(stack);
-        list.add(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.tool_mode", new TranslatableComponent("tooltip.expandedstorage.storage_mutator." + mode)).withStyle(ChatFormatting.GRAY));
+        list.add(Utils.translation("tooltip.expandedstorage.storage_mutator.tool_mode", Utils.translation("tooltip.expandedstorage.storage_mutator." + mode)).withStyle(ChatFormatting.GRAY));
         list.add(Utils.translation("tooltip.expandedstorage.storage_mutator.description_" + mode, Utils.ALT_USE).withStyle(ChatFormatting.GRAY));
+    }
+
+    @Override
+    public InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
+        return InteractionResult.PASS;
     }
 }

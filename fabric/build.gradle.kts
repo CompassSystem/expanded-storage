@@ -38,18 +38,20 @@ val excludeFabric: (ModuleDependency) -> Unit = {
 }
 
 dependencies {
-    listOf(
-            "fabric-api-base",
-            "fabric-data-generation-api-v1",
-            "fabric-blockrenderlayer-v1",
-            "fabric-item-groups-v0",
-            "fabric-rendering-v1",
-            "fabric-textures-v0",
-            "fabric-lifecycle-events-v1",
-            "fabric-transfer-api-v1"
-    ).forEach {
-        modImplementation(mod.fabricApi().module(it))
-    }
+//    listOf(
+//            "fabric-api-base",
+//            "fabric-data-generation-api-v1",
+//            "fabric-blockrenderlayer-v1",
+//            "fabric-item-groups-v0",
+//            "fabric-rendering-v1",
+//            "fabric-textures-v0",
+//            "fabric-lifecycle-events-v1",
+//            "fabric-transfer-api-v1"
+//    ).forEach {
+//        modImplementation(mod.fabricApi().module(it))
+//    }
+
+    modImplementation(mod.fabricApi().full())
 
     modCompileOnly("com.terraformersmc:modmenu:${project.properties["modmenu_version"]}") {
         excludeFabric(this)
