@@ -11,6 +11,6 @@ public class FabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ModContainer mod = FabricLoader.getInstance().getModContainer(Utils.MOD_ID).orElseThrow();
-        ResourceManagerHelper.registerBuiltinResourcePack(Utils.id("legacy_textures"), mod, "ES Legacy Textures", ResourcePackActivationType.NORMAL);
+//        ResourceManagerHelper.registerBuiltinResourcePack(Utils.id("legacy_textures"), mod, "ES Legacy Textures", ResourcePackActivationType.NORMAL);
     }
 }
