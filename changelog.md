@@ -1,2 +1,1 @@
-- Add chest mine-carts
-  - Still missing textures & conversion kit behaviour.
+- Revert old chest texture changes.
