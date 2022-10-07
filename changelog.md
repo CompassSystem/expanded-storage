@@ -1,1 +1,2 @@
-- Revert old chest texture changes.
+- Re-add new textures for old chests
+- Add new textures for modelled gold, diamond and obsidian chest.
