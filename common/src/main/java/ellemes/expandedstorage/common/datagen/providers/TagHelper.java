@@ -271,7 +271,7 @@ public class TagHelper {
                 .add(ModItems.GOLD_TO_NETHERITE_CONVERSION_KIT)
                 .add(ModItems.GOLD_BARREL)
                 .add(ModItems.GOLD_CHEST)
-//            .add(ModItems.GOLD_CHEST_MINECART)
+                .add(ModItems.GOLD_CHEST_MINECART)
                 .add(ModItems.OLD_GOLD_CHEST)
                 .add(ModItems.GOLD_MINI_CHEST)
                 .add(ModItems.GOLD_MINI_CHEST_WITH_SPARROW);
