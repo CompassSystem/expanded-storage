@@ -1,2 +1,3 @@
-- Re-add new textures for old chests
-- Add new textures for modelled gold, diamond and obsidian chest.
+- Add new old iron chest texture
+- Rework upgrade textures
+- Optimize texture sizes using optipng
