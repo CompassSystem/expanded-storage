@@ -6,19 +6,25 @@
     "version": "${version}",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": "ellemes.expandedstorage.quilt.QuiltMain",
-      "client_init": "ellemes.expandedstorage.quilt.QuiltClient",
+      "init": [
+        "ellemes.expandedstorage.quilt.QuiltMain",
+        "ellemes.container_library.quilt.QuiltMain"
+      ],
+      "client_init": [
+        "ellemes.expandedstorage.quilt.QuiltClient",
+        "ellemes.container_library.quilt.QuiltClient"
+      ],
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
-      "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat"
+      "rei_client": "ellemes.container_library.thread.client.ReiCompat",
+      "modmenu": [
+        "ellemes.expandedstorage.thread.client.ModMenuCompat",
+        "ellemes.container_library.thread.client.ModMenuCompat"
+      ]
     },
     "depends": [
       {
         "id": "org.quiltmc:quilt_loader",
         "versions": ">=0.16.0-beta.12"
-      },
-      {
-        "id": "ellemes:ellemes_container_lib",
-        "versions": ">=2.1.0-alpha.11"
       },
       {
         "id": "minecraft",
@@ -54,6 +60,7 @@
   "mixin": [
     "expandedstorage-common.mixin.json",
     "expandedstorage-thread.mixin.json",
-    "expandedstorage-quilt.mixin.json"
+    "expandedstorage-quilt.mixin.json",
+    "ellemes-container-library-thread.mixins.json"
   ]
 }
