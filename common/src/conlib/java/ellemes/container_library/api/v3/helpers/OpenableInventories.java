@@ -4,7 +4,7 @@ import ellemes.container_library.api.v3.OpenableInventory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
-import ninjaphenix.container_library.api.helpers.VariableInventory;
+import ellemes.container_library.api.helpers.VariableInventory;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;

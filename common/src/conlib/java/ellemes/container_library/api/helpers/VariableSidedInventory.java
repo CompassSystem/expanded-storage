@@ -1,27 +1,33 @@
-package ninjaphenix.container_library.api.helpers;
+package ellemes.container_library.api.helpers;
 
 import ellemes.container_library.inventory.InventorySlotFunction;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.ObjIntConsumer;
 
 /**
  * @apiNote This should not be used with fabric or forge's transfer api.
  */
-public final class VariableInventory implements Container {
-    private final Container[] parts;
+public final class VariableSidedInventory implements WorldlyContainer {
+    private final WorldlyContainer[] parts;
     private final int size;
     private final int maxStackCount;
+    private final Map<Direction, int[]> slotsAccessibleThroughFace = new HashMap<>();
 
-    private VariableInventory(Container... parts) {
+    private VariableSidedInventory(WorldlyContainer... parts) {
         for (int i = 0; i < parts.length; i++) {
-            Objects.requireNonNull(parts[i], "part at index" + i + " must not be null");
+            assert parts[i] != null : "part at index " + i + " must not be null";
         }
         this.parts = parts;
         this.size = Arrays.stream(parts).mapToInt(Container::getContainerSize).sum();
@@ -31,12 +37,12 @@ public final class VariableInventory implements Container {
         }
     }
 
-    public static Container of(Container... parts) {
+    public static WorldlyContainer of(WorldlyContainer... parts) {
         assert parts.length > 0 : "parts must contain at least 1 inventory";
         if (parts.length == 1) {
             return parts[0];
         } else {
-            return new VariableInventory(parts);
+            return new VariableSidedInventory(parts);
         }
     }
 
@@ -57,29 +63,25 @@ public final class VariableInventory implements Container {
 
     @Override
     public ItemStack getItem(int slot) {
-        this.validateSlotIndex(slot);
-        return this.applyFunctionToSlot(slot, Container::getItem);
-    }
-
-    private void validateSlotIndex(int slot) {
         assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
+        return this.applyFunctionToSlot(slot, Container::getItem);
     }
 
     @Override
     public ItemStack removeItem(int slot, int amount) {
-        this.validateSlotIndex(slot);
+        assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
         return this.applyFunctionToSlot(slot, (part, rSlot) -> part.removeItem(rSlot, amount));
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
-        this.validateSlotIndex(slot);
+        assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
         return this.applyFunctionToSlot(slot, Container::removeItemNoUpdate);
     }
 
     @Override
     public void setItem(int slot, ItemStack stack) {
-        this.validateSlotIndex(slot);
+        assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
         this.consumeSlot(slot, (part, rSlot) -> part.setItem(rSlot, stack));
     }
 
@@ -121,7 +123,7 @@ public final class VariableInventory implements Container {
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
-        this.validateSlotIndex(slot);
+        assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
         return this.applyFunctionToSlot(slot, (part, rSlot) -> part.canPlaceItem(rSlot, stack));
     }
 
@@ -151,8 +153,35 @@ public final class VariableInventory implements Container {
         }
     }
 
-    private void consumeSlot(int slot, ObjIntConsumer<Container> consumer) {
-        for (Container part : parts) {
+    @Override
+    public int[] getSlotsForFace(Direction direction) {
+        return slotsAccessibleThroughFace.computeIfAbsent(direction, (dir) -> {
+            int previousSize = 0;
+            IntArrayList list = new IntArrayList();
+            for (WorldlyContainer part : parts) {
+                for (int i : part.getSlotsForFace(dir)) {
+                    list.add(i + previousSize);
+                }
+                previousSize += part.getContainerSize();
+            }
+            return list.toIntArray();
+        });
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction direction) {
+        assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
+        return this.applyFunctionToSlot(slot, (part, rSlot) -> part.canPlaceItemThroughFace(rSlot, stack, direction));
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
+        return this.applyFunctionToSlot(slot, (part, rSlot) -> part.canTakeItemThroughFace(rSlot, stack, direction));
+    }
+
+    private void consumeSlot(int slot, ObjIntConsumer<WorldlyContainer> consumer) {
+        for (WorldlyContainer part : parts) {
             int inventorySize = part.getContainerSize();
             if (slot >= inventorySize) {
                 slot -= inventorySize;
@@ -164,8 +193,8 @@ public final class VariableInventory implements Container {
         throw new IllegalStateException("consumeSlot called without validating slot bounds.");
     }
 
-    private <T> T applyFunctionToSlot(int slot, InventorySlotFunction<Container, T> function) {
-        for (Container part : parts) {
+    private <T> T applyFunctionToSlot(int slot, InventorySlotFunction<WorldlyContainer, T> function) {
+        for (WorldlyContainer part : parts) {
             int inventorySize = part.getContainerSize();
             if (slot >= inventorySize) {
                 slot -= inventorySize;
@@ -177,8 +206,8 @@ public final class VariableInventory implements Container {
     }
 
     @SuppressWarnings("unused")
-    public boolean containsPart(Container part) {
-        for (Container inventory : parts) {
+    public boolean containsPart(WorldlyContainer part) {
+        for (WorldlyContainer inventory : parts) {
             if (inventory == part) {
                 return true;
             }

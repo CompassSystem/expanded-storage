@@ -13,7 +13,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import ninjaphenix.container_library.api.v2.OpenableBlockEntityProviderV2;
+import ellemes.container_library.api.v2.OpenableBlockEntityProviderV2;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

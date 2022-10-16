@@ -1,6 +1,11 @@
-package ninjaphenix.container_library.api.v2.client;
+package ellemes.container_library.api.v2.client;
 
 import ellemes.container_library.CommonClient;
+import ellemes.container_library.api.client.ScreenConstructor;
+import ellemes.container_library.api.client.function.ScreenSizePredicate;
+import ellemes.container_library.api.client.function.ScreenSizeRetriever;
+import ellemes.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.api.v2.OpenableBlockEntityProviderV2;
 import ellemes.container_library.api.v3.client.ScreenTypeApi;
 import ellemes.container_library.client.gui.PickScreen;
 import net.minecraft.client.Minecraft;
@@ -10,10 +15,6 @@ import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.BlockHitResult;
-import ninjaphenix.container_library.api.client.ScreenConstructor;
-import ninjaphenix.container_library.api.client.function.ScreenSizePredicate;
-import ninjaphenix.container_library.api.client.function.ScreenSizeRetriever;
-import ninjaphenix.container_library.api.client.gui.AbstractScreen;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,7 @@ public final class NCL_ClientApiV2 {
 
     /**
      * Call on client side to attempt to open an inventory, sort of internal, should be accessed through:
-     * {@link ninjaphenix.container_library.api.v2.OpenableBlockEntityProviderV2}.
+     * {@link OpenableBlockEntityProviderV2}.
      *
      * @return true if a valid screen type is already selected.
      * @deprecated Use method with skipOptionCheck boolean
@@ -37,7 +38,7 @@ public final class NCL_ClientApiV2 {
 
     /**
      * Call on client side to attempt to open an inventory, sort of internal, should be accessed through:
-     * {@link ninjaphenix.container_library.api.v2.OpenableBlockEntityProviderV2}.
+     * {@link OpenableBlockEntityProviderV2}.
      * <p>
      * If {@code skipOptionCheck} is true then the user's screen preference is not checked.
      *

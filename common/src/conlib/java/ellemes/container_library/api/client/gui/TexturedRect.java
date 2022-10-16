@@ -1,4 +1,4 @@
-package ninjaphenix.container_library.api.client.gui;
+package ellemes.container_library.api.client.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiComponent;

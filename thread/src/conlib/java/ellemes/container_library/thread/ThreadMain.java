@@ -5,7 +5,7 @@ import ellemes.container_library.wrappers.NetworkWrapper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.core.Registry;
 import net.minecraft.world.inventory.MenuType;
-import ninjaphenix.container_library.api.inventory.AbstractHandler;
+import ellemes.container_library.api.inventory.AbstractHandler;
 
 import java.util.function.Function;
 

@@ -1,6 +1,6 @@
 package ellemes.container_library;
 
-import ninjaphenix.container_library.api.v2.OpenableBlockEntityProviderV2;
+import ellemes.container_library.api.v2.OpenableBlockEntityProviderV2;
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
 import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.client.ScreenTypeApi;

@@ -4,7 +4,7 @@ import ellemes.container_library.inventory.ClientScreenHandlerFactory;
 import ellemes.container_library.wrappers.NetworkWrapper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
-import ninjaphenix.container_library.api.inventory.AbstractHandler;
+import ellemes.container_library.api.inventory.AbstractHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.FormattedMessage;

@@ -23,7 +23,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import ninjaphenix.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.api.client.gui.AbstractScreen;
 
 import java.nio.file.Path;
 

@@ -7,7 +7,7 @@ import ellemes.container_library.thread.client.AmecsKeyHandler;
 import ellemes.container_library.thread.client.ThreadKeyHandler;
 import ellemes.container_library.thread.wrappers.ConfigWrapperImpl;
 import net.minecraft.client.gui.screens.MenuScreens;
-import ninjaphenix.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.api.client.gui.AbstractScreen;
 
 import java.nio.file.Path;
 import java.util.function.Function;

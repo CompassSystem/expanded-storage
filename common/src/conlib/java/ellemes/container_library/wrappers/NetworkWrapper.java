@@ -16,8 +16,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
-import ninjaphenix.container_library.api.inventory.AbstractHandler;
-import ninjaphenix.container_library.api.v2.OpenableBlockEntityV2;
+import ellemes.container_library.api.inventory.AbstractHandler;
+import ellemes.container_library.api.v2.OpenableBlockEntityV2;
 
 import java.util.function.Consumer;
 

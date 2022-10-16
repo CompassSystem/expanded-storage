@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import ninjaphenix.container_library.api.helpers.VariableSidedInventory;
+import ellemes.container_library.api.helpers.VariableSidedInventory;
 
 import java.util.function.Function;
 import java.util.function.Supplier;

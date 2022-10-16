@@ -3,7 +3,7 @@ package ellemes.container_library.forge.mixin;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
-import ninjaphenix.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.api.client.gui.AbstractScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

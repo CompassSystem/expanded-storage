@@ -11,7 +11,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import ninjaphenix.container_library.api.v2.OpenableBlockEntityProviderV2;
+import ellemes.container_library.api.v2.OpenableBlockEntityProviderV2;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

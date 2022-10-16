@@ -21,8 +21,8 @@ import net.minecraft.world.level.block.entity.ChestLidController;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import ninjaphenix.container_library.api.helpers.VariableInventory;
-import ninjaphenix.container_library.api.inventory.AbstractHandler;
+import ellemes.container_library.api.helpers.VariableInventory;
+import ellemes.container_library.api.inventory.AbstractHandler;
 import ninjaphenix.expandedstorage.block.AbstractChestBlock;
 
 import java.util.function.Function;

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.IForgeRegistry;
-import ninjaphenix.container_library.api.inventory.AbstractHandler;
+import ellemes.container_library.api.inventory.AbstractHandler;
 
 public final class ForgeMain {
     public ForgeMain() {

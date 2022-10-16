@@ -11,7 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import ninjaphenix.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.api.client.gui.AbstractScreen;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 

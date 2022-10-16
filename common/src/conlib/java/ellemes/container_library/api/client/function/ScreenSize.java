@@ -1,4 +1,4 @@
-package ninjaphenix.container_library.api.client.function;
+package ellemes.container_library.api.client.function;
 
 public final class ScreenSize {
     private final int width, height;

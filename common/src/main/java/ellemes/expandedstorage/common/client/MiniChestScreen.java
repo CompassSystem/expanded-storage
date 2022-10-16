@@ -10,9 +10,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import ninjaphenix.container_library.api.client.function.ScreenSize;
-import ninjaphenix.container_library.api.client.gui.AbstractScreen;
-import ninjaphenix.container_library.api.inventory.AbstractHandler;
+import ellemes.container_library.api.client.function.ScreenSize;
+import ellemes.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.api.inventory.AbstractHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

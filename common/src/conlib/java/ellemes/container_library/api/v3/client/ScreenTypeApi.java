@@ -4,10 +4,10 @@ import ellemes.container_library.Utils;
 import ellemes.container_library.client.gui.PickScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import ninjaphenix.container_library.api.client.ScreenConstructor;
-import ninjaphenix.container_library.api.client.function.ScreenSizePredicate;
-import ninjaphenix.container_library.api.client.function.ScreenSizeRetriever;
-import ninjaphenix.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.api.client.ScreenConstructor;
+import ellemes.container_library.api.client.function.ScreenSizePredicate;
+import ellemes.container_library.api.client.function.ScreenSizeRetriever;
+import ellemes.container_library.api.client.gui.AbstractScreen;
 
 import java.util.List;
 
