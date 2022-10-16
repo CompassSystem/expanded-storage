@@ -130,7 +130,7 @@ public class ThreadMain {
 
         public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
             for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
-                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer(context, ModelLayers.CHEST_MINECART));
+                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
             }
         }
     }

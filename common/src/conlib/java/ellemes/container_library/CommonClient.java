@@ -1,6 +1,5 @@
 package ellemes.container_library;
 
-import ellemes.container_library.client.gui.PickScreen;
 import ninjaphenix.container_library.api.v2.OpenableBlockEntityProviderV2;
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
 import ellemes.container_library.api.v3.client.ScreenOpeningApi;
@@ -13,7 +12,6 @@ import ellemes.container_library.wrappers.ConfigWrapper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

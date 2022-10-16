@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 
 public abstract class ThreadNetworkWrapper extends NetworkWrapper {
-    public static ResourceLocation CHANNEL_NAME = Utils.id("channel");
+    public static final ResourceLocation CHANNEL_NAME = Utils.id("channel");
     private final boolean flanPresent;
 
     public ThreadNetworkWrapper(boolean flanPresent) {
