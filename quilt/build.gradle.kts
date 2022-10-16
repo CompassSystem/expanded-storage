@@ -3,6 +3,11 @@ plugins {
 }
 
 repositories {
+    // For REI
+    maven {
+        name = "Shedaniel"
+        url = uri("https://maven.shedaniel.me/")
+    }
     maven {
         name = "Ladysnake maven"
         url = uri("https://ladysnake.jfrog.io/artifactory/mods")
@@ -31,6 +36,15 @@ repositories {
     }
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
     mavenLocal()
+    // For Amecs
+    maven {
+        name = "Siphalor's Maven"
+        url = uri("https://maven.siphalor.de/")
+    }
+    maven {
+        name = "Flemmli97"
+        url = uri("https://gitlab.com/api/v4/projects/21830712/packages/maven")
+    }
 }
 
 val excludeFabric: (ModuleDependency) -> Unit = {
@@ -53,23 +67,11 @@ dependencies {
             "fabric-rendering-v1",
             "fabric-textures-v0",
             "fabric-transfer-api-v1",
-    ).forEach {
-        modImplementation(mod.fabricApi().module(it))
-    }
-
-    // Required by ECL
-    listOf(
             "fabric-screen-handler-api-v1",
             "fabric-key-binding-api-v1",
             "fabric-transitive-access-wideners-v1",
     ).forEach {
-        modRuntimeOnly(mod.fabricApi().module(it))
-    }
-
-    modImplementation("ellemes:${properties["container_library_artifact"]}-quilt:${properties["container_library_version"]}", dependencyConfiguration = excludeFabric)
-
-    modCompileOnly("com.terraformersmc:modmenu:${project.properties["modmenu_version"]}") {
-        excludeFabric(this)
+        modImplementation(mod.fabricApi().module(it))
     }
 
     // For chest module
@@ -82,6 +84,28 @@ dependencies {
 
     //modRuntimeOnly("me.lucko:fabric-permissions-api:0.1-SNAPSHOT")
     modCompileOnly(group = "curse.maven", name = "htm-462534", version = "3539120", dependencyConfiguration = excludeFabric)
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${properties["rei_version"]}") {
+        excludeFabric(this)
+    }
+
+    modCompileOnly("com.terraformersmc:modmenu:${properties["modmenu_version"]}") {
+        excludeFabric(this)
+    }
+
+    modCompileOnly("de.siphalor:amecsapi-1.18:${properties["amecs_version"]}") {
+        excludeFabric(this)
+        exclude(group = "com.github.astei")
+    }
+
+    modCompileOnly("io.github.flemmli97:flan:1.18.2-${properties["flan_version"]}:fabric-api") {
+        excludeFabric(this)
+        exclude(group = "curse.maven")
+    }
+
+    modCompileOnly("maven.modrinth:inventory-profiles-next:fabric-${properties["ipn_minecraft_version"]}-${properties["ipn_version"]}") {
+        excludeFabric(this)
+    }
 }
 
 val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://github.com/Ellemes/ExpandedStorage")
@@ -89,7 +113,6 @@ val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://git
 u.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
         requiredDependency("qsl")
-        requiredDependency("ellemes-container-library")
         optionalDependency("htm")
         optionalDependency("carrier")
         optionalDependency("towelette")

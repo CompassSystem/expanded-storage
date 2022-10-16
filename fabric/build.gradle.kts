@@ -3,6 +3,11 @@ plugins {
 }
 
 repositories {
+    // For REI
+    maven {
+        name = "Shedaniel"
+        url = uri("https://maven.shedaniel.me/")
+    }
     maven {
         name = "Ladysnake maven"
         url = uri("https://ladysnake.jfrog.io/artifactory/mods")
@@ -30,6 +35,15 @@ repositories {
         }
     }
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
+    // For Amecs
+    maven {
+        name = "Siphalor's Maven"
+        url = uri("https://maven.siphalor.de/")
+    }
+    maven {
+        name = "Flemmli97"
+        url = uri("https://gitlab.com/api/v4/projects/21830712/packages/maven")
+    }
 }
 
 val excludeFabric: (ModuleDependency) -> Unit = {
@@ -57,8 +71,6 @@ dependencies {
         excludeFabric(this)
     }
 
-    modImplementation("ellemes:${properties["container_library_artifact"]}-fabric:${properties["container_library_version"]}")
-
     // For chest module
     modCompileOnly(group = "curse.maven", name = "statement-340604", version = "3423826", dependencyConfiguration = excludeFabric)
     modCompileOnly(group = "curse.maven", name = "towelette-309338", version = "3398761", dependencyConfiguration = excludeFabric)
@@ -69,6 +81,28 @@ dependencies {
 
     //modRuntimeOnly("me.lucko:fabric-permissions-api:0.1-SNAPSHOT")
     modCompileOnly(group = "curse.maven", name = "htm-462534", version = "3539120", dependencyConfiguration = excludeFabric)
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${properties["rei_version"]}") {
+        excludeFabric(this)
+    }
+
+    modCompileOnly("com.terraformersmc:modmenu:${properties["modmenu_version"]}") {
+        excludeFabric(this)
+    }
+
+    modCompileOnly("de.siphalor:amecsapi-1.18:${properties["amecs_version"]}") {
+        excludeFabric(this)
+        exclude(group = "com.github.astei")
+    }
+
+    modCompileOnly("io.github.flemmli97:flan:1.18.2-${properties["flan_version"]}:fabric-api") {
+        excludeFabric(this)
+        exclude(group = "curse.maven")
+    }
+
+    modCompileOnly("maven.modrinth:inventory-profiles-next:fabric-${properties["ipn_minecraft_version"]}-${properties["ipn_version"]}") {
+        excludeFabric(this)
+    }
 }
 
 //
@@ -91,7 +125,6 @@ val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://git
 u.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
         requiredDependency("fabric-api")
-        requiredDependency("ellemes-container-library")
         optionalDependency("htm")
         optionalDependency("carrier")
         optionalDependency("towelette")

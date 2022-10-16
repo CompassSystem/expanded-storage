@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "ellemes.container_library.thread.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "ClientPlayerInteractionManagerMixin",
+    "LastAfterInitCallbackMixin",
+    "BeforeUseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

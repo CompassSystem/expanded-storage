@@ -3,7 +3,6 @@
   "depends": {
     "fabricloader": ">=0.13.2",
     "minecraft": "~1.18.2",
-    "ellemes_container_lib": ">=2.1.0-alpha.11",
     "fabric-api-base": ">=0.4.3",
     "fabric-blockrenderlayer-v1": ">=1.1.11",
     "fabric-data-generation-api-v1": ">=2.0.4",
@@ -15,16 +14,22 @@
   },
   "entrypoints": {
     "main": [
-      "ellemes.expandedstorage.fabric.FabricMain"
+      "ellemes.expandedstorage.fabric.FabricMain",
+      "ellemes.container_library.fabric.FabricMain"
     ],
     "client": [
-      "ellemes.expandedstorage.fabric.FabricClient"
+      "ellemes.expandedstorage.fabric.FabricClient",
+      "ellemes.container_library.fabric.FabricClient"
     ],
     "fabric-datagen": [
       "ellemes.expandedstorage.thread.datagen.Main"
     ],
+    "rei_client": [
+      "ellemes.container_library.thread.client.ReiCompat"
+    ],
     "modmenu": [
-      "ellemes.expandedstorage.thread.client.ModMenuCompat"
+      "ellemes.container_library.fabric.client.ModMenuCompat",
+      "ellemes.container_library.thread.client.ModMenuCompat"
     ]
   },
   "environment": "*",
@@ -32,7 +37,8 @@
   "mixins": [
     "expandedstorage-common.mixin.json",
     "expandedstorage-thread.mixin.json",
-    "expandedstorage-fabric.mixin.json"
+    "expandedstorage-fabric.mixin.json",
+    "ellemes-container-library-thread.mixins.json"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",

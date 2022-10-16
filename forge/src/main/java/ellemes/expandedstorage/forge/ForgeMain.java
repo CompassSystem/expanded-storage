@@ -46,6 +46,7 @@ import org.jetbrains.annotations.Nullable;
 public final class ForgeMain {
 
     public ForgeMain() {
+        new ellemes.container_library.forge.ForgeMain();
         TagReloadListener tagReloadListener = new TagReloadListener();
 
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
