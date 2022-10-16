@@ -17,7 +17,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import ellemes.container_library.api.inventory.AbstractHandler;
-import ellemes.container_library.api.v2.OpenableBlockEntityV2;
 
 import java.util.function.Consumer;
 
@@ -98,25 +97,6 @@ public abstract class NetworkWrapper {
             onInitialOpen.accept(player);
         }
         this.openScreenHandler(player, inventory.getInventory(), (syncId, inv, playerInv) -> new AbstractHandler(syncId, inv, playerInv, null), title, forcedScreenType);
-    }
-
-    public final void s_openInventory(ServerPlayer player, OpenableBlockEntityV2 inventory, Consumer<ServerPlayer> onInitialOpen, BlockPos pos, ResourceLocation forcedScreenType) {
-        if (inventory == null) {
-            // This shouldn't be null, but it can in rare cases.
-            return;
-        }
-        if (this.canOpenInventory(player, pos)) {
-            Component title = inventory.getInventoryTitle();
-            if (!inventory.canBeUsedBy(player)) {
-                player.displayClientMessage(Utils.translation("container.isLocked", title), true);
-                player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
-                return;
-            }
-            if (!player.isSpectator()) {
-                onInitialOpen.accept(player);
-            }
-            this.openScreenHandler(player, inventory.getInventory(), (syncId, inv, playerInv) -> new AbstractHandler(syncId, inv, playerInv, null), title, forcedScreenType);
-        }
     }
 
     public abstract boolean canOpenInventory(ServerPlayer player, BlockPos pos);
