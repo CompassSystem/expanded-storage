@@ -2,7 +2,7 @@ package ellemes.expandedstorage.common.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.api.EsChestType;
@@ -199,7 +199,7 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
         stack.pushPose();
         stack.translate(0.5D, 0.5D, 0.5D);
-        stack.mulPose(Vector3f.YP.rotationDegrees(-state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
+        stack.mulPose(Axis.YP.rotationDegrees(-state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
         stack.translate(-0.5D, -0.5D, -0.5D);
         PropertyRetriever<ChestBlockEntity> retriever;
         if (entity.hasLevel()) {

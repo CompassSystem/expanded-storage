@@ -11,17 +11,22 @@ import ellemes.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.VersionParsingException;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class FabricMain implements ModInitializer {
     @Override
@@ -42,7 +47,20 @@ public final class FabricMain implements ModInitializer {
             throw new IllegalStateException("Author made a typo: ", e);
         }
 
-        CreativeModeTab group = FabricItemGroupBuilder.build(Utils.id("tab"), () -> new ItemStack(Registry.ITEM.get(Utils.id("netherite_chest")))); // Fabric API is dumb.
+        // todo: sort generateDisplayItems manually, move to common
+        CreativeModeTab group = new FabricItemGroup(Utils.id("tab")) {
+            @Override
+            public ItemStack makeIcon() {
+                return Registry.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance();
+            }
+
+            @Override
+            protected void generateDisplayItems(FeatureFlagSet featureFlagSet, Output output) {
+                output.acceptAll(Registry.ITEM.entrySet().stream().filter((entry) -> {
+                    return entry.getKey().location().getNamespace().equals(Utils.MOD_ID);
+                }).map(Map.Entry::getValue).map(Item::getDefaultInstance).collect(Collectors.toSet()));
+            }
+        };
         boolean isClient = fabricLoader.getEnvironmentType() == EnvType.CLIENT;
         TagReloadListener tagReloadListener = new TagReloadListener();
         ThreadMain.constructContent(

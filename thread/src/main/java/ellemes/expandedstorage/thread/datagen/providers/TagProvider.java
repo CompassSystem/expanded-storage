@@ -5,15 +5,15 @@ import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
 import ellemes.expandedstorage.thread.datagen.content.ThreadTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 public final class TagProvider {
     public static final class Block extends FabricTagProvider.BlockTagProvider {
-        public Block(FabricDataGenerator generator) {
-            super(generator);
+        public Block(FabricDataOutput output) {
+            super(output);
         }
 
         @Override
@@ -34,8 +34,8 @@ public final class TagProvider {
     }
 
     public static final class Item extends FabricTagProvider.ItemTagProvider {
-        public Item(FabricDataGenerator generator) {
-            super(generator);
+        public Item(FabricDataOutput output) {
+            super(output);
         }
 
         @Override

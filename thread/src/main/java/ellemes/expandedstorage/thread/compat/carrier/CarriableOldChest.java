@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.compat.carrier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import me.steven.carrier.api.Carriable;
 import me.steven.carrier.api.CarriablePlacementContext;
@@ -85,7 +85,7 @@ class CarriableOldChest implements Carriable<Block> {
         stack.pushPose();
         stack.scale(0.6F, 0.6F, 0.6F);
         float yaw = Mth.approachDegrees(delta, player.yBodyRotO, player.yBodyRot);
-        stack.mulPose(Vector3f.YP.rotationDegrees(180 - yaw));
+        stack.mulPose(Axis.YP.rotationDegrees(180 - yaw));
         stack.translate(-0.5D, 0.8D, -1.3D);
         this.preRenderBlock(player, component, stack, consumer, delta, light);
         Minecraft.getInstance().getBlockRenderer().renderSingleBlock(this.getParent().defaultBlockState(), stack, consumer, light, OverlayTexture.NO_OVERLAY);
