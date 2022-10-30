@@ -1,6 +1,5 @@
-package ellemes.expandedstorage.common.datagen.content;
+package ellemes.expandedstorage.common.item;
 
-import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -90,12 +89,29 @@ public final class ModItems {
     public static final BlockItem WHITE_MINI_PRESENT = item(Utils.id("white_mini_present"));
     public static final BlockItem CANDY_CANE_MINI_PRESENT = item(Utils.id("candy_cane_mini_present"));
     public static final BlockItem GREEN_MINI_PRESENT = item(Utils.id("green_mini_present"));
+    public static final BlockItem LAVENDER_MINI_PRESENT = item(Utils.id("lavender_mini_present"));
+    public static final BlockItem PINK_AMETHYST_MINI_PRESENT = item(Utils.id("pink_amethyst_mini_present"));
     public static final BlockItem IRON_MINI_CHEST = item(Utils.id("iron_mini_chest"));
     public static final BlockItem GOLD_MINI_CHEST = item(Utils.id("gold_mini_chest"));
     public static final BlockItem DIAMOND_MINI_CHEST = item(Utils.id("diamond_mini_chest"));
     public static final BlockItem OBSIDIAN_MINI_CHEST = item(Utils.id("obsidian_mini_chest"));
     public static final BlockItem NETHERITE_MINI_CHEST = item(Utils.id("netherite_mini_chest"));
+
+    public static final BlockItem VANILLA_WOOD_MINI_CHEST_WITH_SPARROW = item(Utils.id("vanilla_wood_mini_chest_with_sparrow"));
+    public static final BlockItem WOOD_MINI_CHEST_WITH_SPARROW = item(Utils.id("wood_mini_chest_with_sparrow"));
+    public static final BlockItem PUMPKIN_MINI_CHEST_WITH_SPARROW = item(Utils.id("pumpkin_mini_chest_with_sparrow"));
+    public static final BlockItem RED_MINI_PRESENT_WITH_SPARROW = item(Utils.id("red_mini_present_with_sparrow"));
+    public static final BlockItem WHITE_MINI_PRESENT_WITH_SPARROW = item(Utils.id("white_mini_present_with_sparrow"));
+    public static final BlockItem CANDY_CANE_MINI_PRESENT_WITH_SPARROW = item(Utils.id("candy_cane_mini_present_with_sparrow"));
+    public static final BlockItem GREEN_MINI_PRESENT_WITH_SPARROW = item(Utils.id("green_mini_present_with_sparrow"));
+    public static final BlockItem LAVENDER_MINI_PRESENT_WITH_SPARROW = item(Utils.id("lavender_mini_present_with_sparrow"));
+    public static final BlockItem PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW = item(Utils.id("pink_amethyst_mini_present_with_sparrow"));
+    public static final BlockItem IRON_MINI_CHEST_WITH_SPARROW = item(Utils.id("iron_mini_chest_with_sparrow"));
     public static final BlockItem GOLD_MINI_CHEST_WITH_SPARROW = item(Utils.id("gold_mini_chest_with_sparrow"));
+    public static final BlockItem DIAMOND_MINI_CHEST_WITH_SPARROW = item(Utils.id("diamond_mini_chest_with_sparrow"));
+    public static final BlockItem OBSIDIAN_MINI_CHEST_WITH_SPARROW = item(Utils.id("obsidian_mini_chest_with_sparrow"));
+    public static final BlockItem NETHERITE_MINI_CHEST_WITH_SPARROW = item(Utils.id("netherite_mini_chest_with_sparrow"));
+
 
     private static <T extends Item> T item(ResourceLocation id) {
         //noinspection unchecked

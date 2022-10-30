@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.fabric;
 
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -21,12 +22,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public final class FabricMain implements ModInitializer {
     @Override
@@ -47,7 +44,6 @@ public final class FabricMain implements ModInitializer {
             throw new IllegalStateException("Author made a typo: ", e);
         }
 
-        // todo: sort generateDisplayItems manually, move to common
         CreativeModeTab group = new FabricItemGroup(Utils.id("tab")) {
             @Override
             public ItemStack makeIcon() {
@@ -56,9 +52,7 @@ public final class FabricMain implements ModInitializer {
 
             @Override
             protected void generateDisplayItems(FeatureFlagSet featureFlagSet, Output output) {
-                output.acceptAll(Registry.ITEM.entrySet().stream().filter((entry) -> {
-                    return entry.getKey().location().getNamespace().equals(Utils.MOD_ID);
-                }).map(Map.Entry::getValue).map(Item::getDefaultInstance).collect(Collectors.toSet()));
+                CommonMain.generateDisplayItems(featureFlagSet, output::accept);
             }
         };
         boolean isClient = fabricLoader.getEnvironmentType() == EnvType.CLIENT;

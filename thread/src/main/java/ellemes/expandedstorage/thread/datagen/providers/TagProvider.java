@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
 import ellemes.expandedstorage.common.registration.ModBlocks;
-import ellemes.expandedstorage.common.datagen.content.ModItems;
+import ellemes.expandedstorage.common.item.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
 import ellemes.expandedstorage.thread.datagen.content.ThreadTags;

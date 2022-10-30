@@ -21,6 +21,7 @@ import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.item.BlockUpgradeBehaviour;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.item.EntityUpgradeBehaviour;
+import ellemes.expandedstorage.common.item.ModItems;
 import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.MutatorBehaviour;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
@@ -55,6 +56,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -82,6 +84,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -897,5 +900,74 @@ public final class CommonMain {
     // todo: implement
     public static EntityUpgradeBehaviour getEntityUpgradeBehaviour(Entity entity) {
         return null;
+    }
+
+    // todo: sort generateDisplayItems manually, move to common
+    public static void generateDisplayItems(FeatureFlagSet featureFlagSet, Consumer<ItemStack> output) {
+        Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
+        output.accept(ModItems.STORAGE_MUTATOR.getDefaultInstance());
+        // todo: add different tool modes which storage mutator has
+        wrap.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
+        wrap.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);
+        wrap.accept(ModItems.WOOD_TO_DIAMOND_CONVERSION_KIT);
+        wrap.accept(ModItems.WOOD_TO_OBSIDIAN_CONVERSION_KIT);
+        wrap.accept(ModItems.WOOD_TO_NETHERITE_CONVERSION_KIT);
+        wrap.accept(ModItems.IRON_TO_GOLD_CONVERSION_KIT);
+        wrap.accept(ModItems.IRON_TO_DIAMOND_CONVERSION_KIT);
+        wrap.accept(ModItems.IRON_TO_OBSIDIAN_CONVERSION_KIT);
+        wrap.accept(ModItems.IRON_TO_NETHERITE_CONVERSION_KIT);
+        wrap.accept(ModItems.GOLD_TO_DIAMOND_CONVERSION_KIT);
+        wrap.accept(ModItems.GOLD_TO_OBSIDIAN_CONVERSION_KIT);
+        wrap.accept(ModItems.GOLD_TO_NETHERITE_CONVERSION_KIT);
+        wrap.accept(ModItems.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT);
+        wrap.accept(ModItems.DIAMOND_TO_NETHERITE_CONVERSION_KIT);
+        wrap.accept(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT);
+        wrap.accept(ModItems.WOOD_CHEST);
+        wrap.accept(ModItems.PUMPKIN_CHEST);
+        wrap.accept(ModItems.PRESENT);
+        wrap.accept(ModItems.BAMBOO_CHEST);
+        wrap.accept(ModItems.IRON_CHEST);
+        wrap.accept(ModItems.GOLD_CHEST);
+        wrap.accept(ModItems.DIAMOND_CHEST);
+        wrap.accept(ModItems.OBSIDIAN_CHEST);
+        wrap.accept(ModItems.NETHERITE_CHEST);
+        wrap.accept(ModItems.WOOD_CHEST_MINECART);
+        wrap.accept(ModItems.PUMPKIN_CHEST_MINECART);
+        wrap.accept(ModItems.PRESENT_MINECART);
+        wrap.accept(ModItems.BAMBOO_CHEST_MINECART);
+        wrap.accept(ModItems.IRON_CHEST_MINECART);
+        wrap.accept(ModItems.GOLD_CHEST_MINECART);
+        wrap.accept(ModItems.DIAMOND_CHEST_MINECART);
+        wrap.accept(ModItems.OBSIDIAN_CHEST_MINECART);
+        wrap.accept(ModItems.NETHERITE_CHEST_MINECART);
+        wrap.accept(ModItems.OLD_WOOD_CHEST);
+        wrap.accept(ModItems.OLD_IRON_CHEST);
+        wrap.accept(ModItems.OLD_GOLD_CHEST);
+        wrap.accept(ModItems.OLD_DIAMOND_CHEST);
+        wrap.accept(ModItems.OLD_OBSIDIAN_CHEST);
+        wrap.accept(ModItems.OLD_NETHERITE_CHEST);
+        wrap.accept(ModItems.IRON_BARREL);
+        wrap.accept(ModItems.GOLD_BARREL);
+        wrap.accept(ModItems.DIAMOND_BARREL);
+        wrap.accept(ModItems.OBSIDIAN_BARREL);
+        wrap.accept(ModItems.NETHERITE_BARREL);
+        wrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
+        wrap.accept(ModItems.WOOD_MINI_CHEST);
+        wrap.accept(ModItems.PUMPKIN_MINI_CHEST);
+        wrap.accept(ModItems.RED_MINI_PRESENT);
+        wrap.accept(ModItems.WHITE_MINI_PRESENT);
+        wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
+        wrap.accept(ModItems.GREEN_MINI_PRESENT);
+        wrap.accept(ModItems.LAVENDER_MINI_PRESENT);
+        wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
+        wrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.WOOD_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.PUMPKIN_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.RED_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.WHITE_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.GREEN_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.LAVENDER_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW);
     }
 }
