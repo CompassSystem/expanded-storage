@@ -42,7 +42,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ThreadMain {
     @SuppressWarnings({"UnstableApiUsage"})
@@ -98,17 +97,13 @@ public class ThreadMain {
     }
 
     public static void registerClientStuff(Content content) {
-        ThreadMain.Client.registerChestTextures(content.getChestBlocks().stream().map(NamedValue::getName).collect(Collectors.toList()));
+        ThreadMain.Client.registerChestBlockEntityRenderer();
         ThreadMain.Client.registerItemRenderers(content.getChestItems());
         ThreadMain.Client.registerMinecartEntityRenderers(content.getChestMinecartEntityTypes());
     }
 
     public static class Client {
-        public static void registerChestTextures(List<ResourceLocation> blocks) {
-            // todo: modelled chest textures
-//            ClientSpriteRegistryCallback.event(Sheets.CHEST_SHEET).register((atlasTexture, registry) -> {
-//                for (ResourceLocation texture : CommonMain.getChestTextures(blocks)) registry.register(texture);
-//            });
+        public static void registerChestBlockEntityRenderer() {
             BlockEntityRendererRegistry.register(CommonMain.getChestBlockEntityType(), ChestBlockEntityRenderer::new);
         }
 

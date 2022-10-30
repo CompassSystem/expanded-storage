@@ -382,13 +382,13 @@ public final class CommonMain {
                 chestBlocks.forEach(block -> {
                     String blockId = block.getName().getPath();
                     CommonMain.declareChestTextures(block.getName(),
-                            Utils.id("entity/" + blockId + "/single"),
-                            Utils.id("entity/" + blockId + "/left"),
-                            Utils.id("entity/" + blockId + "/right"),
-                            Utils.id("entity/" + blockId + "/top"),
-                            Utils.id("entity/" + blockId + "/bottom"),
-                            Utils.id("entity/" + blockId + "/front"),
-                            Utils.id("entity/" + blockId + "/back")
+                            Utils.id("entity/chest/" + blockId + "_single"),
+                            Utils.id("entity/chest/" + blockId + "_left"),
+                            Utils.id("entity/chest/" + blockId + "_right"),
+                            Utils.id("entity/chest/" + blockId + "_top"),
+                            Utils.id("entity/chest/" + blockId + "_bottom"),
+                            Utils.id("entity/chest/" + blockId + "_front"),
+                            Utils.id("entity/chest/" + blockId + "_back")
                     );
                 });
             }
