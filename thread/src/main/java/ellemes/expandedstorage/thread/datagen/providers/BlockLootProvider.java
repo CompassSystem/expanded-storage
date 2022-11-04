@@ -24,7 +24,7 @@ public final class BlockLootProvider extends FabricBlockLootTableProvider {
     }
 
     @Override
-    public void accept(BiConsumer<ResourceLocation, LootTable.Builder> resourceLocationBuilderBiConsumer) {
-
+    public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+        this.generate(consumer); // what the fuck fabric
     }
 }
