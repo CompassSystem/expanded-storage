@@ -10,6 +10,7 @@ import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
@@ -21,6 +22,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -33,8 +35,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -50,7 +54,19 @@ public class ThreadMain {
         return (Storage<ItemVariant>) CommonMain.getItemAccess(world, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static void constructContent(boolean htmPresent, CreativeModeTab group, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {
+    public static void constructContent(boolean htmPresent, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {
+        CreativeModeTab group = new FabricItemGroup(Utils.id("tab")) {
+            @Override
+            public ItemStack makeIcon() {
+                return Registry.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance();
+            }
+
+            @Override
+            protected void generateDisplayItems(FeatureFlagSet featureFlagSet, Output output) {
+                CommonMain.generateDisplayItems(featureFlagSet, output::accept);
+            }
+        };
+
         CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, group, isClient, tagReloadListener, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,

@@ -1,7 +1,5 @@
 package ellemes.expandedstorage.fabric;
 
-import ellemes.expandedstorage.common.CommonMain;
-import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.BarrelBlock;
@@ -14,15 +12,10 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.VersionParsingException;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Registry;
-import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import org.slf4j.LoggerFactory;
 
 public final class FabricMain implements ModInitializer {
@@ -44,21 +37,10 @@ public final class FabricMain implements ModInitializer {
             throw new IllegalStateException("Author made a typo: ", e);
         }
 
-        CreativeModeTab group = new FabricItemGroup(Utils.id("tab")) {
-            @Override
-            public ItemStack makeIcon() {
-                return Registry.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance();
-            }
-
-            @Override
-            protected void generateDisplayItems(FeatureFlagSet featureFlagSet, Output output) {
-                CommonMain.generateDisplayItems(featureFlagSet, output::accept);
-            }
-        };
         boolean isClient = fabricLoader.getEnvironmentType() == EnvType.CLIENT;
         TagReloadListener tagReloadListener = new TagReloadListener();
         ThreadMain.constructContent(
-                fabricLoader.isModLoaded("htm"), group, isClient, tagReloadListener,
+                fabricLoader.isModLoaded("htm"), isClient, tagReloadListener,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)

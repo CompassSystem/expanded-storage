@@ -1,6 +1,5 @@
 package ellemes.expandedstorage.quilt;
 
-import ellemes.expandedstorage.common.fixer.DataFixerUtils;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.BarrelBlock;
@@ -9,20 +8,13 @@ import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
-import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Registry;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.Version;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
-import org.quiltmc.qsl.datafixerupper.api.QuiltDataFixerBuilder;
-import org.quiltmc.qsl.datafixerupper.api.QuiltDataFixes;
-import org.quiltmc.qsl.item.group.api.QuiltItemGroup;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
 import org.slf4j.LoggerFactory;
 
@@ -35,24 +27,23 @@ public final class QuiltMain implements ModInitializer {
             return;
         }
 
-        {
-            int currentSchemaVersion = 2;
-            QuiltDataFixerBuilder builder = new QuiltDataFixerBuilder(currentSchemaVersion);
-            builder.addSchema(0, QuiltDataFixes.BASE_SCHEMA);
-            DataFixerUtils.register1_17DataFixer(builder, 1, 0);
-            DataFixerUtils.register1_18DataFixer(builder, 2, 0);
-            QuiltDataFixes.registerFixer(mod, currentSchemaVersion, builder.build(Util::bootstrapExecutor));
-        }
+//        {
+//            int currentSchemaVersion = 2;
+//            QuiltDataFixerBuilder builder = new QuiltDataFixerBuilder(currentSchemaVersion);
+//            builder.addSchema(0, QuiltDataFixes.BASE_SCHEMA);
+//            DataFixerUtils.register1_17DataFixer(builder, 1, 0);
+//            DataFixerUtils.register1_18DataFixer(builder, 2, 0);
+//            QuiltDataFixes.registerFixer(mod, currentSchemaVersion, builder.build(Util::bootstrapExecutor));
+//        }
 
         boolean isCarrierCompatEnabled = QuiltLoader.getModContainer("carrier").map(it -> {
             Version carrierVersion = it.metadata().version();
             return carrierVersion.isSemantic() && carrierVersion.semantic().compareTo(Version.of("1.8.0").semantic()) > 0;
         }).orElse(false);
 
-        CreativeModeTab group = QuiltItemGroup.builder(Utils.id("tab")).icon(() -> new ItemStack(Registry.ITEM.get(Utils.id("netherite_chest")))).build();
         boolean isClient = MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
         TagReloadListener tagReloadListener = new TagReloadListener();
-        ThreadMain.constructContent(QuiltLoader.isModLoaded("htm"), group, isClient, tagReloadListener,
+        ThreadMain.constructContent(QuiltLoader.isModLoaded("htm"), isClient, tagReloadListener,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)
