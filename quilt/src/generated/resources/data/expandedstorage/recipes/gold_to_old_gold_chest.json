@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "group": "expandedstorage:old_gold_chest",
   "ingredients": [
     {
