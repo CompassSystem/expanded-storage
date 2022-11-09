@@ -25,8 +25,11 @@ repositories {
     }
 }
 
+val noConfiguration: (ModuleDependency) -> Unit = {
+}
+
 dependencies {
-    modImplementation("ellemes:${properties["container_library_artifact"]}-forge:${properties["container_library_version"]}")
+    include(modImplementation("ellemes:${properties["container_library_artifact"]}-forge:${properties["container_library_version"]}", dependencyConfiguration = noConfiguration))
 }
 
 tasks.getByName<MinifyJsonTask>("minJar") {

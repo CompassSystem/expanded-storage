@@ -23,7 +23,9 @@ public class ModelHelper {
         consumer.accept(ModItems.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT);
         consumer.accept(ModItems.DIAMOND_TO_NETHERITE_CONVERSION_KIT);
         consumer.accept(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT);
+    }
 
+//    public static void registerChestItemModels(Consumer<Item> consumer) {
 //        consumer.accept(ModItems.WOOD_CHEST_MINECART);
 //        consumer.accept(ModItems.PUMPKIN_CHEST_MINECART);
 //        consumer.accept(ModItems.PRESENT_MINECART);
@@ -33,5 +35,5 @@ public class ModelHelper {
 //        consumer.accept(ModItems.DIAMOND_CHEST_MINECART);
 //        consumer.accept(ModItems.OBSIDIAN_CHEST_MINECART);
 //        consumer.accept(ModItems.NETHERITE_CHEST_MINECART);
-    }
+//    }
 }

@@ -23,6 +23,9 @@ public class BlockStateProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerators generator) {
         Consumer<Item> generateFlatItemModel = item -> generator.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
         ModelHelper.registerItemModels(generateFlatItemModel);
+//        Consumer<Item> minecartChestParentModel = item -> generator.generateFlatItem(item, Items.CHEST_MINECART, ModelTemplates.FLAT_ITEM);
+//        ModelHelper.registerChestItemModels(minecartChestParentModel);
+
     }
 
     @Override

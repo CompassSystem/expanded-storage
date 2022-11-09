@@ -1,3 +1,3 @@
-- Add bamboo chest.
-- Update to container library v3 incubating api.
-- Expose chest inventories which should fix issues with computer craft, Tom's simple storage mod and ledger.
+- Included new textures from 8.1.0
+- Jar in Jar'd Container Library, so you don't need to install it separately
+- Some fixes to materials used by bamboo and pumpkin chests

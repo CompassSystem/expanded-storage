@@ -7,6 +7,7 @@
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
       "init": "ellemes.expandedstorage.quilt.QuiltMain",
+      "client_init": "ellemes.expandedstorage.quilt.QuiltClient",
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
       "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat"
     },
@@ -21,7 +22,7 @@
       },
       {
         "id": "minecraft",
-        "versions": "~1.19"
+        "versions": "1.19.2"
       },
       {
         "id": "quilt_base",
