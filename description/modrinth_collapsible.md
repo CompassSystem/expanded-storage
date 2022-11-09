@@ -8,11 +8,11 @@
 	<li>Present - has different gift wrap textures depending on variant.</li>
 	<li>Bamboo - made out of bamboo.</li>
   </ul>
-  <li>Iron: can store 54 items. (2 chests worth)</li>
-  <li>Golden: is liked by piglins, can store 81 items. (3 chests worth)</li>
-  <li>Diamond: can store 108 items. (4 chests worth)</li>
-  <li>Obsidian: is blast proof, can store 108 items. (4 chests worth)</li>
-  <li>Netherite: is fire-resistant and blast proof, can store 135 items. (5 chests worth)</li>
+  <li><img src="https://codeberg.org/Ellemes/expanded-storage/raw/branch/documentation/art/descriptions/png/iron_bullet_point.png" /> Iron: can store 54 items. (2 chests worth)</li>
+  <li><img src="https://codeberg.org/Ellemes/expanded-storage/raw/branch/documentation/art/descriptions/png/gold_bullet_point.png" /> Golden: is liked by piglins, can store 81 items. (3 chests worth)</li>
+  <li><img src="https://codeberg.org/Ellemes/expanded-storage/raw/branch/documentation/art/descriptions/png/diamond_bullet_point.png" /> Diamond: can store 108 items. (4 chests worth)</li>
+  <li><img src="https://codeberg.org/Ellemes/expanded-storage/raw/branch/documentation/art/descriptions/png/obsidian_bullet_point.png" /> Obsidian: is blast proof, can store 108 items. (4 chests worth)</li>
+  <li><img src="https://codeberg.org/Ellemes/expanded-storage/raw/branch/documentation/art/descriptions/png/netherite_bullet_point.png" /> Netherite: is fire-resistant and blast proof, can store 135 items. (5 chests worth)</li>
 </ul>
 </details>
 
