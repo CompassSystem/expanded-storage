@@ -38,24 +38,13 @@ val excludeFabric: (ModuleDependency) -> Unit = {
 }
 
 dependencies {
-    listOf(
-            "fabric-api-base",
-            "fabric-data-generation-api-v1",
-            "fabric-blockrenderlayer-v1",
-            "fabric-item-groups-v0",
-            "fabric-rendering-v1",
-            "fabric-textures-v0",
-            "fabric-lifecycle-events-v1",
-            "fabric-transfer-api-v1"
-    ).forEach {
-        modImplementation(mod.fabricApi().module(it))
-    }
+    modImplementation(mod.fabricApi().full())
 
     modCompileOnly("com.terraformersmc:modmenu:${project.properties["modmenu_version"]}") {
         excludeFabric(this)
     }
 
-    modImplementation("ellemes:${properties["container_library_artifact"]}-fabric:${properties["container_library_version"]}")
+    include(modImplementation("ellemes:${properties["container_library_artifact"]}-fabric:${properties["container_library_version"]}", dependencyConfiguration = excludeFabric))
 
     // For chest module
     modCompileOnly(group = "curse.maven", name = "statement-340604", version = "3423826", dependencyConfiguration = excludeFabric)
@@ -84,14 +73,32 @@ dependencies {
 //    }
 //}
 
-val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://github.com/Ellemes/ExpandedStorage")
+val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://codeberg.org/Ellemes/expanded-storage")
 
 u.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
         requiredDependency("fabric-api")
-        requiredDependency("ellemes-container-library")
         optionalDependency("htm")
         optionalDependency("carrier")
         optionalDependency("towelette")
+        optionalDependency("roughly-enough-items")
+        optionalDependency("modmenu")
+        optionalDependency("amecs")
+        optionalDependency("flan")
+        optionalDependency("inventory-profiles-next")
     })
+}
+
+u.configureModrinth {
+    dependencies {
+        required.project("fabric-api") // P7dR8mSH
+        optional.project("htm") // IEPAK5x6
+//         optional.project("carrier") // carrier (not on Modrinth)
+        optional.project("towelette") // bnesqDoc
+        optional.project("roughly-enough-items") // nfn13YXA
+        optional.project("modmenu") // mOgUt4GM
+        optional.project("amecs") // rcLriA4v
+//        optional.project("flan") flan (not on Modrinth)
+        optional.project("inventory-profiles-next") // O7RBXm3n
+    }
 }

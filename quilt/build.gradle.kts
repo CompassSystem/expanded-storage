@@ -39,13 +39,7 @@ val excludeFabric: (ModuleDependency) -> Unit = {
 }
 
 dependencies {
-    val qsl = mod.qsl()
-    modImplementation(qsl.module("block", "block_extensions"))
-    modImplementation(qsl.module("core", "networking"))
-    modImplementation(qsl.module("core", "registry"))
-    modImplementation(qsl.module("core", "resource_loader"))
-    modImplementation(qsl.module("item", "item_group"))
-    modImplementation(qsl.module("gui", "tooltip"))
+    modImplementation(mod.qsl().full())
 
     listOf(
             "fabric-api-base",
@@ -66,7 +60,7 @@ dependencies {
         modRuntimeOnly(mod.fabricApi().module(it))
     }
 
-    modImplementation("ellemes:${properties["container_library_artifact"]}-quilt:${properties["container_library_version"]}", dependencyConfiguration = excludeFabric)
+    include(modImplementation("ellemes:${properties["container_library_artifact"]}-quilt:${properties["container_library_version"]}", dependencyConfiguration = excludeFabric))
 
     modCompileOnly("com.terraformersmc:modmenu:${project.properties["modmenu_version"]}") {
         excludeFabric(this)
@@ -84,14 +78,32 @@ dependencies {
     modCompileOnly(group = "curse.maven", name = "htm-462534", version = "3539120", dependencyConfiguration = excludeFabric)
 }
 
-val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://github.com/Ellemes/ExpandedStorage")
+val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://codeberg.org/Ellemes/expanded-storage")
 
 u.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
         requiredDependency("qsl")
-        requiredDependency("ellemes-container-library")
         optionalDependency("htm")
         optionalDependency("carrier")
         optionalDependency("towelette")
+        optionalDependency("roughly-enough-items")
+        optionalDependency("modmenu")
+        optionalDependency("amecs")
+        optionalDependency("flan")
+        optionalDependency("inventory-profiles-next")
     })
+}
+
+u.configureModrinth {
+    dependencies {
+        required.project("qsl") // qvIfYCYJ
+        optional.project("htm") // IEPAK5x6
+//         optional.project("carrier") // carrier (not on Modrinth)
+        optional.project("towelette") // bnesqDoc
+        optional.project("roughly-enough-items") // nfn13YXA
+        optional.project("modmenu") // mOgUt4GM
+        optional.project("amecs") // rcLriA4v
+//        optional.project("flan") flan (not on Modrinth)
+        optional.project("inventory-profiles-next") // O7RBXm3n
+    }
 }

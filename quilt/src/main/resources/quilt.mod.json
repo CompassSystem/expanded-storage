@@ -13,26 +13,24 @@
     "depends": [
       {
         "id": "org.quiltmc:quilt_loader",
-        "versions": ">=0.17.0-beta.2"
+        "versions": ">=0.17.6"
       },
       {
         "id": "ellemes:ellemes_container_lib",
-        "versions": ">=2.1.0-alpha.9"
+        "versions": ">=2.1.0-alpha.11"
       },
       {
         "id": "minecraft",
         "versions": "~1.19"
       },
-      "org.quiltmc.qsl.block:quilt_block_extensions",
-      "org.quiltmc.qsl.core:quilt_networking",
-      "org.quiltmc.qsl.core:quilt_registry",
-      "org.quiltmc.qsl.core:quilt_resource_loader",
-      "org.quiltmc.qsl.item:quilt_item_group",
-      "org.quiltmc.qsl.gui:quilt_tooltip",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_api_base",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_rendering_v1",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_textures_v0",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_transfer_api_v1"
+      {
+        "id": "quilt_base",
+        "versions": ">=3.0.0-beta.20"
+      },
+      {
+        "id": "quilted_fabric_api_base",
+        "versions": ">=4.0.0-beta.19"
+      }
     ],
     "metadata": {
       "name": "Expanded Storage",

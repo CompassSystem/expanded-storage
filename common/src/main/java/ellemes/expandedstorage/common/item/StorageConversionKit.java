@@ -5,7 +5,9 @@ import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public final class StorageConversionKit extends Item {
+public final class StorageConversionKit extends Item implements EntityInteractableItem {
     private final ResourceLocation from;
     private final ResourceLocation to;
     private final Component instructionsFirst;
@@ -63,5 +65,21 @@ public final class StorageConversionKit extends Item {
         if (!instructionsSecond.getString().equals("")) {
             list.add(instructionsSecond);
         }
+    }
+
+    @Override
+    public InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
+        if (player.isShiftKeyDown()) {
+            EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
+            if (behaviour != null) {
+                if (world.isClientSide()) {
+                    return InteractionResult.CONSUME;
+                } else if (behaviour.tryUpgradeEntity(null, from, to)) {
+                    return InteractionResult.SUCCESS;
+                }
+                player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+            }
+        }
+        return InteractionResult.PASS;
     }
 }

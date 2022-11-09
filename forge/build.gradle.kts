@@ -27,9 +27,6 @@ repositories {
 
 dependencies {
     modImplementation("ellemes:${properties["container_library_artifact"]}-forge:${properties["container_library_version"]}")
-    //implementation(fg.deobf("ninjaphenix:container_library:1.3.0+1.18:forge"))
-
-    //implementation(fg.deobf("mezz.jei:jei-${properties["jei_minecraft_version"]}:${properties["jei_version"]}"))
 }
 
 tasks.getByName<MinifyJsonTask>("minJar") {
@@ -39,10 +36,20 @@ tasks.getByName<MinifyJsonTask>("minJar") {
     ))
 }
 
-val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://github.com/Ellemes/ExpandedStorage")
+val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://codeberg.org/Ellemes/expanded-storage")
 
 u.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
-        requiredDependency("ellemes-container-library")
+        optionalDependency("jei")
+        optionalDependency("quark")
+        optionalDependency("inventory-profiles-next")
     })
+}
+
+u.configureModrinth {
+    dependencies {
+//        optional.project("jei") // jei (not on Modrinth)
+//        optional.project("quark") // quark (not on Modrinth)
+        optional.project("inventory-profiles-next")
+    }
 }

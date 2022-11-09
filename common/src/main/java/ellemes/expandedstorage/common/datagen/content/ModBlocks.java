@@ -1,10 +1,10 @@
 package ellemes.expandedstorage.common.datagen.content;
 
-import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.MiniChestBlock;
+import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;

@@ -19,6 +19,7 @@ import ellemes.expandedstorage.common.client.TextureCollection;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.item.BlockUpgradeBehaviour;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
+import ellemes.expandedstorage.common.item.EntityUpgradeBehaviour;
 import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.MutatorBehaviour;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
@@ -48,6 +49,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.LockCode;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -807,5 +809,10 @@ public final class CommonMain {
             return Optional.of(entity.getItemAccess());
         }
         return Optional.empty();
+    }
+
+    // todo: implement
+    public static EntityUpgradeBehaviour getEntityUpgradeBehaviour(Entity entity) {
+        return null;
     }
 }
