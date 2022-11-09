@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[41,)"
+loaderVersion = "[43,)"
 issueTrackerURL = "https://github.com/Ellemes/expanded-storage/issues/"
 license = "See LICENSE file"
 
@@ -13,20 +13,20 @@ logoFile = "icon.png"
 [[dependencies.expandedstorage]]
 modId = "forge"
 mandatory = true
-versionRange = "[41.0.94,)"
+versionRange = "[43.1.0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.expandedstorage]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19,)"
+versionRange = "1.19.2"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.expandedstorage]]
 modId = "ellemes_container_lib"
 mandatory = true
-versionRange = "[2.1.0-alpha.9,)"
+versionRange = "[2.1.0-alpha.11,)"
 ordering = "NONE"
 side = "BOTH"
