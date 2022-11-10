@@ -32,9 +32,6 @@ They can also merge vertically and horizontally in the long direction to form ta
 <hr/>
 Old chests are like the modelled chest in visuals however occupy the whole block and do not have any kind of opening animation.
 These may be better for you than modelled chests as not having a block entity renderer meaning they will have less impact on your fps.
-<br/>
-<br/>
-For tier information see modelled chests.
 </details>
 
 <details>
@@ -42,9 +39,6 @@ For tier information see modelled chests.
 <img src="https://codeberg.org/Ellemes/expanded-storage/raw/branch/documentation/art/descriptions/png/Barrels_512.png" alt="Picture of barrels" />
 <hr/>
 Barrels like full cube chests don't have a block entity renderer so they will result in better fps over the modelled chests if you have a bunch of them in one area, otherwise they are functionally identical to vanilla barrels just with more inventory space.
-<br/>
-<br/>
-For tier information see modelled chests.
 </details>
 
 <details>
@@ -52,6 +46,9 @@ For tier information see modelled chests.
 <img src="https://codeberg.org/Ellemes/expanded-storage/raw/branch/documentation/art/descriptions/png/Mini%20chests_512.png" alt="Picture of mini chests" />
 <hr/>
 Mini chests are chest but mini, they all can only hold 1 item and are ideal for gifting things to other players :D
+<br/>
+<br/>
+Note: not all styles are craft-able and will need a Storage Mutator renamed to `Sunrise` or `Sparrow` to unlock.
 </details>
 
 <details>
