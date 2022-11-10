@@ -66,6 +66,7 @@ Note: not all styles are craft-able and will need a Storage Mutator renamed to `
 <hr/>
 
 The storage mutator is a tool to configure chest and other storage containers in world.
+
 It currently consists of 4 modes, note not all modes are applicable to all storage types:
 - Merge: Allows merging of two adjacent chests or old chests into a double chest.
 - Split: Allows splitting a double chest into two single chests.
