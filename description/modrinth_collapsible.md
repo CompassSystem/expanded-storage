@@ -71,7 +71,7 @@ It currently consists of 4 modes, note not all modes are applicable to all stora
 - Merge: Allows merging of two adjacent chests or old chests into a double chest.
 - Split: Allows splitting a double chest into two single chests.
 - Rotate: Allows rotating any storage container, note chests are limited to horizontal rotations.
-- Swap theme: Allows changing the theme of the storage container. (only Expanded Storage ones)
+- Swap theme: Allows changing the theme of the storage container, this only works for themes in the same tier and only on Expanded Storage containers.
 
 </details>
 
