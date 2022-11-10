@@ -1,3 +1,5 @@
+# Expanded Storage
+
 This mod adds new storage containers. Namely: chests, old chests, barrels and mini chests.
 
 All but the mini chests are like vanilla containers but can store more items.
