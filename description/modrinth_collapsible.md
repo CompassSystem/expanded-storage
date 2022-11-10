@@ -1,3 +1,11 @@
+This mod adds new storage containers. Namely: chests, old chests, barrels and mini chests.
+
+All but the mini chests are like vanilla containers but can store more items.
+
+For recipes please use a recipe viewing mod like [EMI](https://modrinth.com/mod/emi) or [REI](https://modrinth.com/mod/roughly-enough-items).
+
+Below is more detailed information regarding the mod however please note not all tiers / themes are available for all storage types.
+
 <details>
 <summary>Tiers</summary>
 <ul>
@@ -48,6 +56,7 @@ Barrels like full cube chests don't have a block entity renderer, so they will r
 Mini chests are chest but mini, they all can only hold 1 item and are ideal for gifting things to other players :D
 <br/>
 <br/>
+
 Note: not all styles are craft-able and will need a Storage Mutator renamed to `Sunrise` or `Sparrow` to unlock.
 </details>
 
@@ -55,7 +64,14 @@ Note: not all styles are craft-able and will need a Storage Mutator renamed to `
 <summary>Tools</summary>
 <img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/Tools_512.png" alt="Picture of the storage mutator" />
 <hr/>
-The storage mutator...
+
+The storage mutator is a tool to configure chest and other storage containers in world.
+It currently consists of 4 modes, note not all modes are applicable to all storage types:
+- Merge: Allows merging of two adjacent chests or old chests into a double chest.
+- Split: Allows splitting a double chest into two single chests.
+- Rotate: Allows rotating any storage container, note chests are limited to horizontal rotations.
+- Swap theme: Allows changing the theme of the storage container. (only Expanded Storage ones)
+
 </details>
 
 <details>
