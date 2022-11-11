@@ -41,7 +41,7 @@ They can also merge vertically and horizontally in the long direction to form ta
 <img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/Full%20cube%20chests_512.png" alt="Picture of old chests" />
 <hr/>
 Old chests are like the modelled chest in visuals however occupy the whole block and do not have any kind of opening animation.
-These may be better for you than modelled chests as not having a block entity renderer meaning they will have less impact on your fps.
+These may be better for you than modelled chests as not having a block entity renderer means they will have less impact on your fps.
 </details>
 
 <details>
