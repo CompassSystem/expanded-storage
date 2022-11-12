@@ -25,7 +25,6 @@
   "mixins": [
     "expandedstorage-common.mixin.json",
     "expandedstorage-thread.mixin.json",
-    "expandedstorage-fabrica.mixin.json",
     "expandedstorage-fabric.mixin.json"
   ],
   "contact": {

@@ -60,7 +60,6 @@
   "mixin": [
     "expandedstorage-common.mixin.json",
     "expandedstorage-thread.mixin.json",
-    "expandedstorage-fabrica.mixin.json",
     "expandedstorage-quilt.mixin.json"
   ]
 }

@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.fabrica.mixin;
+package ellemes.expandedstorage.common.mixin;
 
 import com.mojang.datafixers.DataFixerBuilder;
 import ellemes.expandedstorage.common.fixer.DataFixerUtils;

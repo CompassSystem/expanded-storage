@@ -34,7 +34,6 @@ rootProject.name = "expandedstorage"
 
 include(
         "common",
-        "fabrica",
         "thread",
             "fabric",
             "quilt",
