@@ -13,9 +13,6 @@ loom {
 val noConfiguration: (ModuleDependency) -> Unit = {
 }
 
-val noConfiguration: (ModuleDependency) -> Unit = {
-}
-
 dependencies {
     include(modImplementation("ellemes:${properties["container_library_artifact"]}-forge:${properties["container_library_version"]}", dependencyConfiguration = noConfiguration))
 }
