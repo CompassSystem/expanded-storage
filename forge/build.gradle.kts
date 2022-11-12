@@ -13,8 +13,7 @@ dependencies {
 
 tasks.getByName<MinifyJsonTask>("minJar") {
     manifest.attributes(mapOf(
-            "Automatic-Module-Name" to "ellemes.expandedstorage",
-            "MixinConfigs" to "expandedstorage-common.mixin.json"
+            "Automatic-Module-Name" to "ellemes.expandedstorage"
     ))
 }
 
