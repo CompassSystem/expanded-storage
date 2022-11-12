@@ -4,27 +4,6 @@ plugins {
     id("ellemes.gradle.mod").apply(false)
 }
 
-loom {
-    forge {
-        convertAccessWideners.set(true)
-        extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-        mixinConfig("expandedstorage-common.mixin.json")
-    }
-}
-
-repositories {
-    maven {
-        // JEI maven
-        name = "Progwml6 maven"
-        url = uri("https://dvs1.progwml6.com/files/maven/")
-    }
-    maven {
-        // JEI maven - fallback
-        name = "ModMaven"
-        url = uri("https://modmaven.k-4u.nl")
-    }
-}
-
 val noConfiguration: (ModuleDependency) -> Unit = {
 }
 
