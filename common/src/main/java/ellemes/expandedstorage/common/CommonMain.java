@@ -449,6 +449,7 @@ public final class CommonMain {
         /*Old Chest*/
         {
             final ResourceLocation woodStat = statMaker.apply("open_old_wood_chest");
+            final ResourceLocation copperStat = statMaker.apply("open_old_copper_chest");
             final ResourceLocation ironStat = statMaker.apply("open_old_iron_chest");
             final ResourceLocation goldStat = statMaker.apply("open_old_gold_chest");
             final ResourceLocation diamondStat = statMaker.apply("open_old_diamond_chest");
@@ -462,6 +463,14 @@ public final class CommonMain {
             };
 
             chestMaker.apply(Utils.id("old_wood_chest"), woodStat, woodTier, woodSettings);
+            chestMaker.apply(Utils.id("old_copper_chest"), copperStat, copperTier, copperSettings);
+            chestMaker.apply(Utils.id("old_exposed_copper_chest"), copperStat, copperTier, copperSettings);
+            chestMaker.apply(Utils.id("old_weathered_copper_chest"), copperStat, copperTier, copperSettings);
+            chestMaker.apply(Utils.id("old_oxidized_copper_chest"), copperStat, copperTier, copperSettings);
+            chestMaker.apply(Utils.id("waxed_old_copper_chest"), copperStat, copperTier, copperSettings);
+            chestMaker.apply(Utils.id("waxed_old_exposed_copper_chest"), copperStat, copperTier, copperSettings);
+            chestMaker.apply(Utils.id("waxed_old_weathered_copper_chest"), copperStat, copperTier, copperSettings);
+            chestMaker.apply(Utils.id("waxed_old_oxidized_copper_chest"), copperStat, copperTier, copperSettings);
             chestMaker.apply(Utils.id("old_iron_chest"), ironStat, ironTier, ironSettings);
             chestMaker.apply(Utils.id("old_gold_chest"), goldStat, goldTier, goldSettings);
             chestMaker.apply(Utils.id("old_diamond_chest"), diamondStat, diamondTier, diamondSettings);
@@ -602,12 +611,14 @@ public final class CommonMain {
         List<NamedValue<BlockItem>> barrelItems = new ArrayList<>(6 - 1);
         /*Barrel*/
         {
+            final ResourceLocation copperStat = statMaker.apply("open_copper_barrel");
             final ResourceLocation ironStat = statMaker.apply("open_iron_barrel");
             final ResourceLocation goldStat = statMaker.apply("open_gold_barrel");
             final ResourceLocation diamondStat = statMaker.apply("open_diamond_barrel");
             final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_barrel");
             final ResourceLocation netheriteStat = statMaker.apply("open_netherite_barrel");
 
+            final Properties copperBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Properties ironBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
             final Properties goldBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Properties diamondBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
@@ -621,6 +632,14 @@ public final class CommonMain {
                 barrelItems.add(item);
             };
 
+            barrelMaker.apply(Utils.id("copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("exposed_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("weathered_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("oxidized_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("waxed_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("waxed_exposed_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("waxed_weathered_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("waxed_oxidized_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
             barrelMaker.apply(Utils.id("iron_barrel"), ironStat, ironTier, ironBarrelSettings);
             barrelMaker.apply(Utils.id("gold_barrel"), goldStat, goldTier, goldBarrelSettings);
             barrelMaker.apply(Utils.id("diamond_barrel"), diamondStat, diamondTier, diamondBarrelSettings);
