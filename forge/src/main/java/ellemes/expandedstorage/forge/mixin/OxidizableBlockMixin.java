@@ -24,8 +24,9 @@ public class OxidizableBlockMixin extends Block {
         super(arg);
     }
 
+    @Nullable
     @Override
-    public @Nullable BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction action, boolean simulate) {
+    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction action, boolean simulate) {
         boolean isRemovingOxidisation = action == ToolActions.AXE_SCRAPE;
         boolean isRemovingWax = action == ToolActions.AXE_WAX_OFF;
         if (isRemovingOxidisation || isRemovingWax) {
@@ -53,11 +54,11 @@ public class OxidizableBlockMixin extends Block {
 
             }
             if (returnBlock != null) {
-                BlockState returnState = returnBlock.defaultBlockState();
+                final BlockState[] returnState = {returnBlock.defaultBlockState()};
                 state.getProperties().forEach(prop -> {
-                    returnState.setValue((Property) prop, state.getValue(prop));
+                    returnState[0] = returnState[0].setValue((Property) prop, state.getValue(prop));
                 });
-                return returnState;
+                return returnState[0];
             }
         }
 
