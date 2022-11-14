@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.fabric;
 
+import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.BarrelBlock;
@@ -12,6 +13,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.VersionParsingException;
@@ -20,6 +22,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class FabricMain implements ModInitializer {
     @Override
@@ -49,8 +54,39 @@ public final class FabricMain implements ModInitializer {
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)
                         .andThenIf(isClient, this::registerBarrelRenderLayers)
+                        .andThen(this::registerOxidisableAndWaxableBlocks)
         );
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> tagReloadListener.postDataReload());
+    }
+
+    private void registerOxidisableAndWaxableBlocks(Content content) {
+        Map<String, OpenableBlock> blocks = content
+                .getBlocks().stream()
+                .map(it -> Map.entry(it.getName().getPath(), it.getValue()))
+                .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("copper_chest"), blocks.get("exposed_copper_chest"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("exposed_copper_chest"), blocks.get("weathered_copper_chest"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("weathered_copper_chest"), blocks.get("oxidized_copper_chest"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("old_copper_chest"), blocks.get("old_exposed_copper_chest"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("old_exposed_copper_chest"), blocks.get("old_weathered_copper_chest"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("old_weathered_copper_chest"), blocks.get("old_oxidized_copper_chest"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("copper_barrel"), blocks.get("exposed_copper_barrel"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("exposed_copper_barrel"), blocks.get("weathered_copper_barrel"));
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("weathered_copper_barrel"), blocks.get("oxidized_copper_barrel"));
+
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("copper_chest"), blocks.get("waxed_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("exposed_copper_chest"), blocks.get("waxed_exposed_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("weathered_copper_chest"), blocks.get("waxed_weathered_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("oxidized_copper_chest"), blocks.get("waxed_oxidized_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_copper_chest"), blocks.get("waxed_old_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_exposed_copper_chest"), blocks.get("waxed_old_exposed_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_weathered_copper_chest"), blocks.get("waxed_old_weathered_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_oxidized_copper_chest"), blocks.get("waxed_old_oxidized_copper_chest"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("copper_barrel"), blocks.get("waxed_copper_barrel"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("exposed_copper_barrel"), blocks.get("waxed_exposed_copper_barrel"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("weathered_copper_barrel"), blocks.get("waxed_weathered_copper_barrel"));
+        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("oxidized_copper_barrel"), blocks.get("waxed_oxidized_copper_barrel"));
     }
 
     private void registerBarrelRenderLayers(Content content) {
