@@ -5,7 +5,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -54,11 +53,7 @@ public class OxidizableBlockMixin extends Block {
 
             }
             if (returnBlock != null) {
-                final BlockState[] returnState = {returnBlock.defaultBlockState()};
-                state.getProperties().forEach(prop -> {
-                    returnState[0] = returnState[0].setValue((Property) prop, state.getValue(prop));
-                });
-                return returnState[0];
+                return returnBlock.withPropertiesOf(state);
             }
         }
 
