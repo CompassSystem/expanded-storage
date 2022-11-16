@@ -103,19 +103,6 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
         return InteractionResult.sidedSuccess(isClient);
     }
 
-    /**
-     * todo: when copper chest side oxidises make sure to update the other block before this side is updated but said block to become a single block.
-     *  Code should be in {@link AbstractChestBlock#updateShape}
-    **/
-    @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block otherBlock, BlockPos otherPos, boolean bl) {
-        super.neighborChanged(state, level, pos, otherBlock, otherPos, bl);
-        System.out.println(state.getBlock());
-        System.out.println(pos);
-        System.out.println(level.getBlockState(otherPos));
-        System.out.println(otherPos);
-    }
-
     @Override
     public void onRandomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource source) {
         if (blockTier == Utils.COPPER_TIER_ID) {
