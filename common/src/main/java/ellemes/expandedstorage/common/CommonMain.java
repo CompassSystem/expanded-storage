@@ -685,6 +685,7 @@ public final class CommonMain {
             final ResourceLocation greenPresentStat = statMaker.apply("open_green_mini_present");
             final ResourceLocation lavenderPresentStat = statMaker.apply("open_lavender_mini_present");
             final ResourceLocation pinkAmethystPresentStat = statMaker.apply("open_pink_amethyst_mini_present");
+            final ResourceLocation ironStat = statMaker.apply("open_iron_mini_chest");
             // Init block settings
             Properties redPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5f).sound(SoundType.WOOD);
             Properties whitePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
@@ -698,6 +699,12 @@ public final class CommonMain {
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
                 miniChestBlocks.add(block);
                 miniChestItems.add(item);
+
+                ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
+                NamedValue<MiniChestBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new MiniChestBlock(tier.getBlockSettings().apply(settings), sparrowId, stat));
+                NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
+                miniChestBlocks.add(block_with_sparrow);
+                miniChestItems.add(item_with_sparrow);
             };
 
             chestMaker.apply(Utils.id("vanilla_wood_mini_chest"), woodStat, woodTier, woodSettings);
@@ -709,15 +716,7 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("green_mini_present"), greenPresentStat, woodTier, greenPresentSettings);
             chestMaker.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, woodTier, lavenderPresentSettings);
             chestMaker.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
-            chestMaker.apply(Utils.id("vanilla_wood_mini_chest_with_sparrow"), woodStat, woodTier, woodSettings);
-            chestMaker.apply(Utils.id("wood_mini_chest_with_sparrow"), woodStat, woodTier, woodSettings);
-            chestMaker.apply(Utils.id("pumpkin_mini_chest_with_sparrow"), pumpkinStat, woodTier, pumpkinSettings);
-            chestMaker.apply(Utils.id("red_mini_present_with_sparrow"), redPresentStat, woodTier, redPresentSettings);
-            chestMaker.apply(Utils.id("white_mini_present_with_sparrow"), whitePresentStat, woodTier, whitePresentSettings);
-            chestMaker.apply(Utils.id("candy_cane_mini_present_with_sparrow"), candyCanePresentStat, woodTier, candyCanePresentSettings);
-            chestMaker.apply(Utils.id("green_mini_present_with_sparrow"), greenPresentStat, woodTier, greenPresentSettings);
-            chestMaker.apply(Utils.id("lavender_mini_present_with_sparrow"), lavenderPresentStat, woodTier, lavenderPresentSettings);
-            chestMaker.apply(Utils.id("pink_amethyst_mini_present_with_sparrow"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
+            chestMaker.apply(Utils.id("iron_mini_chest"), ironStat, ironTier, ironSettings);
 
             CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_BLOCK_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniChestBlocks.stream().map(NamedValue::getValue).toArray(MiniChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_BLOCK_TYPE.toString())));
 
