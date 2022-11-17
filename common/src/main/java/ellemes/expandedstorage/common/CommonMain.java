@@ -317,7 +317,7 @@ public final class CommonMain {
             final ResourceLocation pumpkinStat = statMaker.apply("open_pumpkin_chest");
             final ResourceLocation presentStat = statMaker.apply("open_present");
             final ResourceLocation bambooStat = statMaker.apply("open_bamboo_chest");
-            final ResourceLocation copperStat = statMaker.apply("open_copper_chest");
+//            final ResourceLocation copperStat = statMaker.apply("open_copper_chest");
             final ResourceLocation ironStat = statMaker.apply("open_iron_chest");
             final ResourceLocation goldStat = statMaker.apply("open_gold_chest");
             final ResourceLocation diamondStat = statMaker.apply("open_diamond_chest");
@@ -465,7 +465,7 @@ public final class CommonMain {
         /*Old Chest*/
         {
             final ResourceLocation woodStat = statMaker.apply("open_old_wood_chest");
-            final ResourceLocation copperStat = statMaker.apply("open_old_copper_chest");
+//            final ResourceLocation copperStat = statMaker.apply("open_old_copper_chest");
             final ResourceLocation ironStat = statMaker.apply("open_old_iron_chest");
             final ResourceLocation goldStat = statMaker.apply("open_old_gold_chest");
             final ResourceLocation diamondStat = statMaker.apply("open_old_diamond_chest");
