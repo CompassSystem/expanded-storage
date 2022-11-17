@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
-import ellemes.expandedstorage.common.datagen.content.ModBlocks;
+import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
@@ -70,6 +70,8 @@ public final class TagProvider {
                 .add(Items.BLACK_STAINED_GLASS);
             this.getOrCreateTagBuilder(ThreadTags.Items.DIAMONDS)
                 .add(Items.DIAMOND);
+            this.getOrCreateTagBuilder(ThreadTags.Items.COPPER_INGOTS)
+                .add(Items.COPPER_INGOT);
             this.getOrCreateTagBuilder(ThreadTags.Items.IRON_INGOTS)
                 .add(Items.IRON_INGOT);
             this.getOrCreateTagBuilder(ThreadTags.Items.GOLD_INGOTS)

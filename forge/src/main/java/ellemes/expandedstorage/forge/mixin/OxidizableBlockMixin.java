@@ -1,24 +1,21 @@
 package ellemes.expandedstorage.forge.mixin;
 
-import ellemes.expandedstorage.common.block.OpenableBlock;
-import net.minecraft.resources.ResourceLocation;
+import ellemes.expandedstorage.common.block.CopperBarrelBlock;
+import ellemes.expandedstorage.common.block.CopperChestBlock;
+import ellemes.expandedstorage.common.block.OldCopperChestBlock;
+import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
-@Mixin(OpenableBlock.class)
+@Mixin(value = {CopperChestBlock.class, OldCopperChestBlock.class, CopperBarrelBlock.class}, remap = false)
 public class OxidizableBlockMixin extends Block {
-    private final Map<Block, Block> WAX_REMOVAL_MAP = new HashMap<>();
-    private final Map<Block, Block> OXIDISATION_REMOVAL_MAP = new HashMap<>();
-
     public OxidizableBlockMixin(Properties arg) {
         super(arg);
     }
@@ -29,31 +26,14 @@ public class OxidizableBlockMixin extends Block {
         boolean isRemovingOxidisation = action == ToolActions.AXE_SCRAPE;
         boolean isRemovingWax = action == ToolActions.AXE_WAX_OFF;
         if (isRemovingOxidisation || isRemovingWax) {
-            ResourceLocation blockId = ((OpenableBlock) state.getBlock()).getBlockId();
-            Block returnBlock = null;
+            Optional<BlockState> possibleValue;
             if (action == ToolActions.AXE_SCRAPE) {
-                if ((blockId.getPath().contains("exposed_") || blockId.getPath().contains("weathered_") || blockId.getPath().contains("oxidized_") ) &&
-                        !blockId.getPath().contains("waxed")) {
-                    returnBlock = OXIDISATION_REMOVAL_MAP.computeIfAbsent(state.getBlock(), it -> {
-                        return ForgeRegistries.BLOCKS.getValue(
-                                new ResourceLocation(blockId.getNamespace(),
-                                        blockId.getPath()
-                                               .replace("exposed_", "")
-                                               .replace("weathered_", "exposed_")
-                                               .replace("oxidized_", "weathered_")
-                        ));
-                    });
-                }
+                possibleValue = CopperBlockHelper.getPreviousOxidisedState(state);
             } else {
-                if (blockId.getPath().contains("waxed")) {
-                    returnBlock = WAX_REMOVAL_MAP.computeIfAbsent(state.getBlock(), it -> {
-                        return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockId.getNamespace(), blockId.getPath().replace("waxed_", "")));
-                    });
-                }
-
+                possibleValue = CopperBlockHelper.getDewaxed(state);
             }
-            if (returnBlock != null) {
-                return returnBlock.withPropertiesOf(state);
+            if (possibleValue.isPresent()) {
+                return possibleValue.get();
             }
         }
 

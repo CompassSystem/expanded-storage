@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.fabric;
 
-import ellemes.expandedstorage.common.block.OpenableBlock;
+import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.BarrelBlock;
@@ -22,9 +22,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public final class FabricMain implements ModInitializer {
     @Override
@@ -60,33 +57,8 @@ public final class FabricMain implements ModInitializer {
     }
 
     private void registerOxidisableAndWaxableBlocks(Content content) {
-        Map<String, OpenableBlock> blocks = content
-                .getBlocks().stream()
-                .map(it -> Map.entry(it.getName().getPath(), it.getValue()))
-                .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("copper_chest"), blocks.get("exposed_copper_chest"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("exposed_copper_chest"), blocks.get("weathered_copper_chest"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("weathered_copper_chest"), blocks.get("oxidized_copper_chest"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("old_copper_chest"), blocks.get("old_exposed_copper_chest"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("old_exposed_copper_chest"), blocks.get("old_weathered_copper_chest"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("old_weathered_copper_chest"), blocks.get("old_oxidized_copper_chest"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("copper_barrel"), blocks.get("exposed_copper_barrel"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("exposed_copper_barrel"), blocks.get("weathered_copper_barrel"));
-        OxidizableBlocksRegistry.registerOxidizableBlockPair(blocks.get("weathered_copper_barrel"), blocks.get("oxidized_copper_barrel"));
-
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("copper_chest"), blocks.get("waxed_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("exposed_copper_chest"), blocks.get("waxed_exposed_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("weathered_copper_chest"), blocks.get("waxed_weathered_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("oxidized_copper_chest"), blocks.get("waxed_oxidized_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_copper_chest"), blocks.get("waxed_old_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_exposed_copper_chest"), blocks.get("waxed_old_exposed_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_weathered_copper_chest"), blocks.get("waxed_old_weathered_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("old_oxidized_copper_chest"), blocks.get("waxed_old_oxidized_copper_chest"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("copper_barrel"), blocks.get("waxed_copper_barrel"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("exposed_copper_barrel"), blocks.get("waxed_exposed_copper_barrel"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("weathered_copper_barrel"), blocks.get("waxed_weathered_copper_barrel"));
-        OxidizableBlocksRegistry.registerWaxableBlockPair(blocks.get("oxidized_copper_barrel"), blocks.get("waxed_oxidized_copper_barrel"));
+        CopperBlockHelper.oxidisation().forEach(OxidizableBlocksRegistry::registerOxidizableBlockPair);
+        CopperBlockHelper.dewaxing().inverse().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
     }
 
     private void registerBarrelRenderLayers(Content content) {
