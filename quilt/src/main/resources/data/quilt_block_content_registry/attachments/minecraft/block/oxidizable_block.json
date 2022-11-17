@@ -1,12 +1,6 @@
 {
   "replace": false,
   "values": {
-    "expandedstorage:copper_chest": "expandedstorage:exposed_copper_chest",
-    "expandedstorage:exposed_copper_chest": "expandedstorage:weathered_copper_chest",
-    "expandedstorage:weathered_copper_chest": "expandedstorage:oxidized_copper_chest",
-    "expandedstorage:old_copper_chest": "expandedstorage:old_exposed_copper_chest",
-    "expandedstorage:old_exposed_copper_chest": "expandedstorage:old_weathered_copper_chest",
-    "expandedstorage:old_weathered_copper_chest": "expandedstorage:old_oxidized_copper_chest",
     "expandedstorage:copper_barrel": "expandedstorage:exposed_copper_barrel",
     "expandedstorage:exposed_copper_barrel": "expandedstorage:weathered_copper_barrel",
     "expandedstorage:weathered_copper_barrel": "expandedstorage:oxidized_copper_barrel"
