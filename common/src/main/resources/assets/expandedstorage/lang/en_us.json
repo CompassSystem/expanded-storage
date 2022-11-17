@@ -125,6 +125,10 @@
   "block.expandedstorage.lavender_mini_present": "Lavender Mini Present",
   "block.expandedstorage.pink_amethyst_mini_present": "Pink Amethyst Mini Present",
   "block.expandedstorage.iron_mini_chest": "Iron Mini Chest",
+  "block.expandedstorage.gold_mini_chest": "Gold Mini Chest",
+  "block.expandedstorage.diamond_mini_chest": "Diamond Mini Chest",
+  "block.expandedstorage.obsidian_mini_chest": "Obsidian Mini Chest",
+  "block.expandedstorage.netherite_mini_chest": "Netherite Mini Chest",
   "block.expandedstorage.vanilla_wood_mini_chest_with_sparrow": "Mini Chest",
   "block.expandedstorage.wood_mini_chest_with_sparrow": "Mini Chest",
   "block.expandedstorage.pumpkin_mini_chest_with_sparrow": "Pumpkin Mini Chest",
@@ -135,6 +139,10 @@
   "block.expandedstorage.lavender_mini_present_with_sparrow": "Lavender Mini Present",
   "block.expandedstorage.pink_amethyst_mini_present_with_sparrow": "Pink Amethyst Mini Present",
   "block.expandedstorage.iron_mini_chest_with_sparrow": "Iron Mini Chest",
+  "block.expandedstorage.gold_mini_chest_with_sparrow": "Gold Mini Chest",
+  "block.expandedstorage.diamond_mini_chest_with_sparrow": "Diamond Mini Chest",
+  "block.expandedstorage.obsidian_mini_chest_with_sparrow": "Obsidian Mini Chest",
+  "block.expandedstorage.netherite_mini_chest_with_sparrow": "Netherite Mini Chest",
   "stat.expandedstorage.open_vanilla_wood_mini_chest": "[ES] Mini Chests (vanilla theme) Opened",
   "stat.expandedstorage.open_wood_mini_chest": "[ES] Mini Chests Opened",
   "stat.expandedstorage.open_pumpkin_mini_chest": "[ES] Pumpkin Mini Chests Opened",
@@ -144,5 +152,9 @@
   "stat.expandedstorage.open_green_mini_present": "[ES] Green Mini Presents Opened",
   "stat.expandedstorage.open_lavender_mini_present": "[ES] Lavender Mini Presents Opened",
   "stat.expandedstorage.open_pink_amethyst_mini_present": "[ES] Pink Amethyst Mini Presents Opened",
-  "stat.expandedstorage.open_iron_mini_chest": "[ES] Iron Mini Chests Opened"
+  "stat.expandedstorage.open_iron_mini_chest": "[ES] Iron Mini Chests Opened",
+  "stat.expandedstorage.open_gold_mini_chest": "[ES] Gold Mini Chests Opened",
+  "stat.expandedstorage.open_diamond_mini_chest": "[ES] Diamond Mini Chests Opened",
+  "stat.expandedstorage.open_obsidian_mini_chest": "[ES] Obsidian Mini Chests Opened",
+  "stat.expandedstorage.open_netherite_mini_chest": "[ES] Netherite Mini Chests Opened"
 }

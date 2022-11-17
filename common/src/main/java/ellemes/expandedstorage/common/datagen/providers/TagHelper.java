@@ -53,7 +53,17 @@ public class TagHelper {
             .add(ModBlocks.OLD_GOLD_CHEST)
             .add(ModBlocks.OLD_DIAMOND_CHEST)
             .add(ModBlocks.OLD_OBSIDIAN_CHEST)
-            .add(ModBlocks.OLD_NETHERITE_CHEST);
+            .add(ModBlocks.OLD_NETHERITE_CHEST)
+            .add(ModBlocks.IRON_MINI_CHEST)
+            .add(ModBlocks.GOLD_MINI_CHEST)
+            .add(ModBlocks.DIAMOND_MINI_CHEST)
+            .add(ModBlocks.OBSIDIAN_MINI_CHEST)
+            .add(ModBlocks.NETHERITE_MINI_CHEST)
+            .add(ModBlocks.IRON_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW);
         tagMaker.apply(BlockTags.GUARDED_BY_PIGLINS)
             .add(ModBlocks.IRON_BARREL)
             .add(ModBlocks.GOLD_BARREL)
@@ -84,6 +94,11 @@ public class TagHelper {
             .add(ModBlocks.GREEN_MINI_PRESENT)
             .add(ModBlocks.LAVENDER_MINI_PRESENT)
             .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT)
+            .add(ModBlocks.IRON_MINI_CHEST)
+            .add(ModBlocks.GOLD_MINI_CHEST)
+            .add(ModBlocks.DIAMOND_MINI_CHEST)
+            .add(ModBlocks.OBSIDIAN_MINI_CHEST)
+            .add(ModBlocks.NETHERITE_MINI_CHEST)
             .add(ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW)
             .add(ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW)
             .add(ModBlocks.PUMPKIN_MINI_CHEST_WITH_SPARROW)
@@ -92,25 +107,40 @@ public class TagHelper {
             .add(ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW)
             .add(ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW)
             .add(ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW)
-            .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW);
+            .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW)
+            .add(ModBlocks.IRON_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW);
         tagMaker.apply(BlockTags.NEEDS_DIAMOND_TOOL)
             .add(ModBlocks.OBSIDIAN_BARREL)
             .add(ModBlocks.NETHERITE_BARREL)
             .add(ModBlocks.OBSIDIAN_CHEST)
             .add(ModBlocks.NETHERITE_CHEST)
             .add(ModBlocks.OLD_OBSIDIAN_CHEST)
-            .add(ModBlocks.OLD_NETHERITE_CHEST);
+            .add(ModBlocks.OLD_NETHERITE_CHEST)
+            .add(ModBlocks.OBSIDIAN_MINI_CHEST)
+            .add(ModBlocks.NETHERITE_MINI_CHEST)
+            .add(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW);
         tagMaker.apply(BlockTags.NEEDS_IRON_TOOL)
+            .add(ModBlocks.GOLD_BARREL)
             .add(ModBlocks.DIAMOND_BARREL)
+            .add(ModBlocks.GOLD_CHEST)
             .add(ModBlocks.DIAMOND_CHEST)
-            .add(ModBlocks.OLD_DIAMOND_CHEST);
+            .add(ModBlocks.OLD_GOLD_CHEST)
+            .add(ModBlocks.OLD_DIAMOND_CHEST)
+            .add(ModBlocks.GOLD_MINI_CHEST)
+            .add(ModBlocks.DIAMOND_MINI_CHEST)
+            .add(ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW)
+            .add(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW);
         tagMaker.apply(BlockTags.NEEDS_STONE_TOOL)
             .add(ModBlocks.IRON_BARREL)
-            .add(ModBlocks.GOLD_BARREL)
             .add(ModBlocks.IRON_CHEST)
-            .add(ModBlocks.GOLD_CHEST)
             .add(ModBlocks.OLD_IRON_CHEST)
-            .add(ModBlocks.OLD_GOLD_CHEST);
+            .add(ModBlocks.IRON_MINI_CHEST)
+            .add(ModBlocks.IRON_MINI_CHEST_WITH_SPARROW);
         tagMaker.apply(ModTags.Blocks.CHEST_CYCLE)
             .add(ModBlocks.WOOD_CHEST)
             .add(ModBlocks.PUMPKIN_CHEST)
@@ -169,6 +199,8 @@ public class TagHelper {
             .add(ModItems.GOLD_BARREL)
             .add(ModItems.GOLD_CHEST)
 //            .add(ModItems.GOLD_CHEST_MINECART)
-            .add(ModItems.OLD_GOLD_CHEST);
+            .add(ModItems.OLD_GOLD_CHEST)
+            .add(ModItems.GOLD_MINI_CHEST)
+            .add(ModItems.GOLD_MINI_CHEST_WITH_SPARROW);
     }
 }

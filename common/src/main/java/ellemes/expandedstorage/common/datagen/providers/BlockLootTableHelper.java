@@ -41,6 +41,11 @@ public class BlockLootTableHelper {
         consumer.accept(ModBlocks.GREEN_MINI_PRESENT, lootTableBuilder);
         consumer.accept(ModBlocks.LAVENDER_MINI_PRESENT, lootTableBuilder);
         consumer.accept(ModBlocks.PINK_AMETHYST_MINI_PRESENT, lootTableBuilder);
+        consumer.accept(ModBlocks.IRON_MINI_CHEST, lootTableBuilder);
+        consumer.accept(ModBlocks.GOLD_MINI_CHEST, lootTableBuilder);
+        consumer.accept(ModBlocks.DIAMOND_MINI_CHEST, lootTableBuilder);
+        consumer.accept(ModBlocks.OBSIDIAN_MINI_CHEST, lootTableBuilder);
+        consumer.accept(ModBlocks.NETHERITE_MINI_CHEST, lootTableBuilder);
 
         consumer.accept(ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
         consumer.accept(ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
@@ -51,5 +56,10 @@ public class BlockLootTableHelper {
         consumer.accept(ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW, lootTableBuilder);
         consumer.accept(ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW, lootTableBuilder);
         consumer.accept(ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.IRON_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
     }
 }

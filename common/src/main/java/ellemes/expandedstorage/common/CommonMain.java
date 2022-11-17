@@ -686,6 +686,10 @@ public final class CommonMain {
             final ResourceLocation lavenderPresentStat = statMaker.apply("open_lavender_mini_present");
             final ResourceLocation pinkAmethystPresentStat = statMaker.apply("open_pink_amethyst_mini_present");
             final ResourceLocation ironStat = statMaker.apply("open_iron_mini_chest");
+            final ResourceLocation goldStat = statMaker.apply("open_gold_mini_chest");
+            final ResourceLocation diamondStat = statMaker.apply("open_diamond_mini_chest");
+            final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_mini_chest");
+            final ResourceLocation netheriteStat = statMaker.apply("open_netherite_mini_chest");
             // Init block settings
             Properties redPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5f).sound(SoundType.WOOD);
             Properties whitePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
@@ -717,6 +721,10 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, woodTier, lavenderPresentSettings);
             chestMaker.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
             chestMaker.apply(Utils.id("iron_mini_chest"), ironStat, ironTier, ironSettings);
+            chestMaker.apply(Utils.id("gold_mini_chest"), goldStat, goldTier, goldSettings);
+            chestMaker.apply(Utils.id("diamond_mini_chest"), diamondStat, diamondTier, diamondSettings);
+            chestMaker.apply(Utils.id("obsidian_mini_chest"), obsidianStat, obsidianTier, obsidianSettings);
+            chestMaker.apply(Utils.id("netherite_mini_chest"), netheriteStat, netheriteTier, netheriteSettings);
 
             CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_BLOCK_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniChestBlocks.stream().map(NamedValue::getValue).toArray(MiniChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_BLOCK_TYPE.toString())));
 
