@@ -28,7 +28,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public final class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedBlock {
+public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedBlock {
     public static final int SET_OBSERVER_COUNT_EVENT = 1;
     private static final VoxelShape[] SHAPES = {
             Block.box(1, 0, 0, 15, 14, 15), // Horizontal shapes, depends on orientation and chest type.

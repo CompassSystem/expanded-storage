@@ -4,6 +4,12 @@ plugins {
     id("ellemes.gradle.mod").apply(false)
 }
 
+loom {
+    forge {
+        mixinConfig("expandedstorage-forge.mixin.json")
+    }
+}
+
 val noConfiguration: (ModuleDependency) -> Unit = {
 }
 

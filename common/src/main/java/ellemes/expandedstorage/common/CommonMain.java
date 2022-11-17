@@ -4,6 +4,7 @@ import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
+import ellemes.expandedstorage.common.block.CopperBarrelBlock;
 import ellemes.expandedstorage.common.block.MiniChestBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
@@ -62,6 +63,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -276,6 +278,7 @@ public final class CommonMain {
         CommonMain.lockable = lockable;
 
         final Tier woodTier = new Tier(Utils.WOOD_TIER_ID, Utils.WOOD_STACK_COUNT, UnaryOperator.identity(), UnaryOperator.identity());
+        final Tier copperTier = new Tier(Utils.COPPER_TIER_ID, 45, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier ironTier = new Tier(Utils.id("iron"), 54, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier goldTier = new Tier(Utils.id("gold"), 81, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier diamondTier = new Tier(Utils.id("diamond"), 108, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
@@ -284,6 +287,7 @@ public final class CommonMain {
         final Properties woodSettings = Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.5f).sound(SoundType.WOOD);
         final Properties pumpkinSettings = Properties.of(Material.VEGETABLE, MaterialColor.COLOR_ORANGE).strength(1).sound(SoundType.WOOD);
         final Properties bambooSettings = Properties.of(Material.BAMBOO, MaterialColor.PLANT).strength(1).sound(SoundType.BAMBOO);
+        final Properties copperSettings = Properties.of(Material.METAL, MaterialColor.COLOR_ORANGE).strength(3.0F, 6.0F).sound(SoundType.COPPER);
         final Properties ironSettings = Properties.of(Material.METAL, MaterialColor.METAL).strength(5, 6).sound(SoundType.METAL);
         final Properties goldSettings = Properties.of(Material.METAL, MaterialColor.GOLD).strength(3, 6).sound(SoundType.METAL);
         final Properties diamondSettings = Properties.of(Material.METAL, MaterialColor.DIAMOND).strength(5, 6).sound(SoundType.METAL);
@@ -313,6 +317,7 @@ public final class CommonMain {
             final ResourceLocation pumpkinStat = statMaker.apply("open_pumpkin_chest");
             final ResourceLocation presentStat = statMaker.apply("open_present");
             final ResourceLocation bambooStat = statMaker.apply("open_bamboo_chest");
+//            final ResourceLocation copperStat = statMaker.apply("open_copper_chest");
             final ResourceLocation ironStat = statMaker.apply("open_iron_chest");
             final ResourceLocation goldStat = statMaker.apply("open_gold_chest");
             final ResourceLocation diamondStat = statMaker.apply("open_diamond_chest");
@@ -340,10 +345,32 @@ public final class CommonMain {
 //                chestMinecartItems.add(cartItem);
             };
 
+//            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperChestMaker = (id, weatherState) -> {
+//                NamedValue<ChestBlock> block = new NamedValue<>(id, () -> new CopperChestBlock(copperTier.getBlockSettings().apply(copperSettings), id, copperStat, copperTier.getSlotCount(), weatherState));
+//                NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
+////                ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
+////                NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> new ChestMinecartItem(new Item.Properties().tab(group), cartId));
+////                NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> EntityType.Builder.<ChestMinecart>of((type, level) -> {
+////                    return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
+////                }, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8).build(cartId.getPath()));
+//                chestBlocks.add(block);
+//                chestItems.add(item);
+////                chestMinecartEntityTypes.add(cartEntityType);
+////                chestMinecartItems.add(cartItem);
+//            };
+
             chestMaker.apply(Utils.id("wood_chest"), woodStat, woodTier, woodSettings);
             chestMaker.apply(Utils.id("pumpkin_chest"), pumpkinStat, woodTier, pumpkinSettings);
             chestMaker.apply(Utils.id("present"), presentStat, woodTier, presentSettings);
             chestMaker.apply(Utils.id("bamboo_chest"), bambooStat, woodTier, bambooSettings);
+//            copperChestMaker.accept(Utils.id("copper_chest"), WeatheringCopper.WeatherState.UNAFFECTED);
+//            copperChestMaker.accept(Utils.id("exposed_copper_chest"), WeatheringCopper.WeatherState.EXPOSED);
+//            copperChestMaker.accept(Utils.id("weathered_copper_chest"), WeatheringCopper.WeatherState.WEATHERED);
+//            copperChestMaker.accept(Utils.id("oxidized_copper_chest"), WeatheringCopper.WeatherState.OXIDIZED);
+//            chestMaker.apply(Utils.id("waxed_copper_chest"), copperStat, copperTier, copperSettings);
+//            chestMaker.apply(Utils.id("waxed_exposed_copper_chest"), copperStat, copperTier, copperSettings);
+//            chestMaker.apply(Utils.id("waxed_weathered_copper_chest"), copperStat, copperTier, copperSettings);
+//            chestMaker.apply(Utils.id("waxed_oxidized_copper_chest"), copperStat, copperTier, copperSettings);
             chestMaker.apply(Utils.id("iron_chest"), ironStat, ironTier, ironSettings);
             chestMaker.apply(Utils.id("gold_chest"), goldStat, goldTier, goldSettings);
             chestMaker.apply(Utils.id("diamond_chest"), diamondStat, diamondTier, diamondSettings);
@@ -438,6 +465,7 @@ public final class CommonMain {
         /*Old Chest*/
         {
             final ResourceLocation woodStat = statMaker.apply("open_old_wood_chest");
+//            final ResourceLocation copperStat = statMaker.apply("open_old_copper_chest");
             final ResourceLocation ironStat = statMaker.apply("open_old_iron_chest");
             final ResourceLocation goldStat = statMaker.apply("open_old_gold_chest");
             final ResourceLocation diamondStat = statMaker.apply("open_old_diamond_chest");
@@ -450,7 +478,22 @@ public final class CommonMain {
                 oldChestItems.add(item);
             };
 
+//            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperChestMaker = (id, weatherState) -> {
+//                NamedValue<AbstractChestBlock> block = new NamedValue<>(id, () -> new OldCopperChestBlock(copperTier.getBlockSettings().apply(copperSettings), id, copperStat, copperTier.getSlotCount(), weatherState));
+//                NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
+//                oldChestBlocks.add(block);
+//                oldChestItems.add(item);
+//            };
+
             chestMaker.apply(Utils.id("old_wood_chest"), woodStat, woodTier, woodSettings);
+//            copperChestMaker.accept(Utils.id("old_copper_chest"), WeatheringCopper.WeatherState.UNAFFECTED);
+//            copperChestMaker.accept(Utils.id("old_exposed_copper_chest"), WeatheringCopper.WeatherState.EXPOSED);
+//            copperChestMaker.accept(Utils.id("old_weathered_copper_chest"), WeatheringCopper.WeatherState.WEATHERED);
+//            copperChestMaker.accept(Utils.id("old_oxidized_copper_chest"), WeatheringCopper.WeatherState.OXIDIZED);
+//            chestMaker.apply(Utils.id("waxed_old_copper_chest"), copperStat, copperTier, copperSettings);
+//            chestMaker.apply(Utils.id("waxed_old_exposed_copper_chest"), copperStat, copperTier, copperSettings);
+//            chestMaker.apply(Utils.id("waxed_old_weathered_copper_chest"), copperStat, copperTier, copperSettings);
+//            chestMaker.apply(Utils.id("waxed_old_oxidized_copper_chest"), copperStat, copperTier, copperSettings);
             chestMaker.apply(Utils.id("old_iron_chest"), ironStat, ironTier, ironSettings);
             chestMaker.apply(Utils.id("old_gold_chest"), goldStat, goldTier, goldSettings);
             chestMaker.apply(Utils.id("old_diamond_chest"), diamondStat, diamondTier, diamondSettings);
@@ -591,12 +634,14 @@ public final class CommonMain {
         List<NamedValue<BlockItem>> barrelItems = new ArrayList<>(6 - 1);
         /*Barrel*/
         {
+            final ResourceLocation copperStat = statMaker.apply("open_copper_barrel");
             final ResourceLocation ironStat = statMaker.apply("open_iron_barrel");
             final ResourceLocation goldStat = statMaker.apply("open_gold_barrel");
             final ResourceLocation diamondStat = statMaker.apply("open_diamond_barrel");
             final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_barrel");
             final ResourceLocation netheriteStat = statMaker.apply("open_netherite_barrel");
 
+            final Properties copperBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Properties ironBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
             final Properties goldBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Properties diamondBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
@@ -610,6 +655,21 @@ public final class CommonMain {
                 barrelItems.add(item);
             };
 
+            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperBarrelMaker = (id, weatherState) -> {
+                NamedValue<BarrelBlock> block = new NamedValue<>(id, () -> new CopperBarrelBlock(copperTier.getBlockSettings().apply(copperSettings), id, copperStat, copperTier.getSlotCount(), weatherState));
+                NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
+                barrelBlocks.add(block);
+                barrelItems.add(item);
+            };
+
+            copperBarrelMaker.accept(Utils.id("copper_barrel"), WeatheringCopper.WeatherState.UNAFFECTED);
+            copperBarrelMaker.accept(Utils.id("exposed_copper_barrel"), WeatheringCopper.WeatherState.EXPOSED);
+            copperBarrelMaker.accept(Utils.id("weathered_copper_barrel"), WeatheringCopper.WeatherState.WEATHERED);
+            copperBarrelMaker.accept(Utils.id("oxidized_copper_barrel"), WeatheringCopper.WeatherState.OXIDIZED);
+            barrelMaker.apply(Utils.id("waxed_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("waxed_exposed_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("waxed_weathered_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
+            barrelMaker.apply(Utils.id("waxed_oxidized_copper_barrel"), copperStat, copperTier, copperBarrelSettings);
             barrelMaker.apply(Utils.id("iron_barrel"), ironStat, ironTier, ironBarrelSettings);
             barrelMaker.apply(Utils.id("gold_barrel"), goldStat, goldTier, goldBarrelSettings);
             barrelMaker.apply(Utils.id("diamond_barrel"), diamondStat, diamondTier, diamondBarrelSettings);

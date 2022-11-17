@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
-public final class BarrelBlock extends OpenableBlock {
+public class BarrelBlock extends OpenableBlock {
     public BarrelBlock(Properties settings, ResourceLocation blockId, ResourceLocation tierId, ResourceLocation openingStat, int slotCount) {
         super(settings, blockId, tierId, openingStat, slotCount);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP).setValue(BlockStateProperties.OPEN, false));

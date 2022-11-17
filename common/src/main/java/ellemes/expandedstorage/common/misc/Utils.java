@@ -11,6 +11,7 @@ public final class Utils {
             Component.keybind("key.use").withStyle(ChatFormatting.GOLD));
     public static final int WOOD_STACK_COUNT = 27;
     public static final ResourceLocation WOOD_TIER_ID = Utils.id("wood");
+    public static final ResourceLocation COPPER_TIER_ID = Utils.id("copper");
     public static final int QUARTER_SECOND = 5;
 
     private Utils() {
