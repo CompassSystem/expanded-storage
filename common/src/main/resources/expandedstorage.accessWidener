@@ -6,3 +6,4 @@ extendable method net/minecraft/data/tags/TagsProvider getName ()Ljava/lang/Stri
 extendable method net/minecraft/world/entity/vehicle/AbstractMinecart getDropItem ()Lnet/minecraft/world/item/Item;
 accessible class net/minecraft/data/tags/TagsProvider$TagAppender
 accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/advancements/critereon/InventoryChangeTrigger$TriggerInstance;
+mutable field net/minecraft/world/item/HoneycombItem WAXABLES Ljava/util/function/Supplier;

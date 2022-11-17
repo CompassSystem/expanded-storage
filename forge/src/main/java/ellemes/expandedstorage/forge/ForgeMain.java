@@ -1,6 +1,10 @@
 package ellemes.expandedstorage.forge;
 
+import com.google.common.base.Suppliers;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -17,7 +21,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,6 +42,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 @Mod("expandedstorage")
 public final class ForgeMain {
@@ -107,6 +115,17 @@ public final class ForgeMain {
                 CommonMain.iterateNamedList(content.getEntityTypes(), helper::register);
             });
         });
+
+        // Hopefully if another mod replaces this supplier we'll capture theirs here.
+        Supplier<BiMap<Block, Block>> originalWaxablesMap = HoneycombItem.WAXABLES;
+        HoneycombItem.WAXABLES = Suppliers.memoize(() -> {
+            return ImmutableBiMap.<Block, Block>builder()
+                                 // Hopefully the original / modded map is okay to query here.
+                                 .putAll(originalWaxablesMap.get())
+                                 .putAll(CopperBlockHelper.dewaxing().inverse())
+                                 .build();
+        });
+
 
         if (FMLLoader.getDist() == Dist.CLIENT) {
             ForgeClient.initialize();
