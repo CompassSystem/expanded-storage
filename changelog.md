@@ -1,3 +1,2 @@
-- Included new textures from 8.1.0
-- Jar in Jar'd Container Library, so you don't need to install it separately
-- Some fixes to materials used by bamboo and pumpkin chests
+- I added metal versions of mini chests, they all still have one slot, they can be crafted by surrounding an expanded storage wooden chest with 3 paper and puttin the respective material on top, e.g. for iron you use an iron ingot, obsidian: an obsidian block.
+- Yes I did this all in a day... I don't even know how...
