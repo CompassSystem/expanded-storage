@@ -17,7 +17,7 @@ tasks.getByName<MinifyJsonTask>("minJar") {
     ))
 }
 
-val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://codeberg.org/Ellemes/expanded-storage")
+val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://gitlab.com/Ellemes/expanded-storage")
 
 u.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {

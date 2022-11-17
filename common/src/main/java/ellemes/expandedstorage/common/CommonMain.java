@@ -37,6 +37,7 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -685,6 +686,11 @@ public final class CommonMain {
             final ResourceLocation greenPresentStat = statMaker.apply("open_green_mini_present");
             final ResourceLocation lavenderPresentStat = statMaker.apply("open_lavender_mini_present");
             final ResourceLocation pinkAmethystPresentStat = statMaker.apply("open_pink_amethyst_mini_present");
+            final ResourceLocation ironStat = statMaker.apply("open_iron_mini_chest");
+            final ResourceLocation goldStat = statMaker.apply("open_gold_mini_chest");
+            final ResourceLocation diamondStat = statMaker.apply("open_diamond_mini_chest");
+            final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_mini_chest");
+            final ResourceLocation netheriteStat = statMaker.apply("open_netherite_mini_chest");
             // Init block settings
             Properties redPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5f).sound(SoundType.WOOD);
             Properties whitePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
@@ -694,10 +700,16 @@ public final class CommonMain {
             Properties pinkAmethystPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
 
             ObjectConsumer chestMaker = (id, stat, tier, settings) -> {
-                NamedValue<MiniChestBlock> block = new NamedValue<>(id, () -> new MiniChestBlock(tier.getBlockSettings().apply(settings), id, stat));
+                NamedValue<MiniChestBlock> block = new NamedValue<>(id, () -> new MiniChestBlock(tier.getBlockSettings().apply(settings), id, tier.getId(), stat));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
                 miniChestBlocks.add(block);
                 miniChestItems.add(item);
+
+                ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
+                NamedValue<MiniChestBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new MiniChestBlock(tier.getBlockSettings().apply(settings), sparrowId, tier.getId(), stat));
+                NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
+                miniChestBlocks.add(block_with_sparrow);
+                miniChestItems.add(item_with_sparrow);
             };
 
             chestMaker.apply(Utils.id("vanilla_wood_mini_chest"), woodStat, woodTier, woodSettings);
@@ -709,15 +721,11 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("green_mini_present"), greenPresentStat, woodTier, greenPresentSettings);
             chestMaker.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, woodTier, lavenderPresentSettings);
             chestMaker.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
-            chestMaker.apply(Utils.id("vanilla_wood_mini_chest_with_sparrow"), woodStat, woodTier, woodSettings);
-            chestMaker.apply(Utils.id("wood_mini_chest_with_sparrow"), woodStat, woodTier, woodSettings);
-            chestMaker.apply(Utils.id("pumpkin_mini_chest_with_sparrow"), pumpkinStat, woodTier, pumpkinSettings);
-            chestMaker.apply(Utils.id("red_mini_present_with_sparrow"), redPresentStat, woodTier, redPresentSettings);
-            chestMaker.apply(Utils.id("white_mini_present_with_sparrow"), whitePresentStat, woodTier, whitePresentSettings);
-            chestMaker.apply(Utils.id("candy_cane_mini_present_with_sparrow"), candyCanePresentStat, woodTier, candyCanePresentSettings);
-            chestMaker.apply(Utils.id("green_mini_present_with_sparrow"), greenPresentStat, woodTier, greenPresentSettings);
-            chestMaker.apply(Utils.id("lavender_mini_present_with_sparrow"), lavenderPresentStat, woodTier, lavenderPresentSettings);
-            chestMaker.apply(Utils.id("pink_amethyst_mini_present_with_sparrow"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
+            chestMaker.apply(Utils.id("iron_mini_chest"), ironStat, ironTier, ironSettings);
+            chestMaker.apply(Utils.id("gold_mini_chest"), goldStat, goldTier, goldSettings);
+            chestMaker.apply(Utils.id("diamond_mini_chest"), diamondStat, diamondTier, diamondSettings);
+            chestMaker.apply(Utils.id("obsidian_mini_chest"), obsidianStat, obsidianTier, obsidianSettings);
+            chestMaker.apply(Utils.id("netherite_mini_chest"), netheriteStat, netheriteTier, netheriteSettings);
 
             CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_BLOCK_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniChestBlocks.stream().map(NamedValue::getValue).toArray(MiniChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_BLOCK_TYPE.toString())));
 
@@ -733,20 +741,34 @@ public final class CommonMain {
                 return InteractionResult.SUCCESS;
             });
             CommonMain.registerMutationBehaviour(isMiniChest, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
+                MiniChestBlock block = (MiniChestBlock) state.getBlock();
                 String itemName = stack.getHoverName().getString();
-                List<Block> blocks;
-                if (itemName.equals("Sunrise")) {
-                    blocks = tagReloadListener.getMiniChestSecretCycleBlocks();
-                } else if (itemName.equals("Sparrow")) {
-                    blocks = tagReloadListener.getMiniChestSecretCycle2Blocks();
-                } else {
-                    blocks = tagReloadListener.getMiniChestCycleBlocks();
-                }
-                int index = blocks.indexOf(state.getBlock());
-                if (index != -1) { // Illegal state / misconfigured tag
-                    Block next = blocks.get((index + 1) % blocks.size());
-                    world.setBlockAndUpdate(pos, next.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(BlockStateProperties.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)));
+                if (block.getBlockTier() != Utils.WOOD_TIER_ID && itemName.equals("Sparrow")) {
+                    ResourceLocation blockId = block.getBlockId();
+                    String newId = blockId.getPath();
+                    if (newId.contains("_with_sparrow")) {
+                        newId = newId.substring(0, newId.length() - 13);
+                    } else {
+                        newId = newId + "_with_sparrow";
+                    }
+                    Block next = Registry.BLOCK.get(new ResourceLocation(blockId.getNamespace(), newId));
+                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
                     return InteractionResult.SUCCESS;
+                } else {
+                    List<Block> blocks;
+                    if (itemName.equals("Sunrise")) {
+                        blocks = tagReloadListener.getMiniChestSecretCycleBlocks();
+                    } else if (itemName.equals("Sparrow")) {
+                        blocks = tagReloadListener.getMiniChestSecretCycle2Blocks();
+                    } else {
+                        blocks = tagReloadListener.getMiniChestCycleBlocks();
+                    }
+                    int index = blocks.indexOf(state.getBlock());
+                    if (index != -1) { // Illegal state / misconfigured tag
+                        Block next = blocks.get((index + 1) % blocks.size());
+                        world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
+                        return InteractionResult.SUCCESS;
+                    }
                 }
                 return InteractionResult.FAIL;
             });

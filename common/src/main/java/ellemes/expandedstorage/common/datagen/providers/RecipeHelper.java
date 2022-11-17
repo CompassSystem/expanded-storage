@@ -436,6 +436,46 @@ public class RecipeHelper {
                               .group(id(ModItems.RED_MINI_PRESENT))
                               .unlockedBy(Criterions.HAS_PREVIOUS_BLOCK, RecipeProvider.has(ModItems.GREEN_MINI_PRESENT))
                               .save(exporter, Utils.MOD_ID + ":red_mini_present_cycle");
+        shapedRecipe(ModItems.IRON_MINI_CHEST, 8, Criterions.HAS_ITEM, ModItems.WOOD_CHEST)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.IRON_INGOT)
+                .define('P', Items.PAPER)
+                .define('B', ModItems.WOOD_CHEST)
+                .save(exporter);
+        shapedRecipe(ModItems.GOLD_MINI_CHEST, 8, Criterions.HAS_ITEM, ModItems.WOOD_CHEST)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.GOLD_INGOT)
+                .define('P', Items.PAPER)
+                .define('B', ModItems.WOOD_CHEST)
+                .save(exporter);
+        shapedRecipe(ModItems.DIAMOND_MINI_CHEST, 8, Criterions.HAS_ITEM, ModItems.WOOD_CHEST)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.DIAMOND)
+                .define('P', Items.PAPER)
+                .define('B', ModItems.WOOD_CHEST)
+                .save(exporter);
+        shapedRecipe(ModItems.OBSIDIAN_MINI_CHEST, 8, Criterions.HAS_ITEM, ModItems.WOOD_CHEST)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.OBSIDIAN)
+                .define('P', Items.PAPER)
+                .define('B', ModItems.WOOD_CHEST)
+                .save(exporter);
+        shapedRecipe(ModItems.NETHERITE_MINI_CHEST, 8, Criterions.HAS_ITEM, ModItems.WOOD_CHEST)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.NETHERITE_INGOT)
+                .define('P', Items.PAPER)
+                .define('B', ModItems.WOOD_CHEST)
+                .save(exporter);
     }
 
     private String id(ItemLike like) {

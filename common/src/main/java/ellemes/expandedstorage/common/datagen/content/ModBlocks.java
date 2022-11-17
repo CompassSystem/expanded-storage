@@ -42,6 +42,11 @@ public final class ModBlocks {
     public static final MiniChestBlock GREEN_MINI_PRESENT = block(Utils.id("green_mini_present"));
     public static final MiniChestBlock LAVENDER_MINI_PRESENT = block(Utils.id("lavender_mini_present"));
     public static final MiniChestBlock PINK_AMETHYST_MINI_PRESENT = block(Utils.id("pink_amethyst_mini_present"));
+    public static final MiniChestBlock IRON_MINI_CHEST = block(Utils.id("iron_mini_chest"));
+    public static final MiniChestBlock GOLD_MINI_CHEST = block(Utils.id("gold_mini_chest"));
+    public static final MiniChestBlock DIAMOND_MINI_CHEST = block(Utils.id("diamond_mini_chest"));
+    public static final MiniChestBlock OBSIDIAN_MINI_CHEST = block(Utils.id("obsidian_mini_chest"));
+    public static final MiniChestBlock NETHERITE_MINI_CHEST = block(Utils.id("netherite_mini_chest"));
 
     public static final MiniChestBlock VANILLA_WOOD_MINI_CHEST_WITH_SPARROW = block(Utils.id("vanilla_wood_mini_chest_with_sparrow"));
     public static final MiniChestBlock WOOD_MINI_CHEST_WITH_SPARROW = block(Utils.id("wood_mini_chest_with_sparrow"));
@@ -52,6 +57,11 @@ public final class ModBlocks {
     public static final MiniChestBlock GREEN_MINI_PRESENT_WITH_SPARROW = block(Utils.id("green_mini_present_with_sparrow"));
     public static final MiniChestBlock LAVENDER_MINI_PRESENT_WITH_SPARROW = block(Utils.id("lavender_mini_present_with_sparrow"));
     public static final MiniChestBlock PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW = block(Utils.id("pink_amethyst_mini_present_with_sparrow"));
+    public static final MiniChestBlock IRON_MINI_CHEST_WITH_SPARROW = block(Utils.id("iron_mini_chest_with_sparrow"));
+    public static final MiniChestBlock GOLD_MINI_CHEST_WITH_SPARROW = block(Utils.id("gold_mini_chest_with_sparrow"));
+    public static final MiniChestBlock DIAMOND_MINI_CHEST_WITH_SPARROW = block(Utils.id("diamond_mini_chest_with_sparrow"));
+    public static final MiniChestBlock OBSIDIAN_MINI_CHEST_WITH_SPARROW = block(Utils.id("obsidian_mini_chest_with_sparrow"));
+    public static final MiniChestBlock NETHERITE_MINI_CHEST_WITH_SPARROW = block(Utils.id("netherite_mini_chest_with_sparrow"));
 
     private static <T extends Block> T block(ResourceLocation id) {
         //noinspection unchecked

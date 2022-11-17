@@ -7,6 +7,8 @@
     "expandedstorage:gold_to_netherite_conversion_kit",
     "expandedstorage:gold_barrel",
     "expandedstorage:gold_chest",
-    "expandedstorage:old_gold_chest"
+    "expandedstorage:old_gold_chest",
+    "expandedstorage:gold_mini_chest",
+    "expandedstorage:gold_mini_chest_with_sparrow"
   ]
 }

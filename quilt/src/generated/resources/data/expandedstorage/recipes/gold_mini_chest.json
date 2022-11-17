@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "expandedstorage:wood_chest"
+    },
+    "I": {
+      "item": "minecraft:gold_ingot"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    " I ",
+    "PBP",
+    " P "
+  ],
+  "result": {
+    "count": 8,
+    "item": "expandedstorage:gold_mini_chest"
+  }
+}

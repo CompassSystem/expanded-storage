@@ -66,6 +66,12 @@ public final class ModItems {
     public static final BlockItem WHITE_MINI_PRESENT = item(Utils.id("white_mini_present"));
     public static final BlockItem CANDY_CANE_MINI_PRESENT = item(Utils.id("candy_cane_mini_present"));
     public static final BlockItem GREEN_MINI_PRESENT = item(Utils.id("green_mini_present"));
+    public static final BlockItem IRON_MINI_CHEST = item(Utils.id("iron_mini_chest"));
+    public static final BlockItem GOLD_MINI_CHEST = item(Utils.id("gold_mini_chest"));
+    public static final BlockItem DIAMOND_MINI_CHEST = item(Utils.id("diamond_mini_chest"));
+    public static final BlockItem OBSIDIAN_MINI_CHEST = item(Utils.id("obsidian_mini_chest"));
+    public static final BlockItem NETHERITE_MINI_CHEST = item(Utils.id("netherite_mini_chest"));
+    public static final BlockItem GOLD_MINI_CHEST_WITH_SPARROW = item(Utils.id("gold_mini_chest_with_sparrow"));
 
     private static <T extends Item> T item(ResourceLocation id) {
         //noinspection unchecked
