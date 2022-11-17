@@ -6,6 +6,10 @@
     "expandedstorage:obsidian_chest",
     "expandedstorage:netherite_chest",
     "expandedstorage:old_obsidian_chest",
-    "expandedstorage:old_netherite_chest"
+    "expandedstorage:old_netherite_chest",
+    "expandedstorage:obsidian_mini_chest",
+    "expandedstorage:netherite_mini_chest",
+    "expandedstorage:obsidian_mini_chest_with_sparrow",
+    "expandedstorage:netherite_mini_chest_with_sparrow"
   ]
 }
