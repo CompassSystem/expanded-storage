@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "minecraft:planks"
+            "items": [
+              "expandedstorage:wood_to_copper_conversion_kit"
+            ]
           }
         ]
       },

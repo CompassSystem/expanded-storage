@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "tag": "c:gold_ingots"
+    },
+    "K": {
+      "item": "expandedstorage:copper_to_iron_conversion_kit"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GKG",
+    "GGG"
+  ],
+  "result": {
+    "item": "expandedstorage:copper_to_gold_conversion_kit"
+  }
+}
