@@ -1,5 +1,5 @@
-// 1.19.2	2022-11-17T00:35:55.34913	Expanded Storage - Item Tags
+// 1.19.2	2022-11-18T21:35:25.4353463	Expanded Storage - Item Tags
 766b7e9227c4a801f1e357ca2bce20cf8db366de data/expandedstorage/tags/items/wooden_chests.json
 578dd629e6c69bf5641983afdf5f54ca2d3b5882 data/forge/tags/items/bamboo.json
 2451ad96a8a6e48fd8ff670e334631db2b4bbbe6 data/forge/tags/items/chests/wooden.json
-694985244f363556859bf2f51e7c6577a75ebcb1 data/minecraft/tags/items/piglin_loved.json
+0f1b4c8c3793df74b5232b64c00d31b5281276d4 data/minecraft/tags/items/piglin_loved.json
