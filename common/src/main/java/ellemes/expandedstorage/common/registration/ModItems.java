@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.common.datagen.content;
+package ellemes.expandedstorage.common.registration;
 
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;

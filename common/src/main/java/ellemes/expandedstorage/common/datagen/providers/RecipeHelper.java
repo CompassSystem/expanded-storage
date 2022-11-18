@@ -1,7 +1,8 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
+import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;
-import ellemes.expandedstorage.common.datagen.content.ModItems;
+import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -11,6 +12,7 @@ import net.minecraft.data.recipes.UpgradeRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -291,14 +293,14 @@ public class RecipeHelper {
         cartRecipe(ModItems.NETHERITE_CHEST, ModItems.NETHERITE_CHEST_MINECART, exporter);
     }
 
-//    private void cartRecipe(BlockItem chest, ChestMinecartItem cart, Consumer<FinishedRecipe> exporter) {
-//        shapedRecipe(cart, 1, "has_chest", chest)
-//                .pattern("C")
-//                .pattern("M")
-//                .define('C', chest)
-//                .define('M', Items.MINECART)
-//                .save(exporter);
-//    }
+    private void cartRecipe(BlockItem chest, ChestMinecartItem cart, Consumer<FinishedRecipe> exporter) {
+        shapedRecipe(cart, 1, "has_chest", chest)
+                .pattern("C")
+                .pattern("M")
+                .define('C', chest)
+                .define('M', Items.MINECART)
+                .save(exporter);
+    }
 
     private void offerOldChestRecipes(Consumer<FinishedRecipe> exporter) {
 //        shapedRecipe(ModItems.OLD_COPPER_CHEST, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.OLD_WOOD_CHEST)
