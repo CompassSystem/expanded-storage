@@ -300,11 +300,11 @@ public final class CommonMain {
             return statId;
         };
 
-        List<NamedValue<Item>> baseItems = new ArrayList<>(16);
+        List<NamedValue<Item>> baseItems = new ArrayList<>(22);
         /*Base*/
         {
             baseItems.add(new NamedValue<>(Utils.id("storage_mutator"), () -> new StorageMutator(new Item.Properties().stacksTo(1).tab(group))));
-            CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, group, woodTier, ironTier, goldTier, diamondTier, obsidianTier, netheriteTier);
+            CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, group, woodTier, copperTier, ironTier, goldTier, diamondTier, obsidianTier, netheriteTier);
         }
 
         List<NamedValue<ChestBlock>> chestBlocks = new ArrayList<>(6 + 3);
