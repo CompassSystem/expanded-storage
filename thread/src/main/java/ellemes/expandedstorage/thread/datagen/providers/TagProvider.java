@@ -72,6 +72,8 @@ public final class TagProvider {
                 .add(Items.DIAMOND);
             this.getOrCreateTagBuilder(ThreadTags.Items.COPPER_INGOTS)
                 .add(Items.COPPER_INGOT);
+            this.getOrCreateTagBuilder(ThreadTags.Items.IRON_NUGGETS)
+                .add(Items.IRON_NUGGET);
             this.getOrCreateTagBuilder(ThreadTags.Items.IRON_INGOTS)
                 .add(Items.IRON_INGOT);
             this.getOrCreateTagBuilder(ThreadTags.Items.GOLD_INGOTS)

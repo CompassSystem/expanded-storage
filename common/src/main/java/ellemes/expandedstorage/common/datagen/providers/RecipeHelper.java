@@ -21,17 +21,18 @@ import java.util.function.Function;
 
 public class RecipeHelper {
     private final Function<Item, ResourceLocation> itemIdGetter;
-    private final TagKey<Item> copperIngots, ironIngots, goldIngots, diamonds, obsidianBlocks, netheriteIngots;
+    private final TagKey<Item> copperIngots, ironNuggets, ironIngots, goldIngots, diamonds, obsidianBlocks, netheriteIngots;
     private final TagKey<Item> glassBlocks, woodenChests, woodenBarrels, redDyes, whiteDyes, bamboo;
 
     public RecipeHelper(
             Function<Item, ResourceLocation> itemIdGetter,
-            TagKey<Item> copperIngots, TagKey<Item> ironIngots, TagKey<Item> goldIngots, TagKey<Item> diamonds, TagKey<Item> obsidianBlocks, TagKey<Item> netheriteIngots,
+            TagKey<Item> copperIngots, TagKey<Item> ironNuggets, TagKey<Item> ironIngots, TagKey<Item> goldIngots, TagKey<Item> diamonds, TagKey<Item> obsidianBlocks, TagKey<Item> netheriteIngots,
             TagKey<Item> woodenChests, TagKey<Item> woodenBarrels,
             TagKey<Item> glassBlocks, TagKey<Item> redDyes, TagKey<Item> whiteDyes, TagKey<Item> bamboo
     ) {
         this.itemIdGetter = itemIdGetter;
         this.copperIngots = copperIngots;
+        this.ironNuggets = ironNuggets;
         this.ironIngots = ironIngots;
         this.goldIngots = goldIngots;
         this.diamonds = diamonds;
@@ -79,12 +80,20 @@ public class RecipeHelper {
     }
 
     private void offerConversionKitRecipes(Consumer<FinishedRecipe> exporter) {
-        shapedRecipe(ModItems.WOOD_TO_IRON_CONVERSION_KIT, 1, Criterions.HAS_ITEM, ItemTags.PLANKS)
+        shapedRecipe(ModItems.WOOD_TO_COPPER_CONVERSION_KIT, 1, Criterions.HAS_ITEM, ItemTags.PLANKS)
                 .pattern("III")
                 .pattern("IPI")
                 .pattern("III")
-                .define('I', ironIngots)
+                .define('I', copperIngots)
                 .define('P', ItemTags.PLANKS)
+                .save(exporter);
+        shapedRecipe(ModItems.WOOD_TO_IRON_CONVERSION_KIT, 1, Criterions.HAS_ITEM, ModItems.WOOD_TO_COPPER_CONVERSION_KIT)
+                .pattern("NNN")
+                .pattern("IKI")
+                .pattern("NNN")
+                .define('N', ironNuggets)
+                .define('I', ironIngots)
+                .define('K', ModItems.WOOD_TO_COPPER_CONVERSION_KIT)
                 .save(exporter);
         shapedRecipe(ModItems.WOOD_TO_GOLD_CONVERSION_KIT, 1, Criterions.HAS_PREVIOUS_KIT, ModItems.WOOD_TO_IRON_CONVERSION_KIT)
                 .pattern("GGG")
@@ -109,6 +118,37 @@ public class RecipeHelper {
                 .define('K', ModItems.WOOD_TO_DIAMOND_CONVERSION_KIT)
                 .save(exporter);
         smithingRecipe(ModItems.WOOD_TO_NETHERITE_CONVERSION_KIT, ModItems.WOOD_TO_OBSIDIAN_CONVERSION_KIT, netheriteIngots, Criterions.HAS_PREVIOUS_KIT, exporter);
+        shapedRecipe(ModItems.COPPER_TO_IRON_CONVERSION_KIT, 1, Criterions.HAS_ITEM, copperIngots)
+                .pattern("NNN")
+                .pattern("ICI")
+                .pattern("NNN")
+                .define('N', ironNuggets)
+                .define('I', ironIngots)
+                .define('C', copperIngots)
+                .save(exporter);
+        shapedRecipe(ModItems.COPPER_TO_GOLD_CONVERSION_KIT, 1, Criterions.HAS_ITEM, ModItems.COPPER_TO_IRON_CONVERSION_KIT)
+                .pattern("GGG")
+                .pattern("GKG")
+                .pattern("GGG")
+                .define('G', goldIngots)
+                .define('K', ModItems.COPPER_TO_IRON_CONVERSION_KIT)
+                .save(exporter);
+        shapedRecipe(ModItems.COPPER_TO_DIAMOND_CONVERSION_KIT, 1, Criterions.HAS_PREVIOUS_KIT, ModItems.COPPER_TO_GOLD_CONVERSION_KIT)
+                .pattern("GGG")
+                .pattern("DKD")
+                .pattern("GGG")
+                .define('G', glassBlocks)
+                .define('D', diamonds)
+                .define('K', ModItems.COPPER_TO_GOLD_CONVERSION_KIT)
+                .save(exporter);
+        shapedRecipe(ModItems.COPPER_TO_OBSIDIAN_CONVERSION_KIT, 1, Criterions.HAS_PREVIOUS_KIT, ModItems.COPPER_TO_DIAMOND_CONVERSION_KIT)
+                .pattern("OOO")
+                .pattern("OKO")
+                .pattern("OOO")
+                .define('O', obsidianBlocks)
+                .define('K', ModItems.COPPER_TO_DIAMOND_CONVERSION_KIT)
+                .save(exporter);
+        smithingRecipe(ModItems.COPPER_TO_NETHERITE_CONVERSION_KIT, ModItems.COPPER_TO_OBSIDIAN_CONVERSION_KIT, netheriteIngots, Criterions.HAS_PREVIOUS_KIT, exporter);
         shapedRecipe(ModItems.IRON_TO_GOLD_CONVERSION_KIT, 1, Criterions.HAS_ITEM, ironIngots)
                 .pattern("GGG")
                 .pattern("GIG")
