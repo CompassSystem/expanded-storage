@@ -1,1 +1,1 @@
-- Add copper barrels. They can store 45 items. ( 1 less row than iron )
+- Added copper upgrades, wood -> iron upgrade recipe is tweaked a little, check EMI / REI.
