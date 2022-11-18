@@ -1,4 +1,4 @@
-// 1.19.2	2022-11-18T21:35:56.0153082	Expanded Storage - Recipes
+// 1.19.2	2022-11-18T23:44:20.6439545	Expanded Storage - Recipes
 a3bbd5a4aeacdefa09610d2d30aad5d434bd0bc3 data\expandedstorage\recipes\old_netherite_chest.json
 e15c5acafe437631cf398851ec60a40b02006af8 data\expandedstorage\advancements\recipes\expandedstorage.tab\present.json
 65b6d04b5c2bbec31513cfd053642987c84791c6 data\expandedstorage\advancements\recipes\expandedstorage.tab\old_obsidian_chest.json
@@ -84,7 +84,7 @@ d8ae4f01b326d8f50c8500284d8a091c7c5e7f4f data\expandedstorage\advancements\recip
 12602b920cd882d11495903ac65cb72caae33a31 data\expandedstorage\recipes\old_gold_chest.json
 a3080d69fc879928bf67fb2a5a780e32eb1afada data\expandedstorage\recipes\storage_mutator.json
 9dad455b04758ef1336dbfce67c91e9b4aecf735 data\expandedstorage\advancements\recipes\expandedstorage.tab\storage_mutator.json
-edc1e3ed7243a5dc876f592e684054fce69330cc data\expandedstorage\advancements\recipes\expandedstorage.tab\iron_barrel.json
+a1cc1cdbbfe932c3a0b180a55928785a356b7dbe data\expandedstorage\advancements\recipes\expandedstorage.tab\iron_barrel.json
 bd942a471a7aeb20c338ef3c886a773866947172 data\expandedstorage\advancements\recipes\expandedstorage.tab\old_netherite_chest.json
 6940633d7b6fc0107ad67b27d6e31da788459cf9 data\expandedstorage\advancements\recipes\expandedstorage.tab\netherite_mini_chest.json
 37e93806694c53a965a586ee5fae321abd2c3586 data\expandedstorage\advancements\recipes\expandedstorage.tab\old_gold_chest.json
@@ -132,4 +132,4 @@ d378e440cd4c3929daea351429d13b0f6220b03f data\expandedstorage\advancements\recip
 11640ca9d79717ba7f0980776c43f2762ca4aa8d data\expandedstorage\recipes\wood_to_iron_conversion_kit.json
 eee1e09aaa10ab800c5e481dfca581fdf0d6f3e8 data\expandedstorage\recipes\old_wood_to_wood_chest.json
 54982b0c54079389e3f990c63f05968682092e81 data\expandedstorage\advancements\recipes\expandedstorage.tab\gold_mini_chest.json
-b0befc93a9a40d01d10ae5fa5d1ff83990c29d44 data\expandedstorage\recipes\iron_barrel.json
+fbd77674700132016c9b8be63e4e50f98e516f64 data\expandedstorage\recipes\iron_barrel.json

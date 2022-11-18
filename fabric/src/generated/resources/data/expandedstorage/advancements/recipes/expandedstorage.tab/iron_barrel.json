@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:wooden_barrels"
+            "items": [
+              "expandedstorage:copper_barrel"
+            ]
           }
         ]
       },
