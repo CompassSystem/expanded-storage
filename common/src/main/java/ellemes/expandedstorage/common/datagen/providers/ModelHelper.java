@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
-import ellemes.expandedstorage.common.datagen.content.ModItems;
+import ellemes.expandedstorage.common.registration.ModItems;
 import net.minecraft.world.item.Item;
 
 import java.util.function.Consumer;
