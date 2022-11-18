@@ -51,14 +51,16 @@ public final class ForgeMain {
     public ForgeMain() {
         TagReloadListener tagReloadListener = new TagReloadListener();
 
+//        new CreativeModeTab(Utils.MOD_ID + ".tab") {
+//            @NotNull
+//            @Override
+//            public ItemStack makeIcon() {
+//                return new ItemStack(ForgeRegistries.ITEMS.getValue(Utils.id("netherite_chest")), 1);
+//            }
+//        }
+
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
-                new CreativeModeTab(Utils.MOD_ID + ".tab") {
-                    @NotNull
-                    @Override
-                    public ItemStack makeIcon() {
-                        return new ItemStack(ForgeRegistries.ITEMS.getValue(Utils.id("netherite_chest")), 1);
-                    }
-                }, FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
+                , FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
                 /*Base*/ false,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
                 /*Old Chest*/

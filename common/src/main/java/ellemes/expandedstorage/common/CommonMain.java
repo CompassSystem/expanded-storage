@@ -58,7 +58,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -123,17 +122,6 @@ public final class CommonMain {
 
     public static BlockEntityType<MiniChestBlockEntity> getMiniChestBlockEntityType() {
         return miniChestBlockEntityType.getValue();
-    }
-
-    public static ResourceLocation[] getChestTextures(List<ResourceLocation> blocks) {
-        ResourceLocation[] textures = new ResourceLocation[blocks.size() * EsChestType.values().length];
-        int index = 0;
-        for (ResourceLocation blockId : blocks) {
-            for (EsChestType type : EsChestType.values()) {
-                textures[index++] = CommonMain.getChestTexture(blockId, type);
-            }
-        }
-        return textures;
     }
 
     private static boolean upgradeSingleBlockToChest(Level world, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
@@ -272,7 +260,7 @@ public final class CommonMain {
     }
 
     public static void constructContent(Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
-                                        CreativeModeTab group, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer,
+                                        boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer,
             /*Base*/ boolean manuallyWrapTooltips,
             /*Chest*/ TagKey<Block> chestTag, BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker, Function<OpenableBlockEntity, ItemAccess> chestAccessMaker,
             /*Old Chest*/
@@ -906,11 +894,17 @@ public final class CommonMain {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
         output.accept(ModItems.STORAGE_MUTATOR.getDefaultInstance());
         // todo: add different tool modes which storage mutator has
+        wrap.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_DIAMOND_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_OBSIDIAN_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_NETHERITE_CONVERSION_KIT);
+        wrap.accept(ModItems.COPPER_TO_IRON_CONVERSION_KIT);
+        wrap.accept(ModItems.COPPER_TO_GOLD_CONVERSION_KIT);
+        wrap.accept(ModItems.COPPER_TO_DIAMOND_CONVERSION_KIT);
+        wrap.accept(ModItems.COPPER_TO_OBSIDIAN_CONVERSION_KIT);
+        wrap.accept(ModItems.COPPER_TO_NETHERITE_CONVERSION_KIT);
         wrap.accept(ModItems.IRON_TO_GOLD_CONVERSION_KIT);
         wrap.accept(ModItems.IRON_TO_DIAMOND_CONVERSION_KIT);
         wrap.accept(ModItems.IRON_TO_OBSIDIAN_CONVERSION_KIT);
@@ -945,28 +939,46 @@ public final class CommonMain {
         wrap.accept(ModItems.OLD_DIAMOND_CHEST);
         wrap.accept(ModItems.OLD_OBSIDIAN_CHEST);
         wrap.accept(ModItems.OLD_NETHERITE_CHEST);
+        wrap.accept(ModItems.COPPER_BARREL);
+        wrap.accept(ModItems.EXPOSED_COPPER_BARREL);
+        wrap.accept(ModItems.WEATHERED_COPPER_BARREL);
+        wrap.accept(ModItems.OXIDIZED_COPPER_BARREL);
+        wrap.accept(ModItems.WAXED_COPPER_BARREL);
+        wrap.accept(ModItems.WAXED_EXPOSED_COPPER_BARREL);
+        wrap.accept(ModItems.WAXED_WEATHERED_COPPER_BARREL);
+        wrap.accept(ModItems.WAXED_OXIDIZED_COPPER_BARREL);
         wrap.accept(ModItems.IRON_BARREL);
         wrap.accept(ModItems.GOLD_BARREL);
         wrap.accept(ModItems.DIAMOND_BARREL);
         wrap.accept(ModItems.OBSIDIAN_BARREL);
         wrap.accept(ModItems.NETHERITE_BARREL);
         wrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
-        wrap.accept(ModItems.WOOD_MINI_CHEST);
-        wrap.accept(ModItems.PUMPKIN_MINI_CHEST);
-        wrap.accept(ModItems.RED_MINI_PRESENT);
-        wrap.accept(ModItems.WHITE_MINI_PRESENT);
-        wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
-        wrap.accept(ModItems.GREEN_MINI_PRESENT);
-        wrap.accept(ModItems.LAVENDER_MINI_PRESENT);
-        wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
         wrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.WOOD_MINI_CHEST);
         wrap.accept(ModItems.WOOD_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.PUMPKIN_MINI_CHEST);
         wrap.accept(ModItems.PUMPKIN_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.RED_MINI_PRESENT);
         wrap.accept(ModItems.RED_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.WHITE_MINI_PRESENT);
         wrap.accept(ModItems.WHITE_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
         wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.GREEN_MINI_PRESENT);
         wrap.accept(ModItems.GREEN_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.LAVENDER_MINI_PRESENT);
         wrap.accept(ModItems.LAVENDER_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
         wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW);
+        wrap.accept(ModItems.IRON_MINI_CHEST);
+        wrap.accept(ModItems.IRON_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.GOLD_MINI_CHEST);
+        wrap.accept(ModItems.GOLD_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.DIAMOND_MINI_CHEST);
+        wrap.accept(ModItems.DIAMOND_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.OBSIDIAN_MINI_CHEST);
+        wrap.accept(ModItems.OBSIDIAN_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.NETHERITE_MINI_CHEST);
+        wrap.accept(ModItems.NETHERITE_MINI_CHEST_WITH_SPARROW);
     }
 }

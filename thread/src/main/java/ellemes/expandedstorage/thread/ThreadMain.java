@@ -67,7 +67,7 @@ public class ThreadMain {
             }
         };
 
-        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, group, isClient, tagReloadListener, contentRegistrationConsumer,
+        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, tagReloadListener, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,
                 /*Old Chest*/
