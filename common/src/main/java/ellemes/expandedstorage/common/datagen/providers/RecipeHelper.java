@@ -491,12 +491,13 @@ public class RecipeHelper {
                 .define('I', copperIngots)
                 .define('B', woodenBarrels)
                 .save(exporter);
-        shapedRecipe(ModItems.IRON_BARREL, 1, Criterions.HAS_PREVIOUS_BLOCK, woodenBarrels)
-                .pattern("III")
+        shapedRecipe(ModItems.IRON_BARREL, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.COPPER_BARREL)
+                .pattern("NNN")
                 .pattern("IBI")
-                .pattern("III")
+                .pattern("NNN")
+                .define('N', ironNuggets)
                 .define('I', ironIngots)
-                .define('B', woodenBarrels)
+                .define('B', ModItems.COPPER_BARREL)
                 .save(exporter);
         shapedRecipe(ModItems.GOLD_BARREL, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.IRON_BARREL)
                 .pattern("GGG")
