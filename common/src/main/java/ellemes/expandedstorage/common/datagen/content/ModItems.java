@@ -9,11 +9,17 @@ import net.minecraft.world.item.Item;
 public final class ModItems {
     public static final Item STORAGE_MUTATOR = item(Utils.id("storage_mutator"));
 
+    public static final Item WOOD_TO_COPPER_CONVERSION_KIT = item(Utils.id("wood_to_copper_conversion_kit"));
     public static final Item WOOD_TO_IRON_CONVERSION_KIT = item(Utils.id("wood_to_iron_conversion_kit"));
     public static final Item WOOD_TO_GOLD_CONVERSION_KIT = item(Utils.id("wood_to_gold_conversion_kit"));
     public static final Item WOOD_TO_DIAMOND_CONVERSION_KIT = item(Utils.id("wood_to_diamond_conversion_kit"));
     public static final Item WOOD_TO_OBSIDIAN_CONVERSION_KIT = item(Utils.id("wood_to_obsidian_conversion_kit"));
     public static final Item WOOD_TO_NETHERITE_CONVERSION_KIT = item(Utils.id("wood_to_netherite_conversion_kit"));
+    public static final Item COPPER_TO_IRON_CONVERSION_KIT = item(Utils.id("copper_to_iron_conversion_kit"));
+    public static final Item COPPER_TO_GOLD_CONVERSION_KIT = item(Utils.id("copper_to_gold_conversion_kit"));
+    public static final Item COPPER_TO_DIAMOND_CONVERSION_KIT = item(Utils.id("copper_to_diamond_conversion_kit"));
+    public static final Item COPPER_TO_OBSIDIAN_CONVERSION_KIT = item(Utils.id("copper_to_obsidian_conversion_kit"));
+    public static final Item COPPER_TO_NETHERITE_CONVERSION_KIT = item(Utils.id("copper_to_netherite_conversion_kit"));
     public static final Item IRON_TO_GOLD_CONVERSION_KIT = item(Utils.id("iron_to_gold_conversion_kit"));
     public static final Item IRON_TO_DIAMOND_CONVERSION_KIT = item(Utils.id("iron_to_diamond_conversion_kit"));
     public static final Item IRON_TO_OBSIDIAN_CONVERSION_KIT = item(Utils.id("iron_to_obsidian_conversion_kit"));
