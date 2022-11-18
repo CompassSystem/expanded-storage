@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.fabric;
 
+import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.BarrelBlock;

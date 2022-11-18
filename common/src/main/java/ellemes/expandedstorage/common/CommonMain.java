@@ -21,7 +21,7 @@ import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.item.BlockUpgradeBehaviour;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.item.EntityUpgradeBehaviour;
-import ellemes.expandedstorage.common.item.ModItems;
+import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.MutatorBehaviour;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
@@ -211,7 +211,7 @@ public final class CommonMain {
         return false;
     }
 
-    private static void defineTierUpgradePath(List<NamedValue<Item>> items, boolean wrapTooltipManually, CreativeModeTab group, Tier... tiers) {
+    private static void defineTierUpgradePath(List<NamedValue<Item>> items, boolean wrapTooltipManually, Tier... tiers) {
         int numTiers = tiers.length;
         for (int fromIndex = 0; fromIndex < numTiers - 1; fromIndex++) {
             Tier fromTier = tiers[fromIndex];
@@ -308,7 +308,7 @@ public final class CommonMain {
         /*Base*/
         {
             baseItems.add(new NamedValue<>(Utils.id("storage_mutator"), () -> new StorageMutator(new Item.Properties().stacksTo(1))));
-            CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, group, woodTier, copperTier, ironTier, goldTier, diamondTier, obsidianTier, netheriteTier);
+            CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, woodTier, copperTier, ironTier, goldTier, diamondTier, obsidianTier, netheriteTier);
         }
 
         List<NamedValue<ChestBlock>> chestBlocks = new ArrayList<>(6 + 3);
@@ -902,7 +902,6 @@ public final class CommonMain {
         return null;
     }
 
-    // todo: sort generateDisplayItems manually, move to common
     public static void generateDisplayItems(FeatureFlagSet featureFlagSet, Consumer<ItemStack> output) {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
         output.accept(ModItems.STORAGE_MUTATOR.getDefaultInstance());

@@ -1,5 +1,6 @@
-package ellemes.expandedstorage.common.item;
+package ellemes.expandedstorage.common.registration;
 
+import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
