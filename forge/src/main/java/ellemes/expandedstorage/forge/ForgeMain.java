@@ -7,6 +7,7 @@ import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
@@ -96,7 +97,7 @@ public final class ForgeMain {
             event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
                 CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
                     helper.register(name, value);
-                    CommonMain.registerTieredBlock(value);
+                    CommonMain.registerTieredObject(value);
                 });
             });
 
@@ -112,7 +113,12 @@ public final class ForgeMain {
             });
 
             event.register(ForgeRegistries.Keys.ENTITY_TYPES, helper -> {
-                CommonMain.iterateNamedList(content.getEntityTypes(), helper::register);
+                CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
+                    helper.register(name, value);
+                    if (value instanceof TieredObject object) {
+                        CommonMain.registerTieredObject(object);
+                    }
+                });
             });
         });
 

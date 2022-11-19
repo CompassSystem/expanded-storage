@@ -4,6 +4,7 @@ import ellemes.container_library.api.v3.OpenableInventoryProvider;
 import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.context.BlockContext;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -22,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class OpenableBlock extends Block implements OpenableInventoryProvider<BlockContext>, EntityBlock {
+public abstract class OpenableBlock extends Block implements OpenableInventoryProvider<BlockContext>, EntityBlock, TieredObject {
     private final ResourceLocation blockId;
     private final ResourceLocation blockTier;
     private final ResourceLocation openingStat;
@@ -41,6 +42,16 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     }
 
     public abstract ResourceLocation getBlockType();
+
+    @Override
+    public final ResourceLocation getObjType() {
+        return getBlockType();
+    }
+
+    @Override
+    public ResourceLocation getObjTier() {
+        return getBlockTier();
+    }
 
     public final ResourceLocation getBlockId() {
         return blockId;

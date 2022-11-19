@@ -10,6 +10,7 @@ import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
@@ -69,7 +70,7 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
             Registry.register(Registry.BLOCK, name, value);
-            CommonMain.registerTieredBlock(value);
+            CommonMain.registerTieredObject(value);
         });
 
         //noinspection UnstableApiUsage
@@ -77,7 +78,12 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getItems(), (name, value) -> Registry.register(Registry.ITEM, name, value));
 
-        CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> Registry.register(Registry.ENTITY_TYPE, name, value));
+        CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
+            Registry.register(Registry.ENTITY_TYPE, name, value);
+            if (value instanceof TieredObject object) {
+                CommonMain.registerTieredObject(object);
+            }
+        });
 
         ThreadMain.registerBlockEntity(content.getChestBlockEntityType());
         ThreadMain.registerBlockEntity(content.getOldChestBlockEntityType());

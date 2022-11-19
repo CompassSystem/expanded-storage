@@ -129,7 +129,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
 
     @Override
     public ResourceLocation getBlockType() {
-        return CommonMain.OLD_CHEST_BLOCK_TYPE;
+        return CommonMain.OLD_CHEST_OBJECT_TYPE;
     }
 
     @Override

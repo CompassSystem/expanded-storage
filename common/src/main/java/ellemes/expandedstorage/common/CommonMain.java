@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.common;
 
+import com.google.common.collect.ImmutableSet;
 import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.BarrelBlock;
@@ -18,6 +19,7 @@ import ellemes.expandedstorage.common.block.strategies.Lockable;
 import ellemes.expandedstorage.common.client.MiniChestScreen;
 import ellemes.expandedstorage.common.client.TextureCollection;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.common.entity.TieredEntityType;
 import ellemes.expandedstorage.common.item.BlockUpgradeBehaviour;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.item.EntityMutatorBehaviour;
@@ -28,6 +30,7 @@ import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.StorageMutator;
 import ellemes.expandedstorage.common.misc.Pair;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
@@ -53,9 +56,11 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.MinecartChest;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -89,16 +94,17 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 public final class CommonMain {
-    public static final ResourceLocation BARREL_BLOCK_TYPE = Utils.id("barrel");
-    public static final ResourceLocation CHEST_BLOCK_TYPE = Utils.id("chest");
-    public static final ResourceLocation OLD_CHEST_BLOCK_TYPE = Utils.id("old_chest");
-    public static final ResourceLocation MINI_CHEST_BLOCK_TYPE = Utils.id("mini_chest");
+    public static final ResourceLocation BARREL_OBJECT_TYPE = Utils.id("barrel");
+    public static final ResourceLocation CHEST_OBJECT_TYPE = Utils.id("chest");
+    public static final ResourceLocation OLD_CHEST_OBJECT_TYPE = Utils.id("old_chest");
+    public static final ResourceLocation MINI_CHEST_OBJECT_TYPE = Utils.id("mini_chest");
+    public static final ResourceLocation MINECART_CHEST_OBJECT_TYPE = Utils.id("minecart_chest");
 
     private static final Map<Predicate<Block>, BlockUpgradeBehaviour> BLOCK_UPGRADE_BEHAVIOURS = new HashMap<>();
     private static final Map<Predicate<Entity>, EntityUpgradeBehaviour> ENTITY_UPGRADE_BEHAVIOURS = new HashMap<>();
     private static final Map<Pair<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
     private static final Map<Pair<Predicate<Entity>, MutationMode>, EntityMutatorBehaviour> ENTITY_MUTATOR_BEHAVIOURS = new HashMap<>();
-    private static final Map<Pair<ResourceLocation, ResourceLocation>, OpenableBlock> BLOCKS = new HashMap<>();
+    private static final Map<Pair<ResourceLocation, ResourceLocation>, TieredObject> TIERED_OBJECTS = new HashMap<>();
     private static final Map<ResourceLocation, TextureCollection> CHEST_TEXTURES = new HashMap<>();
 
     private static NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
@@ -139,7 +145,7 @@ public final class CommonMain {
     private static boolean upgradeSingleBlockToChest(Level world, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
         Block block = state.getBlock();
         boolean isExpandedStorageChest = block instanceof ChestBlock;
-        int inventorySize = !isExpandedStorageChest ? Utils.WOOD_STACK_COUNT : CommonMain.getTieredBlock(CommonMain.CHEST_BLOCK_TYPE, ((OpenableBlock) block).getBlockTier()).getSlotCount();
+        int inventorySize = !isExpandedStorageChest ? Utils.WOOD_STACK_COUNT : ((OpenableBlock) block).getSlotCount();
         if (isExpandedStorageChest && ((OpenableBlock) block).getBlockTier() == from || !isExpandedStorageChest && from == Utils.WOOD_TIER_ID) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             //noinspection ConstantConditions
@@ -154,7 +160,7 @@ public final class CommonMain {
                 }
             }
             if (verifiedSize) {
-                ChestBlock toBlock = (ChestBlock) CommonMain.getTieredBlock(CommonMain.CHEST_BLOCK_TYPE, to);
+                ChestBlock toBlock = (ChestBlock) CommonMain.getTieredObject(CommonMain.CHEST_OBJECT_TYPE, to);
                 NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
                 LockCode code = LockCode.fromTag(tag);
                 ContainerHelper.loadAllItems(tag, inventory);
@@ -187,7 +193,7 @@ public final class CommonMain {
 
     private static boolean upgradeSingleBlockToOldChest(Level world, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
         if (((OpenableBlock) state.getBlock()).getBlockTier() == from) {
-            AbstractChestBlock toBlock = (AbstractChestBlock) CommonMain.getTieredBlock(CommonMain.OLD_CHEST_BLOCK_TYPE, to);
+            AbstractChestBlock toBlock = (AbstractChestBlock) CommonMain.getTieredObject(CommonMain.OLD_CHEST_OBJECT_TYPE, to);
             NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
             BlockEntity blockEntity = world.getBlockEntity(pos);
             //noinspection ConstantConditions
@@ -248,13 +254,12 @@ public final class CommonMain {
         CommonMain.ENTITY_UPGRADE_BEHAVIOURS.put(target, behaviour);
     }
 
-
-    public static void registerTieredBlock(OpenableBlock block) {
-        CommonMain.BLOCKS.putIfAbsent(new Pair<>(block.getBlockType(), block.getBlockTier()), block);
+    public static void registerTieredObject(TieredObject object) {
+        CommonMain.TIERED_OBJECTS.putIfAbsent(new Pair<>(object.getObjType(), object.getObjTier()), object);
     }
 
-    public static OpenableBlock getTieredBlock(ResourceLocation blockType, ResourceLocation tier) {
-        return CommonMain.BLOCKS.get(new Pair<>(blockType, tier));
+    public static TieredObject getTieredObject(ResourceLocation objectType, ResourceLocation objectTier) {
+        return CommonMain.TIERED_OBJECTS.get(new Pair<>(objectType, objectTier));
     }
 
     public static void declareChestTextures(ResourceLocation block, ResourceLocation singleTexture, ResourceLocation leftTexture, ResourceLocation rightTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, ResourceLocation frontTexture, ResourceLocation backTexture) {
@@ -364,9 +369,9 @@ public final class CommonMain {
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> chestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
                 ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
                 NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> new ChestMinecartItem(new Item.Properties().tab(group), cartId));
-                NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> EntityType.Builder.<ChestMinecart>of((type, level) -> {
+                NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> new TieredEntityType<>((type, level) -> {
                     return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
-                }, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8).build(cartId.getPath()));
+                }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, CommonMain.MINECART_CHEST_OBJECT_TYPE, block.getValue().getObjTier()));
                 chestBlocks.add(block);
                 chestItems.add(item);
                 chestMinecartEntityTypes.add(cartEntityType);
@@ -420,7 +425,7 @@ public final class CommonMain {
                 });
             }
 
-            CommonMain.chestBlockEntityType = new NamedValue<>(CommonMain.CHEST_BLOCK_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, CommonMain.lockable), chestBlocks.stream().map(NamedValue::getValue).toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_BLOCK_TYPE.toString())));
+            CommonMain.chestBlockEntityType = new NamedValue<>(CommonMain.CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, CommonMain.lockable), chestBlocks.stream().map(NamedValue::getValue).toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
 
             Predicate<Block> isUpgradableChestBlock = (block) -> block instanceof ChestBlock || block instanceof net.minecraft.world.level.block.ChestBlock || block.defaultBlockState().is(chestTag);
             CommonMain.defineBlockUpgradeBehaviour(isUpgradableChestBlock, (context, from, to) -> {
@@ -461,6 +466,13 @@ public final class CommonMain {
                     }
                 }
 
+                return false;
+            });
+
+            CommonMain.defineEntityUpgradeBehaviour(e -> e instanceof ChestMinecart || e instanceof MinecartChest, (entity, from, to) -> {
+                if (entity instanceof MinecartChest minecartChest) {
+
+                }
                 return false;
             });
 
@@ -522,7 +534,7 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("old_obsidian_chest"), obsidianStat, obsidianTier, obsidianSettings);
             chestMaker.apply(Utils.id("old_netherite_chest"), netheriteStat, netheriteTier, netheriteSettings);
 
-            CommonMain.oldChestBlockEntityType = new NamedValue<>(CommonMain.OLD_CHEST_BLOCK_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, CommonMain.lockable), oldChestBlocks.stream().map(NamedValue::getValue).toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_BLOCK_TYPE.toString())));
+            CommonMain.oldChestBlockEntityType = new NamedValue<>(CommonMain.OLD_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, CommonMain.lockable), oldChestBlocks.stream().map(NamedValue::getValue).toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
 
             Predicate<Block> isUpgradableOldChestBlock = (block) -> block.getClass() == AbstractChestBlock.class;
             CommonMain.defineBlockUpgradeBehaviour(isUpgradableOldChestBlock, (context, from, to) -> {
@@ -676,7 +688,7 @@ public final class CommonMain {
             barrelMaker.apply(Utils.id("obsidian_barrel"), obsidianStat, obsidianTier, obsidianBarrelSettings);
             barrelMaker.apply(Utils.id("netherite_barrel"), netheriteStat, netheriteTier, netheriteBarrelSettings);
 
-            CommonMain.barrelBlockEntityType = new NamedValue<>(CommonMain.BARREL_BLOCK_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), barrelBlocks.stream().map(NamedValue::getValue).toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_BLOCK_TYPE.toString())));
+            CommonMain.barrelBlockEntityType = new NamedValue<>(CommonMain.BARREL_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), barrelBlocks.stream().map(NamedValue::getValue).toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
 
             Predicate<Block> isUpgradableBarrelBlock = (block) -> block instanceof BarrelBlock || block instanceof net.minecraft.world.level.block.BarrelBlock || block.defaultBlockState().is(barrelTag);
             CommonMain.defineBlockUpgradeBehaviour(isUpgradableBarrelBlock, (context, from, to) -> {
@@ -685,7 +697,7 @@ public final class CommonMain {
                 BlockState state = world.getBlockState(pos);
                 Block block = state.getBlock();
                 boolean isExpandedStorageBarrel = block instanceof BarrelBlock;
-                int inventorySize = !isExpandedStorageBarrel ? Utils.WOOD_STACK_COUNT : CommonMain.getTieredBlock(CommonMain.BARREL_BLOCK_TYPE, ((OpenableBlock) block).getBlockTier()).getSlotCount();
+                int inventorySize = !isExpandedStorageBarrel ? Utils.WOOD_STACK_COUNT : ((OpenableBlock) block).getSlotCount();
                 if (isExpandedStorageBarrel && ((OpenableBlock) block).getBlockTier() == from || !isExpandedStorageBarrel && from == Utils.WOOD_TIER_ID) {
                     BlockEntity blockEntity = world.getBlockEntity(pos);
                     //noinspection ConstantConditions
@@ -700,7 +712,7 @@ public final class CommonMain {
                         }
                     }
                     if (verifiedSize) {
-                        OpenableBlock toBlock = CommonMain.getTieredBlock(CommonMain.BARREL_BLOCK_TYPE, to);
+                        OpenableBlock toBlock = (OpenableBlock) CommonMain.getTieredObject(CommonMain.BARREL_OBJECT_TYPE, to);
                         NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
                         LockCode code = LockCode.fromTag(tag);
                         ContainerHelper.loadAllItems(tag, inventory);
@@ -787,7 +799,7 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("obsidian_mini_chest"), obsidianStat, obsidianTier, obsidianSettings);
             chestMaker.apply(Utils.id("netherite_mini_chest"), netheriteStat, netheriteTier, netheriteSettings);
 
-            CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_BLOCK_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniChestBlocks.stream().map(NamedValue::getValue).toArray(MiniChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_BLOCK_TYPE.toString())));
+            CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniChestBlocks.stream().map(NamedValue::getValue).toArray(MiniChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_OBJECT_TYPE.toString())));
 
             if (isClient) {
                 MiniChestScreen.registerScreenType();

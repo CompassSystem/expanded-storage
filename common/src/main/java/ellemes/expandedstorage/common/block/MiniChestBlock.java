@@ -36,7 +36,7 @@ public final class MiniChestBlock extends OpenableBlock implements SimpleWaterlo
 
     @Override
     public ResourceLocation getBlockType() {
-        return CommonMain.MINI_CHEST_BLOCK_TYPE;
+        return CommonMain.MINI_CHEST_OBJECT_TYPE;
     }
 
     @Override
