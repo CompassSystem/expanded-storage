@@ -60,14 +60,12 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     public InteractionResult interact(Player player, InteractionHand hand) {
         boolean isClient = level.isClientSide();
         ItemStack stack = player.getItemInHand(hand);
-        if (stack.getItem() instanceof EntityInteractableItem item) {
-            if (!isClient) {
-                // todo: check interaction result
-                item.es_interactEntity(this.getLevel(), this, player, hand, stack);
-                if (player.isCreative() && player.getItemInHand(hand).getCount() < stack.getCount()) {
-                    player.setItemInHand(hand, stack);
-                }
+        if (stack.getItem() instanceof EntityInteractableItem item && player.isShiftKeyDown()) {
+            InteractionResult result = item.es_interactEntity(this.getLevel(), this, player, hand, stack);
+            if (player.isCreative() && player.getItemInHand(hand).getCount() < stack.getCount()) {
+                player.setItemInHand(hand, stack);
             }
+            return result == InteractionResult.PASS ? InteractionResult.PASS : InteractionResult.sidedSuccess(isClient);
         } else if (isClient) {
             ScreenOpeningApi.openEntityInventory(this);
         }

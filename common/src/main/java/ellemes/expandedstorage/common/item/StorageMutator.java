@@ -43,7 +43,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         Level world = context.getLevel();
         BlockPos pos = context.getClickedPos();
         BlockState state = world.getBlockState(pos);
-        MutatorBehaviour behaviour = CommonMain.getMutatorBehaviour(state.getBlock(), StorageMutator.getMode(stack));
+        BlockMutatorBehaviour behaviour = CommonMain.getBlockMutatorBehaviour(state.getBlock(), StorageMutator.getMode(stack));
         if (behaviour != null) {
             InteractionResult returnValue = behaviour.attempt(context, world, state, pos, stack);
             if (returnValue.shouldSwing()) {
@@ -103,6 +103,14 @@ public final class StorageMutator extends Item implements EntityInteractableItem
 
     @Override
     public InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
-        return InteractionResult.PASS;
+        EntityMutatorBehaviour behaviour = CommonMain.getEntityMutatorBehaviour(entity, StorageMutator.getMode(stack));
+        if (behaviour != null) {
+            InteractionResult returnValue = behaviour.attempt(world, entity, stack);
+            if (returnValue.shouldSwing()) {
+                player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+            }
+            return returnValue;
+        }
+        return InteractionResult.FAIL;
     }
 }
