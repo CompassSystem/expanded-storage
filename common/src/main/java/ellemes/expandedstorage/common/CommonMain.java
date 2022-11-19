@@ -444,12 +444,10 @@ public final class CommonMain {
                     EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
                     if (chestType != EsChestType.SINGLE) {
                         BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(state));
-                        world.setBlock(otherPos, next.withPropertiesOf(state).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType.getOpposite()), Block.UPDATE_SUPPRESS_LIGHT);
+                        BlockState otherState = world.getBlockState(otherPos);
+                        world.setBlock(otherPos, next.withPropertiesOf(otherState), Block.UPDATE_SUPPRESS_LIGHT);
                     }
-                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state)
-                                            .setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                            .setValue(BlockStateProperties.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED))
-                                            .setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
+                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
                     return InteractionResult.SUCCESS;
                 }
                 return InteractionResult.FAIL;
