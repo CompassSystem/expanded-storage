@@ -436,16 +436,12 @@ public final class CommonMain {
                     EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
                     if (chestType != EsChestType.SINGLE) {
                         BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(state));
-                        BlockState otherState = world.getBlockState(otherPos);
-                        world.setBlock(otherPos, next.defaultBlockState()
-                                                     .setValue(BlockStateProperties.HORIZONTAL_FACING, otherState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                                     .setValue(BlockStateProperties.WATERLOGGED, otherState.getValue(BlockStateProperties.WATERLOGGED))
-                                                     .setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType.getOpposite()), Block.UPDATE_SUPPRESS_LIGHT | Block.UPDATE_NEIGHBORS);
+                        world.setBlock(otherPos, next.withPropertiesOf(state).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType.getOpposite()), Block.UPDATE_SUPPRESS_LIGHT);
                     }
-                    world.setBlock(pos, next.defaultBlockState()
+                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state)
                                             .setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
                                             .setValue(BlockStateProperties.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED))
-                                            .setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType), Block.UPDATE_SUPPRESS_LIGHT | Block.UPDATE_NEIGHBORS);
+                                            .setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
                     return InteractionResult.SUCCESS;
                 }
                 return InteractionResult.FAIL;
@@ -597,28 +593,6 @@ public final class CommonMain {
                     }
                 }
                 return InteractionResult.SUCCESS;
-            });
-            CommonMain.registerMutationBehaviour(b -> b instanceof ChestBlock, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
-                List<Block> blocks = tagReloadListener.getChestCycleBlocks();
-                int index = blocks.indexOf(state.getBlock());
-                if (index != -1) { // Cannot change style e.g. iron chest, ect.
-                    Block next = blocks.get((index + 1) % blocks.size());
-                    EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
-                    if (chestType != EsChestType.SINGLE) {
-                        BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(state));
-                        BlockState otherState = world.getBlockState(otherPos);
-                        world.setBlock(otherPos, next.defaultBlockState()
-                                                     .setValue(BlockStateProperties.HORIZONTAL_FACING, otherState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                                     .setValue(BlockStateProperties.WATERLOGGED, otherState.getValue(BlockStateProperties.WATERLOGGED))
-                                                     .setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType.getOpposite()), Block.UPDATE_SUPPRESS_LIGHT | Block.UPDATE_NEIGHBORS);
-                    }
-                    world.setBlock(pos, next.defaultBlockState()
-                                            .setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-                                            .setValue(BlockStateProperties.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED))
-                                            .setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType), Block.UPDATE_SUPPRESS_LIGHT | Block.UPDATE_NEIGHBORS);
-                    return InteractionResult.SUCCESS;
-                }
-                return InteractionResult.FAIL;
             });
         }
 
