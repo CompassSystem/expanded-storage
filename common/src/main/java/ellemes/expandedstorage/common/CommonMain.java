@@ -469,8 +469,20 @@ public final class CommonMain {
             });
 
             CommonMain.defineEntityUpgradeBehaviour(e -> e instanceof ChestMinecart || e instanceof MinecartChest, (entity, from, to) -> {
-                if (entity instanceof MinecartChest minecartChest) {
-
+                if (entity instanceof MinecartChest minecartChest && from.equals(Utils.WOOD_TIER_ID)) {
+                    var toObject = (TieredEntityType<ChestMinecart>) CommonMain.getTieredObject(CommonMain.MINECART_CHEST_OBJECT_TYPE, to);
+                    if (toObject != null) {
+                        System.out.println(toObject.getObjTier() + ": " + toObject.getObjType());
+                        NonNullList<ItemStack> items = minecartChest.getItemStacks();
+                        return true;
+                    }
+                } else if (entity instanceof ChestMinecart minecartChest && ((TieredEntityType<ChestMinecart>) minecartChest.getType()).getObjTier().equals(from)) {
+                    var toObject = (TieredEntityType<ChestMinecart>) CommonMain.getTieredObject(CommonMain.MINECART_CHEST_OBJECT_TYPE, to);
+                    if (toObject != null) {
+                        System.out.println(toObject.getObjTier() + ": " + toObject.getObjType());
+                        NonNullList<ItemStack> items = minecartChest.getItems();
+                        return true;
+                    }
                 }
                 return false;
             });

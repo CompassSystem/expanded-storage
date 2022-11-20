@@ -40,25 +40,7 @@ val excludeFabric: (ModuleDependency) -> Unit = {
 
 dependencies {
     modImplementation(mod.qsl().full())
-
-    listOf(
-            "fabric-api-base",
-            "fabric-data-generation-api-v1",
-            "fabric-rendering-v1",
-            "fabric-textures-v0",
-            "fabric-transfer-api-v1",
-    ).forEach {
-        modImplementation(mod.fabricApi().module(it))
-    }
-
-    // Required by ECL
-    listOf(
-            "fabric-screen-handler-api-v1",
-            "fabric-key-binding-api-v1",
-            "fabric-transitive-access-wideners-v1",
-    ).forEach {
-        modRuntimeOnly(mod.fabricApi().module(it))
-    }
+    modImplementation(mod.fabricApi().full())
 
     include(modImplementation("ellemes:${properties["container_library_artifact"]}-quilt:${properties["container_library_version"]}", dependencyConfiguration = excludeFabric))
 

@@ -2,6 +2,7 @@ package ellemes.expandedstorage.thread;
 
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
+import ellemes.expandedstorage.common.item.EntityInteractableItem;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
@@ -23,6 +24,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -35,13 +37,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -61,6 +69,26 @@ public class ThreadMain {
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_barrels")),
                 /*Mini Chest*/ BlockItem::new);
+
+        UseEntityCallback.EVENT.register(new UseEntityCallback() {
+            @Override
+            public InteractionResult interact(Player player, Level world, InteractionHand hand, Entity entity, @Nullable EntityHitResult hitResult) {
+                if (player.isSpectator() || !player.isShiftKeyDown()) {
+                    return InteractionResult.PASS;
+                }
+
+                ItemStack itemInHand = player.getItemInHand(hand);
+                if (itemInHand.getItem() instanceof EntityInteractableItem item) {
+                    InteractionResult result = item.es_interactEntity(world, entity, player, hand, itemInHand);
+                    if (result == InteractionResult.FAIL) {
+                        return InteractionResult.CONSUME;
+                    }
+                    return result;
+                }
+
+                return InteractionResult.PASS;
+            }
+        });
     }
 
     public static void registerContent(Content content) {

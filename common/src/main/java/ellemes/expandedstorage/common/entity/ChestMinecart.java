@@ -5,7 +5,6 @@ import ellemes.container_library.api.v3.OpenableInventoryProvider;
 import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.context.BaseContext;
 import ellemes.expandedstorage.common.block.ChestBlock;
-import ellemes.expandedstorage.common.item.EntityInteractableItem;
 import ellemes.expandedstorage.common.misc.ExposedInventory;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
@@ -59,14 +58,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         boolean isClient = level.isClientSide();
-        ItemStack stack = player.getItemInHand(hand);
-        if (stack.getItem() instanceof EntityInteractableItem item && player.isShiftKeyDown()) {
-            InteractionResult result = item.es_interactEntity(this.getLevel(), this, player, hand, stack);
-            if (player.isCreative() && player.getItemInHand(hand).getCount() < stack.getCount()) {
-                player.setItemInHand(hand, stack);
-            }
-            return result == InteractionResult.PASS ? InteractionResult.PASS : InteractionResult.sidedSuccess(isClient);
-        } else if (isClient) {
+        if (isClient) {
             ScreenOpeningApi.openEntityInventory(this);
         }
         return InteractionResult.sidedSuccess(isClient);

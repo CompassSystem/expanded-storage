@@ -71,12 +71,11 @@ public final class StorageConversionKit extends Item implements EntityInteractab
     public InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
         EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
         if (behaviour != null) {
-            if (world.isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else if (behaviour.tryUpgradeEntity(null, from, to)) {
-                return InteractionResult.SUCCESS;
+            if (!world.isClientSide()) {
+                behaviour.tryUpgradeEntity(entity, from, to);
             }
             player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;
     }
