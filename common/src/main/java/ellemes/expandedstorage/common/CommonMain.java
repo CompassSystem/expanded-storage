@@ -28,7 +28,6 @@ import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.BlockMutatorBehaviour;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.StorageMutator;
-import ellemes.expandedstorage.common.misc.Pair;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -102,9 +101,9 @@ public final class CommonMain {
 
     private static final Map<Predicate<Block>, BlockUpgradeBehaviour> BLOCK_UPGRADE_BEHAVIOURS = new HashMap<>();
     private static final Map<Predicate<Entity>, EntityUpgradeBehaviour> ENTITY_UPGRADE_BEHAVIOURS = new HashMap<>();
-    private static final Map<Pair<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
-    private static final Map<Pair<Predicate<Entity>, MutationMode>, EntityMutatorBehaviour> ENTITY_MUTATOR_BEHAVIOURS = new HashMap<>();
-    private static final Map<Pair<ResourceLocation, ResourceLocation>, TieredObject> TIERED_OBJECTS = new HashMap<>();
+    private static final Map<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
+    private static final Map<Map.Entry<Predicate<Entity>, MutationMode>, EntityMutatorBehaviour> ENTITY_MUTATOR_BEHAVIOURS = new HashMap<>();
+    private static final Map<Map.Entry<ResourceLocation, ResourceLocation>, TieredObject> TIERED_OBJECTS = new HashMap<>();
     private static final Map<ResourceLocation, TextureCollection> CHEST_TEXTURES = new HashMap<>();
 
     private static NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
@@ -255,11 +254,11 @@ public final class CommonMain {
     }
 
     public static void registerTieredObject(TieredObject object) {
-        CommonMain.TIERED_OBJECTS.putIfAbsent(new Pair<>(object.getObjType(), object.getObjTier()), object);
+        CommonMain.TIERED_OBJECTS.putIfAbsent(Map.entry(object.getObjType(), object.getObjTier()), object);
     }
 
     public static TieredObject getTieredObject(ResourceLocation objectType, ResourceLocation objectTier) {
-        return CommonMain.TIERED_OBJECTS.get(new Pair<>(objectType, objectTier));
+        return CommonMain.TIERED_OBJECTS.get(Map.entry(objectType, objectTier));
     }
 
     public static void declareChestTextures(ResourceLocation block, ResourceLocation singleTexture, ResourceLocation leftTexture, ResourceLocation rightTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, ResourceLocation frontTexture, ResourceLocation backTexture) {
@@ -277,25 +276,25 @@ public final class CommonMain {
     }
 
     private static void registerMutationBehaviour(Predicate<Block> predicate, MutationMode mode, BlockMutatorBehaviour behaviour) {
-        CommonMain.BLOCK_MUTATOR_BEHAVIOURS.put(new Pair<>(predicate, mode), behaviour);
+        CommonMain.BLOCK_MUTATOR_BEHAVIOURS.put(Map.entry(predicate, mode), behaviour);
     }
 
     private static void registerMutationBehaviour(Predicate<Entity> predicate, MutationMode mode, EntityMutatorBehaviour behaviour) {
-        CommonMain.ENTITY_MUTATOR_BEHAVIOURS.put(new Pair<>(predicate, mode), behaviour);
+        CommonMain.ENTITY_MUTATOR_BEHAVIOURS.put(Map.entry(predicate, mode), behaviour);
     }
 
     public static BlockMutatorBehaviour getBlockMutatorBehaviour(Block block, MutationMode mode) {
-        for (Map.Entry<Pair<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> entry : CommonMain.BLOCK_MUTATOR_BEHAVIOURS.entrySet()) {
-            Pair<Predicate<Block>, MutationMode> pair = entry.getKey();
-            if (pair.getSecond() == mode && pair.getFirst().test(block)) return entry.getValue();
+        for (Map.Entry<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> entry : CommonMain.BLOCK_MUTATOR_BEHAVIOURS.entrySet()) {
+            Map.Entry<Predicate<Block>, MutationMode> pair = entry.getKey();
+            if (pair.getValue() == mode && pair.getKey().test(block)) return entry.getValue();
         }
         return null;
     }
 
     public static EntityMutatorBehaviour getEntityMutatorBehaviour(Entity entity, MutationMode mode) {
-        for (Map.Entry<Pair<Predicate<Entity>, MutationMode>, EntityMutatorBehaviour> entry : CommonMain.ENTITY_MUTATOR_BEHAVIOURS.entrySet()) {
-            Pair<Predicate<Entity>, MutationMode> pair = entry.getKey();
-            if (pair.getSecond() == mode && pair.getFirst().test(entity)) return entry.getValue();
+        for (Map.Entry<Map.Entry<Predicate<Entity>, MutationMode>, EntityMutatorBehaviour> entry : CommonMain.ENTITY_MUTATOR_BEHAVIOURS.entrySet()) {
+            Map.Entry<Predicate<Entity>, MutationMode> pair = entry.getKey();
+            if (pair.getValue() == mode && pair.getKey().test(entity)) return entry.getValue();
         }
         return null;
     }
