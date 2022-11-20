@@ -145,7 +145,7 @@ public final class CommonMain {
         Block block = state.getBlock();
         boolean isExpandedStorageChest = block instanceof ChestBlock;
         int inventorySize = !isExpandedStorageChest ? Utils.WOOD_STACK_COUNT : ((OpenableBlock) block).getSlotCount();
-        if (isExpandedStorageChest && ((OpenableBlock) block).getBlockTier() == from || !isExpandedStorageChest && from == Utils.WOOD_TIER_ID) {
+        if (isExpandedStorageChest && ((OpenableBlock) block).getObjTier() == from || !isExpandedStorageChest && from == Utils.WOOD_TIER_ID) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             //noinspection ConstantConditions
             CompoundTag tag = blockEntity.saveWithoutMetadata();
@@ -191,7 +191,7 @@ public final class CommonMain {
     }
 
     private static boolean upgradeSingleBlockToOldChest(Level world, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
-        if (((OpenableBlock) state.getBlock()).getBlockTier() == from) {
+        if (((OpenableBlock) state.getBlock()).getObjTier() == from) {
             AbstractChestBlock toBlock = (AbstractChestBlock) CommonMain.getTieredObject(CommonMain.OLD_CHEST_OBJECT_TYPE, to);
             NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
             BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -697,7 +697,7 @@ public final class CommonMain {
                 Block block = state.getBlock();
                 boolean isExpandedStorageBarrel = block instanceof BarrelBlock;
                 int inventorySize = !isExpandedStorageBarrel ? Utils.WOOD_STACK_COUNT : ((OpenableBlock) block).getSlotCount();
-                if (isExpandedStorageBarrel && ((OpenableBlock) block).getBlockTier() == from || !isExpandedStorageBarrel && from == Utils.WOOD_TIER_ID) {
+                if (isExpandedStorageBarrel && ((OpenableBlock) block).getObjTier() == from || !isExpandedStorageBarrel && from == Utils.WOOD_TIER_ID) {
                     BlockEntity blockEntity = world.getBlockEntity(pos);
                     //noinspection ConstantConditions
                     CompoundTag tag = blockEntity.saveWithoutMetadata();
@@ -814,7 +814,7 @@ public final class CommonMain {
             CommonMain.registerMutationBehaviour(isMiniChest, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
                 MiniChestBlock block = (MiniChestBlock) state.getBlock();
                 String itemName = stack.getHoverName().getString();
-                if (block.getBlockTier() != Utils.WOOD_TIER_ID && itemName.equals("Sparrow")) {
+                if (block.getObjTier() != Utils.WOOD_TIER_ID && itemName.equals("Sparrow")) {
                     ResourceLocation blockId = block.getBlockId();
                     String newId = blockId.getPath();
                     if (newId.contains("_with_sparrow")) {

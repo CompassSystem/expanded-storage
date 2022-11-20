@@ -41,16 +41,9 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
         return this.getName();
     }
 
-    public abstract ResourceLocation getBlockType();
-
     @Override
-    public final ResourceLocation getObjType() {
-        return getBlockType();
-    }
-
-    @Override
-    public ResourceLocation getObjTier() {
-        return getBlockTier();
+    public final ResourceLocation getObjTier() {
+        return blockTier;
     }
 
     public final ResourceLocation getBlockId() {
@@ -59,10 +52,6 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
 
     public final int getSlotCount() {
         return slotCount;
-    }
-
-    public final ResourceLocation getBlockTier() {
-        return blockTier;
     }
 
     @Override

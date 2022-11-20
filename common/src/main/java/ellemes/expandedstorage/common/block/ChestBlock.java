@@ -100,7 +100,7 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
     }
 
     @Override
-    public ResourceLocation getBlockType() {
+    public ResourceLocation getObjType() {
         return CommonMain.CHEST_OBJECT_TYPE;
     }
 
