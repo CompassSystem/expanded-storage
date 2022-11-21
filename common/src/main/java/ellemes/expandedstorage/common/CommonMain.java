@@ -52,6 +52,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.datafix.fixes.References;
+import net.minecraft.world.Clearable;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
@@ -473,19 +474,11 @@ public final class CommonMain {
             });
 
             CommonMain.defineEntityUpgradeBehaviour(e -> e instanceof ChestMinecart || e instanceof MinecartChest, (entity, from, to) -> {
-                if (entity instanceof MinecartChest minecartChest && from.equals(Utils.WOOD_TIER_ID)) {
-                    var toObject = (TieredEntityType<ChestMinecart>) CommonMain.getTieredObject(CommonMain.MINECART_CHEST_OBJECT_TYPE, to);
+                if (entity instanceof MinecartChest minecartChest && from.equals(Utils.WOOD_TIER_ID) && minecartChest.getContainerSize() == 27 ||
+                        entity instanceof ChestMinecart chestMinecart && ((TieredEntityType<ChestMinecart>) chestMinecart.getType()).getObjTier().equals(from)) {
+                    TieredEntityType<ChestMinecart> toObject = (TieredEntityType<ChestMinecart>) CommonMain.getTieredObject(CommonMain.MINECART_CHEST_OBJECT_TYPE, to);
                     if (toObject != null) {
-                        System.out.println(toObject.getObjTier() + ": " + toObject.getObjType());
-                        NonNullList<ItemStack> items = minecartChest.getItemStacks();
-                        return true;
-                    }
-                } else if (entity instanceof ChestMinecart minecartChest && ((TieredEntityType<ChestMinecart>) minecartChest.getType()).getObjTier().equals(from)) {
-                    var toObject = (TieredEntityType<ChestMinecart>) CommonMain.getTieredObject(CommonMain.MINECART_CHEST_OBJECT_TYPE, to);
-                    if (toObject != null) {
-                        System.out.println(toObject.getObjTier() + ": " + toObject.getObjType());
-                        NonNullList<ItemStack> items = minecartChest.getItems();
-                        return true;
+                        return CommonMain.spawnUpgradedMinecartChest((ServerLevel) entity.getLevel(), toObject, entity);
                     }
                 }
                 return false;
@@ -514,17 +507,7 @@ public final class CommonMain {
                 if (index != -1) { // Cannot change style e.g. iron chest, ect.
                     if (!level.isClientSide()) {
                         EntityType<ChestMinecart> next = (EntityType<ChestMinecart>) entityTypes.get((index + 1) % entityTypes.size());
-                        ServerLevel serverLevel = (ServerLevel) level;
-                        ChestMinecart newCart = next.create(serverLevel, null, stack.hasCustomHoverName() ? stack.getHoverName() : null, null, entity.getOnPos(), MobSpawnType.COMMAND, true, false);
-                        if (newCart != null) {
-                            newCart.loadInventoryFromTag(ContainerHelper.saveAllItems(new CompoundTag(), ((ChestMinecart) entity).getItems()));
-                            newCart.setPos(entity.position());
-                            newCart.setXRot(entity.getXRot());
-                            newCart.setYRot(entity.getYRot());
-                            newCart.setDeltaMovement(entity.getDeltaMovement());
-                            serverLevel.addFreshEntityWithPassengers(newCart);
-                            entity.remove(null);
-                        }
+                        CommonMain.spawnUpgradedMinecartChest((ServerLevel) level, next, entity);
                     }
                     return InteractionResult.SUCCESS;
                 }
@@ -959,5 +942,26 @@ public final class CommonMain {
             return result;
         }
         return InteractionResult.PASS;
+    }
+
+    private static boolean spawnUpgradedMinecartChest(ServerLevel level, EntityType<ChestMinecart> newType, Entity original) {
+        ChestMinecart newCart = newType.create(level, null, original.hasCustomName() ? original.getCustomName() : null, null, original.getOnPos(), MobSpawnType.COMMAND, true, false);
+        if (newCart != null) {
+            boolean isMinecraftCart = original instanceof MinecartChest;
+            boolean isOurCart = original instanceof ChestMinecart;
+            if (!(isOurCart || isMinecraftCart)) {
+                return false;
+            }
+            newCart.loadInventoryFromTag(ContainerHelper.saveAllItems(new CompoundTag(), isMinecraftCart ? ((MinecartChest) original).getItemStacks() : ((ChestMinecart) original).getItems()));
+            newCart.setPos(original.position());
+            newCart.setXRot(original.getXRot());
+            newCart.setYRot(original.getYRot());
+            newCart.setDeltaMovement(original.getDeltaMovement());
+            level.addFreshEntityWithPassengers(newCart);
+            ((Clearable) original).clearContent();
+            original.remove(Entity.RemovalReason.DISCARDED);
+            return true;
+        }
+        return false;
     }
 }
