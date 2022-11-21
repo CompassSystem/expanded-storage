@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public class ChestMinecart extends AbstractMinecart implements ExposedInventory, OpenableInventoryProvider<BaseContext>, OpenableInventory {
     private final NonNullList<ItemStack> inventory;
@@ -65,11 +66,11 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     }
 
     @Override
-    public void remove(Entity.RemovalReason reason) {
-        if (!this.level.isClientSide() && reason.shouldDestroy()) {
+    public void remove(@Nullable Entity.RemovalReason reason) {
+        if (!this.level.isClientSide() && reason != null && reason.shouldDestroy()) {
             Containers.dropContents(this.level, this, this);
         }
-        super.remove(reason);
+        super.remove(reason == null ? RemovalReason.DISCARDED : reason);
     }
 
     @Override

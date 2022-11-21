@@ -512,11 +512,20 @@ public final class CommonMain {
                 List<? extends EntityType<?>> entityTypes = tagReloadListener.getMinecartChestCycleEntityTypes();
                 int index = entityTypes.indexOf(entity.getType());
                 if (index != -1) { // Cannot change style e.g. iron chest, ect.
-                    EntityType<ChestMinecart> next = (EntityType<ChestMinecart>) entityTypes.get((index + 1) % entityTypes.size());
-                    CompoundTag saved = new CompoundTag();
-                    entity.save(saved);
-                    ChestMinecart newCart = next.spawn((ServerLevel) level, saved, stack.hasCustomHoverName() ? stack.getHoverName() : null, null, entity.getOnPos(), MobSpawnType.COMMAND, true, false);
-                    entity.remove(Entity.RemovalReason.DISCARDED);
+                    if (!level.isClientSide()) {
+                        EntityType<ChestMinecart> next = (EntityType<ChestMinecart>) entityTypes.get((index + 1) % entityTypes.size());
+                        ServerLevel serverLevel = (ServerLevel) level;
+                        ChestMinecart newCart = next.create(serverLevel, null, stack.hasCustomHoverName() ? stack.getHoverName() : null, null, entity.getOnPos(), MobSpawnType.COMMAND, true, false);
+                        if (newCart != null) {
+                            newCart.loadInventoryFromTag(ContainerHelper.saveAllItems(new CompoundTag(), ((ChestMinecart) entity).getItems()));
+                            newCart.setPos(entity.position());
+                            newCart.setXRot(entity.getXRot());
+                            newCart.setYRot(entity.getYRot());
+                            newCart.setDeltaMovement(entity.getDeltaMovement());
+                            serverLevel.addFreshEntityWithPassengers(newCart);
+                            entity.remove(null);
+                        }
+                    }
                     return InteractionResult.SUCCESS;
                 }
                 return InteractionResult.FAIL;
