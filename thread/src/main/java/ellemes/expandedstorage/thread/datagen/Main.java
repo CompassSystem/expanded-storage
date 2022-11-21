@@ -13,6 +13,7 @@ public final class Main implements DataGeneratorEntrypoint {
         generator.addProvider(RecipeProvider::new);
         generator.addProvider(TagProvider.Block::new);
         generator.addProvider(TagProvider.Item::new);
+        generator.addProvider(TagProvider.EntityType::new);
         generator.addProvider(BlockLootProvider::new);
         generator.addProvider(BlockStateProvider::new);
     }
