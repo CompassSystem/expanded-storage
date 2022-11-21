@@ -22,6 +22,7 @@ import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.entity.TieredEntityType;
 import ellemes.expandedstorage.common.item.BlockUpgradeBehaviour;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
+import ellemes.expandedstorage.common.item.EntityInteractableItem;
 import ellemes.expandedstorage.common.item.EntityMutatorBehaviour;
 import ellemes.expandedstorage.common.item.EntityUpgradeBehaviour;
 import ellemes.expandedstorage.common.item.MutationMode;
@@ -52,6 +53,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.entity.Entity;
@@ -914,5 +916,23 @@ public final class CommonMain {
             return Optional.of(entity.getItemAccess());
         }
         return Optional.empty();
+    }
+
+    public static InteractionResult interactWithEntity(Level world, Player player, InteractionHand hand, Entity entity) {
+        if (player.isSpectator() || !player.isShiftKeyDown()) {
+            return InteractionResult.PASS;
+        }
+        ItemStack handStack = player.getItemInHand(hand);
+        if (handStack.getItem() instanceof EntityInteractableItem item) {
+            if (player.getCooldowns().isOnCooldown(handStack.getItem())) {
+                return InteractionResult.CONSUME;
+            }
+            InteractionResult result = item.es_interactEntity(world, entity, player, hand, handStack);
+            if (result == InteractionResult.FAIL) {
+                result = InteractionResult.CONSUME;
+            }
+            return result;
+        }
+        return InteractionResult.PASS;
     }
 }
