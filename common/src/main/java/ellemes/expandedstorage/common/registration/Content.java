@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Content {
     private final List<ResourceLocation> stats;
@@ -40,6 +42,7 @@ public class Content {
     private final List<NamedValue<? extends OpenableBlock>> blocks;
     private final List<NamedValue<? extends Item>> items;
     private final List<NamedValue<? extends EntityType<? extends Entity>>> entityTypes;
+    private final List<Map.Entry<NamedValue<ChestMinecartItem>, NamedValue<EntityType<ChestMinecart>>>> chestMinecartAndTypes;
 
     public Content(
             List<ResourceLocation> stats,
@@ -94,6 +97,9 @@ public class Content {
 
         this.entityTypes = new ArrayList<>();
         entityTypes.addAll(chestMinecartEntityTypes);
+
+        Map<ResourceLocation, NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypesLookup = chestMinecartEntityTypes.stream().map(it -> Map.entry(it.getName(), it)).collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
+        this.chestMinecartAndTypes = chestMinecartItems.stream().map((value) -> Map.entry(value, chestMinecartEntityTypesLookup.get(value.getName()))).collect(Collectors.toList());
     }
 
     public List<ResourceLocation> getStats() {
@@ -145,6 +151,10 @@ public class Content {
     }
 
     public List<NamedValue<? extends EntityType<?>>> getEntityTypes() {
-        return this.entityTypes;
+        return entityTypes;
+    }
+
+    public List<Map.Entry<NamedValue<ChestMinecartItem>, NamedValue<EntityType<ChestMinecart>>>> getChestMinecartAndTypes() {
+        return chestMinecartAndTypes;
     }
 }

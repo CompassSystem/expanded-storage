@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
+import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
 import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
@@ -7,6 +8,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -271,9 +273,17 @@ public class TagHelper {
                 .add(ModItems.GOLD_TO_NETHERITE_CONVERSION_KIT)
                 .add(ModItems.GOLD_BARREL)
                 .add(ModItems.GOLD_CHEST)
-//            .add(ModItems.GOLD_CHEST_MINECART)
+                .add(ModItems.GOLD_CHEST_MINECART)
                 .add(ModItems.OLD_GOLD_CHEST)
                 .add(ModItems.GOLD_MINI_CHEST)
                 .add(ModItems.GOLD_MINI_CHEST_WITH_SPARROW);
+    }
+
+    public static void registerEntityTypeTags(Function<TagKey<EntityType<?>>, TagsProvider.TagAppender<EntityType<?>>> tagMaker) {
+        tagMaker.apply(ModTags.EntityTypes.MINECART_CHEST_CYCLE)
+                .add(ModEntityTypes.WOOD_CHEST_MINECART)
+                .add(ModEntityTypes.PUMPKIN_CHEST_MINECART)
+                .add(ModEntityTypes.PRESENT_MINECART)
+                .add(ModEntityTypes.BAMBOO_CHEST_MINECART);
     }
 }

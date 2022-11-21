@@ -1,8 +1,8 @@
-// 1.19.2	2022-11-18T23:44:20.6409519	Expanded Storage - Item Tags
+// 1.19.2	2022-11-21T22:25:51.4161304	Expanded Storage - Item Tags
 0140c403834e21308623168927f1bd151b5d918b data\c\tags\items\copper_ingots.json
 e21225b848494580aaf5fc6ce45b6e9c1f440be0 data\c\tags\items\iron_ingots.json
 b1030a3d32c63b98b5506740a13d3a545c5f9063 data\c\tags\items\gold_ingots.json
-60bb6362216e368587c201245e4abd0e54ff85d7 data\minecraft\tags\items\piglin_loved.json
+b70d353ee1b2c23dc70795c37894a45f325f38c2 data\minecraft\tags\items\piglin_loved.json
 03d61905c2291410834b794b56d8bf4f2cd73312 data\c\tags\items\diamonds.json
 f50e7503aca0e13844b6b954182fc1268b375000 data\c\tags\items\bamboo.json
 989b799a247e595b14e76a145d6ff3566337b58f data\c\tags\items\iron_nuggets.json

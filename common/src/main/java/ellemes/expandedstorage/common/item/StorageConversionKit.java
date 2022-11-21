@@ -50,6 +50,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
                     if (world.isClientSide()) {
                         return InteractionResult.CONSUME;
                     } else if (behaviour.tryUpgradeBlock(context, from, to)) {
+                        player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
                         return InteractionResult.SUCCESS;
                     }
                     player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
@@ -69,17 +70,14 @@ public final class StorageConversionKit extends Item implements EntityInteractab
 
     @Override
     public InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
-        if (player.isShiftKeyDown()) {
-            EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
-            if (behaviour != null) {
-                if (world.isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else if (behaviour.tryUpgradeEntity(null, from, to)) {
-                    return InteractionResult.SUCCESS;
-                }
-                player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+        EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
+        if (behaviour != null) {
+            if (!world.isClientSide()) {
+                behaviour.tryUpgradeEntity(entity, from, to);
             }
+            player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+            return InteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return InteractionResult.FAIL;
     }
 }
