@@ -14,6 +14,7 @@ import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
+import ellemes.expandedstorage.forge.item.ChestMinecartItem;
 import ellemes.expandedstorage.forge.item.MiniChestBlockItem;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
@@ -64,6 +65,7 @@ public final class ForgeMain {
                 }, FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
                 /*Base*/ false,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
+                /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
                 /*Mini Chest*/ MiniChestBlockItem::new);

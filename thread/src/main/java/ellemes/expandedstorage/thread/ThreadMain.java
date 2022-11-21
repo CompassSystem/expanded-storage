@@ -1,7 +1,9 @@
 package ellemes.expandedstorage.thread;
 
+import com.google.common.base.Suppliers;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
+import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
@@ -46,6 +48,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ThreadMain {
@@ -59,6 +63,7 @@ public class ThreadMain {
         CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, group, isClient, tagReloadListener, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,
+                /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_barrels")),
                 /*Mini Chest*/ BlockItem::new);
@@ -112,6 +117,7 @@ public class ThreadMain {
         ThreadMain.Client.registerChestTextures(content.getChestBlocks().stream().map(NamedValue::getName).collect(Collectors.toList()));
         ThreadMain.Client.registerItemRenderers(content.getChestItems());
         ThreadMain.Client.registerMinecartEntityRenderers(content.getChestMinecartEntityTypes());
+        ThreadMain.Client.registerMinecartItemRenderers(content.getChestMinecartAndTypes());
     }
 
     public static class Client {
@@ -140,6 +146,14 @@ public class ThreadMain {
         public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
             for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
                 EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer(context, ModelLayers.CHEST_MINECART));
+            }
+        }
+
+        public static void registerMinecartItemRenderers(List<Map.Entry<NamedValue<ChestMinecartItem>, NamedValue<EntityType<ChestMinecart>>>> chestMinecartAndTypes) {
+            for (var pair : chestMinecartAndTypes) {
+                Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> pair.getValue().getValue().create(Minecraft.getInstance().level));
+                BuiltinItemRendererRegistry.INSTANCE.register(pair.getKey().getValue(), (itemStack, transform, stack, source, light, overlay) ->
+                        Minecraft.getInstance().getEntityRenderDispatcher().render(renderEntity.get(), 0, 0, 0, 0, 0, stack, source, light));
             }
         }
     }
