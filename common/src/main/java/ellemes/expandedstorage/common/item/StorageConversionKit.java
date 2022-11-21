@@ -50,6 +50,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
                     if (world.isClientSide()) {
                         return InteractionResult.CONSUME;
                     } else if (behaviour.tryUpgradeBlock(context, from, to)) {
+                        player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
                         return InteractionResult.SUCCESS;
                     }
                     player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
