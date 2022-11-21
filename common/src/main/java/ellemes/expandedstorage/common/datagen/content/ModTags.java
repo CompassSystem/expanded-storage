@@ -22,7 +22,7 @@ public final class ModTags {
     }
 
     public static class EntityTypes {
-        public static final TagKey<EntityType<?>> MINECART_CHEST_CYCLE = tag(Registry.ENTITY_TYPE_REGISTRY, Utils.id("chest_cycle"));
+        public static final TagKey<EntityType<?>> MINECART_CHEST_CYCLE = tag(Registry.ENTITY_TYPE_REGISTRY, Utils.id("minecart_chest_cycle"));
     }
 
     private static <T> TagKey<T> tag(ResourceKey<Registry<T>> registry, ResourceLocation id) {
