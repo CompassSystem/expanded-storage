@@ -1,1 +1,2 @@
 - Added copper upgrades, wood -> iron upgrade recipe is tweaked a little, check EMI / REI.
+- Add chest minecarts, currently 3d rendered in hand, item textures may come later.
