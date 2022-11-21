@@ -49,6 +49,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.Container;
@@ -60,6 +61,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.MinecartChest;
 import net.minecraft.world.item.BlockItem;
@@ -501,6 +503,20 @@ public final class CommonMain {
                         world.setBlock(otherPos, next.withPropertiesOf(otherState), Block.UPDATE_SUPPRESS_LIGHT);
                     }
                     world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
+                    return InteractionResult.SUCCESS;
+                }
+                return InteractionResult.FAIL;
+            });
+
+            CommonMain.registerMutationBehaviour(e -> e instanceof ChestMinecart, MutationMode.SWAP_THEME, (level, entity, stack) -> {
+                List<? extends EntityType<?>> entityTypes = tagReloadListener.getMinecartChestCycleEntityTypes();
+                int index = entityTypes.indexOf(entity.getType());
+                if (index != -1) { // Cannot change style e.g. iron chest, ect.
+                    EntityType<ChestMinecart> next = (EntityType<ChestMinecart>) entityTypes.get((index + 1) % entityTypes.size());
+                    CompoundTag saved = new CompoundTag();
+                    entity.save(saved);
+                    ChestMinecart newCart = next.spawn((ServerLevel) level, saved, stack.hasCustomHoverName() ? stack.getHoverName() : null, null, entity.getOnPos(), MobSpawnType.COMMAND, true, false);
+                    entity.remove(Entity.RemovalReason.DISCARDED);
                     return InteractionResult.SUCCESS;
                 }
                 return InteractionResult.FAIL;
