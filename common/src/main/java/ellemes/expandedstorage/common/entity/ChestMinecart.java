@@ -128,4 +128,9 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     public Component getInventoryTitle() {
         return this.hasCustomName() ? this.getCustomName() : title;
     }
+
+    @Override
+    public int getDefaultDisplayOffset() {
+        return 8;
+    }
 }
