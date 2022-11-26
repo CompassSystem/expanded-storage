@@ -12,16 +12,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.function.Supplier;
 
-/**
- * @apiNote Please use v2 api for now, not yet stable.
- */
-@ApiStatus.Experimental
 public class ScreenOpeningApi {
     private ScreenOpeningApi() {
         throw new IllegalStateException("ScreenOpeningApi should not be instantiated.");
