@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "expandedstorage:block/diamond_mini_barrel"
+    },
+    "facing=east": {
+      "model": "expandedstorage:block/diamond_mini_barrel",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "expandedstorage:block/diamond_mini_barrel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "expandedstorage:block/diamond_mini_barrel",
+      "y": 270
+    }
+  }
+}
