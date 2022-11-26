@@ -17,12 +17,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public final class MiniChestScreen extends AbstractScreen {
+public final class MiniStorageScreen extends AbstractScreen {
     private static final ResourceLocation TEXTURE = Utils.id("textures/gui/mini_chest_screen.png");
     private static final int TEXTURE_WIDTH = 176;
     private static final int TEXTURE_HEIGHT = 176;
 
-    public MiniChestScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
+    public MiniStorageScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
         super(handler, playerInventory, title, screenSize);
         this.initializeSlots(playerInventory);
     }
@@ -32,8 +32,8 @@ public final class MiniChestScreen extends AbstractScreen {
     }
 
     public static void registerScreenType() {
-        ScreenTypeApi.registerScreenType(Utils.id("mini_chest"), MiniChestScreen::new);
-        ScreenTypeApi.registerDefaultScreenSize(Utils.id("mini_chest"), MiniChestScreen::retrieveScreenSize);
+        ScreenTypeApi.registerScreenType(Utils.id("mini_chest"), MiniStorageScreen::new);
+        ScreenTypeApi.registerDefaultScreenSize(Utils.id("mini_chest"), MiniStorageScreen::retrieveScreenSize);
     }
 
     private void initializeSlots(Inventory playerInventory) {
@@ -52,7 +52,7 @@ public final class MiniChestScreen extends AbstractScreen {
     protected void renderBg(PoseStack stack, float delta, int mouseX, int mouseY) {
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        GuiComponent.blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight, MiniChestScreen.TEXTURE_WIDTH, MiniChestScreen.TEXTURE_HEIGHT);
+        GuiComponent.blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight, MiniStorageScreen.TEXTURE_WIDTH, MiniStorageScreen.TEXTURE_HEIGHT);
     }
 
     @NotNull

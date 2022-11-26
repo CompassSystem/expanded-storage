@@ -10,13 +10,13 @@ import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
-import ellemes.expandedstorage.common.block.entity.MiniChestBlockEntity;
+import ellemes.expandedstorage.common.block.entity.MiniStorageBlockEntity;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.block.misc.DoubleItemAccess;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.block.strategies.Lockable;
-import ellemes.expandedstorage.common.client.MiniChestScreen;
+import ellemes.expandedstorage.common.client.MiniStorageScreen;
 import ellemes.expandedstorage.common.client.TextureCollection;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.entity.TieredEntityType;
@@ -101,7 +101,7 @@ public final class CommonMain {
     public static final ResourceLocation BARREL_OBJECT_TYPE = Utils.id("barrel");
     public static final ResourceLocation CHEST_OBJECT_TYPE = Utils.id("chest");
     public static final ResourceLocation OLD_CHEST_OBJECT_TYPE = Utils.id("old_chest");
-    public static final ResourceLocation MINI_CHEST_OBJECT_TYPE = Utils.id("mini_chest");
+    public static final ResourceLocation MINI_STORAGE_OBJECT_TYPE = Utils.id("mini_chest");
     public static final ResourceLocation MINECART_CHEST_OBJECT_TYPE = Utils.id("minecart_chest");
 
     private static final Map<Predicate<Block>, BlockUpgradeBehaviour> BLOCK_UPGRADE_BEHAVIOURS = new HashMap<>();
@@ -114,7 +114,7 @@ public final class CommonMain {
     private static NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
     private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
-    private static NamedValue<BlockEntityType<MiniChestBlockEntity>> miniChestBlockEntityType;
+    private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
 
     private static Function<OpenableBlockEntity, ItemAccess> itemAccess;
     private static Supplier<Lockable> lockable;
@@ -131,8 +131,8 @@ public final class CommonMain {
         return barrelBlockEntityType.getValue();
     }
 
-    public static BlockEntityType<MiniChestBlockEntity> getMiniChestBlockEntityType() {
-        return miniChestBlockEntityType.getValue();
+    public static BlockEntityType<MiniStorageBlockEntity> getMiniStorageBlockEntityType() {
+        return miniStorageBlockEntityType.getValue();
     }
 
     public static ResourceLocation[] getChestTextures(List<ResourceLocation> blocks) {
@@ -821,10 +821,10 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("obsidian_mini_chest"), obsidianStat, obsidianTier, obsidianSettings);
             chestMaker.apply(Utils.id("netherite_mini_chest"), netheriteStat, netheriteTier, netheriteSettings);
 
-            CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_OBJECT_TYPE.toString())));
+            CommonMain.miniStorageBlockEntityType = new NamedValue<>(CommonMain.MINI_STORAGE_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
 
             if (isClient) {
-                MiniChestScreen.registerScreenType();
+                MiniStorageScreen.registerScreenType();
             }
 
             Predicate<Block> isMiniStorage = b -> b instanceof MiniStorageBlock;
@@ -888,7 +888,7 @@ public final class CommonMain {
 
                 miniStorageBlocks,
                 miniStorageItems,
-                miniChestBlockEntityType
+                miniStorageBlockEntityType
         ));
     }
 

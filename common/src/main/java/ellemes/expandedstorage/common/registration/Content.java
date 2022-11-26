@@ -7,7 +7,7 @@ import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
-import ellemes.expandedstorage.common.block.entity.MiniChestBlockEntity;
+import ellemes.expandedstorage.common.block.entity.MiniStorageBlockEntity;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
@@ -37,7 +37,7 @@ public class Content {
     private final List<NamedValue<BarrelBlock>> barrelBlocks;
     private final NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
 
-    private final NamedValue<BlockEntityType<MiniChestBlockEntity>> miniChestBlockEntityType;
+    private final NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniChestBlockEntityType;
 
     private final List<NamedValue<? extends OpenableBlock>> blocks;
     private final List<NamedValue<? extends Item>> items;
@@ -64,7 +64,7 @@ public class Content {
 
             List<NamedValue<MiniStorageBlock>> miniStorageBlocks,
             List<NamedValue<BlockItem>> miniChestItems,
-            NamedValue<BlockEntityType<MiniChestBlockEntity>> miniChestBlockEntityType
+            NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniChestBlockEntityType
     ) {
         this.stats = stats;
 
@@ -138,7 +138,7 @@ public class Content {
         return barrelBlockEntityType;
     }
 
-    public NamedValue<BlockEntityType<MiniChestBlockEntity>> getMiniChestBlockEntityType() {
+    public NamedValue<BlockEntityType<MiniStorageBlockEntity>> getMiniChestBlockEntityType() {
         return miniChestBlockEntityType;
     }
 

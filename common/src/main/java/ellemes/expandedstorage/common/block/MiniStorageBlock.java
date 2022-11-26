@@ -36,7 +36,7 @@ public final class MiniStorageBlock extends OpenableBlock implements SimpleWater
 
     @Override
     public ResourceLocation getObjType() {
-        return CommonMain.MINI_CHEST_OBJECT_TYPE;
+        return CommonMain.MINI_STORAGE_OBJECT_TYPE;
     }
 
     @Override
@@ -75,7 +75,7 @@ public final class MiniStorageBlock extends OpenableBlock implements SimpleWater
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return CommonMain.getMiniChestBlockEntityType().create(pos, state);
+        return CommonMain.getMiniStorageBlockEntityType().create(pos, state);
     }
 
     @Override
