@@ -6,6 +6,7 @@ import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.CopperBarrelBlock;
+import ellemes.expandedstorage.common.block.CopperMiniStorageBlock;
 import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
@@ -786,6 +787,7 @@ public final class CommonMain {
             final ResourceLocation obsidianChestStat = statMaker.apply("open_obsidian_mini_chest");
             final ResourceLocation netheriteChestStat = statMaker.apply("open_netherite_mini_chest");
             final ResourceLocation barrelStat = statMaker.apply("open_mini_barrel");
+            final ResourceLocation copperBarrelStat = statMaker.apply("open_copper_mini_barrel");
             final ResourceLocation ironBarrelStat = statMaker.apply("open_iron_mini_barrel");
             final ResourceLocation goldBarrelStat = statMaker.apply("open_gold_mini_barrel");
             final ResourceLocation diamondBarrelStat = statMaker.apply("open_diamond_mini_barrel");
@@ -800,6 +802,7 @@ public final class CommonMain {
             final Properties lavenderPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
             final Properties pinkAmethystPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
             final Properties woodBarrelSettings = Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD);
+            final Properties copperBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Properties ironBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
             final Properties goldBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Properties diamondBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
@@ -815,6 +818,19 @@ public final class CommonMain {
                 ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
                 NamedValue<MiniStorageBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), sparrowId, tier.getId(), stat));
                 NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
+                miniStorageBlocks.add(block_with_sparrow);
+                miniStorageItems.add(item_with_sparrow);
+            };
+
+            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperMiniBarrelMaker = (id, weatherState) -> {
+                NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new CopperMiniStorageBlock(copperTier.getBlockSettings().apply(copperBarrelSettings), id, copperBarrelStat, weatherState));
+                NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
+                miniStorageBlocks.add(block);
+                miniStorageItems.add(item);
+
+                ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
+                NamedValue<MiniStorageBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new CopperMiniStorageBlock(copperTier.getBlockSettings().apply(copperBarrelSettings), sparrowId, copperBarrelStat, weatherState));
+                NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
                 miniStorageBlocks.add(block_with_sparrow);
                 miniStorageItems.add(item_with_sparrow);
             };
@@ -835,6 +851,14 @@ public final class CommonMain {
             miniStorageMaker.apply(Utils.id("netherite_mini_chest"), netheriteChestStat, netheriteTier, netheriteSettings);
 
             miniStorageMaker.apply(Utils.id("mini_barrel"), barrelStat, woodTier, woodBarrelSettings);
+            copperMiniBarrelMaker.accept(Utils.id("copper_mini_barrel"), WeatheringCopper.WeatherState.UNAFFECTED);
+            copperMiniBarrelMaker.accept(Utils.id("exposed_copper_mini_barrel"), WeatheringCopper.WeatherState.EXPOSED);
+            copperMiniBarrelMaker.accept(Utils.id("weathered_copper_mini_barrel"), WeatheringCopper.WeatherState.WEATHERED);
+            copperMiniBarrelMaker.accept(Utils.id("oxidized_copper_mini_barrel"), WeatheringCopper.WeatherState.OXIDIZED);
+            miniStorageMaker.apply(Utils.id("waxed_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
+            miniStorageMaker.apply(Utils.id("waxed_exposed_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
+            miniStorageMaker.apply(Utils.id("waxed_weathered_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
+            miniStorageMaker.apply(Utils.id("waxed_oxidized_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
             miniStorageMaker.apply(Utils.id("iron_mini_barrel"), ironBarrelStat, ironTier, ironBarrelSettings);
             miniStorageMaker.apply(Utils.id("gold_mini_barrel"), goldBarrelStat, goldTier, goldBarrelSettings);
             miniStorageMaker.apply(Utils.id("diamond_mini_barrel"), diamondBarrelStat, diamondTier, diamondBarrelSettings);
