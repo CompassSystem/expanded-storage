@@ -772,28 +772,41 @@ public final class CommonMain {
         List<NamedValue<BlockItem>> miniStorageItems = new ArrayList<>();
         /*Mini Storage Blocks*/
         {
-            final ResourceLocation woodStat = statMaker.apply("open_wood_mini_chest");
-            final ResourceLocation pumpkinStat = statMaker.apply("open_pumpkin_mini_chest");
+            final ResourceLocation woodChestStat = statMaker.apply("open_wood_mini_chest");
+            final ResourceLocation pumpkinChestStat = statMaker.apply("open_pumpkin_mini_chest");
             final ResourceLocation redPresentStat = statMaker.apply("open_red_mini_present");
             final ResourceLocation whitePresentStat = statMaker.apply("open_white_mini_present");
             final ResourceLocation candyCanePresentStat = statMaker.apply("open_candy_cane_mini_present");
             final ResourceLocation greenPresentStat = statMaker.apply("open_green_mini_present");
             final ResourceLocation lavenderPresentStat = statMaker.apply("open_lavender_mini_present");
             final ResourceLocation pinkAmethystPresentStat = statMaker.apply("open_pink_amethyst_mini_present");
-            final ResourceLocation ironStat = statMaker.apply("open_iron_mini_chest");
-            final ResourceLocation goldStat = statMaker.apply("open_gold_mini_chest");
-            final ResourceLocation diamondStat = statMaker.apply("open_diamond_mini_chest");
-            final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_mini_chest");
-            final ResourceLocation netheriteStat = statMaker.apply("open_netherite_mini_chest");
-            // Init block settings
-            Properties redPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5f).sound(SoundType.WOOD);
-            Properties whitePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
-            Properties candyCanePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
-            Properties greenPresentSettings = Properties.of(Material.WOOD, MaterialColor.PLANT).strength(2.5f).sound(SoundType.WOOD);
-            Properties lavenderPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
-            Properties pinkAmethystPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
+            final ResourceLocation ironChestStat = statMaker.apply("open_iron_mini_chest");
+            final ResourceLocation goldChestStat = statMaker.apply("open_gold_mini_chest");
+            final ResourceLocation diamondChestStat = statMaker.apply("open_diamond_mini_chest");
+            final ResourceLocation obsidianChestStat = statMaker.apply("open_obsidian_mini_chest");
+            final ResourceLocation netheriteChestStat = statMaker.apply("open_netherite_mini_chest");
+            final ResourceLocation barrelStat = statMaker.apply("open_mini_barrel");
+            final ResourceLocation ironBarrelStat = statMaker.apply("open_iron_mini_barrel");
+            final ResourceLocation goldBarrelStat = statMaker.apply("open_gold_mini_barrel");
+            final ResourceLocation diamondBarrelStat = statMaker.apply("open_diamond_mini_barrel");
+            final ResourceLocation obsidianBarrelStat = statMaker.apply("open_obsidian_mini_barrel");
+            final ResourceLocation netheriteBarrelStat = statMaker.apply("open_netherite_mini_barrel");
 
-            ObjectConsumer chestMaker = (id, stat, tier, settings) -> {
+            // Init block settings
+            final Properties redPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5f).sound(SoundType.WOOD);
+            final Properties whitePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
+            final Properties candyCanePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
+            final Properties greenPresentSettings = Properties.of(Material.WOOD, MaterialColor.PLANT).strength(2.5f).sound(SoundType.WOOD);
+            final Properties lavenderPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
+            final Properties pinkAmethystPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
+            final Properties woodBarrelSettings = Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD);
+            final Properties ironBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
+            final Properties goldBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
+            final Properties diamondBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
+            final Properties obsidianBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
+            final Properties netheriteBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
+
+            ObjectConsumer miniStorageMaker = (id, stat, tier, settings) -> {
                 NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), id, tier.getId(), stat));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
                 miniStorageBlocks.add(block);
@@ -806,20 +819,27 @@ public final class CommonMain {
                 miniStorageItems.add(item_with_sparrow);
             };
 
-            chestMaker.apply(Utils.id("vanilla_wood_mini_chest"), woodStat, woodTier, woodSettings);
-            chestMaker.apply(Utils.id("wood_mini_chest"), woodStat, woodTier, woodSettings);
-            chestMaker.apply(Utils.id("pumpkin_mini_chest"), pumpkinStat, woodTier, pumpkinSettings);
-            chestMaker.apply(Utils.id("red_mini_present"), redPresentStat, woodTier, redPresentSettings);
-            chestMaker.apply(Utils.id("white_mini_present"), whitePresentStat, woodTier, whitePresentSettings);
-            chestMaker.apply(Utils.id("candy_cane_mini_present"), candyCanePresentStat, woodTier, candyCanePresentSettings);
-            chestMaker.apply(Utils.id("green_mini_present"), greenPresentStat, woodTier, greenPresentSettings);
-            chestMaker.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, woodTier, lavenderPresentSettings);
-            chestMaker.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
-            chestMaker.apply(Utils.id("iron_mini_chest"), ironStat, ironTier, ironSettings);
-            chestMaker.apply(Utils.id("gold_mini_chest"), goldStat, goldTier, goldSettings);
-            chestMaker.apply(Utils.id("diamond_mini_chest"), diamondStat, diamondTier, diamondSettings);
-            chestMaker.apply(Utils.id("obsidian_mini_chest"), obsidianStat, obsidianTier, obsidianSettings);
-            chestMaker.apply(Utils.id("netherite_mini_chest"), netheriteStat, netheriteTier, netheriteSettings);
+            miniStorageMaker.apply(Utils.id("vanilla_wood_mini_chest"), woodChestStat, woodTier, woodSettings);
+            miniStorageMaker.apply(Utils.id("wood_mini_chest"), woodChestStat, woodTier, woodSettings);
+            miniStorageMaker.apply(Utils.id("pumpkin_mini_chest"), pumpkinChestStat, woodTier, pumpkinSettings);
+            miniStorageMaker.apply(Utils.id("red_mini_present"), redPresentStat, woodTier, redPresentSettings);
+            miniStorageMaker.apply(Utils.id("white_mini_present"), whitePresentStat, woodTier, whitePresentSettings);
+            miniStorageMaker.apply(Utils.id("candy_cane_mini_present"), candyCanePresentStat, woodTier, candyCanePresentSettings);
+            miniStorageMaker.apply(Utils.id("green_mini_present"), greenPresentStat, woodTier, greenPresentSettings);
+            miniStorageMaker.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, woodTier, lavenderPresentSettings);
+            miniStorageMaker.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
+            miniStorageMaker.apply(Utils.id("iron_mini_chest"), ironChestStat, ironTier, ironSettings);
+            miniStorageMaker.apply(Utils.id("gold_mini_chest"), goldChestStat, goldTier, goldSettings);
+            miniStorageMaker.apply(Utils.id("diamond_mini_chest"), diamondChestStat, diamondTier, diamondSettings);
+            miniStorageMaker.apply(Utils.id("obsidian_mini_chest"), obsidianChestStat, obsidianTier, obsidianSettings);
+            miniStorageMaker.apply(Utils.id("netherite_mini_chest"), netheriteChestStat, netheriteTier, netheriteSettings);
+
+            miniStorageMaker.apply(Utils.id("mini_barrel"), barrelStat, woodTier, woodBarrelSettings);
+            miniStorageMaker.apply(Utils.id("iron_mini_barrel"), ironBarrelStat, ironTier, ironBarrelSettings);
+            miniStorageMaker.apply(Utils.id("gold_mini_barrel"), goldBarrelStat, goldTier, goldBarrelSettings);
+            miniStorageMaker.apply(Utils.id("diamond_mini_barrel"), diamondBarrelStat, diamondTier, diamondBarrelSettings);
+            miniStorageMaker.apply(Utils.id("obsidian_mini_barrel"), obsidianBarrelStat, obsidianTier, obsidianBarrelSettings);
+            miniStorageMaker.apply(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, netheriteTier, netheriteBarrelSettings);
 
             CommonMain.miniStorageBlockEntityType = new NamedValue<>(CommonMain.MINI_STORAGE_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
 
