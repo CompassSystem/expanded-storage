@@ -26,10 +26,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public final class MiniChestBlock extends OpenableBlock implements SimpleWaterloggedBlock {
+public final class MiniStorageBlock extends OpenableBlock implements SimpleWaterloggedBlock {
     private static final VoxelShape OUTLINE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
 
-    public MiniChestBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier,  ResourceLocation openingStat) {
+    public MiniStorageBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier, ResourceLocation openingStat) {
         super(settings, blockId, blockTier, openingStat, 1);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false));
     }

@@ -3,7 +3,7 @@ package ellemes.expandedstorage.common.registration;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
-import ellemes.expandedstorage.common.block.MiniChestBlock;
+import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
@@ -62,7 +62,7 @@ public class Content {
             List<NamedValue<BlockItem>> barrelItems,
             NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType,
 
-            List<NamedValue<MiniChestBlock>> miniChestBlocks,
+            List<NamedValue<MiniStorageBlock>> miniStorageBlocks,
             List<NamedValue<BlockItem>> miniChestItems,
             NamedValue<BlockEntityType<MiniChestBlockEntity>> miniChestBlockEntityType
     ) {
@@ -85,7 +85,7 @@ public class Content {
         blocks.addAll(chestBlocks);
         blocks.addAll(oldChestBlocks);
         blocks.addAll(barrelBlocks);
-        blocks.addAll(miniChestBlocks);
+        blocks.addAll(miniStorageBlocks);
 
         this.items = new ArrayList<>();
         items.addAll(baseItems);

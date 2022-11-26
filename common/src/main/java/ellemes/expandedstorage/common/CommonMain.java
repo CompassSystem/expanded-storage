@@ -6,7 +6,7 @@ import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.CopperBarrelBlock;
-import ellemes.expandedstorage.common.block.MiniChestBlock;
+import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
@@ -311,7 +311,7 @@ public final class CommonMain {
             /*Minecart Chest*/ BiFunction<Item.Properties, ResourceLocation, ChestMinecartItem> chestMinecartItemMaker,
             /*Old Chest*/
             /*Barrel*/ TagKey<Block> barrelTag,
-            /*Mini Chest*/ BiFunction<MiniChestBlock, Item.Properties, BlockItem> miniChestItemMaker) {
+            /*Mini Chest*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
         CommonMain.itemAccess = itemAccess;
         CommonMain.lockable = lockable;
 
@@ -768,9 +768,9 @@ public final class CommonMain {
             });
         }
 
-        List<NamedValue<MiniChestBlock>> miniChestBlocks = new ArrayList<>();
-        List<NamedValue<BlockItem>> miniChestItems = new ArrayList<>();
-        /*Mini Chest*/
+        List<NamedValue<MiniStorageBlock>> miniStorageBlocks = new ArrayList<>();
+        List<NamedValue<BlockItem>> miniStorageItems = new ArrayList<>();
+        /*Mini Storage Blocks*/
         {
             final ResourceLocation woodStat = statMaker.apply("open_wood_mini_chest");
             final ResourceLocation pumpkinStat = statMaker.apply("open_pumpkin_mini_chest");
@@ -794,16 +794,16 @@ public final class CommonMain {
             Properties pinkAmethystPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
 
             ObjectConsumer chestMaker = (id, stat, tier, settings) -> {
-                NamedValue<MiniChestBlock> block = new NamedValue<>(id, () -> new MiniChestBlock(tier.getBlockSettings().apply(settings), id, tier.getId(), stat));
+                NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), id, tier.getId(), stat));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
-                miniChestBlocks.add(block);
-                miniChestItems.add(item);
+                miniStorageBlocks.add(block);
+                miniStorageItems.add(item);
 
                 ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
-                NamedValue<MiniChestBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new MiniChestBlock(tier.getBlockSettings().apply(settings), sparrowId, tier.getId(), stat));
+                NamedValue<MiniStorageBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), sparrowId, tier.getId(), stat));
                 NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
-                miniChestBlocks.add(block_with_sparrow);
-                miniChestItems.add(item_with_sparrow);
+                miniStorageBlocks.add(block_with_sparrow);
+                miniStorageItems.add(item_with_sparrow);
             };
 
             chestMaker.apply(Utils.id("vanilla_wood_mini_chest"), woodStat, woodTier, woodSettings);
@@ -821,21 +821,21 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("obsidian_mini_chest"), obsidianStat, obsidianTier, obsidianSettings);
             chestMaker.apply(Utils.id("netherite_mini_chest"), netheriteStat, netheriteTier, netheriteSettings);
 
-            CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniChestBlocks.stream().map(NamedValue::getValue).toArray(MiniChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_OBJECT_TYPE.toString())));
+            CommonMain.miniChestBlockEntityType = new NamedValue<>(CommonMain.MINI_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniChestBlockEntity(CommonMain.getMiniChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), CommonMain.itemAccess, CommonMain.lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_CHEST_OBJECT_TYPE.toString())));
 
             if (isClient) {
                 MiniChestScreen.registerScreenType();
             }
 
-            Predicate<Block> isMiniChest = b -> b instanceof MiniChestBlock;
-            CommonMain.registerMutationBehaviour(isMiniChest, MutationMode.ROTATE, (context, world, state, pos, stack) -> {
+            Predicate<Block> isMiniStorage = b -> b instanceof MiniStorageBlock;
+            CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (context, world, state, pos, stack) -> {
                 if (!world.isClientSide()) {
                     world.setBlockAndUpdate(pos, state.rotate(Rotation.CLOCKWISE_90));
                 }
                 return InteractionResult.SUCCESS;
             });
-            CommonMain.registerMutationBehaviour(isMiniChest, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
-                MiniChestBlock block = (MiniChestBlock) state.getBlock();
+            CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
+                MiniStorageBlock block = (MiniStorageBlock) state.getBlock();
                 String itemName = stack.getHoverName().getString();
                 if (block.getObjTier() != Utils.WOOD_TIER_ID && itemName.equals("Sparrow")) {
                     ResourceLocation blockId = block.getBlockId();
@@ -886,8 +886,8 @@ public final class CommonMain {
                 barrelItems,
                 barrelBlockEntityType,
 
-                miniChestBlocks,
-                miniChestItems,
+                miniStorageBlocks,
+                miniStorageItems,
                 miniChestBlockEntityType
         ));
     }

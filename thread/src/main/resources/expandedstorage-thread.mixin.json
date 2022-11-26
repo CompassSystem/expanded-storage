@@ -3,7 +3,7 @@
   "package": "ellemes.expandedstorage.thread.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "MiniChestHeadEquipment"
+    "MiniStorageHeadEquipment"
   ],
   "injectors": {
     "defaultRequire": 1

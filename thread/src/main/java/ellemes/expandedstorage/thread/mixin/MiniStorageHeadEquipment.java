@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread.mixin;
 
-import ellemes.expandedstorage.common.block.MiniChestBlock;
+import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 @SuppressWarnings("unused")
-public abstract class MiniChestHeadEquipment {
+public abstract class MiniStorageHeadEquipment {
 
     @SuppressWarnings({"SpellCheckingInspection", "unused"})
     @Inject(
@@ -21,7 +21,7 @@ public abstract class MiniChestHeadEquipment {
             cancellable = true
     )
     private static void expandedstorage_makeMiniChestEquipable(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
-        if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof MiniChestBlock)
+        if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof MiniStorageBlock)
             cir.setReturnValue(EquipmentSlot.HEAD);
     }
 }

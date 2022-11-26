@@ -15,7 +15,7 @@ import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
 import ellemes.expandedstorage.forge.item.ChestMinecartItem;
-import ellemes.expandedstorage.forge.item.MiniChestBlockItem;
+import ellemes.expandedstorage.forge.item.MiniStorageBlockItem;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.core.Direction;
@@ -70,7 +70,7 @@ public final class ForgeMain {
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
-                /*Mini Chest*/ MiniChestBlockItem::new);
+                /*Mini Storage*/ MiniStorageBlockItem::new);
 
         MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> tagReloadListener.postDataReload());
 
