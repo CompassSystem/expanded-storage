@@ -31,6 +31,13 @@
         "versions": ">=4.0.0-beta.19"
       }
     ],
+    "breaks": [
+      {
+        "id": "ellemes_container_lib",
+        "versions": "*",
+        "reason": "Now included in codebase, does not need to be installed separately."
+      }
+    ],
     "metadata": {
       "name": "Expanded Storage",
       "description": "Adds new storage blocks with higher capacities.",
