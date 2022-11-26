@@ -879,10 +879,23 @@ public final class CommonMain {
                 return InteractionResult.SUCCESS;
             });
             CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
-                MiniStorageBlock block = (MiniStorageBlock) state.getBlock();
                 String itemName = stack.getHoverName().getString();
-                if (block.getObjTier() != Utils.WOOD_TIER_ID && itemName.equals("Sparrow")) {
-                    ResourceLocation blockId = block.getBlockId();
+                List<Block> blocks;
+                boolean isSparrow = itemName.equals("Sparrow");
+                if (itemName.equals("Sunrise")) {
+                    blocks = tagReloadListener.getMiniChestSecretCycleBlocks();
+                } else if (isSparrow) {
+                    blocks = tagReloadListener.getMiniChestSecretCycle2Blocks();
+                } else {
+                    blocks = tagReloadListener.getMiniChestCycleBlocks();
+                }
+                int index = blocks.indexOf(state.getBlock());
+                if (index != -1) { // Illegal state / misconfigured tag
+                    Block next = blocks.get((index + 1) % blocks.size());
+                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
+                    return InteractionResult.SUCCESS;
+                } else if (isSparrow) {
+                    ResourceLocation blockId = ((MiniStorageBlock) state.getBlock()).getBlockId();
                     String newId = blockId.getPath();
                     if (newId.contains("_with_sparrow")) {
                         newId = newId.substring(0, newId.length() - 13);
@@ -892,21 +905,6 @@ public final class CommonMain {
                     Block next = Registry.BLOCK.get(new ResourceLocation(blockId.getNamespace(), newId));
                     world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
                     return InteractionResult.SUCCESS;
-                } else {
-                    List<Block> blocks;
-                    if (itemName.equals("Sunrise")) {
-                        blocks = tagReloadListener.getMiniChestSecretCycleBlocks();
-                    } else if (itemName.equals("Sparrow")) {
-                        blocks = tagReloadListener.getMiniChestSecretCycle2Blocks();
-                    } else {
-                        blocks = tagReloadListener.getMiniChestCycleBlocks();
-                    }
-                    int index = blocks.indexOf(state.getBlock());
-                    if (index != -1) { // Illegal state / misconfigured tag
-                        Block next = blocks.get((index + 1) % blocks.size());
-                        world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
-                        return InteractionResult.SUCCESS;
-                    }
                 }
                 return InteractionResult.FAIL;
             });

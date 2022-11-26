@@ -70,6 +70,20 @@ public class BlockLootTableHelper {
         consumer.accept(ModBlocks.DIAMOND_MINI_CHEST, lootTableBuilder);
         consumer.accept(ModBlocks.OBSIDIAN_MINI_CHEST, lootTableBuilder);
         consumer.accept(ModBlocks.NETHERITE_MINI_CHEST, lootTableBuilder);
+        consumer.accept(ModBlocks.MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.EXPOSED_COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.WEATHERED_COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.OXIDIZED_COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.IRON_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.GOLD_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.DIAMOND_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.OBSIDIAN_MINI_BARREL, lootTableBuilder);
+        consumer.accept(ModBlocks.NETHERITE_MINI_BARREL, lootTableBuilder);
 
         consumer.accept(ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
         consumer.accept(ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
@@ -85,5 +99,19 @@ public class BlockLootTableHelper {
         consumer.accept(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
         consumer.accept(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
         consumer.accept(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.IRON_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.GOLD_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.DIAMOND_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.OBSIDIAN_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
+        consumer.accept(ModBlocks.NETHERITE_MINI_BARREL_WITH_SPARROW, lootTableBuilder);
     }
 }
