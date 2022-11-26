@@ -30,7 +30,20 @@ repositories {
         }
     }
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-    mavenLocal()
+    // For REI
+    maven {
+        name = "Shedaniel"
+        url = uri("https://maven.shedaniel.me/")
+    }
+    // For Amecs
+    maven {
+        name = "Siphalor's Maven"
+        url = uri("https://maven.siphalor.de/")
+    }
+    maven {
+        name = "Flemmli97"
+        url = uri("https://gitlab.com/api/v4/projects/21830712/packages/maven")
+    }
 }
 
 val excludeFabric: (ModuleDependency) -> Unit = {
@@ -41,8 +54,6 @@ val excludeFabric: (ModuleDependency) -> Unit = {
 dependencies {
     modImplementation(mod.qsl().full())
     modImplementation(mod.fabricApi().full())
-
-    include(modImplementation("ellemes:${properties["container_library_artifact"]}-quilt:${properties["container_library_version"]}", dependencyConfiguration = excludeFabric))
 
     modCompileOnly("com.terraformersmc:modmenu:${project.properties["modmenu_version"]}") {
         excludeFabric(this)
@@ -58,6 +69,28 @@ dependencies {
 
     //modRuntimeOnly("me.lucko:fabric-permissions-api:0.1-SNAPSHOT")
     modCompileOnly(group = "curse.maven", name = "htm-462534", version = "3539120", dependencyConfiguration = excludeFabric)
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.properties["rei_version"]}") {
+        excludeFabric(this)
+    }
+
+    modCompileOnly("de.siphalor:amecsapi-1.19:${project.properties["amecs_version"]}") {
+        excludeFabric(this)
+        exclude(group = "com.github.astei")
+    }
+
+    modCompileOnly("io.github.flemmli97:flan:1.18.2-${project.properties["flan_version"]}:fabric-api") {
+        excludeFabric(this)
+        exclude(group = "curse.maven")
+    }
+
+    modCompileOnly("maven.modrinth:inventory-profiles-next:fabric-${rootProject.properties["ipn_minecraft_version"]}-${rootProject.properties["ipn_version"]}") {
+        excludeFabric(this)
+    }
+
+    modCompileOnly("maven.modrinth:emi:0.4.3+1.19") {
+        excludeFabric(this)
+    }
 }
 
 val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://gitlab.com/Ellemes/expanded-storage")

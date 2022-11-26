@@ -53,6 +53,8 @@ import java.util.function.Supplier;
 public final class ForgeMain {
 
     public ForgeMain() {
+        new ellemes.container_library.forge.ForgeMain();
+
         TagReloadListener tagReloadListener = new TagReloadListener();
 
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
