@@ -26,7 +26,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public final class MiniStorageBlock extends OpenableBlock implements SimpleWaterloggedBlock {
+public class MiniStorageBlock extends OpenableBlock implements SimpleWaterloggedBlock {
     private static final VoxelShape OUTLINE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
 
     public MiniStorageBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier, ResourceLocation openingStat) {
