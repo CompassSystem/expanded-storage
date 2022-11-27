@@ -12,6 +12,5 @@
 - Copper blocks no longer show if they are waxed or not in the inventory screen (names were getting too long)
 - All chests now face the same way; some have tweaked first person rendering too.
 - **TODO:** Removed unused assets and code
-- **TODO:** Made Conversion Kits and Storage Mutator consistent between entities and blocks.
-- **TODO OPTION 1:** Removed Conversion Kit and Storage Mutator usage delay.
-- **TODO OPTION 2:** Made Conversion Kit and Storage Mutator usage delay longer.
+- Made Conversion Kits and Storage Mutator consistent between entities and blocks.
+- Made Conversion Kit and Storage Mutator usage delay longer.

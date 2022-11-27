@@ -45,12 +45,12 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         BlockState state = world.getBlockState(pos);
         BlockMutatorBehaviour behaviour = CommonMain.getBlockMutatorBehaviour(state.getBlock(), StorageMutator.getMode(stack));
         if (behaviour != null) {
-            InteractionResult returnValue = behaviour.attempt(context, world, state, pos, stack);
-            if (returnValue.shouldSwing()) {
+            ToolUsageResult returnValue = behaviour.attempt(context, world, state, pos, stack);
+            if (returnValue.getResult().shouldSwing()) {
                 //noinspection ConstantConditions
-                context.getPlayer().getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
+                context.getPlayer().getCooldowns().addCooldown(this, returnValue.getDelay());
             }
-            return returnValue;
+            return returnValue.getResult();
         }
         return InteractionResult.FAIL;
     }
@@ -68,7 +68,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
             if (!world.isClientSide())
                 player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.description_" + nextMode, Utils.ALT_USE), true);
 
-            player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
+            player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_QUICK_DELAY);
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(player.getItemInHand(hand));

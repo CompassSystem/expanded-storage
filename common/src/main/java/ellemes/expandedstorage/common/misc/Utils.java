@@ -12,7 +12,8 @@ public final class Utils {
     public static final int WOOD_STACK_COUNT = 27;
     public static final ResourceLocation WOOD_TIER_ID = Utils.id("wood");
     public static final ResourceLocation COPPER_TIER_ID = Utils.id("copper");
-    public static final int TOOL_USAGE_DELAY = 5;
+    public static final int TOOL_USAGE_QUICK_DELAY = 5; // In ticks...
+    public static final int TOOL_USAGE_DELAY = 20; // In ticks...
 
     private Utils() {
         throw new IllegalStateException("Should not instantiate this class.");

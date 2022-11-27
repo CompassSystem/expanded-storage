@@ -30,6 +30,7 @@ import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.BlockMutatorBehaviour;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.StorageMutator;
+import ellemes.expandedstorage.common.item.ToolUsageResult;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -505,9 +506,9 @@ public final class CommonMain {
                         world.setBlock(otherPos, next.withPropertiesOf(otherState), Block.UPDATE_SUPPRESS_LIGHT);
                     }
                     world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
-                    return InteractionResult.SUCCESS;
+                    return ToolUsageResult.slowSuccess();
                 }
-                return InteractionResult.FAIL;
+                return ToolUsageResult.fail();
             });
 
             CommonMain.registerMutationBehaviour(e -> e instanceof ChestMinecart, MutationMode.SWAP_THEME, (level, entity, stack) -> {
@@ -613,7 +614,7 @@ public final class CommonMain {
                                             //noinspection ConstantConditions
                                             player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_end"), true);
                                         }
-                                        return InteractionResult.SUCCESS;
+                                        return ToolUsageResult.slowSuccess();
                                     } else {
                                         //noinspection ConstantConditions
                                         player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_facing"), true);
@@ -636,10 +637,10 @@ public final class CommonMain {
                             //noinspection ConstantConditions
                             player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_start", Utils.ALT_USE), true);
                         }
-                        return InteractionResult.SUCCESS;
+                        return ToolUsageResult.fastSuccess();
                     }
                 }
-                return InteractionResult.FAIL;
+                return ToolUsageResult.fail();
             });
             CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.SPLIT, (context, world, state, pos, stack) -> {
                 if (state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) != EsChestType.SINGLE) {
@@ -647,9 +648,9 @@ public final class CommonMain {
                         world.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.SINGLE));
                         // note: other state is updated to single via neighbour update
                     }
-                    return InteractionResult.SUCCESS;
+                    return ToolUsageResult.slowSuccess();
                 }
-                return InteractionResult.FAIL;
+                return ToolUsageResult.fail();
             });
             CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.ROTATE, (context, world, state, pos, stack) -> {
                 if (!world.isClientSide()) {
@@ -668,7 +669,7 @@ public final class CommonMain {
                         }
                     }
                 }
-                return InteractionResult.SUCCESS;
+                return ToolUsageResult.slowSuccess();
             });
         }
 
@@ -770,9 +771,9 @@ public final class CommonMain {
                     if (!world.isClientSide()) {
                         world.setBlockAndUpdate(pos, state.cycle(BlockStateProperties.FACING));
                     }
-                    return InteractionResult.SUCCESS;
+                    return ToolUsageResult.slowSuccess();
                 }
-                return InteractionResult.FAIL;
+                return ToolUsageResult.fail();
             });
         }
 
@@ -883,7 +884,7 @@ public final class CommonMain {
                 if (!world.isClientSide()) {
                     world.setBlockAndUpdate(pos, state.rotate(Rotation.CLOCKWISE_90));
                 }
-                return InteractionResult.SUCCESS;
+                return ToolUsageResult.slowSuccess();
             });
             CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
                 String itemName = stack.getHoverName().getString();
@@ -900,7 +901,7 @@ public final class CommonMain {
                 if (index != -1) { // Illegal state / misconfigured tag
                     Block next = blocks.get((index + 1) % blocks.size());
                     world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
-                    return InteractionResult.SUCCESS;
+                    return ToolUsageResult.slowSuccess();
                 } else if (isSparrow) {
                     ResourceLocation blockId = ((MiniStorageBlock) state.getBlock()).getBlockId();
                     String newId = blockId.getPath();
@@ -911,9 +912,9 @@ public final class CommonMain {
                     }
                     Block next = Registry.BLOCK.get(new ResourceLocation(blockId.getNamespace(), newId));
                     world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
-                    return InteractionResult.SUCCESS;
+                    return ToolUsageResult.slowSuccess();
                 }
-                return InteractionResult.FAIL;
+                return ToolUsageResult.fail();
             });
         }
 
