@@ -36,6 +36,7 @@ public final class ModItems {
     public static final BlockItem PUMPKIN_CHEST = item(Utils.id("pumpkin_chest"));
     public static final BlockItem PRESENT = item(Utils.id("present"));
     public static final BlockItem BAMBOO_CHEST = item(Utils.id("bamboo_chest"));
+    public static final BlockItem MOSS_CHEST = item(Utils.id("moss_chest"));
 //    public static final BlockItem COPPER_CHEST = item(Utils.id("copper_chest"));
 //    public static final BlockItem EXPOSED_COPPER_CHEST = item(Utils.id("exposed_copper_chest"));
 //    public static final BlockItem WEATHERED_COPPER_CHEST = item(Utils.id("weathered_copper_chest"));

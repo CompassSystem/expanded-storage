@@ -17,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -234,6 +235,14 @@ public class RecipeHelper {
                 .pattern("BCB")
                 .pattern("BBB")
                 .define('B', bamboo)
+                .define('C', woodenChests)
+                .group(id(ModItems.BAMBOO_CHEST))
+                .save(exporter);
+        shapedRecipe(ModItems.MOSS_CHEST, 1, Criterions.HAS_PREVIOUS_BLOCK, woodenChests)
+                .pattern("BBB")
+                .pattern("BCB")
+                .pattern("BBB")
+                .define('B', Blocks.MOSS_BLOCK)
                 .define('C', woodenChests)
                 .group(id(ModItems.BAMBOO_CHEST))
                 .save(exporter);

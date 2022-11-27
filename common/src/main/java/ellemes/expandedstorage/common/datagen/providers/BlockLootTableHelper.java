@@ -13,6 +13,7 @@ public class BlockLootTableHelper {
         consumer.accept(ModBlocks.PUMPKIN_CHEST, lootTableBuilder);
         consumer.accept(ModBlocks.PRESENT, lootTableBuilder);
         consumer.accept(ModBlocks.BAMBOO_CHEST, lootTableBuilder);
+        consumer.accept(ModBlocks.MOSS_CHEST, lootTableBuilder);
 //        consumer.accept(ModBlocks.COPPER_CHEST, lootTableBuilder);
 //        consumer.accept(ModBlocks.EXPOSED_COPPER_CHEST, lootTableBuilder);
 //        consumer.accept(ModBlocks.WEATHERED_COPPER_CHEST, lootTableBuilder);

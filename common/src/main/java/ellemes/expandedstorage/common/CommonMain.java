@@ -327,6 +327,7 @@ public final class CommonMain {
         final Properties woodSettings = Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.5f).sound(SoundType.WOOD);
         final Properties pumpkinSettings = Properties.of(Material.VEGETABLE, MaterialColor.COLOR_ORANGE).strength(1).sound(SoundType.WOOD);
         final Properties bambooSettings = Properties.of(Material.BAMBOO, MaterialColor.PLANT).strength(1).sound(SoundType.BAMBOO);
+        final Properties mossSettings = Properties.of(Material.MOSS, MaterialColor.COLOR_GREEN).strength(0.1F).sound(SoundType.MOSS);
         final Properties copperSettings = Properties.of(Material.METAL, MaterialColor.COLOR_ORANGE).strength(3.0F, 6.0F).sound(SoundType.COPPER);
         final Properties ironSettings = Properties.of(Material.METAL, MaterialColor.METAL).strength(5, 6).sound(SoundType.METAL);
         final Properties goldSettings = Properties.of(Material.METAL, MaterialColor.GOLD).strength(3, 6).sound(SoundType.METAL);
@@ -357,6 +358,7 @@ public final class CommonMain {
             final ResourceLocation pumpkinStat = statMaker.apply("open_pumpkin_chest");
             final ResourceLocation presentStat = statMaker.apply("open_present");
             final ResourceLocation bambooStat = statMaker.apply("open_bamboo_chest");
+            final ResourceLocation mossStat = statMaker.apply("open_moss_chest");
 //            final ResourceLocation copperStat = statMaker.apply("open_copper_chest");
             final ResourceLocation ironStat = statMaker.apply("open_iron_chest");
             final ResourceLocation goldStat = statMaker.apply("open_gold_chest");
@@ -403,6 +405,7 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("pumpkin_chest"), pumpkinStat, woodTier, pumpkinSettings);
             chestMaker.apply(Utils.id("present"), presentStat, woodTier, presentSettings);
             chestMaker.apply(Utils.id("bamboo_chest"), bambooStat, woodTier, bambooSettings);
+            chestMaker.apply(Utils.id("moss_chest"), mossStat, woodTier, mossSettings);
 //            copperChestMaker.accept(Utils.id("copper_chest"), WeatheringCopper.WeatherState.UNAFFECTED);
 //            copperChestMaker.accept(Utils.id("exposed_copper_chest"), WeatheringCopper.WeatherState.EXPOSED);
 //            copperChestMaker.accept(Utils.id("weathered_copper_chest"), WeatheringCopper.WeatherState.WEATHERED);

@@ -118,6 +118,8 @@ public class TagHelper {
                 .add(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW)
                 .add(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW)
                 .add(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW);
+        tagMaker.apply(BlockTags.MINEABLE_WITH_HOE)
+                .add(ModBlocks.MOSS_CHEST);
         tagMaker.apply(BlockTags.GUARDED_BY_PIGLINS)
                 .add(ModBlocks.COPPER_BARREL)
                 .add(ModBlocks.EXPOSED_COPPER_BARREL)
@@ -136,6 +138,7 @@ public class TagHelper {
                 .add(ModBlocks.PUMPKIN_CHEST)
                 .add(ModBlocks.PRESENT)
                 .add(ModBlocks.BAMBOO_CHEST)
+                .add(ModBlocks.MOSS_CHEST)
 //                .add(ModBlocks.COPPER_CHEST)
 //                .add(ModBlocks.EXPOSED_COPPER_CHEST)
 //                .add(ModBlocks.WEATHERED_COPPER_CHEST)
@@ -301,7 +304,8 @@ public class TagHelper {
                 .add(ModBlocks.WOOD_CHEST)
                 .add(ModBlocks.PUMPKIN_CHEST)
                 .add(ModBlocks.PRESENT)
-                .add(ModBlocks.BAMBOO_CHEST);
+                .add(ModBlocks.BAMBOO_CHEST)
+                .add(ModBlocks.MOSS_CHEST);
         tagMaker.apply(ModTags.Blocks.MINI_CHEST_CYCLE)
                 .add(ModBlocks.VANILLA_WOOD_MINI_CHEST)
                 .add(ModBlocks.WOOD_MINI_CHEST)
@@ -345,7 +349,8 @@ public class TagHelper {
         tagMaker.apply(ModTags.Items.ES_WOODEN_CHESTS)
                 .add(ModItems.PUMPKIN_CHEST)
                 .add(ModItems.PRESENT)
-                .add(ModItems.BAMBOO_CHEST);
+                .add(ModItems.BAMBOO_CHEST)
+                .add(ModItems.MOSS_CHEST);
         tagMaker.apply(ItemTags.PIGLIN_LOVED)
                 .add(ModItems.WOOD_TO_GOLD_CONVERSION_KIT)
                 .add(ModItems.COPPER_TO_GOLD_CONVERSION_KIT)
@@ -368,6 +373,7 @@ public class TagHelper {
                 .add(ModEntityTypes.WOOD_CHEST_MINECART)
                 .add(ModEntityTypes.PUMPKIN_CHEST_MINECART)
                 .add(ModEntityTypes.PRESENT_MINECART)
-                .add(ModEntityTypes.BAMBOO_CHEST_MINECART);
+                .add(ModEntityTypes.BAMBOO_CHEST_MINECART)
+                .add(ModEntityTypes.MOSS_CHEST_MINECART);
     }
 }

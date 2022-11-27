@@ -16,6 +16,7 @@ public final class ModBlocks {
     public static final ChestBlock PUMPKIN_CHEST = block(Utils.id("pumpkin_chest"));
     public static final ChestBlock PRESENT = block(Utils.id("present"));
     public static final ChestBlock BAMBOO_CHEST = block(Utils.id("bamboo_chest"));
+    public static final ChestBlock MOSS_CHEST = block(Utils.id("moss_chest"));
 //    public static final CopperChestBlock COPPER_CHEST = block(Utils.id("copper_chest"));
 //    public static final CopperChestBlock EXPOSED_COPPER_CHEST = block(Utils.id("exposed_copper_chest"));
 //    public static final CopperChestBlock WEATHERED_COPPER_CHEST = block(Utils.id("weathered_copper_chest"));
