@@ -50,10 +50,9 @@ public final class StorageConversionKit extends Item implements EntityInteractab
                     if (world.isClientSide()) {
                         return InteractionResult.CONSUME;
                     } else if (behaviour.tryUpgradeBlock(context, from, to)) {
-                        player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+                        player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                         return InteractionResult.SUCCESS;
                     }
-                    player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
                 }
             }
         }
@@ -73,11 +72,9 @@ public final class StorageConversionKit extends Item implements EntityInteractab
         EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
         if (behaviour != null) {
             if (behaviour.tryUpgradeEntity(player, hand, entity, from, to)) {
-                player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+                player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                 return InteractionResult.SUCCESS;
             }
-            player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
-
         }
         return InteractionResult.FAIL;
     }
