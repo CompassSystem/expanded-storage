@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "c:wooden_barrels"
+    },
+    "I": {
+      "item": "minecraft:obsidian"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    " I ",
+    "PBP",
+    " P "
+  ],
+  "result": {
+    "count": 8,
+    "item": "expandedstorage:obsidian_mini_barrel"
+  }
+}
