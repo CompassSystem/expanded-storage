@@ -12,6 +12,8 @@
     "expandedstorage:gold_chest_minecart",
     "expandedstorage:old_gold_chest",
     "expandedstorage:gold_mini_chest",
-    "expandedstorage:gold_mini_chest_with_sparrow"
+    "expandedstorage:gold_mini_barrel",
+    "expandedstorage:gold_mini_chest_with_sparrow",
+    "expandedstorage:gold_mini_barrel_with_sparrow"
   ]
 }

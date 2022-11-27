@@ -38,7 +38,8 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     }
 
     public Component getInventoryTitle() {
-        return this.getName();
+        Component result = this.getName();
+        return Component.literal(result.getString().replace("Waxed ", ""));
     }
 
     @Override

@@ -95,7 +95,15 @@ public final class ModItems {
     public static final BlockItem DIAMOND_MINI_CHEST = item(Utils.id("diamond_mini_chest"));
     public static final BlockItem OBSIDIAN_MINI_CHEST = item(Utils.id("obsidian_mini_chest"));
     public static final BlockItem NETHERITE_MINI_CHEST = item(Utils.id("netherite_mini_chest"));
+    public static final BlockItem MINI_BARREL = item(Utils.id("mini_barrel"));
+    public static final BlockItem COPPER_MINI_BARREL = item(Utils.id("copper_mini_barrel"));
+    public static final BlockItem IRON_MINI_BARREL = item(Utils.id("iron_mini_barrel"));
+    public static final BlockItem GOLD_MINI_BARREL = item(Utils.id("gold_mini_barrel"));
+    public static final BlockItem DIAMOND_MINI_BARREL = item(Utils.id("diamond_mini_barrel"));
+    public static final BlockItem OBSIDIAN_MINI_BARREL = item(Utils.id("obsidian_mini_barrel"));
+    public static final BlockItem NETHERITE_MINI_BARREL = item(Utils.id("netherite_mini_barrel"));
     public static final BlockItem GOLD_MINI_CHEST_WITH_SPARROW = item(Utils.id("gold_mini_chest_with_sparrow"));
+    public static final BlockItem GOLD_MINI_BARREL_WITH_SPARROW = item(Utils.id("gold_mini_barrel_with_sparrow"));
 
     private static <T extends Item> T item(ResourceLocation id) {
         //noinspection unchecked

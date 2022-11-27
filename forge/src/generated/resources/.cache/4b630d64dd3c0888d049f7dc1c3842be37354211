@@ -1,12 +1,12 @@
-// 1.19.2	2022-11-17T19:49:58.2006916	Expanded Storage - Block Tags
+// 1.19.2	2022-11-27T00:06:30.8112997	Expanded Storage - Block Tags
 d0c2718a72dea612930f1b77633d7b41b8786254 data/expandedstorage/tags/blocks/chest_cycle.json
 cd637fc54ea323494c2b4d6dde009cc92822f7cc data/expandedstorage/tags/blocks/mini_chest_cycle.json
 de6873d3317a75a65ce50fb7de7884d10a47f255 data/expandedstorage/tags/blocks/mini_chest_secret_cycle.json
 083bf47efe54b5c6cbc25b6385061fbd22c18fcd data/expandedstorage/tags/blocks/mini_chest_secret_cycle_2.json
 2451ad96a8a6e48fd8ff670e334631db2b4bbbe6 data/forge/tags/blocks/chests/wooden.json
-9f63958304475bb026c78eed50ace91c4b695c1d data/minecraft/tags/blocks/guarded_by_piglins.json
-5c9fc07c046b364e70ce694608663b80250b1ab2 data/minecraft/tags/blocks/mineable/axe.json
+0f7c92a3be73891b9e3c986257a6d303652d61dc data/minecraft/tags/blocks/guarded_by_piglins.json
+5550d84d1552aa5b7865ed70257c23f81c2f8aea data/minecraft/tags/blocks/mineable/axe.json
 d01c3141224446ad2c30c92de206697a3f4f65ef data/minecraft/tags/blocks/mineable/pickaxe.json
-4128374e60ff11604340495c4f384e855d653dc3 data/minecraft/tags/blocks/needs_diamond_tool.json
-05c2fee6fda87d698b226f1871e70d17ec87b1dc data/minecraft/tags/blocks/needs_iron_tool.json
-c873bd021c7b46d217148f4f6ed88e1e978276bd data/minecraft/tags/blocks/needs_stone_tool.json
+0ebbded668fd6f5f3de0ea1f390c09d5f5219451 data/minecraft/tags/blocks/needs_diamond_tool.json
+dc0653b77fbddb691676431958886385e6ea895e data/minecraft/tags/blocks/needs_iron_tool.json
+d4320039d4ab826243b1127a510e49d8c264c626 data/minecraft/tags/blocks/needs_stone_tool.json

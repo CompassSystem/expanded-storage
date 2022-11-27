@@ -3,6 +3,12 @@
   "values": {
     "expandedstorage:copper_barrel": "expandedstorage:exposed_copper_barrel",
     "expandedstorage:exposed_copper_barrel": "expandedstorage:weathered_copper_barrel",
-    "expandedstorage:weathered_copper_barrel": "expandedstorage:oxidized_copper_barrel"
+    "expandedstorage:weathered_copper_barrel": "expandedstorage:oxidized_copper_barrel",
+    "expandedstorage:copper_mini_barrel": "expandedstorage:exposed_copper_mini_barrel",
+    "expandedstorage:exposed_copper_mini_barrel": "expandedstorage:weathered_copper_mini_barrel",
+    "expandedstorage:weathered_copper_mini_barrel": "expandedstorage:oxidized_copper_mini_barrel",
+    "expandedstorage:copper_mini_barrel_with_sparrow": "expandedstorage:exposed_copper_mini_barrel_with_sparrow",
+    "expandedstorage:exposed_copper_mini_barrel_with_sparrow": "expandedstorage:weathered_copper_mini_barrel_with_sparrow",
+    "expandedstorage:weathered_copper_mini_barrel_with_sparrow": "expandedstorage:oxidized_copper_mini_barrel_with_sparrow"
   }
 }

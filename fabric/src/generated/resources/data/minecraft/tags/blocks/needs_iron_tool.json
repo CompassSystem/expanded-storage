@@ -9,7 +9,11 @@
     "expandedstorage:old_diamond_chest",
     "expandedstorage:gold_mini_chest",
     "expandedstorage:diamond_mini_chest",
+    "expandedstorage:gold_mini_barrel",
+    "expandedstorage:diamond_mini_barrel",
     "expandedstorage:gold_mini_chest_with_sparrow",
-    "expandedstorage:diamond_mini_chest_with_sparrow"
+    "expandedstorage:diamond_mini_chest_with_sparrow",
+    "expandedstorage:gold_mini_barrel_with_sparrow",
+    "expandedstorage:diamond_mini_barrel_with_sparrow"
   ]
 }
