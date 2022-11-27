@@ -78,7 +78,7 @@ public class RecipeHelper {
         this.offerChestToOldChestRecipes(exporter);
         this.offerOldChestToChestRecipes(exporter);
         this.offerBarrelRecipes(exporter);
-        this.offerMiniChestRecipes(exporter);
+        this.offerMiniStorageRecipes(exporter);
     }
 
     private void offerConversionKitRecipes(Consumer<FinishedRecipe> exporter) {
@@ -526,7 +526,7 @@ public class RecipeHelper {
         smithingRecipe(ModItems.NETHERITE_BARREL, ModItems.OBSIDIAN_BARREL, netheriteIngots, Criterions.HAS_PREVIOUS_BLOCK, exporter);
     }
 
-    private void offerMiniChestRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerMiniStorageRecipes(Consumer<FinishedRecipe> exporter) {
         shapedRecipe(ModItems.VANILLA_WOOD_MINI_CHEST, 4, Criterions.HAS_ITEM, Items.CHEST)
                 .pattern(" P ")
                 .pattern("PBP")
@@ -612,6 +612,61 @@ public class RecipeHelper {
                 .define('I', Items.NETHERITE_INGOT)
                 .define('P', Items.PAPER)
                 .define('B', ModItems.WOOD_CHEST)
+                .save(exporter);
+        shapedRecipe(ModItems.MINI_BARREL, 4, Criterions.HAS_ITEM, woodenBarrels)
+                .pattern(" P ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('P', Items.PAPER)
+                .define('B', woodenBarrels)
+                .save(exporter);
+        shapedRecipe(ModItems.COPPER_MINI_BARREL, 8, Criterions.HAS_ITEM, woodenBarrels)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.COPPER_INGOT)
+                .define('P', Items.PAPER)
+                .define('B', woodenBarrels)
+                .save(exporter);
+        shapedRecipe(ModItems.IRON_MINI_BARREL, 8, Criterions.HAS_ITEM, woodenBarrels)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.IRON_INGOT)
+                .define('P', Items.PAPER)
+                .define('B', woodenBarrels)
+                .save(exporter);
+        shapedRecipe(ModItems.GOLD_MINI_BARREL, 8, Criterions.HAS_ITEM, woodenBarrels)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.GOLD_INGOT)
+                .define('P', Items.PAPER)
+                .define('B', woodenBarrels)
+                .save(exporter);
+        shapedRecipe(ModItems.DIAMOND_MINI_BARREL, 8, Criterions.HAS_ITEM, woodenBarrels)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.DIAMOND)
+                .define('P', Items.PAPER)
+                .define('B', woodenBarrels)
+                .save(exporter);
+        shapedRecipe(ModItems.OBSIDIAN_MINI_BARREL, 8, Criterions.HAS_ITEM, woodenBarrels)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.OBSIDIAN)
+                .define('P', Items.PAPER)
+                .define('B', woodenBarrels)
+                .save(exporter);
+        shapedRecipe(ModItems.NETHERITE_MINI_BARREL, 8, Criterions.HAS_ITEM, woodenBarrels)
+                .pattern(" I ")
+                .pattern("PBP")
+                .pattern(" P ")
+                .define('I', Items.NETHERITE_INGOT)
+                .define('P', Items.PAPER)
+                .define('B', woodenBarrels)
                 .save(exporter);
     }
 
