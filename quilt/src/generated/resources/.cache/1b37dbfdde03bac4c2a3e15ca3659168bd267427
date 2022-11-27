@@ -1,4 +1,4 @@
-// 1.19.2	2022-11-27T00:07:23.1132988	Expanded Storage - Loot Tables
+// 1.19.2	2022-11-27T19:14:38.0749275	Expanded Storage - Loot Tables
 33c357b90f7121c05dff48ddb1154f48ceff4184 data\expandedstorage\loot_tables\blocks\pink_amethyst_mini_present.json
 ca6a3ce125bb05dc902a6d3b952243ae3e341c20 data\expandedstorage\loot_tables\blocks\waxed_oxidized_copper_mini_barrel.json
 7fceb877a886e15e721321526a9fbc27d00ccc7a data\expandedstorage\loot_tables\blocks\iron_mini_chest.json
@@ -67,6 +67,7 @@ dcb7d59d7f72ae6d70cf9d6bdca8d7df832796f8 data\expandedstorage\loot_tables\blocks
 1c7a6ead7402dee0daeb717ffc68479f5c4cf963 data\expandedstorage\loot_tables\blocks\oxidized_copper_mini_barrel_with_sparrow.json
 b97386d81d8d5c2ff64065f9ccae71479b689d07 data\expandedstorage\loot_tables\blocks\red_mini_present_with_sparrow.json
 b48cb3b8a6b091688ce36917049bff632c8d9830 data\expandedstorage\loot_tables\blocks\wood_mini_chest.json
+4a511ca759b2d829b2d52d24d3584de158835488 data\expandedstorage\loot_tables\blocks\moss_chest.json
 49f57f44119a75a29901f84aab5d5379cb9c2e72 data\expandedstorage\loot_tables\blocks\green_mini_present_with_sparrow.json
 9de5bb8a93ad9d865d1a73c5749a41c59321bde5 data\expandedstorage\loot_tables\blocks\vanilla_wood_mini_chest_with_sparrow.json
 f1607b7cdc1b7b3a7c36ff52206a5c3d8d6fb25a data\expandedstorage\loot_tables\blocks\waxed_exposed_copper_mini_barrel.json

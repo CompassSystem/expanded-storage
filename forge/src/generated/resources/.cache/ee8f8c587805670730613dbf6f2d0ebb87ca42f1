@@ -1,4 +1,4 @@
-// 1.19.2	2022-11-27T00:06:30.8102986	Expanded Storage - Recipes
+// 1.19.2	2022-11-27T19:15:07.3345016	Expanded Storage - Recipes
 5a595c54b197c295df1b2864b3b3d32ce6df3a34 data/expandedstorage/advancements/recipes/expandedstorage.tab/bamboo_chest.json
 4997ba2714270107573bad7f22637e80503500fd data/expandedstorage/advancements/recipes/expandedstorage.tab/bamboo_chest_minecart.json
 3d9aea572b8ffcaa58fbf5e291af3b7fc26eff4c data/expandedstorage/advancements/recipes/expandedstorage.tab/candy_cane_mini_present.json
@@ -38,6 +38,7 @@ c006613acba96ad052a3c6edf66319958005527c data/expandedstorage/advancements/recip
 bbabdb2e1592bee0bb436571f1074645aff28921 data/expandedstorage/advancements/recipes/expandedstorage.tab/iron_to_obsidian_conversion_kit.json
 95f6c6a87e1d803048f478705289d388adabeed7 data/expandedstorage/advancements/recipes/expandedstorage.tab/iron_to_old_iron_chest.json
 f88e94b0b6dc7dfa301a80bcf080c46727d9b411 data/expandedstorage/advancements/recipes/expandedstorage.tab/mini_barrel.json
+ca55315b5653febc343281eee26027fbd1259d7c data/expandedstorage/advancements/recipes/expandedstorage.tab/moss_chest.json
 91ce962bdbd0059e5d6cd3b775a64ba5a9550acd data/expandedstorage/advancements/recipes/expandedstorage.tab/netherite_barrel.json
 0c8ffa69b4fe67e162cccb4df415bb955904542a data/expandedstorage/advancements/recipes/expandedstorage.tab/netherite_chest.json
 0c859f95eae28583f7e59a1cc9cdf6985e9223ed data/expandedstorage/advancements/recipes/expandedstorage.tab/netherite_chest_minecart.json
@@ -121,6 +122,7 @@ f7a310f9b784e64d004070a9a0929598017addce data/expandedstorage/recipes/iron_mini_
 ffeb682e034085b0e2967d6b72ab61df3aa809ec data/expandedstorage/recipes/iron_to_obsidian_conversion_kit.json
 ded36dc3e4a3ead943fcb86a949554293c3b0b32 data/expandedstorage/recipes/iron_to_old_iron_chest.json
 f0b05016eb8433d813cdfe779d3170f77f89c55c data/expandedstorage/recipes/mini_barrel.json
+c25cd57e608e05fe8c356ebdcb6f1d0e906c4a19 data/expandedstorage/recipes/moss_chest.json
 be75a96c2b124230d548369f4e2ec7092f0524e0 data/expandedstorage/recipes/netherite_barrel.json
 af9367b8e396db6cc2b52526f910d879f68a0373 data/expandedstorage/recipes/netherite_chest.json
 9188ca652269f661fcc49ff951a171738cf339e9 data/expandedstorage/recipes/netherite_chest_minecart.json

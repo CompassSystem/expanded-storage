@@ -1,4 +1,4 @@
-// 1.19.2	2022-11-27T00:06:30.8082964	Expanded Storage - Loot Tables
+// 1.19.2	2022-11-27T19:15:07.3335047	Expanded Storage - Loot Tables
 c4176ed0f138099354412768e80336d3878de745 data/expandedstorage/loot_tables/blocks/bamboo_chest.json
 427ae2a4f029f931a88795c93c54829b93422fdc data/expandedstorage/loot_tables/blocks/candy_cane_mini_present.json
 bc28347bc38338e059e099bbdc7b37f377825d82 data/expandedstorage/loot_tables/blocks/candy_cane_mini_present_with_sparrow.json
@@ -32,6 +32,7 @@ e1a20348ce96a642caa5a6c3eb185b557b1a428e data/expandedstorage/loot_tables/blocks
 0c13a18d32577f29a22ee8e81fedc7f8ce44e694 data/expandedstorage/loot_tables/blocks/lavender_mini_present_with_sparrow.json
 220c359786aceee489baff0f853f8b0d64d24ef3 data/expandedstorage/loot_tables/blocks/mini_barrel.json
 147b8ed1a1273263af4092d42de401f2759b7e01 data/expandedstorage/loot_tables/blocks/mini_barrel_with_sparrow.json
+4a511ca759b2d829b2d52d24d3584de158835488 data/expandedstorage/loot_tables/blocks/moss_chest.json
 9134c8c14a04ccbbcabf549cc145fe9ba6651bb2 data/expandedstorage/loot_tables/blocks/netherite_barrel.json
 f82044fe7488d8f8c5c5410903647ffc5379d549 data/expandedstorage/loot_tables/blocks/netherite_chest.json
 e9fa05ae9452cb5c8d209ce76544e7fffa6ff773 data/expandedstorage/loot_tables/blocks/netherite_mini_barrel.json
