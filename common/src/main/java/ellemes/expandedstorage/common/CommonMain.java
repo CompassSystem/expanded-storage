@@ -8,6 +8,7 @@ import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.CopperBarrelBlock;
 import ellemes.expandedstorage.common.block.CopperMiniStorageBlock;
 import ellemes.expandedstorage.common.block.MiniStorageBlock;
+import ellemes.expandedstorage.common.block.MossChestBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
@@ -387,6 +388,20 @@ public final class CommonMain {
                 chestMinecartItems.add(cartItem);
             };
 
+            ObjectConsumer mossChestMaker = (id, stat, tier, settings) -> {
+                NamedValue<ChestBlock> block = new NamedValue<>(id, () -> new MossChestBlock(tier.getBlockSettings().apply(settings), id, tier.getId(), stat, tier.getSlotCount()));
+                NamedValue<BlockItem> item = new NamedValue<>(id, () -> chestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
+                ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
+                NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> chestMinecartItemMaker.apply(new Item.Properties().tab(group), cartId));
+                NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> new TieredEntityType<>((type, level) -> {
+                    return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
+                }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, CommonMain.MINECART_CHEST_OBJECT_TYPE, block.getValue().getObjTier()));
+                chestBlocks.add(block);
+                chestItems.add(item);
+                chestMinecartEntityTypes.add(cartEntityType);
+                chestMinecartItems.add(cartItem);
+            };
+
 //            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperChestMaker = (id, weatherState) -> {
 //                NamedValue<ChestBlock> block = new NamedValue<>(id, () -> new CopperChestBlock(copperTier.getBlockSettings().apply(copperSettings), id, copperStat, copperTier.getSlotCount(), weatherState));
 //                NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
@@ -405,7 +420,7 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("pumpkin_chest"), pumpkinStat, woodTier, pumpkinSettings);
             chestMaker.apply(Utils.id("present"), presentStat, woodTier, presentSettings);
             chestMaker.apply(Utils.id("bamboo_chest"), bambooStat, woodTier, bambooSettings);
-            chestMaker.apply(Utils.id("moss_chest"), mossStat, woodTier, mossSettings);
+            mossChestMaker.apply(Utils.id("moss_chest"), mossStat, woodTier, mossSettings);
 //            copperChestMaker.accept(Utils.id("copper_chest"), WeatheringCopper.WeatherState.UNAFFECTED);
 //            copperChestMaker.accept(Utils.id("exposed_copper_chest"), WeatheringCopper.WeatherState.EXPOSED);
 //            copperChestMaker.accept(Utils.id("weathered_copper_chest"), WeatheringCopper.WeatherState.WEATHERED);
