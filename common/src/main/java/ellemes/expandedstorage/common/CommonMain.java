@@ -475,12 +475,19 @@ public final class CommonMain {
                 return false;
             });
 
-            CommonMain.defineEntityUpgradeBehaviour(e -> e instanceof ChestMinecart || e instanceof MinecartChest, (entity, from, to) -> {
+            CommonMain.defineEntityUpgradeBehaviour(e -> e instanceof ChestMinecart || e instanceof MinecartChest, (player, hand, entity, from, to) -> {
                 if (entity instanceof MinecartChest minecartChest && from.equals(Utils.WOOD_TIER_ID) && minecartChest.getContainerSize() == 27 ||
                         entity instanceof ChestMinecart chestMinecart && ((TieredEntityType<ChestMinecart>) chestMinecart.getType()).getObjTier().equals(from)) {
                     TieredEntityType<ChestMinecart> toObject = (TieredEntityType<ChestMinecart>) CommonMain.getTieredObject(CommonMain.MINECART_CHEST_OBJECT_TYPE, to);
                     if (toObject != null) {
-                        return CommonMain.spawnUpgradedMinecartChest((ServerLevel) entity.getLevel(), toObject, entity);
+                        if (entity.getLevel().isClientSide()) {
+                            return CommonMain.simulateSpawnUpgradedMinecartChest(entity);
+                        }
+                        boolean upgradeSucceeded = CommonMain.spawnUpgradedMinecartChest((ServerLevel) entity.getLevel(), toObject, entity);
+                        if (upgradeSucceeded && !player.isCreative()) {
+                            player.getItemInHand(hand).shrink(1);
+                        }
+                        return upgradeSucceeded;
                     }
                 }
                 return false;
@@ -987,14 +994,23 @@ public final class CommonMain {
         return InteractionResult.PASS;
     }
 
+    private static boolean simulateSpawnUpgradedMinecartChest(Entity original) {
+        boolean isMinecraftCart = original instanceof MinecartChest;
+        boolean isOurCart = original instanceof ChestMinecart;
+        if (!(isOurCart || isMinecraftCart)) {
+            return false;
+        }
+
+        return true;
+    }
+
     private static boolean spawnUpgradedMinecartChest(ServerLevel level, EntityType<ChestMinecart> newType, Entity original) {
+        if (!simulateSpawnUpgradedMinecartChest(original)) {
+            return false;
+        }
         ChestMinecart newCart = newType.create(level, null, original.hasCustomName() ? original.getCustomName() : null, null, original.getOnPos(), MobSpawnType.COMMAND, true, false);
         if (newCart != null) {
             boolean isMinecraftCart = original instanceof MinecartChest;
-            boolean isOurCart = original instanceof ChestMinecart;
-            if (!(isOurCart || isMinecraftCart)) {
-                return false;
-            }
             newCart.loadInventoryFromTag(ContainerHelper.saveAllItems(new CompoundTag(), isMinecraftCart ? ((MinecartChest) original).getItemStacks() : ((ChestMinecart) original).getItems()));
             newCart.setPos(original.position());
             newCart.setXRot(original.getXRot());
