@@ -1000,6 +1000,9 @@ public final class CommonMain {
             newCart.setXRot(original.getXRot());
             newCart.setYRot(original.getYRot());
             newCart.setDeltaMovement(original.getDeltaMovement());
+            if (original.hasCustomName()) {
+                newCart.setCustomName(original.getCustomName());
+            }
             level.addFreshEntityWithPassengers(newCart);
             ((Clearable) original).clearContent();
             original.remove(Entity.RemovalReason.DISCARDED);
