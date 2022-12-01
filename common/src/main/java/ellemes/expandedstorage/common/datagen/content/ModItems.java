@@ -37,14 +37,6 @@ public final class ModItems {
     public static final BlockItem PRESENT = item(Utils.id("present"));
     public static final BlockItem BAMBOO_CHEST = item(Utils.id("bamboo_chest"));
     public static final BlockItem MOSS_CHEST = item(Utils.id("moss_chest"));
-//    public static final BlockItem COPPER_CHEST = item(Utils.id("copper_chest"));
-//    public static final BlockItem EXPOSED_COPPER_CHEST = item(Utils.id("exposed_copper_chest"));
-//    public static final BlockItem WEATHERED_COPPER_CHEST = item(Utils.id("weathered_copper_chest"));
-//    public static final BlockItem OXIDIZED_COPPER_CHEST = item(Utils.id("oxidized_copper_chest"));
-//    public static final BlockItem WAXED_COPPER_CHEST = item(Utils.id("waxed_copper_chest"));
-//    public static final BlockItem WAXED_EXPOSED_COPPER_CHEST = item(Utils.id("waxed_exposed_copper_chest"));
-//    public static final BlockItem WAXED_WEATHERED_COPPER_CHEST = item(Utils.id("waxed_weathered_copper_chest"));
-//    public static final BlockItem WAXED_OXIDIZED_COPPER_CHEST = item(Utils.id("waxed_oxidized_copper_chest"));
     public static final BlockItem IRON_CHEST = item(Utils.id("iron_chest"));
     public static final BlockItem GOLD_CHEST = item(Utils.id("gold_chest"));
     public static final BlockItem DIAMOND_CHEST = item(Utils.id("diamond_chest"));
@@ -62,14 +54,6 @@ public final class ModItems {
     public static final ChestMinecartItem NETHERITE_CHEST_MINECART = item(Utils.id("netherite_chest_minecart"));
 
     public static final BlockItem OLD_WOOD_CHEST = item(Utils.id("old_wood_chest"));
-//    public static final BlockItem OLD_COPPER_CHEST = item(Utils.id("old_copper_chest"));
-//    public static final BlockItem OLD_EXPOSED_COPPER_CHEST = item(Utils.id("old_exposed_copper_chest"));
-//    public static final BlockItem OLD_WEATHERED_COPPER_CHEST = item(Utils.id("old_weathered_copper_chest"));
-//    public static final BlockItem OLD_OXIDIZED_COPPER_CHEST = item(Utils.id("old_oxidized_copper_chest"));
-//    public static final BlockItem WAXED_OLD_COPPER_CHEST = item(Utils.id("waxed_old_copper_chest"));
-//    public static final BlockItem WAXED_OLD_EXPOSED_COPPER_CHEST = item(Utils.id("waxed_old_exposed_copper_chest"));
-//    public static final BlockItem WAXED_OLD_WEATHERED_COPPER_CHEST = item(Utils.id("waxed_old_weathered_copper_chest"));
-//    public static final BlockItem WAXED_OLD_OXIDIZED_COPPER_CHEST = item(Utils.id("waxed_old_oxidized_copper_chest"));
     public static final BlockItem OLD_IRON_CHEST = item(Utils.id("old_iron_chest"));
     public static final BlockItem OLD_GOLD_CHEST = item(Utils.id("old_gold_chest"));
     public static final BlockItem OLD_DIAMOND_CHEST = item(Utils.id("old_diamond_chest"));

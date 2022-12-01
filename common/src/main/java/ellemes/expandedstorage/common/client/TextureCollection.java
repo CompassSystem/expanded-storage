@@ -3,6 +3,7 @@ package ellemes.expandedstorage.common.client;
 import ellemes.expandedstorage.api.EsChestType;
 import net.minecraft.resources.ResourceLocation;
 
+// todo: Can probably just be an array + EsChestType index
 public final class TextureCollection {
     private final ResourceLocation single;
     private final ResourceLocation left;

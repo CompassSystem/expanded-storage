@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public final class MiniStorageScreen extends AbstractScreen {
-    private static final ResourceLocation TEXTURE = Utils.id("textures/gui/mini_chest_screen.png");
+    private static final ResourceLocation TEXTURE = Utils.id("textures/gui/container/mini_chest_screen.png");
     private static final int TEXTURE_WIDTH = 176;
     private static final int TEXTURE_HEIGHT = 176;
 

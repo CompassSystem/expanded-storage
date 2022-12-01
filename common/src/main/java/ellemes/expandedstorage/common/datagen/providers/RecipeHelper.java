@@ -246,14 +246,6 @@ public class RecipeHelper {
                 .define('C', woodenChests)
                 .group(id(ModItems.BAMBOO_CHEST))
                 .save(exporter);
-//        shapedRecipe(ModItems.COPPER_CHEST, 1, Criterions.HAS_PREVIOUS_BLOCK, ModTags.Items.ES_WOODEN_CHESTS)
-//                .pattern("III")
-//                .pattern("IBI")
-//                .pattern("III")
-//                .define('I', copperIngots)
-//                .define('B', ModTags.Items.ES_WOODEN_CHESTS)
-//                .group(id(ModItems.COPPER_CHEST))
-//                .save(exporter);
         shapedRecipe(ModItems.IRON_CHEST, 1, Criterions.HAS_PREVIOUS_BLOCK, ModTags.Items.ES_WOODEN_CHESTS)
                 .pattern("III")
                 .pattern("IBI")
@@ -312,14 +304,6 @@ public class RecipeHelper {
     }
 
     private void offerOldChestRecipes(Consumer<FinishedRecipe> exporter) {
-//        shapedRecipe(ModItems.OLD_COPPER_CHEST, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.OLD_WOOD_CHEST)
-//                .pattern("III")
-//                .pattern("IBI")
-//                .pattern("III")
-//                .define('I', copperIngots)
-//                .define('B', ModItems.OLD_WOOD_CHEST)
-//                .group(id(ModItems.OLD_COPPER_CHEST))
-//                .save(exporter);
         shapedRecipe(ModItems.OLD_IRON_CHEST, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.OLD_WOOD_CHEST)
                 .pattern("III")
                 .pattern("IBI")
@@ -362,46 +346,6 @@ public class RecipeHelper {
                               .group(id(ModItems.OLD_WOOD_CHEST))
                               .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WOOD_CHEST))
                               .save(exporter, Utils.id("wood_to_old_wood_chest"));
-//        ShapelessRecipeBuilder.shapeless(ModItems.OLD_COPPER_CHEST)
-//                              .requires(ModItems.COPPER_CHEST)
-//                              .group(id(ModItems.OLD_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.COPPER_CHEST))
-//                              .save(exporter, Utils.id("copper_to_old_copper_chest"));;
-//        ShapelessRecipeBuilder.shapeless(ModItems.OLD_EXPOSED_COPPER_CHEST)
-//                              .requires(ModItems.EXPOSED_COPPER_CHEST)
-//                              .group(id(ModItems.OLD_EXPOSED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.EXPOSED_COPPER_CHEST))
-//                              .save(exporter, Utils.id("exposed_copper_to_old_exposed_copper_chest"));
-//        ShapelessRecipeBuilder.shapeless(ModItems.OLD_WEATHERED_COPPER_CHEST)
-//                              .requires(ModItems.WEATHERED_COPPER_CHEST)
-//                              .group(id(ModItems.OLD_WEATHERED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WEATHERED_COPPER_CHEST))
-//                              .save(exporter, Utils.id("weathered_copper_to_old_weathered_copper_chest"));
-//        ShapelessRecipeBuilder.shapeless(ModItems.OLD_OXIDIZED_COPPER_CHEST)
-//                              .requires(ModItems.OXIDIZED_COPPER_CHEST)
-//                              .group(id(ModItems.OLD_OXIDIZED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.OXIDIZED_COPPER_CHEST))
-//                              .save(exporter, Utils.id("oxidized_copper_to_old_oxidized_copper_chest"));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_OLD_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_OLD_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_COPPER_CHEST))
-//                              .save(exporter, Utils.id("waxed_copper_to_waxed_old_copper_chest"));;
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_OLD_EXPOSED_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_EXPOSED_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_OLD_EXPOSED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_EXPOSED_COPPER_CHEST))
-//                              .save(exporter, Utils.id("waxed_exposed_copper_to_waxed_old_exposed_copper_chest"));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_OLD_WEATHERED_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_WEATHERED_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_OLD_WEATHERED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_WEATHERED_COPPER_CHEST))
-//                              .save(exporter, Utils.id("waxed_weathered_copper_to_waxed_old_weathered_copper_chest"));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_OLD_OXIDIZED_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_OXIDIZED_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_OLD_OXIDIZED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_OXIDIZED_COPPER_CHEST))
-//                              .save(exporter, Utils.id("waxed_oxidized_copper_to_waxed_old_oxidized_copper_chest"));
         ShapelessRecipeBuilder.shapeless(ModItems.OLD_IRON_CHEST)
                               .requires(ModItems.IRON_CHEST)
                               .group(id(ModItems.OLD_IRON_CHEST))
@@ -435,38 +379,6 @@ public class RecipeHelper {
                               .group(id(ModItems.WOOD_CHEST))
                               .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.OLD_WOOD_CHEST))
                               .save(exporter, Utils.id("old_wood_to_wood_chest"));
-//        ShapelessRecipeBuilder.shapeless(ModItems.COPPER_CHEST)
-//                              .requires(ModItems.OLD_COPPER_CHEST)
-//                              .group(id(ModItems.COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.OLD_COPPER_CHEST));
-//        ShapelessRecipeBuilder.shapeless(ModItems.EXPOSED_COPPER_CHEST)
-//                              .requires(ModItems.OLD_EXPOSED_COPPER_CHEST)
-//                              .group(id(ModItems.EXPOSED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.OLD_EXPOSED_COPPER_CHEST));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WEATHERED_COPPER_CHEST)
-//                              .requires(ModItems.OLD_WEATHERED_COPPER_CHEST)
-//                              .group(id(ModItems.WEATHERED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.OLD_WEATHERED_COPPER_CHEST));
-//        ShapelessRecipeBuilder.shapeless(ModItems.OXIDIZED_COPPER_CHEST)
-//                              .requires(ModItems.OLD_OXIDIZED_COPPER_CHEST)
-//                              .group(id(ModItems.OXIDIZED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.OLD_OXIDIZED_COPPER_CHEST));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_OLD_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_OLD_COPPER_CHEST));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_EXPOSED_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_OLD_EXPOSED_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_EXPOSED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_OLD_EXPOSED_COPPER_CHEST));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_WEATHERED_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_OLD_WEATHERED_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_WEATHERED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_OLD_WEATHERED_COPPER_CHEST));
-//        ShapelessRecipeBuilder.shapeless(ModItems.WAXED_OXIDIZED_COPPER_CHEST)
-//                              .requires(ModItems.WAXED_OLD_OXIDIZED_COPPER_CHEST)
-//                              .group(id(ModItems.WAXED_OXIDIZED_COPPER_CHEST))
-//                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(ModItems.WAXED_OLD_OXIDIZED_COPPER_CHEST));
         ShapelessRecipeBuilder.shapeless(ModItems.IRON_CHEST)
                               .requires(ModItems.OLD_IRON_CHEST)
                               .group(id(ModItems.IRON_CHEST))
