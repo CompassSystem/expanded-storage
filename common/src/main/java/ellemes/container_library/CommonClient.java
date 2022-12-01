@@ -36,13 +36,13 @@ public class CommonClient {
         CommonClient.keyHandler = keyHandler;
         CommonClient.modLoadedFunction = modLoadedFunction;
         ScreenTypeApi.registerScreenButton(Utils.PAGE_SCREEN_TYPE,
-                Utils.id("textures/gui/page_button.png"),
+                Utils.textureId("textures/gui/page_button.png"),
                 Component.translatable("screen.ellemes_container_lib.page_screen"));
         ScreenTypeApi.registerScreenButton(Utils.SCROLL_SCREEN_TYPE,
-                Utils.id("textures/gui/scroll_button.png"),
+                Utils.textureId("textures/gui/scroll_button.png"),
                 Component.translatable("screen.ellemes_container_lib.scroll_screen"));
         ScreenTypeApi.registerScreenButton(Utils.SINGLE_SCREEN_TYPE,
-                Utils.id("textures/gui/single_button.png"),
+                Utils.textureId("textures/gui/single_button.png"),
                 Component.translatable("screen.ellemes_container_lib.single_screen"),
                 (scaledWidth, scaledHeight) -> scaledWidth < 370 || scaledHeight < 386, // Smallest possible resolution a double netherite chest fits on.
                 List.of(

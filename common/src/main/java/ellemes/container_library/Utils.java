@@ -46,6 +46,10 @@ public class Utils {
         return new ResourceLocation(Utils.MOD_ID, path);
     }
 
+    public static ResourceLocation textureId(String path) {
+        return new ResourceLocation(Utils.LEGACY_MOD_ID, path);
+    }
+
     public static void requiresNonNull(Object value, String parameterName) {
         Objects.requireNonNull(value, parameterName + " must not be null");
     }
