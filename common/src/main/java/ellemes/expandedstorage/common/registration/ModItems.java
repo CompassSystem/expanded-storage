@@ -2,7 +2,7 @@ package ellemes.expandedstorage.common.registration;
 
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -135,6 +135,6 @@ public final class ModItems {
 
     private static <T extends Item> T item(ResourceLocation id) {
         //noinspection unchecked
-        return (T) Registry.ITEM.get(id);
+        return (T) BuiltInRegistries.ITEM.get(id);
     }
 }

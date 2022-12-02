@@ -1,12 +1,13 @@
 package ellemes.expandedstorage.common.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.CaveFeatures;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -16,8 +17,8 @@ public class MossChestBlock extends ChestBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter getter, BlockPos pos, BlockState state, boolean bl) {
-        return getter.getBlockState(pos.above()).isAir();
+    public boolean isValidBonemealTarget(LevelReader reader, BlockPos pos, BlockState state, boolean bl) {
+        return reader.getBlockState(pos.above()).isAir();
     }
 
     @Override
@@ -27,6 +28,9 @@ public class MossChestBlock extends ChestBlock implements BonemealableBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource source, BlockPos pos, BlockState state) {
-        CaveFeatures.MOSS_PATCH_BONEMEAL.value().place(level, level.getChunkSource().getGenerator(), source, pos.above());
+        level.registryAccess()
+             .registry(Registries.CONFIGURED_FEATURE)
+             .flatMap(registry -> registry.getHolder(CaveFeatures.MOSS_PATCH_BONEMEAL))
+             .ifPresent(feature -> feature.value().place(level, level.getChunkSource().getGenerator(), source, pos.above()));
     }
 }

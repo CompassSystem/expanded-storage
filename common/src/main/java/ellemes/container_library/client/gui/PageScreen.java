@@ -267,13 +267,11 @@ public final class PageScreen extends AbstractScreen {
             x -= 14;
         }
         leftPageButton = new PageButton(x, y, 0,
-                Component.translatable("screen.ellemes_container_lib.prev_page"), button -> this.setPage(page, page - 1),
-                this::renderButtonTooltip);
+                Component.translatable("screen.ellemes_container_lib.prev_page"), button -> this.setPage(page, page - 1));
         leftPageButton.active = false;
         this.addRenderableWidget(leftPageButton);
         rightPageButton = new PageButton(x + 42, y, 1,
-                Component.translatable("screen.ellemes_container_lib.next_page"), button -> this.setPage(page, page + 1),
-                this::renderButtonTooltip);
+                Component.translatable("screen.ellemes_container_lib.next_page"), button -> this.setPage(page, page + 1));
         this.addRenderableWidget(rightPageButton);
         this.setPageText();
     }

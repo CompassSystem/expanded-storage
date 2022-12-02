@@ -13,8 +13,8 @@ public final class PageButton extends Button {
     private static final ResourceLocation TEXTURE = Utils.textureId("textures/gui/page_buttons.png");
     private final int textureOffset;
 
-    public PageButton(int x, int y, int textureOffset, Component message, OnPress onPress, OnTooltip onTooltip) {
-        super(x, y, 12, 12, message, onPress, onTooltip, Button.DEFAULT_NARRATION);
+    public PageButton(int x, int y, int textureOffset, Component message, OnPress onPress) {
+        super(x, y, 12, 12, message, onPress, Button.DEFAULT_NARRATION);
         this.textureOffset = textureOffset;
     }
 
@@ -36,12 +36,13 @@ public final class PageButton extends Button {
     }
 
     public void renderButtonTooltip(PoseStack stack, int mouseX, int mouseY) {
-        if (active) {
-            if (isHovered) {
-                this.renderToolTip(stack, mouseX, mouseY);
-            } else if (this.isFocused()) {
-                this.renderToolTip(stack, this.getX(), this.getY());
-            }
-        }
+        // todo: fix
+//        if (active) {
+//            if (isHovered) {
+//                this.renderToolTip(stack, mouseX, mouseY);
+//            } else if (this.isFocused()) {
+//                this.renderToolTip(stack, this.getX(), this.getY());
+//            }
+//        }
     }
 }

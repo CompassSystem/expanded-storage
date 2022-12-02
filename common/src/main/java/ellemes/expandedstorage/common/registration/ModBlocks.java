@@ -7,7 +7,7 @@ import ellemes.expandedstorage.common.block.CopperBarrelBlock;
 import ellemes.expandedstorage.common.block.CopperMiniStorageBlock;
 import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
@@ -104,6 +104,6 @@ public final class ModBlocks {
 
     private static <T extends Block> T block(ResourceLocation id) {
         //noinspection unchecked
-        return (T) Registry.BLOCK.get(id);
+        return (T) BuiltInRegistries.BLOCK.get(id);
     }
 }

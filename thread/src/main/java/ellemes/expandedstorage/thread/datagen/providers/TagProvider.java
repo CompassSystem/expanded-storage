@@ -7,17 +7,20 @@ import ellemes.expandedstorage.common.datagen.providers.TagHelper;
 import ellemes.expandedstorage.thread.datagen.content.ThreadTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.concurrent.CompletableFuture;
+
 public final class TagProvider {
     public static final class Block extends FabricTagProvider.BlockTagProvider {
-        public Block(FabricDataOutput output) {
-            super(output);
+        public Block(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> providerFuture) {
+            super(output, providerFuture);
         }
 
         @Override
-        protected void generateTags() {
+        protected void addTags(HolderLookup.Provider provider) {
             TagHelper.registerBlockTags(this::getOrCreateTagBuilder);
             this.getOrCreateTagBuilder(ThreadTags.Blocks.WOODEN_CHESTS)
                 .add(Blocks.CHEST)
@@ -34,12 +37,12 @@ public final class TagProvider {
     }
 
     public static final class Item extends FabricTagProvider.ItemTagProvider {
-        public Item(FabricDataOutput output) {
-            super(output);
+        public Item(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> providerFuture) {
+            super(output, providerFuture);
         }
 
         @Override
-        protected void generateTags() {
+        protected void addTags(HolderLookup.Provider provider) {
             TagHelper.registerItemTags(this::getOrCreateTagBuilder);
             this.getOrCreateTagBuilder(ThreadTags.Items.WOODEN_CHESTS)
                 .add(Items.CHEST)
@@ -96,12 +99,12 @@ public final class TagProvider {
         }
     }
     public static final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
-        public EntityType(FabricDataOutput output) {
-            super(output);
+        public EntityType(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> providerFuture) {
+            super(output, providerFuture);
         }
 
         @Override
-        protected void generateTags() {
+        protected void addTags(HolderLookup.Provider provider) {
             TagHelper.registerEntityTypeTags(this::getOrCreateTagBuilder);
         }
 

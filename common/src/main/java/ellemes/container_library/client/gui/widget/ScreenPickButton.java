@@ -14,8 +14,8 @@ public final class ScreenPickButton extends Button {
     private final boolean showWarningSymbol;
     private final boolean isCurrentPreference;
 
-    public ScreenPickButton(int x, int y, int width, int height, ResourceLocation texture, Component message, boolean showWarningSymbol, boolean isCurrentPreference, OnPress onPress, OnTooltip onTooltip) {
-        super(x, y, width, height, message, onPress, onTooltip, Button.DEFAULT_NARRATION);
+    public ScreenPickButton(int x, int y, int width, int height, ResourceLocation texture, Component message, boolean showWarningSymbol, boolean isCurrentPreference, OnPress onPress) {
+        super(x, y, width, height, message, onPress, Button.DEFAULT_NARRATION);
         this.texture = texture;
         this.showWarningSymbol = showWarningSymbol;
         this.isCurrentPreference = isCurrentPreference;
@@ -34,10 +34,11 @@ public final class ScreenPickButton extends Button {
     }
 
     public void renderButtonTooltip(PoseStack stack, int mouseX, int mouseY) {
-        if (isHovered) {
-            this.renderToolTip(stack, mouseX, mouseY);
-        } else if (this.isFocused()) {
-            this.renderToolTip(stack, this.getX(), this.getY());
-        }
+        // todo: fix
+//        if (isHovered) {
+//            this.renderToolTip(stack, mouseX, mouseY);
+//        } else if (this.isFocused()) {
+//            this.renderToolTip(stack, this.getX(), this.getY());
+//        }
     }
 }

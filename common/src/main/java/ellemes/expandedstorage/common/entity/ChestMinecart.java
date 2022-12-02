@@ -7,7 +7,7 @@ import ellemes.container_library.api.v3.context.BaseContext;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.misc.ExposedInventory;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -104,9 +104,11 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     }
 
     public static ChestMinecart createMinecart(Level level, Vec3 pos, ResourceLocation cartItemId) {
-        ChestMinecart cart = (ChestMinecart) Registry.ENTITY_TYPE.get(cartItemId).create(level);
-        cart.setPos(pos);
-        return cart;
+        return level.registryAccess().registry(Registries.ENTITY_TYPE).map(registry -> {
+            ChestMinecart cart = (ChestMinecart) registry.get(cartItemId).create(level);
+            cart.setPos(pos);
+            return cart;
+        }).orElse(null);
     }
 
     @Override

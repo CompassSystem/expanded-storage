@@ -36,13 +36,13 @@ import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -61,24 +61,19 @@ public class ThreadMain {
     }
 
     public static void constructContent(boolean htmPresent, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {
-        CreativeModeTab group = new FabricItemGroup(Utils.id("tab")) {
-            @Override
-            public ItemStack makeIcon() {
-                return Registry.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance();
-            }
-
-            @Override
-            protected void generateDisplayItems(FeatureFlagSet featureFlagSet, Output output) {
-                CommonMain.generateDisplayItems(featureFlagSet, output::accept);
-            }
-        };
+        CreativeModeTab group = FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
+                .displayItems((featureFlagSet, output, someBoolean) ->  {
+                    CommonMain.generateDisplayItems(featureFlagSet, stack -> {
+                        output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    });
+                }).build();
 
         CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, tagReloadListener, contentRegistrationConsumer,
                 /*Base*/ true,
-                /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,
+                /*Chest*/ TagKey.create(Registries.BLOCK, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
-                /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_barrels")),
+                /*Barrel*/ TagKey.create(Registries.BLOCK, new ResourceLocation("c", "wooden_barrels")),
                 /*Mini Chest*/ BlockItem::new);
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
@@ -86,21 +81,21 @@ public class ThreadMain {
 
     public static void registerContent(Content content) {
         for (ResourceLocation stat : content.getStats()) {
-            Registry.register(Registry.CUSTOM_STAT, stat, stat);
+            Registry.register(BuiltInRegistries.CUSTOM_STAT, stat, stat);
         }
 
         CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
-            Registry.register(Registry.BLOCK, name, value);
+            Registry.register(BuiltInRegistries.BLOCK, name, value);
             CommonMain.registerTieredObject(value);
         });
 
         //noinspection UnstableApiUsage
         ItemStorage.SIDED.registerForBlocks(ThreadMain::getItemAccess, content.getBlocks().stream().map(NamedValue::getValue).toArray(OpenableBlock[]::new));
 
-        CommonMain.iterateNamedList(content.getItems(), (name, value) -> Registry.register(Registry.ITEM, name, value));
+        CommonMain.iterateNamedList(content.getItems(), (name, value) -> Registry.register(BuiltInRegistries.ITEM, name, value));
 
         CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
-            Registry.register(Registry.ENTITY_TYPE, name, value);
+            Registry.register(BuiltInRegistries.ENTITY_TYPE, name, value);
             if (value instanceof TieredObject object) {
                 CommonMain.registerTieredObject(object);
             }
@@ -113,7 +108,7 @@ public class ThreadMain {
     }
 
     private static <T extends BlockEntity> void registerBlockEntity(NamedValue<BlockEntityType<T>> blockEntityType) {
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, blockEntityType.getName(), blockEntityType.getValue());
+        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, blockEntityType.getName(), blockEntityType.getValue());
     }
 
     public static void registerCarrierCompat(Content content) {

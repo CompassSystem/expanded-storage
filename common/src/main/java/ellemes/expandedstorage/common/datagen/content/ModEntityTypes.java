@@ -2,7 +2,7 @@ package ellemes.expandedstorage.common.datagen.content;
 
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -15,6 +15,6 @@ public final class ModEntityTypes {
     public static final EntityType<ChestMinecart> MOSS_CHEST_MINECART = entityType(Utils.id("moss_chest_minecart"));
 
     private static <T extends Entity> EntityType<T> entityType(ResourceLocation id) {
-        return (EntityType<T>) Registry.ENTITY_TYPE.get(id);
+        return (EntityType<T>) BuiltInRegistries.ENTITY_TYPE.get(id);
     }
 }

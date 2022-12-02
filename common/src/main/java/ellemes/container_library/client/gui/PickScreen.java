@@ -11,10 +11,8 @@ import ellemes.container_library.client.gui.widget.ScreenPickButton;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
@@ -25,9 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class PickScreen extends Screen {
@@ -105,38 +101,38 @@ public final class PickScreen extends Screen {
             PickButton settings = PickScreen.BUTTON_SETTINGS.get(option);
             boolean isWarn = settings.getWarningTest().test(width, height);
             boolean isCurrent = option.equals(preference);
-            Button.OnTooltip tooltip = new Button.OnTooltip() {
-                private static final Component CURRENT_OPTION_TEXT = Component.translatable("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
-
-                @Override
-                public void onTooltip(Button button, PoseStack stack, int x, int y) {
-                    List<Component> tooltip = new ArrayList<>(4);
-                    tooltip.add(button.getMessage());
-                    if (isCurrent) {
-                        tooltip.add(CURRENT_OPTION_TEXT);
-                    }
-                    if (isWarn) {
-                        tooltip.addAll(settings.getWarningText());
-                    }
-                    PickScreen.this.renderTooltip(stack, tooltip, Optional.empty(), x, y);
-                }
-
-                @Override
-                public void narrateTooltip(Consumer<Component> consumer) {
-                    if (isCurrent) {
-                        consumer.accept(CURRENT_OPTION_TEXT);
-                    }
-                    if (isWarn) {
-                        MutableComponent text = Component.literal("");
-                        for (Component component : settings.getWarningText()) {
-                            text.append(component);
-                        }
-                        consumer.accept(text);
-                    }
-                }
-            };
+//            Button.OnTooltip tooltip = new Button.OnTooltip() {
+//                private static final Component CURRENT_OPTION_TEXT = Component.translatable("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
+//
+//                @Override
+//                public void onTooltip(Button button, PoseStack stack, int x, int y) {
+//                    List<Component> tooltip = new ArrayList<>(4);
+//                    tooltip.add(button.getMessage());
+//                    if (isCurrent) {
+//                        tooltip.add(CURRENT_OPTION_TEXT);
+//                    }
+//                    if (isWarn) {
+//                        tooltip.addAll(settings.getWarningText());
+//                    }
+//                    PickScreen.this.renderTooltip(stack, tooltip, Optional.empty(), x, y);
+//                }
+//
+//                @Override
+//                public void narrateTooltip(Consumer<Component> consumer) {
+//                    if (isCurrent) {
+//                        consumer.accept(CURRENT_OPTION_TEXT);
+//                    }
+//                    if (isWarn) {
+//                        MutableComponent text = Component.literal("");
+//                        for (Component component : settings.getWarningText()) {
+//                            text.append(component);
+//                        }
+//                        consumer.accept(text);
+//                    }
+//                }
+//            };
             optionButtons.add(this.addRenderableWidget(new ScreenPickButton(outerPadding + (innerPadding + 96) * x, topPadding, 96, 96,
-                    settings.getTexture(), settings.getTitle(), isWarn, isCurrent, button -> this.updatePlayerPreference(option), tooltip)));
+                    settings.getTexture(), settings.getTitle(), isWarn, isCurrent, button -> this.updatePlayerPreference(option))));
             x++;
         }
     }

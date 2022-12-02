@@ -45,7 +45,7 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -880,7 +880,7 @@ public final class CommonMain {
                     } else {
                         newId = newId + "_with_sparrow";
                     }
-                    Block next = Registry.BLOCK.get(new ResourceLocation(blockId.getNamespace(), newId));
+                    Block next = BuiltInRegistries.BLOCK.get(new ResourceLocation(blockId.getNamespace(), newId));
                     world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
                     return ToolUsageResult.slowSuccess();
                 }
@@ -979,17 +979,18 @@ public final class CommonMain {
         if (!simulateSpawnUpgradedMinecartChest(original)) {
             return false;
         }
-        ChestMinecart newCart = newType.create(level, null, original.hasCustomName() ? original.getCustomName() : null, null, original.getOnPos(), MobSpawnType.COMMAND, true, false);
-        if (newCart != null) {
+        ChestMinecart newCart = newType.create(level, null, cart -> {
             boolean isMinecraftCart = original instanceof MinecartChest;
-            newCart.loadInventoryFromTag(ContainerHelper.saveAllItems(new CompoundTag(), isMinecraftCart ? ((MinecartChest) original).getItemStacks() : ((ChestMinecart) original).getItems()));
-            newCart.setPos(original.position());
-            newCart.setXRot(original.getXRot());
-            newCart.setYRot(original.getYRot());
-            newCart.setDeltaMovement(original.getDeltaMovement());
+            cart.loadInventoryFromTag(ContainerHelper.saveAllItems(new CompoundTag(), isMinecraftCart ? ((MinecartChest) original).getItemStacks() : ((ChestMinecart) original).getItems()));
+            cart.setPos(original.position());
+            cart.setXRot(original.getXRot());
+            cart.setYRot(original.getYRot());
+            cart.setDeltaMovement(original.getDeltaMovement());
             if (original.hasCustomName()) {
-                newCart.setCustomName(original.getCustomName());
+                cart.setCustomName(original.getCustomName());
             }
+        }, original.getOnPos(), MobSpawnType.COMMAND, true, false);
+        if (newCart != null) {
             level.addFreshEntityWithPassengers(newCart);
             ((Clearable) original).clearContent();
             original.remove(Entity.RemovalReason.DISCARDED);
