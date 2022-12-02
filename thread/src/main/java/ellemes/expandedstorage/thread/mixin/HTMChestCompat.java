@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.fabric.mixin;
+package ellemes.expandedstorage.thread.mixin;
 
 import com.github.fabricservertools.htm.HTMContainerLock;
 import com.github.fabricservertools.htm.api.LockableChestBlock;

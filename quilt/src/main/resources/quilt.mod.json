@@ -57,7 +57,6 @@
   "mixin": [
     "ellemes-container-library-thread.mixin.json",
     "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json",
-    "expandedstorage-quilt.mixin.json"
+    "expandedstorage-thread.mixin.json"
   ]
 }

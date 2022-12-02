@@ -1,7 +1,7 @@
-package ellemes.expandedstorage.quilt;
+package ellemes.expandedstorage.thread;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
-import org.quiltmc.loader.api.QuiltLoader;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -10,14 +10,14 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 public final class MixinPlugin implements IMixinConfigPlugin {
-    private static final int MIXIN_PACKAGE_LENGTH = "ellemes.expandedstorage.quilt.mixin".length() + 1;
+    private static final int MIXIN_PACKAGE_LENGTH = "ellemes.expandedstorage.thread.mixin".length() + 1;
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         String className = mixinClassName.substring(MIXIN_PACKAGE_LENGTH);
         return switch (className) {
-            case "HTMChestCompat", "HTMLockableBlockEntityCompat" -> QuiltLoader.isModLoaded("htm");
-            case "ToweletteCompat" -> QuiltLoader.isModLoaded("towelette");
+            case "HTMChestCompat", "HTMLockableBlockEntityCompat" -> FabricLoader.getInstance().isModLoaded("htm");
+            case "ToweletteCompat" -> FabricLoader.getInstance().isModLoaded("towelette");
             default -> true;
         };
     }

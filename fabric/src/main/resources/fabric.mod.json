@@ -34,8 +34,7 @@
   "mixins": [
     "ellemes-container-library-thread.mixin.json",
     "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json",
-    "expandedstorage-fabric.mixin.json"
+    "expandedstorage-thread.mixin.json"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
