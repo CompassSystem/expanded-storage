@@ -19,7 +19,6 @@ import ellemes.expandedstorage.common.block.misc.DoubleItemAccess;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.block.strategies.Lockable;
 import ellemes.expandedstorage.common.client.MiniStorageScreen;
-import ellemes.expandedstorage.common.client.TextureCollection;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.entity.TieredEntityType;
 import ellemes.expandedstorage.common.item.BlockUpgradeBehaviour;
@@ -112,7 +111,7 @@ public final class CommonMain {
     private static final Map<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
     private static final Map<Map.Entry<Predicate<Entity>, MutationMode>, EntityMutatorBehaviour> ENTITY_MUTATOR_BEHAVIOURS = new HashMap<>();
     private static final Map<Map.Entry<ResourceLocation, ResourceLocation>, TieredObject> TIERED_OBJECTS = new HashMap<>();
-    private static final Map<ResourceLocation, TextureCollection> CHEST_TEXTURES = new HashMap<>();
+    private static final Map<ResourceLocation, ResourceLocation[]> CHEST_TEXTURES = new HashMap<>();
 
     private static NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
@@ -271,7 +270,7 @@ public final class CommonMain {
 
     public static void declareChestTextures(ResourceLocation block, ResourceLocation singleTexture, ResourceLocation leftTexture, ResourceLocation rightTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, ResourceLocation frontTexture, ResourceLocation backTexture) {
         if (!CommonMain.CHEST_TEXTURES.containsKey(block)) {
-            TextureCollection collection = new TextureCollection(singleTexture, leftTexture, rightTexture, topTexture, bottomTexture, frontTexture, backTexture);
+            ResourceLocation[] collection = {topTexture, bottomTexture, frontTexture, backTexture, leftTexture, rightTexture, singleTexture};
             CommonMain.CHEST_TEXTURES.put(block, collection);
         } else {
             throw new IllegalArgumentException("Tried registering chest textures for \"" + block + "\" which already has textures.");
@@ -279,7 +278,7 @@ public final class CommonMain {
     }
 
     public static ResourceLocation getChestTexture(ResourceLocation block, EsChestType chestType) {
-        if (CommonMain.CHEST_TEXTURES.containsKey(block)) return CommonMain.CHEST_TEXTURES.get(block).getTexture(chestType);
+        if (CommonMain.CHEST_TEXTURES.containsKey(block)) return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
         return MissingTextureAtlasSprite.getLocation();
     }
 
