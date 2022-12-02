@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.block.Block;
 
 public class TieredEntityType<T extends Entity> extends EntityType<T> implements TieredObject {
@@ -15,10 +16,10 @@ public class TieredEntityType<T extends Entity> extends EntityType<T> implements
 
     public TieredEntityType(EntityFactory<T> factory, MobCategory category, boolean saveable, boolean summonable,
                             boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> spawnBlocks,
-                            EntityDimensions dimensions, int maxTrackDistance, int trackTickInterval,
+                            EntityDimensions dimensions, int maxTrackDistance, int trackTickInterval, FeatureFlagSet featureFlagSet,
                             ResourceLocation objectType, ResourceLocation objectTier) {
         super(factory, category, saveable, summonable, fireImmune, spawnableFarFromPlayer, spawnBlocks, dimensions,
-                maxTrackDistance, trackTickInterval);
+                maxTrackDistance, trackTickInterval, featureFlagSet);
         this.objectType = objectType;
         this.objectTier = objectTier;
     }

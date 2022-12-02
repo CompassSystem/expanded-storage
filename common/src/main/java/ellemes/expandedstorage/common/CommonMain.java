@@ -18,6 +18,7 @@ import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntit
 import ellemes.expandedstorage.common.block.misc.DoubleItemAccess;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.block.strategies.Lockable;
+import ellemes.expandedstorage.common.client.MiniStorageScreen;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.entity.TieredEntityType;
 import ellemes.expandedstorage.common.item.BlockMutatorBehaviour;
@@ -369,7 +370,7 @@ public final class CommonMain {
                 NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> chestMinecartItemMaker.apply(new Item.Properties(), cartId));
                 NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> new TieredEntityType<>((type, level) -> {
                     return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
-                }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, CommonMain.MINECART_CHEST_OBJECT_TYPE, block.getValue().getObjTier()));
+                }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, FeatureFlagSet.of(), CommonMain.MINECART_CHEST_OBJECT_TYPE, block.getValue().getObjTier()));
                 chestBlocks.add(block);
                 chestItems.add(item);
                 chestMinecartEntityTypes.add(cartEntityType);
@@ -383,7 +384,7 @@ public final class CommonMain {
                 NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> chestMinecartItemMaker.apply(new Item.Properties(), cartId));
                 NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> new TieredEntityType<>((type, level) -> {
                     return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
-                }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, CommonMain.MINECART_CHEST_OBJECT_TYPE, block.getValue().getObjTier()));
+                }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, FeatureFlagSet.of(), CommonMain.MINECART_CHEST_OBJECT_TYPE, block.getValue().getObjTier()));
                 chestBlocks.add(block);
                 chestItems.add(item);
                 chestMinecartEntityTypes.add(cartEntityType);

@@ -14,7 +14,7 @@ public final class PageButton extends Button {
     private final int textureOffset;
 
     public PageButton(int x, int y, int textureOffset, Component message, OnPress onPress, OnTooltip onTooltip) {
-        super(x, y, 12, 12, message, onPress, onTooltip);
+        super(x, y, 12, 12, message, onPress, onTooltip, Button.DEFAULT_NARRATION);
         this.textureOffset = textureOffset;
     }
 
@@ -32,7 +32,7 @@ public final class PageButton extends Button {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        GuiComponent.blit(stack, x, y, textureOffset * 12, this.getYImage(this.isHoveredOrFocused()) * 12, width, height, 32, 48);
+        GuiComponent.blit(stack, this.getX(), this.getY(), textureOffset * 12, this.getYImage(this.isHoveredOrFocused()) * 12, width, height, 32, 48);
     }
 
     public void renderButtonTooltip(PoseStack stack, int mouseX, int mouseY) {
@@ -40,7 +40,7 @@ public final class PageButton extends Button {
             if (isHovered) {
                 this.renderToolTip(stack, mouseX, mouseY);
             } else if (this.isFocused()) {
-                this.renderToolTip(stack, x, y);
+                this.renderToolTip(stack, this.getX(), this.getY());
             }
         }
     }

@@ -48,10 +48,10 @@ public final class QuiltMain implements ModInitializer {
 
     private void registerWaxedContent(Content content) {
         CopperBlockHelper.dewaxing().forEach((waxed, dewaxed) -> {
-            BlockContentRegistries.WAXABLE_BLOCK.put(dewaxed, new ReversibleBlockEntry(waxed, true));
+            BlockContentRegistries.WAXABLE.put(dewaxed, new ReversibleBlockEntry(waxed, true));
         });
         CopperBlockHelper.oxidisation().forEach((before, next) -> {
-            BlockContentRegistries.OXIDIZABLE_BLOCK.put(before, new ReversibleBlockEntry(next, true));
+            BlockContentRegistries.OXIDIZABLE.put(before, new ReversibleBlockEntry(next, true));
         });
     }
 

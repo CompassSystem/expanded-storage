@@ -15,7 +15,7 @@ public final class ScreenPickButton extends Button {
     private final boolean isCurrentPreference;
 
     public ScreenPickButton(int x, int y, int width, int height, ResourceLocation texture, Component message, boolean showWarningSymbol, boolean isCurrentPreference, OnPress onPress, OnTooltip onTooltip) {
-        super(x, y, width, height, message, onPress, onTooltip);
+        super(x, y, width, height, message, onPress, onTooltip, Button.DEFAULT_NARRATION);
         this.texture = texture;
         this.showWarningSymbol = showWarningSymbol;
         this.isCurrentPreference = isCurrentPreference;
@@ -25,11 +25,11 @@ public final class ScreenPickButton extends Button {
     public void renderButton(PoseStack stack, int mouseX, int mouseY, float delta) {
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-        GuiComponent.blit(stack, x, y, 0, height * (this.isHoveredOrFocused() ? 1 : isCurrentPreference ? 2 : 0), width, height, width, height * 3);
+        GuiComponent.blit(stack, this.getX(), this.getY(), 0, height * (this.isHoveredOrFocused() ? 1 : isCurrentPreference ? 2 : 0), width, height, width, height * 3);
         if (showWarningSymbol) {
             RenderSystem.setShaderTexture(0, WARNING_TEXTURE);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-            GuiComponent.blit(stack, x + width - 28, y + 9, 0, 0, 16, 32, 16, 32);
+            GuiComponent.blit(stack, this.getX() + width - 28, this.getY() + 9, 0, 0, 16, 32, 16, 32);
         }
     }
 
@@ -37,7 +37,7 @@ public final class ScreenPickButton extends Button {
         if (isHovered) {
             this.renderToolTip(stack, mouseX, mouseY);
         } else if (this.isFocused()) {
-            this.renderToolTip(stack, x, y);
+            this.renderToolTip(stack, this.getX(), this.getY());
         }
     }
 }

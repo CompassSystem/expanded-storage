@@ -75,7 +75,7 @@ public final class PageScreen extends AbstractScreen {
     }
 
     private static boolean regionIntersects(AbstractWidget widget, int x, int y, int width, int height) {
-        return widget.x <= x + width && y <= widget.y + widget.getHeight() || x <= widget.x + widget.getWidth() && widget.y <= y + height;
+        return widget.getX() <= x + width && y <= widget.getY() + widget.getHeight() || x <= widget.getX() + widget.getWidth() && widget.getY() <= y + height;
     }
 
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {
@@ -195,7 +195,7 @@ public final class PageScreen extends AbstractScreen {
 
     private void setPageText() {
         currentPageText = Component.translatable("screen.ellemes_container_lib.page_x_y", page, pages);
-        pageTextX = (leftPageButton.x + leftPageButton.getWidth() + rightPageButton.x) / 2.0f - font.width(currentPageText) / 2.0f + 0.5f;
+        pageTextX = (leftPageButton.getX() + leftPageButton.getWidth() + rightPageButton.getX()) / 2.0f - font.width(currentPageText) / 2.0f + 0.5f;
     }
 
     @Override
@@ -255,10 +255,10 @@ public final class PageScreen extends AbstractScreen {
                 renderableChildren.add(widget);
             }
         }
-        renderableChildren.sort(Comparator.comparingInt(a -> -a.x));
+        renderableChildren.sort(Comparator.comparingInt(a -> -a.getX()));
         for (AbstractWidget widget : renderableChildren) {
             if (PageScreen.regionIntersects(widget, x, y, width, 12)) {
-                x = widget.x - width - 2;
+                x = widget.getX() - width - 2;
             }
         }
         page = 1;
