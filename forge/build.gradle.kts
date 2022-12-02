@@ -32,9 +32,9 @@ val noConfiguration: (ModuleDependency) -> Unit = {
 }
 
 dependencies {
-    compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}:${properties["jei_version"]}:api")
+    compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}-forge-api:${properties["jei_version"]}")
     modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${properties["ipn_minecraft_version"]}-${properties["ipn_version"]}")
-    modCompileOnly("vazkii.quark:Quark:3.3-test-367.2454")
+    modCompileOnly("vazkii.quark:Quark:3.3-373.2529")
 }
 
 tasks.getByName<MinifyJsonTask>("minJar") {
