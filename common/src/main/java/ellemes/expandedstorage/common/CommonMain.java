@@ -19,7 +19,6 @@ import ellemes.expandedstorage.common.block.misc.DoubleItemAccess;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.block.strategies.Lockable;
 import ellemes.expandedstorage.common.client.MiniStorageScreen;
-import ellemes.expandedstorage.common.client.TextureCollection;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.entity.TieredEntityType;
 import ellemes.expandedstorage.common.item.BlockUpgradeBehaviour;
@@ -112,7 +111,7 @@ public final class CommonMain {
     private static final Map<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
     private static final Map<Map.Entry<Predicate<Entity>, MutationMode>, EntityMutatorBehaviour> ENTITY_MUTATOR_BEHAVIOURS = new HashMap<>();
     private static final Map<Map.Entry<ResourceLocation, ResourceLocation>, TieredObject> TIERED_OBJECTS = new HashMap<>();
-    private static final Map<ResourceLocation, TextureCollection> CHEST_TEXTURES = new HashMap<>();
+    private static final Map<ResourceLocation, ResourceLocation[]> CHEST_TEXTURES = new HashMap<>();
 
     private static NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
@@ -271,7 +270,7 @@ public final class CommonMain {
 
     public static void declareChestTextures(ResourceLocation block, ResourceLocation singleTexture, ResourceLocation leftTexture, ResourceLocation rightTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, ResourceLocation frontTexture, ResourceLocation backTexture) {
         if (!CommonMain.CHEST_TEXTURES.containsKey(block)) {
-            TextureCollection collection = new TextureCollection(singleTexture, leftTexture, rightTexture, topTexture, bottomTexture, frontTexture, backTexture);
+            ResourceLocation[] collection = {topTexture, bottomTexture, frontTexture, backTexture, leftTexture, rightTexture, singleTexture};
             CommonMain.CHEST_TEXTURES.put(block, collection);
         } else {
             throw new IllegalArgumentException("Tried registering chest textures for \"" + block + "\" which already has textures.");
@@ -279,7 +278,7 @@ public final class CommonMain {
     }
 
     public static ResourceLocation getChestTexture(ResourceLocation block, EsChestType chestType) {
-        if (CommonMain.CHEST_TEXTURES.containsKey(block)) return CommonMain.CHEST_TEXTURES.get(block).getTexture(chestType);
+        if (CommonMain.CHEST_TEXTURES.containsKey(block)) return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
         return MissingTextureAtlasSprite.getLocation();
     }
 
@@ -360,7 +359,6 @@ public final class CommonMain {
             final ResourceLocation presentStat = statMaker.apply("open_present");
             final ResourceLocation bambooStat = statMaker.apply("open_bamboo_chest");
             final ResourceLocation mossStat = statMaker.apply("open_moss_chest");
-//            final ResourceLocation copperStat = statMaker.apply("open_copper_chest");
             final ResourceLocation ironStat = statMaker.apply("open_iron_chest");
             final ResourceLocation goldStat = statMaker.apply("open_gold_chest");
             final ResourceLocation diamondStat = statMaker.apply("open_diamond_chest");
@@ -402,33 +400,11 @@ public final class CommonMain {
                 chestMinecartItems.add(cartItem);
             };
 
-//            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperChestMaker = (id, weatherState) -> {
-//                NamedValue<ChestBlock> block = new NamedValue<>(id, () -> new CopperChestBlock(copperTier.getBlockSettings().apply(copperSettings), id, copperStat, copperTier.getSlotCount(), weatherState));
-//                NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
-////                ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
-////                NamedValue<ChestMinecartItem> cartItem = new NamedValue<>(cartId, () -> new ChestMinecartItem(new Item.Properties().tab(group), cartId));
-////                NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> EntityType.Builder.<ChestMinecart>of((type, level) -> {
-////                    return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
-////                }, MobCategory.MISC).sized(0.98F, 0.7F).clientTrackingRange(8).build(cartId.getPath()));
-//                chestBlocks.add(block);
-//                chestItems.add(item);
-////                chestMinecartEntityTypes.add(cartEntityType);
-////                chestMinecartItems.add(cartItem);
-//            };
-
             chestMaker.apply(Utils.id("wood_chest"), woodStat, woodTier, woodSettings);
             chestMaker.apply(Utils.id("pumpkin_chest"), pumpkinStat, woodTier, pumpkinSettings);
             chestMaker.apply(Utils.id("present"), presentStat, woodTier, presentSettings);
             chestMaker.apply(Utils.id("bamboo_chest"), bambooStat, woodTier, bambooSettings);
             mossChestMaker.apply(Utils.id("moss_chest"), mossStat, woodTier, mossSettings);
-//            copperChestMaker.accept(Utils.id("copper_chest"), WeatheringCopper.WeatherState.UNAFFECTED);
-//            copperChestMaker.accept(Utils.id("exposed_copper_chest"), WeatheringCopper.WeatherState.EXPOSED);
-//            copperChestMaker.accept(Utils.id("weathered_copper_chest"), WeatheringCopper.WeatherState.WEATHERED);
-//            copperChestMaker.accept(Utils.id("oxidized_copper_chest"), WeatheringCopper.WeatherState.OXIDIZED);
-//            chestMaker.apply(Utils.id("waxed_copper_chest"), copperStat, copperTier, copperSettings);
-//            chestMaker.apply(Utils.id("waxed_exposed_copper_chest"), copperStat, copperTier, copperSettings);
-//            chestMaker.apply(Utils.id("waxed_weathered_copper_chest"), copperStat, copperTier, copperSettings);
-//            chestMaker.apply(Utils.id("waxed_oxidized_copper_chest"), copperStat, copperTier, copperSettings);
             chestMaker.apply(Utils.id("iron_chest"), ironStat, ironTier, ironSettings);
             chestMaker.apply(Utils.id("gold_chest"), goldStat, goldTier, goldSettings);
             chestMaker.apply(Utils.id("diamond_chest"), diamondStat, diamondTier, diamondSettings);
@@ -561,22 +537,7 @@ public final class CommonMain {
                 oldChestItems.add(item);
             };
 
-//            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperChestMaker = (id, weatherState) -> {
-//                NamedValue<AbstractChestBlock> block = new NamedValue<>(id, () -> new OldCopperChestBlock(copperTier.getBlockSettings().apply(copperSettings), id, copperStat, copperTier.getSlotCount(), weatherState));
-//                NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
-//                oldChestBlocks.add(block);
-//                oldChestItems.add(item);
-//            };
-
             chestMaker.apply(Utils.id("old_wood_chest"), woodStat, woodTier, woodSettings);
-//            copperChestMaker.accept(Utils.id("old_copper_chest"), WeatheringCopper.WeatherState.UNAFFECTED);
-//            copperChestMaker.accept(Utils.id("old_exposed_copper_chest"), WeatheringCopper.WeatherState.EXPOSED);
-//            copperChestMaker.accept(Utils.id("old_weathered_copper_chest"), WeatheringCopper.WeatherState.WEATHERED);
-//            copperChestMaker.accept(Utils.id("old_oxidized_copper_chest"), WeatheringCopper.WeatherState.OXIDIZED);
-//            chestMaker.apply(Utils.id("waxed_old_copper_chest"), copperStat, copperTier, copperSettings);
-//            chestMaker.apply(Utils.id("waxed_old_exposed_copper_chest"), copperStat, copperTier, copperSettings);
-//            chestMaker.apply(Utils.id("waxed_old_weathered_copper_chest"), copperStat, copperTier, copperSettings);
-//            chestMaker.apply(Utils.id("waxed_old_oxidized_copper_chest"), copperStat, copperTier, copperSettings);
             chestMaker.apply(Utils.id("old_iron_chest"), ironStat, ironTier, ironSettings);
             chestMaker.apply(Utils.id("old_gold_chest"), goldStat, goldTier, goldSettings);
             chestMaker.apply(Utils.id("old_diamond_chest"), diamondStat, diamondTier, diamondSettings);

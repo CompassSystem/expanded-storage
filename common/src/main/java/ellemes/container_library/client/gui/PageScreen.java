@@ -50,7 +50,7 @@ public final class PageScreen extends AbstractScreen {
 
         this.initializeSlots(playerInventory);
 
-        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
+        textureLocation = Utils.textureId("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
         textureWidth = switch (inventoryWidth) {
             case 9 -> inventoryHeight == 3 ? 176 : 208;
             case 12 -> 256;

@@ -14,8 +14,7 @@
       "ellemes.expandedstorage.fabric.FabricMain"
     ],
     "client": [
-      "ellemes.container_library.fabric.FabricClient",
-      "ellemes.expandedstorage.fabric.FabricClient"
+      "ellemes.container_library.fabric.FabricClient"
     ],
     "fabric-datagen": [
       "ellemes.expandedstorage.thread.datagen.Main"
@@ -35,8 +34,7 @@
   "mixins": [
     "ellemes-container-library-thread.mixin.json",
     "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json",
-    "expandedstorage-fabric.mixin.json"
+    "expandedstorage-thread.mixin.json"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",

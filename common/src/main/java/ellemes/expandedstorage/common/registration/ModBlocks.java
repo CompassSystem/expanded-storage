@@ -17,15 +17,6 @@ public final class ModBlocks {
     public static final ChestBlock PRESENT = block(Utils.id("present"));
     public static final ChestBlock BAMBOO_CHEST = block(Utils.id("bamboo_chest"));
     public static final ChestBlock MOSS_CHEST = block(Utils.id("moss_chest"));
-//    public static final CopperChestBlock COPPER_CHEST = block(Utils.id("copper_chest"));
-//    public static final CopperChestBlock EXPOSED_COPPER_CHEST = block(Utils.id("exposed_copper_chest"));
-//    public static final CopperChestBlock WEATHERED_COPPER_CHEST = block(Utils.id("weathered_copper_chest"));
-//    public static final CopperChestBlock OXIDIZED_COPPER_CHEST = block(Utils.id("oxidized_copper_chest"));
-//    public static final ChestBlock WAXED_COPPER_CHEST = block(Utils.id("waxed_copper_chest"));
-//    public static final ChestBlock WAXED_EXPOSED_COPPER_CHEST = block(Utils.id("waxed_exposed_copper_chest"));
-//    public static final ChestBlock WAXED_WEATHERED_COPPER_CHEST = block(Utils.id("waxed_weathered_copper_chest"));
-//    public static final ChestBlock WAXED_OXIDIZED_COPPER_CHEST = block(Utils.id("waxed_oxidized_copper_chest"));
-
     public static final ChestBlock IRON_CHEST = block(Utils.id("iron_chest"));
     public static final ChestBlock GOLD_CHEST = block(Utils.id("gold_chest"));
     public static final ChestBlock DIAMOND_CHEST = block(Utils.id("diamond_chest"));
@@ -33,14 +24,6 @@ public final class ModBlocks {
     public static final ChestBlock NETHERITE_CHEST = block(Utils.id("netherite_chest"));
 
     public static final AbstractChestBlock OLD_WOOD_CHEST = block(Utils.id("old_wood_chest"));
-//    public static final OldCopperChestBlock OLD_COPPER_CHEST = block(Utils.id("old_copper_chest"));
-//    public static final OldCopperChestBlock OLD_EXPOSED_COPPER_CHEST = block(Utils.id("old_exposed_copper_chest"));
-//    public static final OldCopperChestBlock OLD_WEATHERED_COPPER_CHEST = block(Utils.id("old_weathered_copper_chest"));
-//    public static final OldCopperChestBlock OLD_OXIDIZED_COPPER_CHEST = block(Utils.id("old_oxidized_copper_chest"));
-//    public static final AbstractChestBlock WAXED_OLD_COPPER_CHEST = block(Utils.id("waxed_old_copper_chest"));
-//    public static final AbstractChestBlock WAXED_OLD_EXPOSED_COPPER_CHEST = block(Utils.id("waxed_old_exposed_copper_chest"));
-//    public static final AbstractChestBlock WAXED_OLD_WEATHERED_COPPER_CHEST = block(Utils.id("waxed_old_weathered_copper_chest"));
-//    public static final AbstractChestBlock WAXED_OLD_OXIDIZED_COPPER_CHEST = block(Utils.id("waxed_old_oxidized_copper_chest"));
     public static final AbstractChestBlock OLD_IRON_CHEST = block(Utils.id("old_iron_chest"));
     public static final AbstractChestBlock OLD_GOLD_CHEST = block(Utils.id("old_gold_chest"));
     public static final AbstractChestBlock OLD_DIAMOND_CHEST = block(Utils.id("old_diamond_chest"));

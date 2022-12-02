@@ -39,7 +39,7 @@ public final class ScrollScreen extends AbstractScreen {
 
         this.initializeSlots(playerInventory);
 
-        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
+        textureLocation = Utils.textureId("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
         textureWidth = switch (inventoryWidth) {
             case 9 -> 208;
             case 12 -> 256;
