@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": {
-    "expandedstorage:copper_barrel": "expandedstorage:exposed_copper_barrel",
-    "expandedstorage:exposed_copper_barrel": "expandedstorage:weathered_copper_barrel",
-    "expandedstorage:weathered_copper_barrel": "expandedstorage:oxidized_copper_barrel"
-  }
-}

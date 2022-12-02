@@ -7,7 +7,6 @@ import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
 
@@ -24,8 +23,8 @@ public class BlockStateProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerators generator) {
         Consumer<Item> generateFlatItemModel = item -> generator.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
         ModelHelper.registerItemModels(generateFlatItemModel);
-        Consumer<Item> minecartChestParentModel = item -> generator.generateFlatItem(item, Items.CHEST_MINECART, ModelTemplates.FLAT_ITEM);
-        ModelHelper.registerChestItemModels(minecartChestParentModel);
+//        Consumer<Item> minecartChestParentModel = item -> generator.generateFlatItem(item, Items.CHEST_MINECART, ModelTemplates.FLAT_ITEM);
+//        ModelHelper.registerChestItemModels(minecartChestParentModel);
     }
 
     @Override

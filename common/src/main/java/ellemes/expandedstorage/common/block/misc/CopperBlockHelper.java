@@ -11,33 +11,29 @@ import java.util.Optional;
 public class CopperBlockHelper {
     private static final BiMap<Block, Block> OXIDISATION_MAP =
             ImmutableBiMap.<Block, Block>builder()
-//                          .put(ModBlocks.COPPER_CHEST, ModBlocks.EXPOSED_COPPER_CHEST)
-//                          .put(ModBlocks.EXPOSED_COPPER_CHEST, ModBlocks.WEATHERED_COPPER_CHEST)
-//                          .put(ModBlocks.WEATHERED_COPPER_CHEST, ModBlocks.OXIDIZED_COPPER_CHEST)
-//                          .put(ModBlocks.OLD_COPPER_CHEST, ModBlocks.OLD_EXPOSED_COPPER_CHEST)
-//                          .put(ModBlocks.OLD_EXPOSED_COPPER_CHEST, ModBlocks.OLD_WEATHERED_COPPER_CHEST)
-//                          .put(ModBlocks.OLD_WEATHERED_COPPER_CHEST, ModBlocks.OLD_OXIDIZED_COPPER_CHEST)
                           .put(ModBlocks.COPPER_BARREL, ModBlocks.EXPOSED_COPPER_BARREL)
                           .put(ModBlocks.EXPOSED_COPPER_BARREL, ModBlocks.WEATHERED_COPPER_BARREL)
                           .put(ModBlocks.WEATHERED_COPPER_BARREL, ModBlocks.OXIDIZED_COPPER_BARREL)
+                          .put(ModBlocks.COPPER_MINI_BARREL, ModBlocks.EXPOSED_COPPER_MINI_BARREL)
+                          .put(ModBlocks.EXPOSED_COPPER_MINI_BARREL, ModBlocks.WEATHERED_COPPER_MINI_BARREL)
+                          .put(ModBlocks.WEATHERED_COPPER_MINI_BARREL, ModBlocks.OXIDIZED_COPPER_MINI_BARREL)
+                          .put(ModBlocks.COPPER_MINI_BARREL_WITH_SPARROW, ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
+                          .put(ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW, ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
+                          .put(ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW, ModBlocks.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
                           .build();
 
     private static final BiMap<Block, Block> INVERSE_MAP = OXIDISATION_MAP.inverse();
 
     private static final BiMap<Block, Block> DEWAXED_MAP =
             ImmutableBiMap.<Block, Block>builder()
-//                          .put(ModBlocks.WAXED_COPPER_CHEST, ModBlocks.COPPER_CHEST)
-//                          .put(ModBlocks.WAXED_EXPOSED_COPPER_CHEST, ModBlocks.EXPOSED_COPPER_CHEST)
-//                          .put(ModBlocks.WAXED_WEATHERED_COPPER_CHEST, ModBlocks.WEATHERED_COPPER_CHEST)
-//                          .put(ModBlocks.WAXED_OXIDIZED_COPPER_CHEST, ModBlocks.OXIDIZED_COPPER_CHEST)
-//                          .put(ModBlocks.WAXED_OLD_COPPER_CHEST, ModBlocks.OLD_COPPER_CHEST)
-//                          .put(ModBlocks.WAXED_OLD_EXPOSED_COPPER_CHEST, ModBlocks.OLD_EXPOSED_COPPER_CHEST)
-//                          .put(ModBlocks.WAXED_OLD_WEATHERED_COPPER_CHEST, ModBlocks.OLD_WEATHERED_COPPER_CHEST)
-//                          .put(ModBlocks.WAXED_OLD_OXIDIZED_COPPER_CHEST, ModBlocks.OLD_OXIDIZED_COPPER_CHEST)
                           .put(ModBlocks.WAXED_COPPER_BARREL, ModBlocks.COPPER_BARREL)
                           .put(ModBlocks.WAXED_EXPOSED_COPPER_BARREL, ModBlocks.EXPOSED_COPPER_BARREL)
                           .put(ModBlocks.WAXED_WEATHERED_COPPER_BARREL, ModBlocks.WEATHERED_COPPER_BARREL)
                           .put(ModBlocks.WAXED_OXIDIZED_COPPER_BARREL, ModBlocks.OXIDIZED_COPPER_BARREL)
+                          .put(ModBlocks.WAXED_COPPER_MINI_BARREL, ModBlocks.COPPER_MINI_BARREL)
+                          .put(ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL, ModBlocks.EXPOSED_COPPER_MINI_BARREL)
+                          .put(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL, ModBlocks.WEATHERED_COPPER_MINI_BARREL)
+                          .put(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL, ModBlocks.OXIDIZED_COPPER_MINI_BARREL)
                           .build();
 
     public static Optional<BlockState> getNextOxidisedState(BlockState state) {

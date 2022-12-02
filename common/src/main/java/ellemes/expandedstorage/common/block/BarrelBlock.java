@@ -28,8 +28,8 @@ public class BarrelBlock extends OpenableBlock {
     }
 
     @Override
-    public ResourceLocation getBlockType() {
-        return CommonMain.BARREL_BLOCK_TYPE;
+    public ResourceLocation getObjType() {
+        return CommonMain.BARREL_OBJECT_TYPE;
     }
 
     @Nullable

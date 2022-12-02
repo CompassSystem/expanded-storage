@@ -1,7 +1,9 @@
 package ellemes.expandedstorage.thread;
 
+import com.google.common.base.Suppliers;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
+import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
@@ -10,6 +12,7 @@ import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
@@ -22,6 +25,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -46,6 +50,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class ThreadMain {
     @SuppressWarnings({"UnstableApiUsage"})
@@ -70,9 +76,12 @@ public class ThreadMain {
         CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, tagReloadListener, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,
+                /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_barrels")),
                 /*Mini Chest*/ BlockItem::new);
+
+        UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
     }
 
     public static void registerContent(Content content) {
@@ -82,7 +91,7 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
             Registry.register(Registry.BLOCK, name, value);
-            CommonMain.registerTieredBlock(value);
+            CommonMain.registerTieredObject(value);
         });
 
         //noinspection UnstableApiUsage
@@ -90,7 +99,12 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getItems(), (name, value) -> Registry.register(Registry.ITEM, name, value));
 
-        CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> Registry.register(Registry.ENTITY_TYPE, name, value));
+        CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
+            Registry.register(Registry.ENTITY_TYPE, name, value);
+            if (value instanceof TieredObject object) {
+                CommonMain.registerTieredObject(object);
+            }
+        });
 
         ThreadMain.registerBlockEntity(content.getChestBlockEntityType());
         ThreadMain.registerBlockEntity(content.getOldChestBlockEntityType());
@@ -116,6 +130,7 @@ public class ThreadMain {
         ThreadMain.Client.registerChestBlockEntityRenderer();
         ThreadMain.Client.registerItemRenderers(content.getChestItems());
         ThreadMain.Client.registerMinecartEntityRenderers(content.getChestMinecartEntityTypes());
+        ThreadMain.Client.registerMinecartItemRenderers(content.getChestMinecartAndTypes());
     }
 
     public static class Client {
@@ -141,6 +156,14 @@ public class ThreadMain {
         public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
             for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
                 EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer(context, ModelLayers.CHEST_MINECART));
+            }
+        }
+
+        public static void registerMinecartItemRenderers(List<Map.Entry<NamedValue<ChestMinecartItem>, NamedValue<EntityType<ChestMinecart>>>> chestMinecartAndTypes) {
+            for (var pair : chestMinecartAndTypes) {
+                Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> pair.getValue().getValue().create(Minecraft.getInstance().level));
+                BuiltinItemRendererRegistry.INSTANCE.register(pair.getKey().getValue(), (itemStack, transform, stack, source, light, overlay) ->
+                        Minecraft.getInstance().getEntityRenderDispatcher().render(renderEntity.get(), 0, 0, 0, 0, 0, stack, source, light));
             }
         }
     }

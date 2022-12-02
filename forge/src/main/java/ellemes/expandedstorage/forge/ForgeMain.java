@@ -7,22 +7,23 @@ import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
-import ellemes.expandedstorage.forge.item.MiniChestBlockItem;
+import ellemes.expandedstorage.forge.item.ChestMinecartItem;
+import ellemes.expandedstorage.forge.item.MiniStorageBlockItem;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoneycombItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -33,6 +34,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -49,6 +51,8 @@ import java.util.function.Supplier;
 public final class ForgeMain {
 
     public ForgeMain() {
+        new ellemes.container_library.forge.ForgeMain();
+
         TagReloadListener tagReloadListener = new TagReloadListener();
 
 //        new CreativeModeTab(Utils.MOD_ID + ".tab") {
@@ -63,9 +67,10 @@ public final class ForgeMain {
                 , FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
                 /*Base*/ false,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
+                /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
-                /*Mini Chest*/ MiniChestBlockItem::new);
+                /*Mini Storage*/ MiniStorageBlockItem::new);
 
         MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> tagReloadListener.postDataReload());
 
@@ -86,6 +91,14 @@ public final class ForgeMain {
                 });
             }
         });
+
+        MinecraftForge.EVENT_BUS.addListener((PlayerInteractEvent.EntityInteractSpecific event) -> {
+            InteractionResult result = CommonMain.interactWithEntity(event.getLevel(), event.getEntity(), event.getHand(), event.getTarget());
+            if (result != InteractionResult.PASS) {
+                event.setCancellationResult(result);
+                event.setCanceled(true);
+            }
+        });
     }
 
     private void registerContent(Content content) {
@@ -98,7 +111,7 @@ public final class ForgeMain {
             event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
                 CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
                     helper.register(name, value);
-                    CommonMain.registerTieredBlock(value);
+                    CommonMain.registerTieredObject(value);
                 });
             });
 
@@ -114,7 +127,12 @@ public final class ForgeMain {
             });
 
             event.register(ForgeRegistries.Keys.ENTITY_TYPES, helper -> {
-                CommonMain.iterateNamedList(content.getEntityTypes(), helper::register);
+                CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
+                    helper.register(name, value);
+                    if (value instanceof TieredObject object) {
+                        CommonMain.registerTieredObject(object);
+                    }
+                });
             });
         });
 

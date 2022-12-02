@@ -14,6 +14,7 @@ public final class Main implements DataGeneratorEntrypoint {
         pack.addProvider(RecipeProvider::new);
         pack.addProvider(TagProvider.Block::new);
         pack.addProvider(TagProvider.Item::new);
+        pack.addProvider(TagProvider.EntityType::new);
         pack.addProvider(BlockLootProvider::new);
         pack.addProvider(BlockStateProvider::new);
     }

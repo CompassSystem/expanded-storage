@@ -7,6 +7,24 @@ plugins {
 loom {
     forge {
         mixinConfig("expandedstorage-forge.mixin.json")
+        mixinConfig("ellemes-container-library-forge.mixin.json")
+    }
+}
+
+repositories {
+    maven {
+        // JEI maven
+        name = "Progwml6 maven"
+        url = uri("https://dvs1.progwml6.com/files/maven/")
+    }
+    maven {
+        // JEI maven - fallback
+        name = "ModMaven"
+        url = uri("https://modmaven.k-4u.nl")
+    }
+    maven {
+        name = "Jared"
+        url = uri("https://maven.blamejared.com/")
     }
 }
 
@@ -14,7 +32,9 @@ val noConfiguration: (ModuleDependency) -> Unit = {
 }
 
 dependencies {
-    include(modImplementation("ellemes:${properties["container_library_artifact"]}-forge:${properties["container_library_version"]}", dependencyConfiguration = noConfiguration))
+    compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}-forge-api:${properties["jei_version"]}")
+    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${properties["ipn_minecraft_version"]}-${properties["ipn_version"]}")
+    modCompileOnly("vazkii.quark:Quark:3.3-373.2529")
 }
 
 tasks.getByName<MinifyJsonTask>("minJar") {

@@ -2,12 +2,13 @@ package ellemes.expandedstorage.forge.datagen.providers;
 
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.ModBlocks;
-import ellemes.expandedstorage.common.datagen.content.ModItems;
+import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
 import ellemes.expandedstorage.forge.datagen.content.ForgeTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
@@ -49,6 +50,22 @@ public final class TagProvider {
         @Override
         public String getName() {
             return "Expanded Storage - Item Tags";
+        }
+    }
+
+    public static final class EntityType extends EntityTypeTagsProvider {
+        public EntityType(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+            super(generator, Utils.MOD_ID, existingFileHelper);
+        }
+
+        @Override
+        protected void addTags() {
+            TagHelper.registerEntityTypeTags(this::tag);
+        }
+
+        @Override
+        public String getName() {
+            return "Expanded Storage - Entity Type Tags";
         }
     }
 }

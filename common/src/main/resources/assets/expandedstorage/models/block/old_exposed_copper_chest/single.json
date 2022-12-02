@@ -1,7 +1,0 @@
-{
-  "parent": "expandedstorage:block/parent/old_chest_single",
-  "textures": {
-    "atlas": "expandedstorage:block/old_exposed_copper_chest",
-    "particle": "minecraft:block/exposed_copper"
-  }
-}

@@ -95,4 +95,20 @@ public final class TagProvider {
             return "Expanded Storage - Item Tags";
         }
     }
+    public static final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
+        public EntityType(FabricDataOutput output) {
+            super(output);
+        }
+
+        @Override
+        protected void generateTags() {
+            TagHelper.registerEntityTypeTags(this::getOrCreateTagBuilder);
+        }
+
+        @Override
+        public String getName() {
+            return "Expanded Storage - Entity Type Tags";
+        }
+    }
+
 }

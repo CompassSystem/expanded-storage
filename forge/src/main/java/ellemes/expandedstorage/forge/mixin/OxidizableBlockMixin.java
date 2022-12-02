@@ -1,8 +1,7 @@
 package ellemes.expandedstorage.forge.mixin;
 
 import ellemes.expandedstorage.common.block.CopperBarrelBlock;
-import ellemes.expandedstorage.common.block.CopperChestBlock;
-import ellemes.expandedstorage.common.block.OldCopperChestBlock;
+import ellemes.expandedstorage.common.block.CopperMiniStorageBlock;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
@@ -14,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Optional;
 
-@Mixin(value = {CopperChestBlock.class, OldCopperChestBlock.class, CopperBarrelBlock.class}, remap = false)
+@Mixin(value = {CopperBarrelBlock.class, CopperMiniStorageBlock.class}, remap = false)
 public class OxidizableBlockMixin extends Block {
     public OxidizableBlockMixin(Properties arg) {
         super(arg);

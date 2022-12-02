@@ -3,29 +3,38 @@
   "depends": {
     "fabricloader": ">=0.14.10",
     "minecraft": ">=1.19.3-alpha.22.43.a",
-    "ellemes_container_lib": ">=2.1.0-alpha.11",
     "fabric-api": ">=0.65.2+1.19.3"
+  },
+  "breaks": {
+    "ellemes_container_lib": "*"
   },
   "entrypoints": {
     "main": [
+      "ellemes.container_library.fabric.FabricMain",
       "ellemes.expandedstorage.fabric.FabricMain"
     ],
     "client": [
-      "ellemes.expandedstorage.fabric.FabricClient"
+      "ellemes.container_library.fabric.FabricClient"
     ],
     "fabric-datagen": [
       "ellemes.expandedstorage.thread.datagen.Main"
     ],
     "modmenu": [
       "ellemes.expandedstorage.thread.client.ModMenuCompat"
+    ],
+    "rei_client": [
+      "ellemes.container_library.thread.client.ReiCompat"
+    ],
+    "emi": [
+      "ellemes.container_library.thread.client.EmiCompat"
     ]
   },
   "environment": "*",
   "authors": ["Ellemes"],
   "mixins": [
+    "ellemes-container-library-thread.mixin.json",
     "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json",
-    "expandedstorage-fabric.mixin.json"
+    "expandedstorage-thread.mixin.json"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
