@@ -3,16 +3,19 @@
   "category": "misc",
   "key": {
     "B": {
-      "tag": "c:wooden_barrels"
+      "item": "expandedstorage:copper_barrel"
     },
     "I": {
       "tag": "c:iron_ingots"
+    },
+    "N": {
+      "tag": "c:iron_nuggets"
     }
   },
   "pattern": [
-    "III",
+    "NNN",
     "IBI",
-    "III"
+    "NNN"
   ],
   "result": {
     "item": "expandedstorage:iron_barrel"
