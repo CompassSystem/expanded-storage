@@ -47,6 +47,7 @@ public final class ModItems {
     public static final ChestMinecartItem PUMPKIN_CHEST_MINECART = item(Utils.id("pumpkin_chest_minecart"));
     public static final ChestMinecartItem PRESENT_MINECART = item(Utils.id("present_minecart"));
     public static final ChestMinecartItem BAMBOO_CHEST_MINECART = item(Utils.id("bamboo_chest_minecart"));
+    public static final ChestMinecartItem MOSS_CHEST_MINECART = item(Utils.id("moss_chest_minecart"));
     public static final ChestMinecartItem IRON_CHEST_MINECART = item(Utils.id("iron_chest_minecart"));
     public static final ChestMinecartItem GOLD_CHEST_MINECART = item(Utils.id("gold_chest_minecart"));
     public static final ChestMinecartItem DIAMOND_CHEST_MINECART = item(Utils.id("diamond_chest_minecart"));
@@ -91,6 +92,13 @@ public final class ModItems {
     public static final BlockItem NETHERITE_MINI_CHEST = item(Utils.id("netherite_mini_chest"));
     public static final BlockItem MINI_BARREL = item(Utils.id("mini_barrel"));
     public static final BlockItem COPPER_MINI_BARREL = item(Utils.id("copper_mini_barrel"));
+    public static final BlockItem EXPOSED_COPPER_MINI_BARREL = item(Utils.id("exposed_copper_mini_barrel"));
+    public static final BlockItem WEATHERED_COPPER_MINI_BARREL = item(Utils.id("weathered_copper_mini_barrel"));
+    public static final BlockItem OXIDIZED_COPPER_MINI_BARREL = item(Utils.id("oxidized_copper_mini_barrel"));
+    public static final BlockItem WAXED_COPPER_MINI_BARREL = item(Utils.id("waxed_copper_mini_barrel"));
+    public static final BlockItem WAXED_EXPOSED_COPPER_MINI_BARREL = item(Utils.id("waxed_exposed_copper_mini_barrel"));
+    public static final BlockItem WAXED_WEATHERED_COPPER_MINI_BARREL = item(Utils.id("waxed_weathered_copper_mini_barrel"));
+    public static final BlockItem WAXED_OXIDIZED_COPPER_MINI_BARREL = item(Utils.id("waxed_oxidized_copper_mini_barrel"));
     public static final BlockItem IRON_MINI_BARREL = item(Utils.id("iron_mini_barrel"));
     public static final BlockItem GOLD_MINI_BARREL = item(Utils.id("gold_mini_barrel"));
     public static final BlockItem DIAMOND_MINI_BARREL = item(Utils.id("diamond_mini_barrel"));
@@ -110,7 +118,20 @@ public final class ModItems {
     public static final BlockItem DIAMOND_MINI_CHEST_WITH_SPARROW = item(Utils.id("diamond_mini_chest_with_sparrow"));
     public static final BlockItem OBSIDIAN_MINI_CHEST_WITH_SPARROW = item(Utils.id("obsidian_mini_chest_with_sparrow"));
     public static final BlockItem NETHERITE_MINI_CHEST_WITH_SPARROW = item(Utils.id("netherite_mini_chest_with_sparrow"));
+    public static final BlockItem MINI_BARREL_WITH_SPARROW = item(Utils.id("mini_barrel_with_sparrow"));
+    public static final BlockItem COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("copper_mini_barrel_with_sparrow"));
+    public static final BlockItem EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("exposed_copper_mini_barrel_with_sparrow"));
+    public static final BlockItem WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("weathered_copper_mini_barrel_with_sparrow"));
+    public static final BlockItem OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("oxidized_copper_mini_barrel_with_sparrow"));
+    public static final BlockItem WAXED_COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("waxed_copper_mini_barrel_with_sparrow"));
+    public static final BlockItem WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("waxed_exposed_copper_mini_barrel_with_sparrow"));
+    public static final BlockItem WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("waxed_weathered_copper_mini_barrel_with_sparrow"));
+    public static final BlockItem WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW = item(Utils.id("waxed_oxidized_copper_mini_barrel_with_sparrow"));
+    public static final BlockItem IRON_MINI_BARREL_WITH_SPARROW = item(Utils.id("iron_mini_barrel_with_sparrow"));
     public static final BlockItem GOLD_MINI_BARREL_WITH_SPARROW = item(Utils.id("gold_mini_barrel_with_sparrow"));
+    public static final BlockItem DIAMOND_MINI_BARREL_WITH_SPARROW = item(Utils.id("diamond_mini_barrel_with_sparrow"));
+    public static final BlockItem OBSIDIAN_MINI_BARREL_WITH_SPARROW = item(Utils.id("obsidian_mini_barrel_with_sparrow"));
+    public static final BlockItem NETHERITE_MINI_BARREL_WITH_SPARROW = item(Utils.id("netherite_mini_barrel_with_sparrow"));
 
     private static <T extends Item> T item(ResourceLocation id) {
         //noinspection unchecked

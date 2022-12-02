@@ -1027,6 +1027,7 @@ public final class CommonMain {
         wrap.accept(ModItems.PUMPKIN_CHEST);
         wrap.accept(ModItems.PRESENT);
         wrap.accept(ModItems.BAMBOO_CHEST);
+        wrap.accept(ModItems.MOSS_CHEST);
         wrap.accept(ModItems.IRON_CHEST);
         wrap.accept(ModItems.GOLD_CHEST);
         wrap.accept(ModItems.DIAMOND_CHEST);
@@ -1036,6 +1037,7 @@ public final class CommonMain {
         wrap.accept(ModItems.PUMPKIN_CHEST_MINECART);
         wrap.accept(ModItems.PRESENT_MINECART);
         wrap.accept(ModItems.BAMBOO_CHEST_MINECART);
+        wrap.accept(ModItems.MOSS_CHEST_MINECART);
         wrap.accept(ModItems.IRON_CHEST_MINECART);
         wrap.accept(ModItems.GOLD_CHEST_MINECART);
         wrap.accept(ModItems.DIAMOND_CHEST_MINECART);
@@ -1088,5 +1090,33 @@ public final class CommonMain {
         wrap.accept(ModItems.OBSIDIAN_MINI_CHEST_WITH_SPARROW);
         wrap.accept(ModItems.NETHERITE_MINI_CHEST);
         wrap.accept(ModItems.NETHERITE_MINI_CHEST_WITH_SPARROW);
+        wrap.accept(ModItems.MINI_BARREL);
+        wrap.accept(ModItems.MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.COPPER_MINI_BARREL);
+        wrap.accept(ModItems.COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL);
+        wrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL);
+        wrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL);
+        wrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.WAXED_COPPER_MINI_BARREL);
+        wrap.accept(ModItems.WAXED_COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL);
+        wrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL);
+        wrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL);
+        wrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.IRON_MINI_BARREL);
+        wrap.accept(ModItems.IRON_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.GOLD_MINI_BARREL);
+        wrap.accept(ModItems.GOLD_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.DIAMOND_MINI_BARREL);
+        wrap.accept(ModItems.DIAMOND_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.OBSIDIAN_MINI_BARREL);
+        wrap.accept(ModItems.OBSIDIAN_MINI_BARREL_WITH_SPARROW);
+        wrap.accept(ModItems.NETHERITE_MINI_BARREL);
+        wrap.accept(ModItems.NETHERITE_MINI_BARREL_WITH_SPARROW);
     }
 }
