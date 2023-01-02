@@ -479,7 +479,7 @@ public final class CommonMain {
                 return false;
             });
 
-            CommonMain.registerMutationBehaviour(b -> b instanceof ChestBlock, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
+            CommonMain.registerMutationBehaviour(b -> b instanceof ChestBlock, MutationMode.SWAP_THEME, (context, level, state, pos, stack) -> {
                 List<Block> blocks = tagReloadListener.getChestCycleBlocks();
                 int index = blocks.indexOf(state.getBlock());
                 if (index != -1) { // Cannot change style e.g. iron chest, ect.
@@ -487,10 +487,10 @@ public final class CommonMain {
                     EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
                     if (chestType != EsChestType.SINGLE) {
                         BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(state));
-                        BlockState otherState = world.getBlockState(otherPos);
-                        world.setBlock(otherPos, next.withPropertiesOf(otherState), Block.UPDATE_SUPPRESS_LIGHT);
+                        BlockState otherState = level.getBlockState(otherPos);
+                        level.setBlock(otherPos, next.withPropertiesOf(otherState), Block.UPDATE_SUPPRESS_LIGHT);
                     }
-                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
+                    level.setBlockAndUpdate(pos, next.withPropertiesOf(state));
                     return ToolUsageResult.slowSuccess();
                 }
                 return ToolUsageResult.fail();
@@ -564,21 +564,21 @@ public final class CommonMain {
         /*Both Chests*/
         {
             Predicate<Block> isChestBlock = b -> b instanceof AbstractChestBlock;
-            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.MERGE, (context, world, state, pos, stack) -> {
+            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.MERGE, (context, level, state, pos, stack) -> {
                 Player player = context.getPlayer();
                 if (state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
                     CompoundTag tag = stack.getOrCreateTag();
                     if (tag.contains("pos")) {
                         BlockPos otherPos = NbtUtils.readBlockPos(tag.getCompound("pos"));
-                        BlockState otherState = world.getBlockState(otherPos);
+                        BlockState otherState = level.getBlockState(otherPos);
                         Direction direction = Direction.fromNormal(otherPos.subtract(pos));
                         if (direction != null) {
                             if (state.getBlock() == otherState.getBlock()) {
                                 if (otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
                                     if (state.getValue(BlockStateProperties.HORIZONTAL_FACING) == otherState.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-                                        if (!world.isClientSide()) {
+                                        if (!level.isClientSide()) {
                                             EsChestType chestType = AbstractChestBlock.getChestType(state.getValue(BlockStateProperties.HORIZONTAL_FACING), direction);
-                                            world.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
+                                            level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
                                             // note: other state is updated via neighbour update
                                             tag.remove("pos");
                                             //noinspection ConstantConditions
@@ -602,7 +602,7 @@ public final class CommonMain {
                             player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_not_adjacent"), true);
                         }
                     } else {
-                        if (!world.isClientSide()) {
+                        if (!level.isClientSide()) {
                             tag.put("pos", NbtUtils.writeBlockPos(pos));
                             //noinspection ConstantConditions
                             player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_start", Utils.ALT_USE), true);
@@ -612,30 +612,30 @@ public final class CommonMain {
                 }
                 return ToolUsageResult.fail();
             });
-            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.SPLIT, (context, world, state, pos, stack) -> {
+            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.SPLIT, (context, level, state, pos, stack) -> {
                 if (state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) != EsChestType.SINGLE) {
-                    if (!world.isClientSide()) {
-                        world.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.SINGLE));
+                    if (!level.isClientSide()) {
+                        level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.SINGLE));
                         // note: other state is updated to single via neighbour update
                     }
                     return ToolUsageResult.slowSuccess();
                 }
                 return ToolUsageResult.fail();
             });
-            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.ROTATE, (context, world, state, pos, stack) -> {
-                if (!world.isClientSide()) {
+            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.ROTATE, (context, level, state, pos, stack) -> {
+                if (!level.isClientSide()) {
                     EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
                     if (chestType == EsChestType.SINGLE) {
-                        world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
+                        level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
                     } else {
                         BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(state));
-                        BlockState otherState = world.getBlockState(otherPos);
+                        BlockState otherState = level.getBlockState(otherPos);
                         if (chestType == EsChestType.TOP || chestType == EsChestType.BOTTOM) {
-                            world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
-                            world.setBlockAndUpdate(otherPos, otherState.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
+                            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
+                            level.setBlockAndUpdate(otherPos, otherState.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
                         } else {
-                            world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE).getOpposite()));
-                            world.setBlockAndUpdate(otherPos, otherState.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE).getOpposite()));
+                            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE).getOpposite()));
+                            level.setBlockAndUpdate(otherPos, otherState.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE).getOpposite()));
                         }
                     }
                 }
@@ -736,10 +736,10 @@ public final class CommonMain {
                 return false;
             });
 
-            CommonMain.registerMutationBehaviour(isUpgradableBarrelBlock, MutationMode.ROTATE, (context, world, state, pos, stack) -> {
+            CommonMain.registerMutationBehaviour(isUpgradableBarrelBlock, MutationMode.ROTATE, (context, level, state, pos, stack) -> {
                 if (state.hasProperty(BlockStateProperties.FACING)) {
-                    if (!world.isClientSide()) {
-                        world.setBlockAndUpdate(pos, state.cycle(BlockStateProperties.FACING));
+                    if (!level.isClientSide()) {
+                        level.setBlockAndUpdate(pos, state.cycle(BlockStateProperties.FACING));
                     }
                     return ToolUsageResult.slowSuccess();
                 }
@@ -850,13 +850,13 @@ public final class CommonMain {
             }
 
             Predicate<Block> isMiniStorage = b -> b instanceof MiniStorageBlock;
-            CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (context, world, state, pos, stack) -> {
-                if (!world.isClientSide()) {
-                    world.setBlockAndUpdate(pos, state.rotate(Rotation.CLOCKWISE_90));
+            CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (context, level, state, pos, stack) -> {
+                if (!level.isClientSide()) {
+                    level.setBlockAndUpdate(pos, state.rotate(Rotation.CLOCKWISE_90));
                 }
                 return ToolUsageResult.slowSuccess();
             });
-            CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.SWAP_THEME, (context, world, state, pos, stack) -> {
+            CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.SWAP_THEME, (context, level, state, pos, stack) -> {
                 String itemName = stack.getHoverName().getString();
                 List<Block> blocks;
                 boolean isSparrow = itemName.equals("Sparrow");
@@ -870,7 +870,7 @@ public final class CommonMain {
                 int index = blocks.indexOf(state.getBlock());
                 if (index != -1) { // Illegal state / misconfigured tag
                     Block next = blocks.get((index + 1) % blocks.size());
-                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
+                    level.setBlockAndUpdate(pos, next.withPropertiesOf(state));
                     return ToolUsageResult.slowSuccess();
                 } else if (isSparrow) {
                     ResourceLocation blockId = ((MiniStorageBlock) state.getBlock()).getBlockId();
@@ -881,7 +881,7 @@ public final class CommonMain {
                         newId = newId + "_with_sparrow";
                     }
                     Block next = BuiltInRegistries.BLOCK.get(new ResourceLocation(blockId.getNamespace(), newId));
-                    world.setBlockAndUpdate(pos, next.withPropertiesOf(state));
+                    level.setBlockAndUpdate(pos, next.withPropertiesOf(state));
                     return ToolUsageResult.slowSuccess();
                 }
                 return ToolUsageResult.fail();
