@@ -7,8 +7,8 @@ import net.minecraft.server.level.ServerPlayer;
 public final class BlockContext extends BaseContext {
     private final BlockPos pos;
 
-    public BlockContext(ServerLevel world, ServerPlayer player, BlockPos pos) {
-        super(world, player);
+    public BlockContext(ServerLevel level, ServerPlayer player, BlockPos pos) {
+        super(level, player);
         this.pos = pos;
     }
 

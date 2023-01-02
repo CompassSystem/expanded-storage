@@ -46,16 +46,16 @@ class CarriableOldChest implements Carriable<Block> {
 
     @NotNull
     @Override
-    public final InteractionResult tryPickup(@NotNull CarrierComponent component, @NotNull Level world, @NotNull BlockPos pos, @Nullable Entity entity) {
-        if (world.isClientSide()) return InteractionResult.PASS;
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+    public final InteractionResult tryPickup(@NotNull CarrierComponent component, @NotNull Level level, @NotNull BlockPos pos, @Nullable Entity entity) {
+        if (level.isClientSide()) return InteractionResult.PASS;
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof OldChestBlockEntity && !blockEntity.isRemoved()) {
             CompoundTag tag = new CompoundTag();
             tag.put("blockEntity", blockEntity.saveWithoutMetadata());
             CarryingData carrying = new CarryingData(id, tag);
             component.setCarryingData(carrying);
-            world.removeBlockEntity(pos);
-            world.removeBlock(pos, false); // todo: may return false if failed to remove block?
+            level.removeBlockEntity(pos);
+            level.removeBlock(pos, false); // todo: may return false if failed to remove block?
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
@@ -63,16 +63,16 @@ class CarriableOldChest implements Carriable<Block> {
 
     @NotNull
     @Override
-    public final InteractionResult tryPlace(@NotNull CarrierComponent component, @NotNull Level world, @NotNull CarriablePlacementContext context) {
-        if (world.isClientSide()) return InteractionResult.PASS;
+    public final InteractionResult tryPlace(@NotNull CarrierComponent component, @NotNull Level level, @NotNull CarriablePlacementContext context) {
+        if (level.isClientSide()) return InteractionResult.PASS;
         CarryingData carrying = component.getCarryingData();
         if (carrying == null) return InteractionResult.PASS; // Should never be null, but if it is just ignore.
         BlockPos pos = context.getBlockPos();
         BlockState state = this.parent.getStateForPlacement(new BlockPlaceContext(component.getOwner(), InteractionHand.MAIN_HAND, ItemStack.EMPTY, new BlockHitResult(new Vec3(pos.getX(), pos.getY(), pos.getZ()), context.getSide(), context.getBlockPos(), false)));
-        world.setBlockAndUpdate(pos, state);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        level.setBlockAndUpdate(pos, state);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity == null) { // Should be very rare if not impossible to be null.
-            world.removeBlock(pos, false);
+            level.removeBlock(pos, false);
             return InteractionResult.FAIL;
         }
         blockEntity.load(carrying.getBlockEntityTag());

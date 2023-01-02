@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 @SuppressWarnings("unused")
 public abstract class MiniStorageHeadEquipment {
-
     @SuppressWarnings({"SpellCheckingInspection", "unused"})
     @Inject(
             method = "getEquipmentSlotForItem(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/entity/EquipmentSlot;",
@@ -21,7 +20,8 @@ public abstract class MiniStorageHeadEquipment {
             cancellable = true
     )
     private static void expandedstorage_makeMiniChestEquipable(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
-        if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof MiniStorageBlock)
+        if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof MiniStorageBlock) {
             cir.setReturnValue(EquipmentSlot.HEAD);
+        }
     }
 }

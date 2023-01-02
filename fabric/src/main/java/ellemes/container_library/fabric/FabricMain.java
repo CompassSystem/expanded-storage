@@ -8,9 +8,6 @@ public final class FabricMain implements ModInitializer {
     @Override
     public void onInitialize() {
         FabricLoader loader = FabricLoader.getInstance();
-        ThreadMain.initialize(
-                loader::isModLoaded,
-                FabricNetworkWrapper::new
-        );
+        ThreadMain.initialize(loader::isModLoaded, FabricNetworkWrapper::new);
     }
 }

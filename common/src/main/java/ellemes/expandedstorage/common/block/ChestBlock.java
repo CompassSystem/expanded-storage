@@ -47,7 +47,7 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
 
     @Override
     @SuppressWarnings("deprecation")
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter blockLevel, BlockPos pos, CollisionContext context) {
         EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
         if (type == EsChestType.TOP) {
             return ChestBlock.SHAPES[4];
@@ -79,11 +79,11 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState otherState, LevelAccessor world, BlockPos pos, BlockPos otherPos) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState otherState, LevelAccessor level, BlockPos pos, BlockPos otherPos) {
         if (state.getValue(BlockStateProperties.WATERLOGGED)) {
-            world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return super.updateShape(state, direction, otherState, world, pos, otherPos);
+        return super.updateShape(state, direction, otherState, level, pos, otherPos);
     }
 
 
@@ -106,28 +106,28 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> blockEntityType) {
-        return world.isClientSide() && blockEntityType == this.getBlockEntityType() ? ChestBlockEntity::progressLidAnimation : null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide() && blockEntityType == this.getBlockEntityType() ? ChestBlockEntity::progressLidAnimation : null;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int event, int value) {
-        super.triggerEvent(state, world, pos, event, value);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+    public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int event, int value) {
+        super.triggerEvent(state, level, pos, event, value);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         return blockEntity != null && blockEntity.triggerEvent(event, value);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (world.getBlockEntity(pos) instanceof ChestBlockEntity entity) {
-            entity.updateViewerCount(world, pos, state);
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (level.getBlockEntity(pos) instanceof ChestBlockEntity entity) {
+            entity.updateViewerCount(level, pos, state);
         }
     }
 
     @Override
-    protected boolean isAccessBlocked(LevelAccessor world, BlockPos pos) {
-        return net.minecraft.world.level.block.ChestBlock.isChestBlockedAt(world, pos);
+    protected boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
+        return net.minecraft.world.level.block.ChestBlock.isChestBlockedAt(level, pos);
     }
 }

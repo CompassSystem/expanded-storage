@@ -10,8 +10,8 @@ import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 public class QuiltNetworkWrapper extends ThreadNetworkWrapper {
-    public QuiltNetworkWrapper(boolean flanPresent) {
-        super(flanPresent);
+    public QuiltNetworkWrapper(boolean flanPresent, boolean ftbChunksPresent) {
+        super(flanPresent, ftbChunksPresent);
         ServerPlayConnectionEvents.INIT.register((handler, __) -> {
             ServerPlayNetworking.registerReceiver(handler, ThreadNetworkWrapper.CHANNEL_NAME, (server, player, ____, buffer, _____) -> {
                 buffer.retain();

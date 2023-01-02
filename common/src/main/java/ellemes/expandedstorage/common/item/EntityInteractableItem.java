@@ -8,5 +8,5 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public interface EntityInteractableItem {
-    InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack);
+    InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack);
 }

@@ -16,7 +16,7 @@ public class RecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void buildRecipes(Consumer<FinishedRecipe> exporter) {
-        var recipeHelper = new RecipeHelper(
+        RecipeHelper recipeHelper = new RecipeHelper(
                 BuiltInRegistries.ITEM::getKey,
                 ThreadTags.Items.COPPER_INGOTS, ThreadTags.Items.IRON_NUGGETS, ThreadTags.Items.IRON_INGOTS, ThreadTags.Items.GOLD_INGOTS, ThreadTags.Items.DIAMONDS, ThreadTags.Items.OBSIDIAN, ThreadTags.Items.NETHERITE_INGOTS,
                 ThreadTags.Items.WOODEN_CHESTS, ThreadTags.Items.WOODEN_BARRELS,

@@ -31,18 +31,18 @@ import java.util.function.Supplier;
 public final class ChestBlockEntity extends OldChestBlockEntity {
     private final ContainerOpenersCounter manager = new ContainerOpenersCounter() {
         @Override
-        protected void onOpen(Level world, BlockPos pos, BlockState state) {
-            ChestBlockEntity.playSound(world, pos, state, SoundEvents.CHEST_OPEN);
+        protected void onOpen(Level level, BlockPos pos, BlockState state) {
+            ChestBlockEntity.playSound(level, pos, state, SoundEvents.CHEST_OPEN);
         }
 
         @Override
-        protected void onClose(Level world, BlockPos pos, BlockState state) {
-            ChestBlockEntity.playSound(world, pos, state, SoundEvents.CHEST_CLOSE);
+        protected void onClose(Level level, BlockPos pos, BlockState state) {
+            ChestBlockEntity.playSound(level, pos, state, SoundEvents.CHEST_CLOSE);
         }
 
         @Override
-        protected void openerCountChanged(Level world, BlockPos pos, BlockState state, int oldCount, int newCount) {
-            world.blockEvent(pos, state.getBlock(), ChestBlock.SET_OBSERVER_COUNT_EVENT, newCount);
+        protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int oldCount, int newCount) {
+            level.blockEvent(pos, state.getBlock(), ChestBlock.SET_OBSERVER_COUNT_EVENT, newCount);
         }
 
         @Override
@@ -75,11 +75,11 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
     }
 
     @SuppressWarnings("unused")
-    public static void progressLidAnimation(Level world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
+    public static void progressLidAnimation(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity) {
         ((ChestBlockEntity) blockEntity).lidController.tickLid();
     }
 
-    private static void playSound(Level world, BlockPos pos, BlockState state, SoundEvent sound) {
+    private static void playSound(Level level, BlockPos pos, BlockState state, SoundEvent sound) {
         DoubleBlockCombiner.BlockType mergeType = AbstractChestBlock.getBlockType(state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE));
         Vec3 soundPos;
         if (mergeType == DoubleBlockCombiner.BlockType.SINGLE) {
@@ -89,7 +89,7 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
         } else {
             return;
         }
-        world.playSound(null, soundPos.x(), soundPos.y(), soundPos.z(), sound, SoundSource.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+        level.playSound(null, soundPos.x(), soundPos.y(), soundPos.z(), sound, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
     }
 
     @Override
@@ -105,7 +105,7 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
         return lidController.getOpenness(delta);
     }
 
-    public void updateViewerCount(ServerLevel world, BlockPos pos, BlockState state) {
-        manager.recheckOpeners(world, pos, state);
+    public void updateViewerCount(ServerLevel level, BlockPos pos, BlockState state) {
+        manager.recheckOpeners(level, pos, state);
     }
 }

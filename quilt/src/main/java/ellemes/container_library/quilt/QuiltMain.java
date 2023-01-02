@@ -8,9 +8,6 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 public final class QuiltMain implements ModInitializer {
     @Override
     public void onInitialize(ModContainer mod) {
-        ThreadMain.initialize(
-                QuiltLoader::isModLoaded,
-                QuiltNetworkWrapper::new
-        );
+        ThreadMain.initialize(QuiltLoader::isModLoaded, QuiltNetworkWrapper::new);
     }
 }

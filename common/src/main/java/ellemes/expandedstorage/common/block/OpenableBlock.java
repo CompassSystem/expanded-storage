@@ -57,18 +57,18 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean bl) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean bl) {
         if (state.getBlock().getClass() != newState.getBlock().getClass()) {
-            if (world.getBlockEntity(pos) instanceof OpenableBlockEntity entity) {
-                Containers.dropContents(world, pos, entity.getItems());
-                world.updateNeighbourForOutputSignal(pos, this);
+            if (level.getBlockEntity(pos) instanceof OpenableBlockEntity entity) {
+                Containers.dropContents(level, pos, entity.getItems());
+                level.updateNeighbourForOutputSignal(pos, this);
             }
-            super.onRemove(state, world, pos, newState, bl);
+            super.onRemove(state, level, pos, newState, bl);
         } else {
-            if (state.getBlock() != newState.getBlock() && world.getBlockEntity(pos) instanceof OpenableBlockEntity entity) {
+            if (state.getBlock() != newState.getBlock() && level.getBlockEntity(pos) instanceof OpenableBlockEntity entity) {
                 CompoundTag tag = entity.saveWithoutMetadata();
-                world.removeBlockEntity(pos);
-                if (world.getBlockEntity(pos) instanceof OpenableBlockEntity newEntity) {
+                level.removeBlockEntity(pos);
+                if (level.getBlockEntity(pos) instanceof OpenableBlockEntity newEntity) {
                     newEntity.load(tag);
                 }
             }
@@ -76,8 +76,8 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     }
 
     @Override
-    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomHoverName() && world.getBlockEntity(pos) instanceof OpenableBlockEntity entity) {
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        if (stack.hasCustomHoverName() && level.getBlockEntity(pos) instanceof OpenableBlockEntity entity) {
             entity.setCustomName(stack.getHoverName());
         }
     }
@@ -89,8 +89,8 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
 
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        boolean isClient = world.isClientSide();
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        boolean isClient = level.isClientSide();
         if (isClient) {
             ScreenOpeningApi.openBlockInventory(pos);
         }

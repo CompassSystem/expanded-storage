@@ -1,5 +1,7 @@
 package ellemes.container_library.wrappers;
 
+import dev.ftb.mods.ftbchunks.data.FTBChunksAPI;
+import dev.ftb.mods.ftbchunks.data.Protection;
 import ellemes.container_library.Utils;
 import ellemes.container_library.api.inventory.AbstractHandler;
 import ellemes.container_library.api.v3.OpenableInventory;
@@ -16,11 +18,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 
 import java.util.function.Consumer;
 
 public abstract class NetworkWrapper {
+    private final boolean ftbChunksLoaded;
+
+    protected NetworkWrapper(boolean ftbChunksLoaded) {
+        this.ftbChunksLoaded = ftbChunksLoaded;
+    }
+
     protected abstract void openScreenHandler(ServerPlayer player, Container inventory, ServerScreenHandlerFactory factory, Component title, ResourceLocation forcedScreenType);
 
     public abstract void c_openBlockInventory(BlockPos pos);
@@ -59,7 +68,7 @@ public abstract class NetworkWrapper {
 
             case "entity" -> {
                 Entity entity = level.getEntity(buffer.readUUID());
-                if (entity instanceof OpenableInventoryProvider<?> provider) {
+                if (this.canOpenInventory(sender, entity) && entity instanceof OpenableInventoryProvider<?> provider) {
                     inventoryContext = new BaseContext(level, sender);
                     inventoryProvider = provider;
                 }
@@ -99,5 +108,31 @@ public abstract class NetworkWrapper {
         this.openScreenHandler(player, inventory.getInventory(), (syncId, inv, playerInv) -> new AbstractHandler(syncId, inv, playerInv, null), title, forcedScreenType);
     }
 
-    public abstract boolean canOpenInventory(ServerPlayer player, BlockPos pos);
+    protected boolean canOpenInventory(ServerPlayer player, BlockPos pos) {
+        if (ftbChunksLoaded) {
+            try {
+                if (FTBChunksAPI.isManagerLoaded()) {
+                    return !FTBChunksAPI.getManager().protect(player, InteractionHand.MAIN_HAND, pos, Protection.INTERACT_BLOCK, null);
+                }
+            } catch (NoClassDefFoundError | NoSuchMethodError ignored) {
+                // We should check if the mods loaded.
+                System.err.println("FTB Chunks compat broke, please report to BucketOfCompasses (Expanded Storage Issues)");
+            }
+        }
+        return true;
+    }
+
+    protected boolean canOpenInventory(ServerPlayer player, Entity entity) {
+        if (ftbChunksLoaded) {
+            try {
+                if (FTBChunksAPI.isManagerLoaded()) {
+                    return !FTBChunksAPI.getManager().protect(player, InteractionHand.MAIN_HAND, entity.getOnPos(), Protection.INTERACT_ENTITY, entity);
+                }
+            } catch (NoClassDefFoundError | NoSuchMethodError ignored) {
+                // We should check if the mods loaded.
+                System.err.println("FTB Chunks compat broke, please report to BucketOfCompasses (Expanded Storage Issues)");
+            }
+        }
+        return true;
+    }
 }

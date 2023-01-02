@@ -8,8 +8,8 @@ public final class ItemContext extends BaseContext {
     private final ItemStack stack;
 
     // todo: expose slot id?
-    public ItemContext(ServerLevel world, ServerPlayer player, ItemStack stack) {
-        super(world, player);
+    public ItemContext(ServerLevel level, ServerPlayer player, ItemStack stack) {
+        super(level, player);
         this.stack = stack;
     }
 

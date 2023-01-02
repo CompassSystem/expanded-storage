@@ -34,8 +34,8 @@ public class ScreenOpeningApi {
         Objects.requireNonNull(pos, "pos must not be null");
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            Level world = player.getLevel();
-            BlockState state = world.getBlockState(pos);
+            Level level = player.getLevel();
+            BlockState state = level.getBlockState(pos);
             if (state.getBlock() instanceof OpenableInventoryProvider<?> provider) {
                 commonCode(provider, () -> CommonMain.getNetworkWrapper().c_openBlockInventory(pos));
                 return;

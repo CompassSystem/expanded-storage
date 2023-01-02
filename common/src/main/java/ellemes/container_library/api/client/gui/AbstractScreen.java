@@ -38,7 +38,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         inventoryHeight = screenSize.getHeight();
     }
 
-    @ApiStatus.Internal
     public static AbstractScreen createScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
         ResourceLocation forcedScreenType = handler.getForcedScreenType();
         ResourceLocation preference = forcedScreenType != null ? forcedScreenType : CommonClient.getConfigWrapper().getPreferredScreenType();
@@ -88,28 +87,23 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         return false;
     }
 
-    @ApiStatus.Internal
     public static void declareScreenType(ResourceLocation type, ScreenConstructor<?> screenConstructor) {
         AbstractScreen.SCREEN_CONSTRUCTORS.putIfAbsent(type, screenConstructor);
     }
 
-    @ApiStatus.Internal
     public static void declareScreenSizeRetriever(ResourceLocation type, ScreenSizeRetriever retriever) {
         AbstractScreen.SIZE_RETRIEVERS.putIfAbsent(type, retriever);
     }
 
-    @ApiStatus.Internal
     public static boolean isScreenTypeDeclared(ResourceLocation type) {
         return AbstractScreen.SCREEN_CONSTRUCTORS.containsKey(type);
     }
 
-    @ApiStatus.Internal
     public static void setPrefersSingleScreen(ResourceLocation type) {
         AbstractScreen.PREFERS_SINGLE_SCREEN.add(type);
     }
 
     @Nullable
-    @ApiStatus.Internal
     public static ScreenSize getScreenSize(ResourceLocation type, int slots, int scaledWidth, int scaledHeight) {
         return AbstractScreen.SIZE_RETRIEVERS.get(type).get(slots, scaledWidth, scaledHeight);
     }
@@ -144,7 +138,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     @ApiStatus.OverrideOnly
     public abstract List<Rect2i> getExclusionZones();
 
-    @ApiStatus.Internal
     public int getInventoryWidth() {
         return inventoryWidth;
     }

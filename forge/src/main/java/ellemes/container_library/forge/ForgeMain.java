@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.IContainerFactory;
@@ -25,7 +26,7 @@ public final class ForgeMain {
             });
 
             return menuType;
-            }, new ForgeNetworkWrapper());
+            }, new ForgeNetworkWrapper(ModList.get().isLoaded("ftbchunks")));
 
         if (FMLLoader.getDist() == Dist.CLIENT) {
             ForgeClient.initialize();

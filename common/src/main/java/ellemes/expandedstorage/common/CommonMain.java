@@ -139,12 +139,12 @@ public final class CommonMain {
         return miniStorageBlockEntityType.getValue();
     }
 
-    private static boolean upgradeSingleBlockToChest(Level world, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
+    private static boolean upgradeSingleBlockToChest(Level level, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
         Block block = state.getBlock();
         boolean isExpandedStorageChest = block instanceof ChestBlock;
         int inventorySize = !isExpandedStorageChest ? Utils.WOOD_STACK_COUNT : ((OpenableBlock) block).getSlotCount();
         if (isExpandedStorageChest && ((OpenableBlock) block).getObjTier() == from || !isExpandedStorageChest && from == Utils.WOOD_TIER_ID) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockEntity blockEntity = level.getBlockEntity(pos);
             //noinspection ConstantConditions
             CompoundTag tag = blockEntity.saveWithoutMetadata();
             boolean verifiedSize = blockEntity instanceof Container inventory && inventory.getContainerSize() == inventorySize;
@@ -161,7 +161,7 @@ public final class CommonMain {
                 NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
                 LockCode code = LockCode.fromTag(tag);
                 ContainerHelper.loadAllItems(tag, inventory);
-                world.removeBlockEntity(pos);
+                level.removeBlockEntity(pos);
                 // Needs fixing up to check for vanilla states.
                 BlockState newState = toBlock.defaultBlockState()
                                              .setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
@@ -172,8 +172,8 @@ public final class CommonMain {
                     ChestType type = state.getValue(BlockStateProperties.CHEST_TYPE);
                     newState = newState.setValue(ChestBlock.CURSED_CHEST_TYPE, type == ChestType.LEFT ? EsChestType.RIGHT : type == ChestType.RIGHT ? EsChestType.LEFT : EsChestType.SINGLE);
                 }
-                if (world.setBlockAndUpdate(pos, newState)) {
-                    BlockEntity newEntity = world.getBlockEntity(pos);
+                if (level.setBlockAndUpdate(pos, newState)) {
+                    BlockEntity newEntity = level.getBlockEntity(pos);
                     //noinspection ConstantConditions
                     CompoundTag newTag = newEntity.saveWithoutMetadata();
                     ContainerHelper.saveAllItems(newTag, inventory);
@@ -181,26 +181,26 @@ public final class CommonMain {
                     newEntity.load(newTag);
                     return true;
                 } else {
-                    world.setBlockEntity(blockEntity);
+                    level.setBlockEntity(blockEntity);
                 }
             }
         }
         return false;
     }
 
-    private static boolean upgradeSingleBlockToOldChest(Level world, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
+    private static boolean upgradeSingleBlockToOldChest(Level level, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
         if (((OpenableBlock) state.getBlock()).getObjTier() == from) {
             AbstractChestBlock toBlock = (AbstractChestBlock) CommonMain.getTieredObject(CommonMain.OLD_CHEST_OBJECT_TYPE, to);
             NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockEntity blockEntity = level.getBlockEntity(pos);
             //noinspection ConstantConditions
             CompoundTag tag = blockEntity.saveWithoutMetadata();
             LockCode code = LockCode.fromTag(tag);
             ContainerHelper.loadAllItems(tag, inventory);
-            world.removeBlockEntity(pos);
+            level.removeBlockEntity(pos);
             BlockState newState = toBlock.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE));
-            if (world.setBlockAndUpdate(pos, newState)) {
-                BlockEntity newEntity = world.getBlockEntity(pos);
+            if (level.setBlockAndUpdate(pos, newState)) {
+                BlockEntity newEntity = level.getBlockEntity(pos);
                 //noinspection ConstantConditions
                 CompoundTag newTag = newEntity.saveWithoutMetadata();
                 ContainerHelper.saveAllItems(newTag, inventory);
@@ -208,7 +208,7 @@ public final class CommonMain {
                 newEntity.load(newTag);
                 return true;
             } else {
-                world.setBlockEntity(blockEntity);
+                level.setBlockEntity(blockEntity);
             }
         }
         return false;
@@ -421,37 +421,37 @@ public final class CommonMain {
 
             Predicate<Block> isUpgradableChestBlock = (block) -> block instanceof ChestBlock || block instanceof net.minecraft.world.level.block.ChestBlock || block.defaultBlockState().is(chestTag);
             CommonMain.defineBlockUpgradeBehaviour(isUpgradableChestBlock, (context, from, to) -> {
-                Level world = context.getLevel();
+                Level level = context.getLevel();
                 BlockPos pos = context.getClickedPos();
-                BlockState state = world.getBlockState(pos);
+                BlockState state = level.getBlockState(pos);
                 Player player = context.getPlayer();
                 ItemStack handStack = context.getItemInHand();
                 if (state.getBlock() instanceof ChestBlock) {
                     EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
                     Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
                     if (AbstractChestBlock.getBlockType(type) == DoubleBlockCombiner.BlockType.SINGLE) {
-                        boolean upgradeSucceeded = CommonMain.upgradeSingleBlockToChest(world, state, pos, from, to);
+                        boolean upgradeSucceeded = CommonMain.upgradeSingleBlockToChest(level, state, pos, from, to);
                         if (upgradeSucceeded) handStack.shrink(1);
                         return upgradeSucceeded;
                     } else if (handStack.getCount() > 1 || (player != null && player.isCreative())) {
                         BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(type, facing));
-                        BlockState otherState = world.getBlockState(otherPos);
-                        boolean firstSucceeded = CommonMain.upgradeSingleBlockToChest(world, state, pos, from, to);
-                        boolean secondSucceeded = CommonMain.upgradeSingleBlockToChest(world, otherState, otherPos, from, to);
+                        BlockState otherState = level.getBlockState(otherPos);
+                        boolean firstSucceeded = CommonMain.upgradeSingleBlockToChest(level, state, pos, from, to);
+                        boolean secondSucceeded = CommonMain.upgradeSingleBlockToChest(level, otherState, otherPos, from, to);
                         if (firstSucceeded && secondSucceeded) handStack.shrink(2);
                         else if (firstSucceeded || secondSucceeded) handStack.shrink(1);
                         return firstSucceeded || secondSucceeded;
                     }
                 } else {
                     if (net.minecraft.world.level.block.ChestBlock.getBlockType(state) == DoubleBlockCombiner.BlockType.SINGLE) {
-                        boolean upgradeSucceeded = CommonMain.upgradeSingleBlockToChest(world, state, pos, from, to);
+                        boolean upgradeSucceeded = CommonMain.upgradeSingleBlockToChest(level, state, pos, from, to);
                         if (upgradeSucceeded) handStack.shrink(1);
                         return upgradeSucceeded;
                     } else if (handStack.getCount() > 1 || (player != null && player.isCreative())) {
                         BlockPos otherPos = pos.relative(net.minecraft.world.level.block.ChestBlock.getConnectedDirection(state));
-                        BlockState otherState = world.getBlockState(otherPos);
-                        boolean firstSucceeded = CommonMain.upgradeSingleBlockToChest(world, state, pos, from, to);
-                        boolean secondSucceeded = CommonMain.upgradeSingleBlockToChest(world, otherState, otherPos, from, to);
+                        BlockState otherState = level.getBlockState(otherPos);
+                        boolean firstSucceeded = CommonMain.upgradeSingleBlockToChest(level, state, pos, from, to);
+                        boolean secondSucceeded = CommonMain.upgradeSingleBlockToChest(level, otherState, otherPos, from, to);
                         if (firstSucceeded && secondSucceeded) handStack.shrink(2);
                         else if (firstSucceeded || secondSucceeded) handStack.shrink(1);
                         return firstSucceeded || secondSucceeded;
@@ -539,20 +539,20 @@ public final class CommonMain {
 
             Predicate<Block> isUpgradableOldChestBlock = (block) -> block.getClass() == AbstractChestBlock.class;
             CommonMain.defineBlockUpgradeBehaviour(isUpgradableOldChestBlock, (context, from, to) -> {
-                Level world = context.getLevel();
+                Level level = context.getLevel();
                 BlockPos pos = context.getClickedPos();
-                BlockState state = world.getBlockState(pos);
+                BlockState state = level.getBlockState(pos);
                 Player player = context.getPlayer();
                 ItemStack handStack = context.getItemInHand();
                 if (AbstractChestBlock.getBlockType(state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE)) == DoubleBlockCombiner.BlockType.SINGLE) {
-                    boolean upgradeSucceeded = CommonMain.upgradeSingleBlockToOldChest(world, state, pos, from, to);
+                    boolean upgradeSucceeded = CommonMain.upgradeSingleBlockToOldChest(level, state, pos, from, to);
                     if (upgradeSucceeded) handStack.shrink(1);
                     return upgradeSucceeded;
                 } else if (handStack.getCount() > 1 || (player != null && player.isCreative())) {
                     BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(state));
-                    BlockState otherState = world.getBlockState(otherPos);
-                    boolean firstSucceeded = CommonMain.upgradeSingleBlockToOldChest(world, state, pos, from, to);
-                    boolean secondSucceeded = CommonMain.upgradeSingleBlockToOldChest(world, otherState, otherPos, from, to);
+                    BlockState otherState = level.getBlockState(otherPos);
+                    boolean firstSucceeded = CommonMain.upgradeSingleBlockToOldChest(level, state, pos, from, to);
+                    boolean secondSucceeded = CommonMain.upgradeSingleBlockToOldChest(level, otherState, otherPos, from, to);
                     if (firstSucceeded && secondSucceeded) handStack.shrink(2);
                     else if (firstSucceeded || secondSucceeded) handStack.shrink(1);
                     return firstSucceeded || secondSucceeded;
@@ -693,14 +693,14 @@ public final class CommonMain {
 
             Predicate<Block> isUpgradableBarrelBlock = (block) -> block instanceof BarrelBlock || block instanceof net.minecraft.world.level.block.BarrelBlock || block.defaultBlockState().is(barrelTag);
             CommonMain.defineBlockUpgradeBehaviour(isUpgradableBarrelBlock, (context, from, to) -> {
-                Level world = context.getLevel();
+                Level level = context.getLevel();
                 BlockPos pos = context.getClickedPos();
-                BlockState state = world.getBlockState(pos);
+                BlockState state = level.getBlockState(pos);
                 Block block = state.getBlock();
                 boolean isExpandedStorageBarrel = block instanceof BarrelBlock;
                 int inventorySize = !isExpandedStorageBarrel ? Utils.WOOD_STACK_COUNT : ((OpenableBlock) block).getSlotCount();
                 if (isExpandedStorageBarrel && ((OpenableBlock) block).getObjTier() == from || !isExpandedStorageBarrel && from == Utils.WOOD_TIER_ID) {
-                    BlockEntity blockEntity = world.getBlockEntity(pos);
+                    BlockEntity blockEntity = level.getBlockEntity(pos);
                     //noinspection ConstantConditions
                     CompoundTag tag = blockEntity.saveWithoutMetadata();
                     boolean verifiedSize = blockEntity instanceof Container inventory && inventory.getContainerSize() == inventorySize;
@@ -717,10 +717,10 @@ public final class CommonMain {
                         NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
                         LockCode code = LockCode.fromTag(tag);
                         ContainerHelper.loadAllItems(tag, inventory);
-                        world.removeBlockEntity(pos);
+                        level.removeBlockEntity(pos);
                         BlockState newState = toBlock.defaultBlockState().setValue(BlockStateProperties.FACING, state.getValue(BlockStateProperties.FACING));
-                        if (world.setBlockAndUpdate(pos, newState)) {
-                            BlockEntity newEntity = world.getBlockEntity(pos);
+                        if (level.setBlockAndUpdate(pos, newState)) {
+                            BlockEntity newEntity = level.getBlockEntity(pos);
                             //noinspection ConstantConditions
                             CompoundTag newTag = newEntity.saveWithoutMetadata();
                             ContainerHelper.saveAllItems(newTag, inventory);
@@ -729,7 +729,7 @@ public final class CommonMain {
                             context.getItemInHand().shrink(1);
                             return true;
                         } else {
-                            world.setBlockEntity(blockEntity);
+                            level.setBlockEntity(blockEntity);
                         }
                     }
                 }
@@ -916,7 +916,7 @@ public final class CommonMain {
         list.forEach(it -> consumer.accept(it.getName(), it.getValue()));
     }
 
-    public static Optional<ItemAccess> getItemAccess(Level world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
+    public static Optional<ItemAccess> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
         if (blockEntity instanceof OldChestBlockEntity entity) {
             DoubleItemAccess access = entity.getItemAccess();
             EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
@@ -924,7 +924,7 @@ public final class CommonMain {
             if (access.hasCachedAccess() || type == EsChestType.SINGLE) {
                 return Optional.of(access);
             }
-            if (world.getBlockEntity(pos.relative(AbstractChestBlock.getDirectionToAttached(type, facing))) instanceof OldChestBlockEntity otherEntity) {
+            if (level.getBlockEntity(pos.relative(AbstractChestBlock.getDirectionToAttached(type, facing))) instanceof OldChestBlockEntity otherEntity) {
                 DoubleItemAccess otherAccess = otherEntity.getItemAccess();
                 if (otherAccess.hasCachedAccess()) {
                     return Optional.of(otherAccess);
@@ -947,7 +947,7 @@ public final class CommonMain {
         return Optional.empty();
     }
 
-    public static InteractionResult interactWithEntity(Level world, Player player, InteractionHand hand, Entity entity) {
+    public static InteractionResult interactWithEntity(Level level, Player player, InteractionHand hand, Entity entity) {
         if (player.isSpectator() || !player.isShiftKeyDown()) {
             return InteractionResult.PASS;
         }
@@ -956,7 +956,7 @@ public final class CommonMain {
             if (player.getCooldowns().isOnCooldown(handStack.getItem())) {
                 return InteractionResult.CONSUME;
             }
-            InteractionResult result = item.es_interactEntity(world, entity, player, hand, handStack);
+            InteractionResult result = item.es_interactEntity(level, entity, player, hand, handStack);
             if (result == InteractionResult.FAIL) {
                 result = InteractionResult.CONSUME;
             }
@@ -968,11 +968,7 @@ public final class CommonMain {
     private static boolean simulateSpawnUpgradedMinecartChest(Entity original) {
         boolean isMinecraftCart = original instanceof MinecartChest;
         boolean isOurCart = original instanceof ChestMinecart;
-        if (!(isOurCart || isMinecraftCart)) {
-            return false;
-        }
-
-        return true;
+        return isOurCart || isMinecraftCart;
     }
 
     private static boolean spawnUpgradedMinecartChest(ServerLevel level, EntityType<ChestMinecart> newType, Entity original) {
@@ -1002,6 +998,7 @@ public final class CommonMain {
     public static void generateDisplayItems(FeatureFlagSet featureFlagSet, Consumer<ItemStack> output) {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
         output.accept(ModItems.STORAGE_MUTATOR.getDefaultInstance());
+        // todo: add lock stuff when finished and ported.
         // todo: add different tool modes which storage mutator has
         wrap.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);

@@ -20,24 +20,24 @@ public interface PropertyRetriever<A> {
             BiFunction<BlockState, Direction, Direction> attachedDirectionGetter,
             Function<BlockState, Direction> directionGetter,
             BlockState state,
-            LevelAccessor world,
+            LevelAccessor level,
             BlockPos pos,
             BiPredicate<LevelAccessor, BlockPos> blockInaccessible) {
-        A entity = blockEntityType.getBlockEntity(world, pos);
-        if (entity == null || blockInaccessible.test(world, pos))
+        A entity = blockEntityType.getBlockEntity(level, pos);
+        if (entity == null || blockInaccessible.test(level, pos))
             return new EmptyPropertyRetriever<>();
 
         DoubleBlockCombiner.BlockType type = typeGetter.apply(state);
         if (type != DoubleBlockCombiner.BlockType.SINGLE) {
             Direction facing = directionGetter.apply(state);
             BlockPos attachedPos = pos.relative(attachedDirectionGetter.apply(state, facing));
-            BlockState attachedState = world.getBlockState(attachedPos);
+            BlockState attachedState = level.getBlockState(attachedPos);
             if (attachedState.is(state.getBlock())) {
                 if (PropertyRetriever.areTypesOpposite(type, typeGetter.apply(attachedState)) && facing == directionGetter.apply(attachedState)) {
-                    if (blockInaccessible.test(world, attachedPos))
+                    if (blockInaccessible.test(level, attachedPos))
                         return new EmptyPropertyRetriever<>();
 
-                    A attachedEntity = blockEntityType.getBlockEntity(world, attachedPos);
+                    A attachedEntity = blockEntityType.getBlockEntity(level, attachedPos);
                     if (attachedEntity != null) {
                         if (type == DoubleBlockCombiner.BlockType.FIRST)
                             return new DoublePropertyRetriever<>(entity, attachedEntity);

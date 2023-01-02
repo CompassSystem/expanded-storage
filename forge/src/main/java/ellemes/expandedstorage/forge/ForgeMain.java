@@ -49,7 +49,6 @@ import java.util.function.Supplier;
 
 @Mod("expandedstorage")
 public final class ForgeMain {
-
     public ForgeMain() {
         new ellemes.container_library.forge.ForgeMain();
 

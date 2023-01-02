@@ -17,8 +17,8 @@ public class MossChestBlock extends ChestBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader reader, BlockPos pos, BlockState state, boolean bl) {
-        return reader.getBlockState(pos.above()).isAir();
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean bl) {
+        return level.getBlockState(pos.above()).isAir();
     }
 
     @Override
