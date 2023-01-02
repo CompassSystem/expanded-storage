@@ -1,1 +1,1 @@
-- Added copper upgrades, wood -> iron upgrade recipe is tweaked a little, check EMI / REI.
+- Port to 1.19.3, note there hasn't been much testing so please leave a comment if anything is different or odd.
