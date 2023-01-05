@@ -21,8 +21,8 @@ public final class LootTableProvider extends net.minecraft.data.loot.LootTablePr
 
     }
 
-//    @Override
-//    public String getName() {
-//        return "Expanded Storage - Loot Tables";
-//    }
+    @Override
+    public String getName() {
+        return "Expanded Storage - Loot Tables";
+    }
 }

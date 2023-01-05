@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.forge.datagen;
 
 import ellemes.expandedstorage.forge.datagen.providers.ItemModelProvider;
+import ellemes.expandedstorage.forge.datagen.providers.LootTableProvider;
 import ellemes.expandedstorage.forge.datagen.providers.RecipeProvider;
 import ellemes.expandedstorage.forge.datagen.providers.TagProvider;
 import net.minecraft.core.HolderLookup;
@@ -27,9 +28,7 @@ public final class Main {
         generator.addProvider(true, new TagProvider.Item(output, lookupProvider, blockTagsProvider, fileHelper));
         generator.addProvider(true, new TagProvider.EntityType(output, lookupProvider, fileHelper));
         generator.addProvider(true, new RecipeProvider(output));
-//        generator.addProvider(true, new LootTableProvider(generator));
-//        generator.addProvider(true, new LanguageProvider(generator));
-//        generator.addProvider(true, new BlockStatesAndModels(generator, fileHelper));
+        generator.addProvider(true, new LootTableProvider(output));
         generator.addProvider(true, new ItemModelProvider(output, fileHelper));
     }
 }
