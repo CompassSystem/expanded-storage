@@ -21,6 +21,7 @@ import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
@@ -35,6 +36,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -54,14 +56,6 @@ public final class ForgeMain {
         new ellemes.container_library.forge.ForgeMain();
 
         TagReloadListener tagReloadListener = new TagReloadListener();
-
-//        new CreativeModeTab(Utils.MOD_ID + ".tab") {
-//            @NotNull
-//            @Override
-//            public ItemStack makeIcon() {
-//                return new ItemStack(ForgeRegistries.ITEMS.getValue(Utils.id("netherite_chest")), 1);
-//            }
-//        }
 
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
                 FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
@@ -103,6 +97,17 @@ public final class ForgeMain {
 
     private void registerContent(Content content) {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        modBus.addListener((CreativeModeTabEvent.Register event) -> {
+            event.registerCreativeModeTab(Utils.id(Utils.MOD_ID + ".tab"), builder -> {
+                builder.icon(() -> ForgeRegistries.ITEMS.getValue(Utils.id("netherite_chest")).getDefaultInstance());
+                builder.displayItems((featureFlagSet, output, bl) -> {
+                    CommonMain.generateDisplayItems(featureFlagSet, output::accept);
+                });
+                builder.title(Component.translatable("itemGroup.expandedstorage.tab"));
+            });
+        } );
+
         modBus.addListener((RegisterEvent event) -> {
             event.register(ForgeRegistries.Keys.STAT_TYPES, helper -> {
                 content.getStats().forEach(it -> Registry.register(BuiltInRegistries.CUSTOM_STAT, it, it));

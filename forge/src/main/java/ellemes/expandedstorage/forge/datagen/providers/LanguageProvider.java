@@ -130,13 +130,7 @@ public final class LanguageProvider extends net.minecraftforge.common.data.Langu
 
         this.add("tooltip.expandedstorage.stores_x_stacks", "Stores %s stacks");
 
-        // todo: fix
-//        String itemGroupId = Arrays.stream(CreativeModeTab.TABS)
-//                                   .map(it -> ((TranslatableContents) it.getDisplayName().getContents()).getKey())
-//                                   .filter(it -> it.toLowerCase(Locale.ROOT).contains(Utils.MOD_ID))
-//                                   .findFirst()
-//                                   .orElseThrow();
-//        this.add(itemGroupId, "Expanded Storage");
+        this.add("itemGroup.expandedstorage.tab", "Expanded Storage");
     }
 
     @Override
