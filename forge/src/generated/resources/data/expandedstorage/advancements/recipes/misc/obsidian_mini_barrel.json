@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_previous_block": {
+    "has_item": {
       "conditions": {
         "items": [
           {
@@ -13,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "expandedstorage:iron_barrel"
+        "recipe": "expandedstorage:obsidian_mini_barrel"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_previous_block",
+      "has_item",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "expandedstorage:iron_barrel"
+      "expandedstorage:obsidian_mini_barrel"
     ]
   }
 }
