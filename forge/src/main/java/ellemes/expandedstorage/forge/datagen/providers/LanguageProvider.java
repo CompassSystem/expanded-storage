@@ -2,17 +2,12 @@ package ellemes.expandedstorage.forge.datagen.providers;
 
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.ModBlocks;
-import ellemes.expandedstorage.common.datagen.content.ModItems;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.world.item.CreativeModeTab;
-
-import java.util.Arrays;
-import java.util.Locale;
+import ellemes.expandedstorage.common.registration.ModItems;
+import net.minecraft.data.PackOutput;
 
 public final class LanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
-    public LanguageProvider(DataGenerator generator) {
-        super(generator, Utils.MOD_ID, "en_us");
+    public LanguageProvider(PackOutput output) {
+        super(output, Utils.MOD_ID, "en_us");
     }
 
     @Override
@@ -135,12 +130,13 @@ public final class LanguageProvider extends net.minecraftforge.common.data.Langu
 
         this.add("tooltip.expandedstorage.stores_x_stacks", "Stores %s stacks");
 
-        String itemGroupId = Arrays.stream(CreativeModeTab.TABS)
-                                   .map(it -> ((TranslatableContents) it.getDisplayName().getContents()).getKey())
-                                   .filter(it -> it.toLowerCase(Locale.ROOT).contains(Utils.MOD_ID))
-                                   .findFirst()
-                                   .orElseThrow();
-        this.add(itemGroupId, "Expanded Storage");
+        // todo: fix
+//        String itemGroupId = Arrays.stream(CreativeModeTab.TABS)
+//                                   .map(it -> ((TranslatableContents) it.getDisplayName().getContents()).getKey())
+//                                   .filter(it -> it.toLowerCase(Locale.ROOT).contains(Utils.MOD_ID))
+//                                   .findFirst()
+//                                   .orElseThrow();
+//        this.add(itemGroupId, "Expanded Storage");
     }
 
     @Override

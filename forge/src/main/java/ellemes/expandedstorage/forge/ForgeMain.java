@@ -20,6 +20,7 @@ import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -39,7 +41,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
@@ -63,12 +64,12 @@ public final class ForgeMain {
 //        }
 
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
-                , FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
+                FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
                 /*Base*/ false,
-                /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
+                /*Chest*/ TagKey.create(ForgeRegistries.Keys.BLOCKS, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
-                /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
+                /*Barrel*/ TagKey.create(ForgeRegistries.Keys.BLOCKS, new ResourceLocation("forge", "barrels/wooden")),
                 /*Mini Storage*/ MiniStorageBlockItem::new);
 
         MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> tagReloadListener.postDataReload());
@@ -79,7 +80,7 @@ public final class ForgeMain {
                     @NotNull
                     @Override
                     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-                        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+                        if (capability == ForgeCapabilities.ITEM_HANDLER) {
                             return LazyOptional.of(() -> {
                                 //noinspection unchecked
                                 return (T) CommonMain.getItemAccess(entity.getLevel(), entity.getBlockPos(), entity.getBlockState(), entity).map(ItemAccess::get).orElseThrow();
@@ -104,7 +105,7 @@ public final class ForgeMain {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((RegisterEvent event) -> {
             event.register(ForgeRegistries.Keys.STAT_TYPES, helper -> {
-                content.getStats().forEach(it -> Registry.register(Registry.CUSTOM_STAT, it, it));
+                content.getStats().forEach(it -> Registry.register(BuiltInRegistries.CUSTOM_STAT, it, it));
             });
 
             event.register(ForgeRegistries.Keys.BLOCKS, helper -> {

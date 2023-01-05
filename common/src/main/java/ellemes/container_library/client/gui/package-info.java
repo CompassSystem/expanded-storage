@@ -1,4 +1,4 @@
-@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 package ellemes.container_library.client.gui;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;

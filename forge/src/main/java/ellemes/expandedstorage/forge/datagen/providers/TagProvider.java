@@ -6,22 +6,25 @@ import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
 import ellemes.expandedstorage.forge.datagen.content.ForgeTags;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import java.util.concurrent.CompletableFuture;
 
 public final class TagProvider {
     public static final class Block extends BlockTagsProvider {
-        public Block(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-            super(generator, Utils.MOD_ID, existingFileHelper);
+        public Block(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+            super(output, lookupProvider, Utils.MOD_ID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
+        protected void addTags(HolderLookup.Provider provider) {
             TagHelper.registerBlockTags(this::tag);
             this.tag(Tags.Blocks.CHESTS_WOODEN).add(ModBlocks.WOOD_CHEST);
         }
@@ -33,12 +36,12 @@ public final class TagProvider {
     }
 
     public static final class Item extends ItemTagsProvider {
-        public Item(DataGenerator generator, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
-            super(generator, blockTagsProvider, Utils.MOD_ID, existingFileHelper);
+        public Item(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
+            super(output, lookupProvider, blockTagsProvider, Utils.MOD_ID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
+        protected void addTags(HolderLookup.Provider provider) {
             TagHelper.registerItemTags(this::tag);
             this.tag(Tags.Items.CHESTS_WOODEN).add(ModItems.WOOD_CHEST);
             this.tag(ModTags.Items.ES_WOODEN_CHESTS)
@@ -54,12 +57,12 @@ public final class TagProvider {
     }
 
     public static final class EntityType extends EntityTypeTagsProvider {
-        public EntityType(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-            super(generator, Utils.MOD_ID, existingFileHelper);
+        public EntityType(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+            super(output, lookupProvider, Utils.MOD_ID, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
+        protected void addTags(HolderLookup.Provider provider) {
             TagHelper.registerEntityTypeTags(this::tag);
         }
 

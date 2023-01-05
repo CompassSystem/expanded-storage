@@ -2,7 +2,7 @@ package ellemes.expandedstorage.forge.datagen.providers;
 
 import ellemes.expandedstorage.common.datagen.providers.RecipeHelper;
 import ellemes.expandedstorage.forge.datagen.content.ForgeTags;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -10,12 +10,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.function.Consumer;
 
 public final class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
-    public RecipeProvider(DataGenerator generator) {
-        super(generator);
+    public RecipeProvider(PackOutput output) {
+        super(output);
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> exporter) {
+    protected void buildRecipes(Consumer<FinishedRecipe> exporter) {
         RecipeHelper recipeHelper = new RecipeHelper(
                 ForgeRegistries.ITEMS::getKey,
                 Tags.Items.INGOTS_COPPER, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, Tags.Items.INGOTS_GOLD, Tags.Items.GEMS_DIAMOND, Tags.Items.OBSIDIAN, Tags.Items.INGOTS_NETHERITE,
