@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
+// todo: fix this, we broke loot tables.
 public final class BlockLootProvider extends BlockLootSubProvider {
     public BlockLootProvider(Set<Item> set, FeatureFlagSet arg) {
         super(set, arg);
