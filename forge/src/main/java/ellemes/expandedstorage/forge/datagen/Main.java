@@ -24,11 +24,11 @@ public final class Main {
         final CompletableFuture<HolderLookup.Provider> lookupProvider= event.getLookupProvider();
         final ExistingFileHelper fileHelper = event.getExistingFileHelper();
         final BlockTagsProvider blockTagsProvider = new TagProvider.Block(output, lookupProvider, fileHelper);
-        generator.addProvider(true, blockTagsProvider);
-        generator.addProvider(true, new TagProvider.Item(output, lookupProvider, blockTagsProvider, fileHelper));
-        generator.addProvider(true, new TagProvider.EntityType(output, lookupProvider, fileHelper));
-        generator.addProvider(true, new RecipeProvider(output));
-        generator.addProvider(true, new LootTableProvider(output));
-        generator.addProvider(true, new ItemModelProvider(output, fileHelper));
+        generator.addProvider(event.includeServer(), blockTagsProvider);
+        generator.addProvider(event.includeServer(), new TagProvider.Item(output, lookupProvider, blockTagsProvider, fileHelper));
+        generator.addProvider(event.includeServer(), new TagProvider.EntityType(output, lookupProvider, fileHelper));
+        generator.addProvider(event.includeServer(), new RecipeProvider(output));
+        generator.addProvider(event.includeServer(), new LootTableProvider(output));
+        generator.addProvider(event.includeClient(), new ItemModelProvider(output, fileHelper));
     }
 }
