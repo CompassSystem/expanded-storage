@@ -17,8 +17,8 @@ public abstract class QuarkRepositionButtonsMixin {
         if ((Object) this instanceof AbstractScreen screen) {
             for (GuiEventListener child : screen.children()) {
                 if (child instanceof Button button) {
-                    if (button.getClass().getName().startsWith("vazkii.quark") && button.y == screen.getGuiTop() + 5) {
-                        button.x += (screen.getInventoryWidth() - 9) * 18;
+                    if (button.getClass().getName().startsWith("vazkii.quark") && button.getY() == screen.getGuiTop() + 5) {
+                        button.setX(button.getX() + ((screen.getInventoryWidth() - 9) * 18));
                     }
                 }
             }
