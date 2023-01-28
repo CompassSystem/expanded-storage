@@ -41,23 +41,23 @@ public final class StorageMutator extends Item implements EntityInteractableItem
     @Override
     public InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
-        Level world = context.getLevel();
+        Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        BlockState state = world.getBlockState(pos);
-        MutatorBehaviour behaviour = CommonMain.getMutatorBehaviour(state.getBlock(), StorageMutator.getMode(stack));
+        BlockState state = level.getBlockState(pos);
+        BlockMutatorBehaviour behaviour = CommonMain.getBlockMutatorBehaviour(state.getBlock(), StorageMutator.getMode(stack));
         if (behaviour != null) {
-            InteractionResult returnValue = behaviour.attempt(context, world, state, pos, stack);
-            if (returnValue.shouldSwing()) {
+            ToolUsageResult returnValue = behaviour.attempt(context, level, state, pos, stack);
+            if (returnValue.getResult().shouldSwing()) {
                 //noinspection ConstantConditions
-                context.getPlayer().getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+                context.getPlayer().getCooldowns().addCooldown(this, returnValue.getDelay());
             }
-            return returnValue;
+            return returnValue.getResult();
         }
         return InteractionResult.FAIL;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (player.isShiftKeyDown()) {
             ItemStack stack = player.getItemInHand(hand);
             CompoundTag tag = stack.getOrCreateTag();
@@ -66,18 +66,18 @@ public final class StorageMutator extends Item implements EntityInteractableItem
             if (tag.contains("pos"))
                 tag.remove("pos");
 
-            if (!world.isClientSide())
+            if (!level.isClientSide())
                 player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.description_" + nextMode, Utils.ALT_USE), true);
 
-            player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+            player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_QUICK_DELAY);
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(player.getItemInHand(hand));
     }
 
     @Override
-    public void onCraftedBy(ItemStack stack, Level world, Player player) {
-        super.onCraftedBy(stack, world, player);
+    public void onCraftedBy(ItemStack stack, Level level, Player player) {
+        super.onCraftedBy(stack, level, player);
         StorageMutator.getMode(stack);
     }
 
@@ -96,14 +96,22 @@ public final class StorageMutator extends Item implements EntityInteractableItem
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag context) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag context) {
         MutationMode mode = StorageMutator.getMode(stack);
         list.add(Utils.translation("tooltip.expandedstorage.storage_mutator.tool_mode", Utils.translation("tooltip.expandedstorage.storage_mutator." + mode)).withStyle(ChatFormatting.GRAY));
         list.add(Utils.translation("tooltip.expandedstorage.storage_mutator.description_" + mode, Utils.ALT_USE).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
-    public InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
-        return InteractionResult.PASS;
+    public InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
+        EntityMutatorBehaviour behaviour = CommonMain.getEntityMutatorBehaviour(entity, StorageMutator.getMode(stack));
+        if (behaviour != null) {
+            InteractionResult returnValue = behaviour.attempt(level, entity, stack);
+            if (returnValue.shouldSwing()) {
+                player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
+            }
+            return returnValue;
+        }
+        return InteractionResult.FAIL;
     }
 }

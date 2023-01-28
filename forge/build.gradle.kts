@@ -6,9 +6,8 @@ plugins {
 
 loom {
     forge {
-        convertAccessWideners.set(true)
-        extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-        mixinConfig("expandedstorage-common.mixin.json")
+        mixinConfig("expandedstorage-forge.mixins.json")
+        mixinConfig("ellemes-container-library-forge.mixins.json")
     }
 }
 
@@ -37,12 +36,24 @@ dependencies {
 
 tasks.getByName<MinifyJsonTask>("minJar") {
     manifest.attributes(mapOf(
-            "Automatic-Module-Name" to "ellemes.expandedstorage",
-            "MixinConfigs" to "expandedstorage-common.mixin.json,ellemes-container-library-forge.mixins.json"
+            "Automatic-Module-Name" to "ellemes.expandedstorage"
     ))
 }
 
-val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "https://github.com/Ellemes/ExpandedStorage")
+val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "${project.property("repo_base_url")}")
 
 u.configureCurseForge {
+    relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
+        optionalDependency("jei")
+        optionalDependency("quark")
+        optionalDependency("inventory-profiles-next")
+    })
+}
+
+u.configureModrinth {
+    dependencies {
+//        optional.project("jei") // jei (not on Modrinth)
+        optional.project("quark") // qnQsVE2z
+        optional.project("inventory-profiles-next") // O7RBXm3n
+    }
 }

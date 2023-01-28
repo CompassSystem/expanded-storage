@@ -28,11 +28,11 @@
     "firstperson_righthand": {
       "rotation": [0, 135, 0],
       "translation": [0, 3, 0],
-      "scale": [0.75, 0.75, 0.75]
+      "scale": [0.625, 0.625, 0.625]
     },
     "gui": {
-      "rotation": [35, -135, 0],
-      "translation": [0, 3.25, 0]
+      "rotation": [30, 135, 0],
+      "translation": [0, 2, 0]
     },
     "head": {
       "translation": [0, 7.25, 0],

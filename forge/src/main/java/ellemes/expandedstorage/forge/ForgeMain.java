@@ -1,8 +1,13 @@
 package ellemes.expandedstorage.forge;
 
+import com.google.common.base.Suppliers;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
@@ -11,14 +16,17 @@ import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
-import ellemes.expandedstorage.forge.item.MiniChestBlockItem;
+import ellemes.expandedstorage.forge.item.ChestMinecartItem;
+import ellemes.expandedstorage.forge.item.MiniStorageBlockItem;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatType;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -32,6 +40,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -42,11 +51,13 @@ import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+
 @Mod("expandedstorage")
 public final class ForgeMain {
-
     public ForgeMain() {
         new ellemes.container_library.forge.ForgeMain();
+
         TagReloadListener tagReloadListener = new TagReloadListener();
 
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
@@ -59,9 +70,10 @@ public final class ForgeMain {
                 }, FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
                 /*Base*/ false,
                 /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
+                /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
-                /*Mini Chest*/ MiniChestBlockItem::new);
+                /*Mini Storage*/ MiniStorageBlockItem::new);
 
         MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> tagReloadListener.postDataReload());
 
@@ -82,6 +94,14 @@ public final class ForgeMain {
                 });
             }
         });
+
+        MinecraftForge.EVENT_BUS.addListener((PlayerInteractEvent.EntityInteractSpecific event) -> {
+            InteractionResult result = CommonMain.interactWithEntity(event.getWorld(), event.getPlayer(), event.getHand(), event.getTarget());
+            if (result != InteractionResult.PASS) {
+                event.setCancellationResult(result);
+                event.setCanceled(true);
+            }
+        });
     }
 
     private void registerContent(Content content) {
@@ -94,7 +114,7 @@ public final class ForgeMain {
             IForgeRegistry<Block> registry = event.getRegistry();
             CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
                 registry.register(value.setRegistryName(name));
-                CommonMain.registerTieredBlock(value);
+                CommonMain.registerTieredObject(value);
             });
         });
 
@@ -117,8 +137,22 @@ public final class ForgeMain {
             IForgeRegistry<EntityType<?>> registry = event.getRegistry();
             CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
                 registry.register(value.setRegistryName(name));
+                if (value instanceof TieredObject object) {
+                    CommonMain.registerTieredObject(object);
+                }
             });
         });
+
+        // Hopefully if another mod replaces this supplier we'll capture theirs here.
+        Supplier<BiMap<Block, Block>> originalWaxablesMap = HoneycombItem.WAXABLES;
+        HoneycombItem.WAXABLES = Suppliers.memoize(() -> {
+            return ImmutableBiMap.<Block, Block>builder()
+                                 // Hopefully the original / modded map is okay to query here.
+                                 .putAll(originalWaxablesMap.get())
+                                 .putAll(CopperBlockHelper.dewaxing().inverse())
+                                 .build();
+        });
+
 
         if (FMLLoader.getDist() == Dist.CLIENT) {
             ForgeClient.initialize();

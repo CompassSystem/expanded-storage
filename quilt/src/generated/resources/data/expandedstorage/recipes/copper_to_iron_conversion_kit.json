@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "ICI",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "tag": "c:iron_nuggets"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "C": {
+      "tag": "c:copper_ingots"
+    }
+  },
+  "result": {
+    "item": "expandedstorage:copper_to_iron_conversion_kit"
+  }
+}

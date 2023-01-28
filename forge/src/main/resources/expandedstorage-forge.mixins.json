@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "ellemes.expandedstorage.forge.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "OxidizableBlockMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

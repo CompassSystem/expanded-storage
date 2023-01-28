@@ -77,12 +77,12 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
                                       .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
-    public static <T extends OldChestBlockEntity> PropertyRetriever<T> createPropertyRetriever(AbstractChestBlock block, BlockState state, LevelAccessor world, BlockPos pos, boolean retrieveBlockedChests) {
+    public static <T extends OldChestBlockEntity> PropertyRetriever<T> createPropertyRetriever(AbstractChestBlock block, BlockState state, LevelAccessor level, BlockPos pos, boolean retrieveBlockedChests) {
         BiPredicate<LevelAccessor, BlockPos> isChestBlocked = retrieveBlockedChests ? (_world, _pos) -> false : block::isAccessBlocked;
         return PropertyRetriever.create(block.getBlockEntityType(),
                 (s) -> AbstractChestBlock.getBlockType(s.getValue(AbstractChestBlock.CURSED_CHEST_TYPE)),
                 (s, facing) -> AbstractChestBlock.getDirectionToAttached(s.getValue(AbstractChestBlock.CURSED_CHEST_TYPE), facing),
-                (s) -> s.getValue(BlockStateProperties.HORIZONTAL_FACING), state, world, pos, isChestBlocked);
+                (s) -> s.getValue(BlockStateProperties.HORIZONTAL_FACING), state, level, pos, isChestBlocked);
     }
 
     public static Direction getDirectionToAttached(CursedChestType type, Direction facing) {
@@ -143,7 +143,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return CursedChestType.SINGLE;
     }
 
-    protected boolean isAccessBlocked(LevelAccessor world, BlockPos pos) {
+    protected boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
         return false;
     }
 
@@ -153,8 +153,8 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     }
 
     @Override
-    public ResourceLocation getBlockType() {
-        return CommonMain.OLD_CHEST_BLOCK_TYPE;
+    public ResourceLocation getObjType() {
+        return CommonMain.OLD_CHEST_OBJECT_TYPE;
     }
 
     @Override
@@ -177,20 +177,20 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     @NotNull
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Level world = context.getLevel();
+        Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         CursedChestType chestType = CursedChestType.SINGLE;
         Direction chestForwardDir = context.getHorizontalDirection().getOpposite();
         Direction clickedFace = context.getClickedFace();
         if (context.isSecondaryUseActive()) {
             Direction offsetDir = clickedFace.getOpposite();
-            BlockState offsetState = world.getBlockState(pos.relative(offsetDir));
+            BlockState offsetState = level.getBlockState(pos.relative(offsetDir));
             if (offsetState.is(this) && offsetState.getValue(BlockStateProperties.HORIZONTAL_FACING) == chestForwardDir && offsetState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == CursedChestType.SINGLE) {
                 chestType = AbstractChestBlock.getChestType(chestForwardDir, offsetDir);
             }
         } else {
             for (Direction dir : Direction.values()) {
-                BlockState offsetState = world.getBlockState(pos.relative(dir));
+                BlockState offsetState = level.getBlockState(pos.relative(dir));
                 if (offsetState.is(this) && offsetState.getValue(BlockStateProperties.HORIZONTAL_FACING) == chestForwardDir && offsetState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == CursedChestType.SINGLE) {
                     CursedChestType type = AbstractChestBlock.getChestType(chestForwardDir, dir);
                     if (type != CursedChestType.SINGLE) {
@@ -205,7 +205,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(BlockState state, Direction offset, BlockState offsetState, LevelAccessor world,
+    public BlockState updateShape(BlockState state, Direction offset, BlockState offsetState, LevelAccessor level,
                                   BlockPos pos, BlockPos offsetPos) {
         DoubleBlockCombiner.BlockType mergeType = AbstractChestBlock.getBlockType(state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE));
         if (mergeType == DoubleBlockCombiner.BlockType.SINGLE) {
@@ -218,19 +218,19 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
                 return state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, newType);
             }
         } else {
-            BlockState otherState = world.getBlockState(pos.relative(AbstractChestBlock.getDirectionToAttached(state)));
+            BlockState otherState = level.getBlockState(pos.relative(AbstractChestBlock.getDirectionToAttached(state)));
             if (!otherState.is(this) ||
                     otherState.getValue(CURSED_CHEST_TYPE) != state.getValue(CURSED_CHEST_TYPE).getOpposite() ||
                     state.getValue(BlockStateProperties.HORIZONTAL_FACING) != state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
                 return state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, CursedChestType.SINGLE);
             }
         }
-        return super.updateShape(state, offset, offsetState, world, pos, offsetPos);
+        return super.updateShape(state, offset, offsetState, level, pos, offsetPos);
     }
 
     @Override
-    public WorldlyContainer getContainer(BlockState state, LevelAccessor world, BlockPos pos) {
-        return AbstractChestBlock.createPropertyRetriever(this, state, world, pos, true).get(AbstractChestBlock.INVENTORY_GETTER).orElse(null);
+    public WorldlyContainer getContainer(BlockState state, LevelAccessor level, BlockPos pos) {
+        return AbstractChestBlock.createPropertyRetriever(this, state, level, pos, true).get(AbstractChestBlock.INVENTORY_GETTER).orElse(null);
     }
 
     @Override
@@ -256,18 +256,18 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
 
     @Override
     @SuppressWarnings("deprecation")
-    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        WorldlyContainer inventory = this.getContainer(state, world, pos);
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        WorldlyContainer inventory = this.getContainer(state, level, pos);
         if (inventory != null) return AbstractContainerMenu.getRedstoneSignalFromContainer(inventory);
-        return super.getAnalogOutputSignal(state, world, pos);
+        return super.getAnalogOutputSignal(state, level, pos);
     }
 
     @Override
     public OpenableInventory getOpenableInventory(BlockContext context) {
-        Level world = context.getWorld();
+        Level level = context.getLevel();
         BlockPos pos = context.getBlockPos();
-        BlockState state = world.getBlockState(pos);
-        return AbstractChestBlock.createPropertyRetriever(this, state, world, pos, false).get(new Property<OldChestBlockEntity, OpenableInventory>() {
+        BlockState state = level.getBlockState(pos);
+        return AbstractChestBlock.createPropertyRetriever(this, state, level, pos, false).get(new Property<OldChestBlockEntity, OpenableInventory>() {
             @Override
             public OpenableInventory get(OldChestBlockEntity first, OldChestBlockEntity second) {
                 Component name = first.hasCustomName() ? first.getName() : second.hasCustomName() ? second.getName() : Utils.translation("container.expandedstorage.generic_double", first.getName());
@@ -282,22 +282,22 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     }
 
     @Override
-    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean bl) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean bl) {
         if (state.hasProperty(AbstractChestBlock.CURSED_CHEST_TYPE) && newState.hasProperty(AbstractChestBlock.CURSED_CHEST_TYPE)) {
             CursedChestType oldChestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
             CursedChestType newChestType = newState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
             if (oldChestType != CursedChestType.SINGLE && newChestType == CursedChestType.SINGLE) {
                 if (AbstractChestBlock.getBlockType(oldChestType) == DoubleBlockCombiner.BlockType.FIRST) {
-                    if (world.getBlockEntity(pos) instanceof OldChestBlockEntity entity) {
+                    if (level.getBlockEntity(pos) instanceof OldChestBlockEntity entity) {
                         entity.invalidateDoubleBlockCache();
                     }
                 }
-                world.updateNeighbourForOutputSignal(pos, newState.getBlock());
+                level.updateNeighbourForOutputSignal(pos, newState.getBlock());
             } else if (oldChestType == CursedChestType.SINGLE && newChestType != CursedChestType.SINGLE) {
                 BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(newState));
-                world.updateNeighbourForOutputSignal(otherPos, world.getBlockState(otherPos).getBlock());
+                level.updateNeighbourForOutputSignal(otherPos, level.getBlockState(otherPos).getBlock());
             }
         }
-        super.onRemove(state, world, pos, newState, bl);
+        super.onRemove(state, level, pos, newState, bl);
     }
 }

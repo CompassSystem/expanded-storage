@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 
 public abstract class InventoryBlockEntity extends OpenableBlockEntity implements WrappedInventory {
     private final NonNullList<ItemStack> items;
-    private Observable observable = Observable.NOT;
+    private Observable observable;
     private final WorldlyContainer inventory = new WorldlyContainer() {
         private int[] availableSlots;
 
@@ -97,13 +97,13 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
 
         @Override
         public void startOpen(Player player) {
-            if (player.isSpectator()) return;
+            if (player.isSpectator() || observable == null) return;
             observable.playerStartViewing(player);
         }
 
         @Override
         public void stopOpen(Player player) {
-            if (player.isSpectator()) return;
+            if (player.isSpectator() || observable == null) return;
             observable.playerStopViewing(player);
         }
     };
@@ -136,7 +136,7 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
     }
 
     protected void setObservable(Observable observable) {
-        if (this.observable == Observable.NOT) this.observable = observable;
+        if (this.observable == null) this.observable = observable;
     }
 }
 

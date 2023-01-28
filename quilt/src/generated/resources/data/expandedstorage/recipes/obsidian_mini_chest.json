@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "PBP",
+    " P "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:obsidian"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "B": {
+      "item": "expandedstorage:wood_chest"
+    }
+  },
+  "result": {
+    "item": "expandedstorage:obsidian_mini_chest",
+    "count": 8
+  }
+}

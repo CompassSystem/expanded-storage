@@ -4,6 +4,7 @@
     "expandedstorage:pumpkin_chest",
     "expandedstorage:present",
     "expandedstorage:bamboo_chest",
+    "expandedstorage:moss_chest",
     "#forge:chests/wooden"
   ]
 }

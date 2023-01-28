@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "ellemes.expandedstorage.thread.mixin",
+  "plugin": "ellemes.expandedstorage.thread.MixinPlugin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "HTMChestCompat",
+    "HTMLockableBlockEntityCompat",
+    "MiniStorageHeadEquipment",
+    "ToweletteCompat"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

@@ -2,7 +2,7 @@
   "parent": "minecraft:builtin/entity",
   "display": {
     "gui": {
-      "rotation": [30, 45, 0],
+      "rotation": [30, 315, 0],
       "scale": [0.625, 0.625, 0.625]
     },
     "ground": {
@@ -20,7 +20,8 @@
     },
     "firstperson_righthand": {
       "rotation": [0, 315, 0],
-      "scale": [0.4, 0.4, 0.4]
+      "scale": [0.4, 0.4, 0.4],
+      "translation": [0, 1.5, 0]
     }
   }
 }

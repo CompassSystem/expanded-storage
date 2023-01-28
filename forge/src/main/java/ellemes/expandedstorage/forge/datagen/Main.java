@@ -20,10 +20,9 @@ public final class Main {
         final BlockTagsProvider blockTagsProvider = new TagProvider.Block(generator, fileHelper);
         generator.addProvider(blockTagsProvider);
         generator.addProvider(new TagProvider.Item(generator, blockTagsProvider, fileHelper));
+        generator.addProvider(new TagProvider.EntityType(generator, fileHelper));
         generator.addProvider(new RecipeProvider(generator));
         generator.addProvider(new LootTableProvider(generator));
-//        generator.addProvider(new LanguageProvider(generator));
-//        generator.addProvider(new BlockStatesAndModels(generator, fileHelper));
         generator.addProvider(new ItemModelProvider(generator, fileHelper));
     }
 }

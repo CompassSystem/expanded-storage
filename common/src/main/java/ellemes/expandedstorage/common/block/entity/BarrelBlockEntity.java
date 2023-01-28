@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.common.block.entity;
 
+import ellemes.container_library.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.ExposedInventoryBlockEntity;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
@@ -19,7 +20,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import ellemes.container_library.api.inventory.AbstractHandler;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -27,19 +27,19 @@ import java.util.function.Supplier;
 public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
     private final ContainerOpenersCounter manager = new ContainerOpenersCounter() {
         @Override
-        protected void onOpen(Level world, BlockPos pos, BlockState state) {
-            BarrelBlockEntity.playSound(world, state, pos, SoundEvents.BARREL_OPEN);
-            BarrelBlockEntity.updateBlockState(world, state, pos, true);
+        protected void onOpen(Level level, BlockPos pos, BlockState state) {
+            BarrelBlockEntity.playSound(level, state, pos, SoundEvents.BARREL_OPEN);
+            BarrelBlockEntity.updateBlockState(level, state, pos, true);
         }
 
         @Override
-        protected void onClose(Level world, BlockPos pos, BlockState state) {
-            BarrelBlockEntity.playSound(world, state, pos, SoundEvents.BARREL_CLOSE);
-            BarrelBlockEntity.updateBlockState(world, state, pos, false);
+        protected void onClose(Level level, BlockPos pos, BlockState state) {
+            BarrelBlockEntity.playSound(level, state, pos, SoundEvents.BARREL_CLOSE);
+            BarrelBlockEntity.updateBlockState(level, state, pos, false);
         }
 
         @Override
-        protected void openerCountChanged(Level world, BlockPos pos, BlockState state, int oldCount, int newCount) {
+        protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int oldCount, int newCount) {
 
         }
 
@@ -56,16 +56,16 @@ public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
         this.setLockable(lockable.get());
     }
 
-    private static void playSound(Level world, BlockState state, BlockPos pos, SoundEvent sound) {
+    private static void playSound(Level level, BlockState state, BlockPos pos, SoundEvent sound) {
         Vec3i facingVector = state.getValue(BlockStateProperties.FACING).getNormal();
         double X = pos.getX() + 0.5D + facingVector.getX() / 2.0D;
         double Y = pos.getY() + 0.5D + facingVector.getY() / 2.0D;
         double Z = pos.getZ() + 0.5D + facingVector.getZ() / 2.0D;
-        world.playSound(null, X, Y, Z, sound, SoundSource.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+        level.playSound(null, X, Y, Z, sound, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
     }
 
-    private static void updateBlockState(Level world, BlockState state, BlockPos pos, boolean open) {
-        world.setBlock(pos, state.setValue(BlockStateProperties.OPEN, open), Block.UPDATE_ALL);
+    private static void updateBlockState(Level level, BlockState state, BlockPos pos, boolean open) {
+        level.setBlock(pos, state.setValue(BlockStateProperties.OPEN, open), Block.UPDATE_ALL);
     }
 
     @Override
@@ -80,7 +80,7 @@ public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
         manager.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
     }
 
-    public void updateViewerCount(ServerLevel world, BlockPos pos, BlockState state) {
-        manager.recheckOpeners(world, pos, state);
+    public void updateViewerCount(ServerLevel level, BlockPos pos, BlockState state) {
+        manager.recheckOpeners(level, pos, state);
     }
 }

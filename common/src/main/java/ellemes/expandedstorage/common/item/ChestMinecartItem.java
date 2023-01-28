@@ -57,7 +57,7 @@ public class ChestMinecartItem extends Item {
         }
     };
 
-    private final ResourceLocation cartId;
+    protected final ResourceLocation cartId;
 
     public ChestMinecartItem(Item.Properties properties, ResourceLocation cartId) {
         super(properties);

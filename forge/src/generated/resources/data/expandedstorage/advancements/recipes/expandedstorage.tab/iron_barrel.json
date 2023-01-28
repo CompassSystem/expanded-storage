@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:barrels/wooden"
+            "items": [
+              "expandedstorage:copper_barrel"
+            ]
           }
         ]
       }

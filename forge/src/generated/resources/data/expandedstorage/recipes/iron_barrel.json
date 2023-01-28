@@ -1,16 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "III",
+    "NNN",
     "IBI",
-    "III"
+    "NNN"
   ],
   "key": {
+    "N": {
+      "tag": "forge:nuggets/iron"
+    },
     "I": {
       "tag": "forge:ingots/iron"
     },
     "B": {
-      "tag": "forge:barrels/wooden"
+      "item": "expandedstorage:copper_barrel"
     }
   },
   "result": {

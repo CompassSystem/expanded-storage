@@ -22,15 +22,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public final class BarrelBlock extends OpenableBlock {
+public class BarrelBlock extends OpenableBlock {
     public BarrelBlock(Properties settings, ResourceLocation blockId, ResourceLocation tierId, ResourceLocation openingStat, int slotCount) {
         super(settings, blockId, tierId, openingStat, slotCount);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP).setValue(BlockStateProperties.OPEN, false));
     }
 
     @Override
-    public ResourceLocation getBlockType() {
-        return CommonMain.BARREL_BLOCK_TYPE;
+    public ResourceLocation getObjType() {
+        return CommonMain.BARREL_OBJECT_TYPE;
     }
 
     @Nullable
@@ -52,9 +52,9 @@ public final class BarrelBlock extends OpenableBlock {
 
     @Override
     @SuppressWarnings("deprecation")
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (world.getBlockEntity(pos) instanceof BarrelBlockEntity entity) {
-            entity.updateViewerCount(world, pos, state);
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        if (level.getBlockEntity(pos) instanceof BarrelBlockEntity entity) {
+            entity.updateViewerCount(level, pos, state);
         }
     }
 
@@ -66,8 +66,8 @@ public final class BarrelBlock extends OpenableBlock {
 
     @Override
     @SuppressWarnings("deprecation")
-    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
     @Override
@@ -84,7 +84,7 @@ public final class BarrelBlock extends OpenableBlock {
 
     @Override
     public OpenableInventory getOpenableInventory(BlockContext context) {
-        if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof OpenableInventory inventory) {
+        if (context.getLevel().getBlockEntity(context.getBlockPos()) instanceof OpenableInventory inventory) {
             return inventory;
         }
         return null;

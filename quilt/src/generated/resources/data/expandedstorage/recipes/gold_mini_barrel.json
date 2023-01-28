@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "PBP",
+    " P "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:gold_ingot"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "B": {
+      "tag": "c:wooden_barrels"
+    }
+  },
+  "result": {
+    "item": "expandedstorage:gold_mini_barrel",
+    "count": 8
+  }
+}

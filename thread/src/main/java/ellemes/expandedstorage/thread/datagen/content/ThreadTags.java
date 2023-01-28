@@ -16,6 +16,8 @@ public final class ThreadTags {
         public static final TagKey<Item> WOODEN_BARRELS = tag(commonId("wooden_barrels"));
         public static final TagKey<Item> GLASS_BLOCKS = tag(commonId("glass"));
         public static final TagKey<Item> DIAMONDS = tag(commonId("diamonds"));
+        public static final TagKey<Item> COPPER_INGOTS = tag(commonId("copper_ingots"));
+        public static final TagKey<Item> IRON_NUGGETS = tag(commonId("iron_nuggets"));
         public static final TagKey<Item> IRON_INGOTS = tag(commonId("iron_ingots"));
         public static final TagKey<Item> GOLD_INGOTS = tag(commonId("gold_ingots"));
         public static final TagKey<Item> NETHERITE_INGOTS = tag(commonId("netherite_ingots"));

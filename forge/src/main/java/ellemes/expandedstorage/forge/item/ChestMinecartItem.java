@@ -1,0 +1,47 @@
+package ellemes.expandedstorage.forge.item;
+
+import com.google.common.base.Suppliers;
+import com.mojang.blaze3d.vertex.PoseStack;
+import ellemes.expandedstorage.common.entity.ChestMinecart;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+public final class ChestMinecartItem extends ellemes.expandedstorage.common.item.ChestMinecartItem {
+    public ChestMinecartItem(Properties properties, ResourceLocation cartId) {
+        super(properties, cartId);
+    }
+
+    @Override
+    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+        consumer.accept(new IItemRenderProperties() {
+            final Supplier<BlockEntityWithoutLevelRenderer> renderer = Suppliers.memoize(this::createItemRenderer);
+
+            private BlockEntityWithoutLevelRenderer createItemRenderer() {
+                Minecraft minecraft = Minecraft.getInstance();
+                EntityType<ChestMinecart> entityType = (EntityType<ChestMinecart>) ForgeRegistries.ENTITIES.getValue(ChestMinecartItem.this.cartId);
+                Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> entityType.create(minecraft.level));
+                return new BlockEntityWithoutLevelRenderer(minecraft.getBlockEntityRenderDispatcher(), minecraft.getEntityModels()) {
+                    @Override
+                    public void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transform, PoseStack stack, MultiBufferSource source, int light, int overlay) {
+                        Minecraft.getInstance().getEntityRenderDispatcher().render(renderEntity.get(), 0, 0, 0, 0, 0, stack, source, light);
+                    }
+                };
+            }
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                return renderer.get();
+            }
+        });
+    }
+}

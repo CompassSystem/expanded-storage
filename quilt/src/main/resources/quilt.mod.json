@@ -11,7 +11,6 @@
         "ellemes.container_library.quilt.QuiltMain"
       ],
       "client_init": [
-        "ellemes.expandedstorage.quilt.QuiltClient",
         "ellemes.container_library.quilt.QuiltClient"
       ],
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
@@ -19,33 +18,35 @@
       "modmenu": [
         "ellemes.expandedstorage.thread.client.ModMenuCompat",
         "ellemes.container_library.thread.client.ModMenuCompat"
-      ]
+      ],
+      "emi": "ellemes.container_library.thread.client.EmiCompat"
     },
     "depends": [
       {
         "id": "org.quiltmc:quilt_loader",
-        "versions": ">=0.16.0-beta.12"
+        "versions": ">=0.17.3"
       },
       {
         "id": "minecraft",
-        "versions": "~1.18.2"
+        "versions": "1.18.2"
       },
-      "org.quiltmc.qsl.block:quilt_block_extensions",
-      "org.quiltmc.qsl.core:quilt_networking",
-      "org.quiltmc.qsl.core:quilt_registry",
-      "org.quiltmc.qsl.core:quilt_resource_loader",
-      "org.quiltmc.qsl.item:quilt_item_group",
-      "org.quiltmc.qsl.gui:quilt_tooltip",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_api_base",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_rendering_v1",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_textures_v0",
-      "org.quiltmc.quilted-fabric-api:quilted_fabric_transfer_api_v1"
+      {
+        "id": "org.quiltmc:quilted_fabric_api",
+        "versions": ">=1.0.0-beta.28"
+      }
+    ],
+    "breaks": [
+      {
+        "id": "ellemes_container_lib",
+        "versions": "*",
+        "reason": "Now included in codebase, does not need to be installed separately."
+      }
     ],
     "metadata": {
       "name": "Expanded Storage",
       "description": "Adds new storage blocks with higher capacities.",
       "contributors": {
-        "Ellemes": "Owner"
+        "Bucket of Compasses": "Owner"
       },
       "contact": {
         "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
@@ -58,9 +59,8 @@
     }
   },
   "mixin": [
-    "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json",
-    "expandedstorage-quilt.mixin.json",
-    "ellemes-container-library-thread.mixins.json"
+    "ellemes-container-library-thread.mixins.json",
+    "expandedstorage-common.mixins.json",
+    "expandedstorage-thread.mixins.json"
   ]
 }

@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
-import ellemes.expandedstorage.common.datagen.content.ModBlocks;
 import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
+import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.thread.datagen.content.ThreadTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -70,6 +70,10 @@ public final class TagProvider {
                 .add(Items.BLACK_STAINED_GLASS);
             this.getOrCreateTagBuilder(ThreadTags.Items.DIAMONDS)
                 .add(Items.DIAMOND);
+            this.getOrCreateTagBuilder(ThreadTags.Items.COPPER_INGOTS)
+                .add(Items.COPPER_INGOT);
+            this.getOrCreateTagBuilder(ThreadTags.Items.IRON_NUGGETS)
+                .add(Items.IRON_NUGGET);
             this.getOrCreateTagBuilder(ThreadTags.Items.IRON_INGOTS)
                 .add(Items.IRON_INGOT);
             this.getOrCreateTagBuilder(ThreadTags.Items.GOLD_INGOTS)
@@ -89,6 +93,21 @@ public final class TagProvider {
         @Override
         public String getName() {
             return "Expanded Storage - Item Tags";
+        }
+    }
+    public static final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
+        public EntityType(FabricDataGenerator generator) {
+            super(generator);
+        }
+
+        @Override
+        protected void generateTags() {
+            TagHelper.registerEntityTypeTags(this::getOrCreateTagBuilder);
+        }
+
+        @Override
+        public String getName() {
+            return "Expanded Storage - Entity Type Tags";
         }
     }
 }

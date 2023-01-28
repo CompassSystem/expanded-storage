@@ -41,19 +41,19 @@ public final class StorageConversionKit extends Item implements EntityInteractab
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        Level world = context.getLevel();
+        Level level = context.getLevel();
         Player player = context.getPlayer();
         if (player != null) {
             if (player.isShiftKeyDown()) {
-                Block block = world.getBlockState(context.getClickedPos()).getBlock();
+                Block block = level.getBlockState(context.getClickedPos()).getBlock();
                 BlockUpgradeBehaviour behaviour = CommonMain.getBlockUpgradeBehaviour(block);
                 if (behaviour != null) {
-                    if (world.isClientSide()) {
+                    if (level.isClientSide()) {
                         return InteractionResult.CONSUME;
                     } else if (behaviour.tryUpgradeBlock(context, from, to)) {
+                        player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                         return InteractionResult.SUCCESS;
                     }
-                    player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
                 }
             }
         }
@@ -61,7 +61,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag context) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag context) {
         list.add(instructionsFirst);
         if (!instructionsSecond.getString().equals("")) {
             list.add(instructionsSecond);
@@ -69,18 +69,14 @@ public final class StorageConversionKit extends Item implements EntityInteractab
     }
 
     @Override
-    public InteractionResult es_interactEntity(Level world, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
-        if (player.isShiftKeyDown()) {
-            EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
-            if (behaviour != null) {
-                if (world.isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else if (behaviour.tryUpgradeEntity(null, from, to)) {
-                    return InteractionResult.SUCCESS;
-                }
-                player.getCooldowns().addCooldown(this, Utils.QUARTER_SECOND);
+    public InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
+        EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
+        if (behaviour != null) {
+            if (behaviour.tryUpgradeEntity(player, hand, entity, from, to)) {
+                player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
+                return InteractionResult.SUCCESS;
             }
         }
-        return InteractionResult.PASS;
+        return InteractionResult.FAIL;
     }
 }

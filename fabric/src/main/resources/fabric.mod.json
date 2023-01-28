@@ -1,44 +1,40 @@
 {
   "schemaVersion": 1,
   "depends": {
-    "fabricloader": ">=0.13.2",
-    "minecraft": "~1.18.2",
-    "fabric-api-base": ">=0.4.3",
-    "fabric-blockrenderlayer-v1": ">=1.1.11",
-    "fabric-data-generation-api-v1": ">=2.0.4",
-    "fabric-item-groups-v0": ">=0.3.8",
-    "fabric-lifecycle-events-v1": ">=2.0.1",
-    "fabric-rendering-v1": ">=1.10.6",
-    "fabric-textures-v0": ">=1.0.11",
-    "fabric-transfer-api-v1": ">=1.5.12"
+    "fabricloader": ">=0.14.9",
+    "minecraft": "1.18.2",
+    "fabric": ">=0.67.0+1.18.2"
+  },
+  "breaks": {
+    "ellemes_container_lib": "*"
   },
   "entrypoints": {
     "main": [
-      "ellemes.expandedstorage.fabric.FabricMain",
-      "ellemes.container_library.fabric.FabricMain"
+      "ellemes.container_library.fabric.FabricMain",
+      "ellemes.expandedstorage.fabric.FabricMain"
     ],
     "client": [
-      "ellemes.expandedstorage.fabric.FabricClient",
       "ellemes.container_library.fabric.FabricClient"
     ],
     "fabric-datagen": [
       "ellemes.expandedstorage.thread.datagen.Main"
     ],
+    "modmenu": [
+      "ellemes.expandedstorage.thread.client.ModMenuCompat"
+    ],
     "rei_client": [
       "ellemes.container_library.thread.client.ReiCompat"
     ],
-    "modmenu": [
-      "ellemes.container_library.fabric.client.ModMenuCompat",
-      "ellemes.container_library.thread.client.ModMenuCompat"
+    "emi": [
+      "ellemes.container_library.thread.client.EmiCompat"
     ]
   },
   "environment": "*",
-  "authors": ["Ellemes"],
+  "authors": ["Bucket of Compasses"],
   "mixins": [
-    "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json",
-    "expandedstorage-fabric.mixin.json",
-    "ellemes-container-library-thread.mixins.json"
+    "ellemes-container-library-thread.mixins.json",
+    "expandedstorage-common.mixins.json",
+    "expandedstorage-thread.mixins.json"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",

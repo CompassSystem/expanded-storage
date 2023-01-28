@@ -3,10 +3,7 @@ package ellemes.expandedstorage.forge.datagen.providers;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.datagen.providers.ModelHelper;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -18,7 +15,6 @@ public final class ItemModelProvider extends net.minecraftforge.client.model.gen
     @Override
     protected void registerModels() {
         ModelHelper.registerItemModels(this::simple);
-        ModelHelper.registerChestItemModels(it -> this.withExistingParent(ForgeRegistries.ITEMS.getKey(it).getPath(), new ResourceLocation("minecraft", ModelProvider.ITEM_FOLDER + "/chest_minecart")));
 
         //this.chest(ModItems.WOOD_CHEST);
         //this.chest(ModItems.PUMPKIN_CHEST);
@@ -49,20 +45,20 @@ public final class ItemModelProvider extends net.minecraftforge.client.model.gen
         this.withExistingParent(itemId, mcLoc("item/generated")).texture("layer0", "item/" + itemId);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private void chest(Item item) {
-        this.withExistingParent(ForgeRegistries.ITEMS.getKey(item).getPath(), mcLoc("item/chest"));
-    }
+//    @SuppressWarnings("ConstantConditions")
+//    private void chest(Item item) {
+//        this.withExistingParent(ForgeRegistries.ITEMS.getKey(item).getPath(), mcLoc("item/chest"));
+//    }
 
-    @SuppressWarnings("ConstantConditions")
-    private void oldChest(BlockItem item) {
-        this.getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(this.getExistingFile(Utils.id("block/" + ForgeRegistries.BLOCKS.getKey(item.getBlock()).getPath() + "/single")));
-    }
+//    @SuppressWarnings("ConstantConditions")
+//    private void oldChest(BlockItem item) {
+//        this.getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(this.getExistingFile(Utils.id("block/" + ForgeRegistries.BLOCKS.getKey(item.getBlock()).getPath() + "/single")));
+//    }
 
-    @SuppressWarnings("ConstantConditions")
-    private void barrel(BlockItem item) {
-        this.getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(this.getExistingFile(Utils.id("block/" + ForgeRegistries.BLOCKS.getKey(item.getBlock()).getPath())));
-    }
+//    @SuppressWarnings("ConstantConditions")
+//    private void barrel(BlockItem item) {
+//        this.getBuilder(ForgeRegistries.ITEMS.getKey(item).getPath()).parent(this.getExistingFile(Utils.id("block/" + ForgeRegistries.BLOCKS.getKey(item.getBlock()).getPath())));
+//    }
 
     @Override
     public String getName() {

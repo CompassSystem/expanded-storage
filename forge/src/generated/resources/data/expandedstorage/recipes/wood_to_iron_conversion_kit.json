@@ -1,16 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "III",
-    "IPI",
-    "III"
+    "NNN",
+    "IKI",
+    "NNN"
   ],
   "key": {
+    "N": {
+      "tag": "forge:nuggets/iron"
+    },
     "I": {
       "tag": "forge:ingots/iron"
     },
-    "P": {
-      "tag": "minecraft:planks"
+    "K": {
+      "item": "expandedstorage:wood_to_copper_conversion_kit"
     }
   },
   "result": {

@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.common.block.entity;
 
+import ellemes.container_library.api.helpers.VariableSidedInventory;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.InventoryBlockEntity;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
@@ -11,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import ellemes.container_library.api.helpers.VariableSidedInventory;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
