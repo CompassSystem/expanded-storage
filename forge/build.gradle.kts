@@ -6,8 +6,8 @@ plugins {
 
 loom {
     forge {
-        mixinConfig("expandedstorage-forge.mixin.json")
-        mixinConfig("ellemes-container-library-forge.mixin.json")
+        mixinConfig("expandedstorage-forge.mixins.json")
+        mixinConfig("ellemes-container-library-forge.mixins.json")
     }
 }
 

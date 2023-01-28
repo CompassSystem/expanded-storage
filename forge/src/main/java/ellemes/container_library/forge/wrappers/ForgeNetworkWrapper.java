@@ -46,9 +46,7 @@ public final class ForgeNetworkWrapper extends NetworkWrapper {
     private void handleForgeMessage(OpenInventoryMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         ServerPlayer sender = contextSupplier.get().getSender();
         FriendlyByteBuf buffer = message.getData();
-        contextSupplier.get().enqueueWork(() -> {
-            this.s_handleOpenInventory(sender, buffer);
-        });
+        contextSupplier.get().enqueueWork(() -> this.s_handleOpenInventory(sender, buffer));
         contextSupplier.get().setPacketHandled(true);
     }
 

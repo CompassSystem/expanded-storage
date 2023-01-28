@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "depends": {
     "fabricloader": ">=0.14.10",
-    "minecraft": ">=1.19.3-alpha.22.43.a",
+    "minecraft": "1.19.3",
     "fabric-api": ">=0.65.2+1.19.3"
   },
   "breaks": {
