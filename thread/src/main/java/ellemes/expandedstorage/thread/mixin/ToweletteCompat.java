@@ -8,4 +8,5 @@ import virtuoel.towelette.api.Fluidloggable;
 @SuppressWarnings("unused")
 @Mixin({ChestBlock.class, MiniStorageBlock.class})
 public abstract class ToweletteCompat implements Fluidloggable {
+
 }

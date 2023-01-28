@@ -11,12 +11,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
 
 public abstract class ThreadNetworkWrapper extends NetworkWrapper {
-    public static ResourceLocation CHANNEL_NAME = Utils.id("channel");
+    public static final ResourceLocation CHANNEL_NAME = Utils.id("channel");
     private final boolean flanPresent;
 
-    public ThreadNetworkWrapper(boolean flanPresent) {
+    public ThreadNetworkWrapper(boolean flanPresent, boolean ftbChunksPresent) {
+        super(ftbChunksPresent);
         this.flanPresent = flanPresent;
     }
 
@@ -28,8 +30,17 @@ public abstract class ThreadNetworkWrapper extends NetworkWrapper {
     @Override
     public boolean canOpenInventory(ServerPlayer player, BlockPos pos) {
         if (flanPresent) {
-            return ClaimHandler.getPermissionStorage(player.getLevel()).getForPermissionCheck(pos).canInteract(player, PermissionRegistry.OPENCONTAINER, pos, true);
+            return ClaimHandler.getPermissionStorage(player.getLevel()).getForPermissionCheck(pos).canInteract(player, PermissionRegistry.OPENCONTAINER, pos, true) && super.canOpenInventory(player, pos);
         }
-        return true;
+        return super.canOpenInventory(player, pos);
+    }
+
+    @Override
+    protected boolean canOpenInventory(ServerPlayer player, Entity entity) {
+        if (flanPresent) {
+            BlockPos pos = entity.getOnPos();
+            return ClaimHandler.getPermissionStorage(player.getLevel()).getForPermissionCheck(pos).canInteract(player, PermissionRegistry.OPENCONTAINER, pos, true) && super.canOpenInventory(player, pos);
+        }
+        return super.canOpenInventory(player, entity);
     }
 }

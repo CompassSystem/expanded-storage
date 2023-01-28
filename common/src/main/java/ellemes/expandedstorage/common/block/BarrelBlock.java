@@ -51,9 +51,9 @@ public class BarrelBlock extends OpenableBlock {
 
     @Override
     @SuppressWarnings("deprecation")
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (world.getBlockEntity(pos) instanceof BarrelBlockEntity entity) {
-            entity.updateViewerCount(world, pos, state);
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (level.getBlockEntity(pos) instanceof BarrelBlockEntity entity) {
+            entity.updateViewerCount(level, pos, state);
         }
     }
 
@@ -65,8 +65,8 @@ public class BarrelBlock extends OpenableBlock {
 
     @Override
     @SuppressWarnings("deprecation")
-    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class BarrelBlock extends OpenableBlock {
 
     @Override
     public OpenableInventory getOpenableInventory(BlockContext context) {
-        if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof OpenableInventory inventory) {
+        if (context.getLevel().getBlockEntity(context.getBlockPos()) instanceof OpenableInventory inventory) {
             return inventory;
         }
         return null;

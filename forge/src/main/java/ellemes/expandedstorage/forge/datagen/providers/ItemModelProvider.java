@@ -15,7 +15,6 @@ public final class ItemModelProvider extends net.minecraftforge.client.model.gen
     @Override
     protected void registerModels() {
         ModelHelper.registerItemModels(this::simple);
-//        ModelHelper.registerChestItemModels(it -> this.withExistingParent(ForgeRegistries.ITEMS.getKey(it).getPath(), new ResourceLocation("minecraft", ModelProvider.ITEM_FOLDER + "/chest_minecart")));
 
         //this.chest(ModItems.WOOD_CHEST);
         //this.chest(ModItems.PUMPKIN_CHEST);

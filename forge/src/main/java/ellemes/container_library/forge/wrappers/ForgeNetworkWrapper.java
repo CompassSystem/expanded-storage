@@ -28,7 +28,8 @@ import java.util.function.Supplier;
 public final class ForgeNetworkWrapper extends NetworkWrapper {
     private final SimpleChannel channel;
 
-    public ForgeNetworkWrapper() {
+    public ForgeNetworkWrapper(boolean ftbChunksLoaded) {
+        super(ftbChunksLoaded);
         String channelVersion = "1.0";
         this.channel = NetworkRegistry.ChannelBuilder.named(Utils.id("channel"))
                                                      .networkProtocolVersion(() -> channelVersion)

@@ -7,19 +7,20 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.core.Registry;
 import net.minecraft.world.inventory.MenuType;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class ThreadMain {
     public static void initialize(
             Function<String, Boolean> isModLoaded,
-            Function<Boolean, NetworkWrapper> networkWrapperFunction
+            BiFunction<Boolean, Boolean, NetworkWrapper> networkWrapperFunction
     ) {
         CommonMain.initialize(
                 (handlerType, factory) -> {
                     MenuType<AbstractHandler> type = new ExtendedScreenHandlerType<>(factory::create);
                     return Registry.register(Registry.MENU, handlerType, type);
                 },
-                networkWrapperFunction.apply(isModLoaded.apply("flan"))
+                networkWrapperFunction.apply(isModLoaded.apply("flan"), isModLoaded.apply("ftbchunks"))
         );
     }
 }

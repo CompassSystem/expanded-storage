@@ -8,4 +8,5 @@ import vazkii.quark.api.IQuarkButtonAllowed;
 
 @Mixin({PageScreen.class, SingleScreen.class, ScrollScreen.class})
 public class QuarkButtonAllowedMixin implements IQuarkButtonAllowed {
+
 }

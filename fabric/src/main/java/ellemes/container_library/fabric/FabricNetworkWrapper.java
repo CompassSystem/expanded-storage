@@ -10,8 +10,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 
 public class FabricNetworkWrapper extends ThreadNetworkWrapper {
-    public FabricNetworkWrapper(boolean flanPresent) {
-        super(flanPresent);
+    public FabricNetworkWrapper(boolean flanPresent, boolean ftbChunksPresent) {
+        super(flanPresent, ftbChunksPresent);
 
         ServerPlayConnectionEvents.INIT.register((handler, __) -> {
             ServerPlayNetworking.registerReceiver(handler, ThreadNetworkWrapper.CHANNEL_NAME, (server, player, ____, buffer, _____) -> {

@@ -23,8 +23,6 @@ public final class Main {
         generator.addProvider(true, new TagProvider.EntityType(generator, fileHelper));
         generator.addProvider(true, new RecipeProvider(generator));
         generator.addProvider(true, new LootTableProvider(generator));
-//        generator.addProvider(true, new LanguageProvider(generator));
-//        generator.addProvider(true, new BlockStatesAndModels(generator, fileHelper));
         generator.addProvider(true, new ItemModelProvider(generator, fileHelper));
     }
 }

@@ -48,8 +48,8 @@ public class ForgeClient {
             if (event.isUseItem() && event.getHand() == InteractionHand.MAIN_HAND) {
                 Minecraft client = Minecraft.getInstance();
                 Player player = client.player;
-                ClientLevel world = client.level;
-                if (CommonClient.tryOpenSpectatorInventory(world, player, client.hitResult, event.getHand())) {
+                ClientLevel level = client.level;
+                if (CommonClient.tryOpenSpectatorInventory(level, player, client.hitResult, event.getHand())) {
                     event.setCanceled(true);
                 }
             }
@@ -58,5 +58,4 @@ public class ForgeClient {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener((FMLClientSetupEvent event) -> MenuScreens.register(CommonMain.getScreenHandlerType(), AbstractScreen::createScreen));
     }
-
 }

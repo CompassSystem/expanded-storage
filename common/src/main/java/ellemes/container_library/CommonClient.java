@@ -75,12 +75,12 @@ public class CommonClient {
         return CommonClient.modLoadedFunction.apply(modId);
     }
 
-    public static boolean tryOpenSpectatorInventory(ClientLevel world, Player player, HitResult hit, InteractionHand hand) {
+    public static boolean tryOpenSpectatorInventory(ClientLevel level, Player player, HitResult hit, InteractionHand hand) {
         if (player.isSpectator()) {
             switch (hit.getType()) {
                 case BLOCK -> {
                     BlockHitResult blockHit = (BlockHitResult) hit;
-                    BlockState state = world.getBlockState(blockHit.getBlockPos());
+                    BlockState state = level.getBlockState(blockHit.getBlockPos());
                     Block block = state.getBlock();
                     if (block instanceof OpenableInventoryProvider<?>) {
                         ScreenOpeningApi.openBlockInventory(blockHit.getBlockPos());

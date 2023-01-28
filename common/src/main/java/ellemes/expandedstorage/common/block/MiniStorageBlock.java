@@ -41,7 +41,7 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
 
     @Override
     @SuppressWarnings("deprecation")
-    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter blockLevel, BlockPos pos, CollisionContext context) {
         return OUTLINE;
     }
 
@@ -59,12 +59,12 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(BlockStateProperties.WATERLOGGED)) {
-            world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
@@ -98,13 +98,13 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
 
     @Override
     @SuppressWarnings("deprecation")
-    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
     @Override
     public OpenableInventory getOpenableInventory(BlockContext context) {
-        if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof OpenableInventory inventory) {
+        if (context.getLevel().getBlockEntity(context.getBlockPos()) instanceof OpenableInventory inventory) {
             return inventory;
         }
         return null;

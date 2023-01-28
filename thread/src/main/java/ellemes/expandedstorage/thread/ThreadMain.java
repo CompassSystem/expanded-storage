@@ -54,9 +54,9 @@ import java.util.stream.Collectors;
 
 public class ThreadMain {
     @SuppressWarnings({"UnstableApiUsage"})
-    public static Storage<ItemVariant> getItemAccess(Level world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
+    public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
         //noinspection unchecked
-        return (Storage<ItemVariant>) CommonMain.getItemAccess(world, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
+        return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
     public static void constructContent(boolean htmPresent, CreativeModeTab group, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {

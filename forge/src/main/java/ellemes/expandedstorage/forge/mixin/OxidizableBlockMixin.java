@@ -15,8 +15,8 @@ import java.util.Optional;
 
 @Mixin(value = {CopperBarrelBlock.class, CopperMiniStorageBlock.class}, remap = false)
 public class OxidizableBlockMixin extends Block {
-    public OxidizableBlockMixin(Properties arg) {
-        super(arg);
+    public OxidizableBlockMixin(Properties properties) {
+        super(properties);
     }
 
     @Nullable

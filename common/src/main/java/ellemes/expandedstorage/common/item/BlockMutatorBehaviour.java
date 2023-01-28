@@ -7,5 +7,5 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface BlockMutatorBehaviour {
-    ToolUsageResult attempt(UseOnContext context, Level world, BlockState state, BlockPos pos, ItemStack stack);
+    ToolUsageResult attempt(UseOnContext context, Level level, BlockState state, BlockPos pos, ItemStack stack);
 }

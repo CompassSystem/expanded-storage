@@ -110,5 +110,4 @@ public final class TagProvider {
             return "Expanded Storage - Entity Type Tags";
         }
     }
-
 }

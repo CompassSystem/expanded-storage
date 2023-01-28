@@ -15,15 +15,14 @@ import java.util.Optional;
 @Mixin(AbstractChestBlock.class)
 public abstract class HTMChestCompat implements LockableChestBlock {
     @Override
-    public HTMContainerLock getLockAt(BlockState state, Level world, BlockPos pos) {
+    public HTMContainerLock getLockAt(BlockState state, Level level, BlockPos pos) {
         //noinspection ConstantConditions
-        return AbstractChestBlock.createPropertyRetriever((AbstractChestBlock) (Object) this, state, world, pos, true).get(HTMChestProperties.LOCK_PROPERTY).orElse(null);
+        return AbstractChestBlock.createPropertyRetriever((AbstractChestBlock) (Object) this, state, level, pos, true).get(HTMChestProperties.LOCK_PROPERTY).orElse(null);
     }
 
     @Override
-    public Optional<BlockEntity> getUnlockedPart(BlockState state, Level world, BlockPos pos) {
+    public Optional<BlockEntity> getUnlockedPart(BlockState state, Level level, BlockPos pos) {
         //noinspection ConstantConditions
-        return AbstractChestBlock.createPropertyRetriever((AbstractChestBlock) (Object) this, state, world, pos, true).get(HTMChestProperties.UNLOCKED_BE_PROPERTY);
+        return AbstractChestBlock.createPropertyRetriever((AbstractChestBlock) (Object) this, state, level, pos, true).get(HTMChestProperties.UNLOCKED_BE_PROPERTY);
     }
-
 }

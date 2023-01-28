@@ -25,6 +25,7 @@ public final class CopperBarrelBlock extends BarrelBlock implements WeatheringCo
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource source) {
         WeatheringCopper.super.onRandomTick(state, level, pos, source);
     }
