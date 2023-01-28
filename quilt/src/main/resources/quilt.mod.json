@@ -9,8 +9,8 @@
       "init": ["ellemes.container_library.quilt.QuiltMain", "ellemes.expandedstorage.quilt.QuiltMain"],
       "client_init": ["ellemes.container_library.quilt.QuiltClient"],
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
-      "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
       "rei_client": "ellemes.container_library.thread.client.ReiCompat",
+      "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
       "emi": "ellemes.container_library.thread.client.EmiCompat"
     },
     "depends": [
@@ -23,11 +23,7 @@
         "versions": "1.19.2"
       },
       {
-        "id": "quilt_base",
-        "versions": ">=3.0.0-beta.20"
-      },
-      {
-        "id": "quilted_fabric_api_base",
+        "id": "org.quiltmc:quilted_fabric_api",
         "versions": ">=4.0.0-beta.19"
       }
     ],
@@ -42,7 +38,7 @@
       "name": "Expanded Storage",
       "description": "Adds new storage blocks with higher capacities.",
       "contributors": {
-        "Ellemes": "Owner"
+        "Bucket of Compasses": "Owner"
       },
       "contact": {
         "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
@@ -55,8 +51,8 @@
     }
   },
   "mixin": [
-    "ellemes-container-library-thread.mixin.json",
-    "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json"
+    "ellemes-container-library-thread.mixins.json",
+    "expandedstorage-common.mixins.json",
+    "expandedstorage-thread.mixins.json"
   ]
 }

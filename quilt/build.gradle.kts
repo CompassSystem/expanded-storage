@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-    modImplementation(mod.qsl().full())
     modImplementation(mod.fabricApi().full())
 }
 
@@ -21,6 +20,7 @@ u.configureCurseForge {
         optionalDependency("amecs")
         optionalDependency("flan")
         optionalDependency("inventory-profiles-next")
+        optionalDependency("emi")
     })
 }
 
@@ -35,5 +35,6 @@ u.configureModrinth {
         optional.project("amecs") // rcLriA4v
 //        optional.project("flan") flan (not on Modrinth)
         optional.project("inventory-profiles-next") // O7RBXm3n
+        optional.project("emi") // fRiHVvU7
     }
 }

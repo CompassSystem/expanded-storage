@@ -30,11 +30,11 @@
     ]
   },
   "environment": "*",
-  "authors": ["Ellemes"],
+  "authors": ["Bucket of Compasses"],
   "mixins": [
-    "ellemes-container-library-thread.mixin.json",
-    "expandedstorage-common.mixin.json",
-    "expandedstorage-thread.mixin.json"
+    "ellemes-container-library-thread.mixins.json",
+    "expandedstorage-common.mixins.json",
+    "expandedstorage-thread.mixins.json"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",

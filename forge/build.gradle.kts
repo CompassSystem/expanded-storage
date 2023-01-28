@@ -6,8 +6,8 @@ plugins {
 
 loom {
     forge {
-        mixinConfig("expandedstorage-forge.mixin.json")
-        mixinConfig("ellemes-container-library-forge.mixin.json")
+        mixinConfig("expandedstorage-forge.mixins.json")
+        mixinConfig("ellemes-container-library-forge.mixins.json")
     }
 }
 
@@ -26,9 +26,6 @@ repositories {
         name = "Jared"
         url = uri("https://maven.blamejared.com/")
     }
-}
-
-val noConfiguration: (ModuleDependency) -> Unit = {
 }
 
 dependencies {
@@ -56,7 +53,7 @@ u.configureCurseForge {
 u.configureModrinth {
     dependencies {
 //        optional.project("jei") // jei (not on Modrinth)
-//        optional.project("quark") // quark (not on Modrinth)
-        optional.project("inventory-profiles-next")
+        optional.project("quark") // qnQsVE2z
+        optional.project("inventory-profiles-next") // O7RBXm3n
     }
 }
