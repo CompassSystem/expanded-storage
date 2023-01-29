@@ -1,3 +1,4 @@
+import dev.mcmeta.thread_plugin.ModVersions
 import ellemes.gradle.mod.api.task.MinifyJsonTask
 
 plugins {
@@ -30,7 +31,7 @@ repositories {
 
 dependencies {
     compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}-forge-api:${properties["jei_version"]}")
-    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${properties["ipn_minecraft_version"]}-${properties["ipn_version"]}")
+    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}")
     modCompileOnly("vazkii.quark:Quark:3.3-373.2529")
 }
 

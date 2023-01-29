@@ -1,3 +1,5 @@
+import dev.mcmeta.thread_plugin.ModVersions
+
 repositories {
     maven {
         url = uri("https://maven.saps.dev/minecraft")
@@ -8,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    modCompileOnly("maven.modrinth:inventory-profiles-next:fabric-${properties["ipn_minecraft_version"]}-${properties["ipn_version"]}") {
+    modCompileOnly("maven.modrinth:inventory-profiles-next:fabric-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}") {
         exclude(group = "net.fabricmc")
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "com.terraformersmc")
