@@ -6,10 +6,15 @@ import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.CopperBarrelBlock;
 import ellemes.expandedstorage.common.block.CopperMiniStorageBlock;
 import ellemes.expandedstorage.common.block.MiniStorageBlock;
+import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public final class ModBlocks {
     public static final ChestBlock WOOD_CHEST = block(Utils.id("wood_chest"));
@@ -105,5 +110,19 @@ public final class ModBlocks {
     private static <T extends Block> T block(ResourceLocation id) {
         //noinspection unchecked
         return (T) Registry.BLOCK.get(id);
+    }
+
+    public static List<OpenableBlock> all() {
+        return Arrays.stream(ModBlocks.class.getFields())
+                .filter(it -> OpenableBlock.class.isAssignableFrom(it.getType()))
+                .map(it -> {
+                    try {
+                        return (OpenableBlock) it.get(null);
+                    } catch (IllegalAccessException e) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList();
     }
 }

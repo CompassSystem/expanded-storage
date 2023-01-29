@@ -9,6 +9,10 @@
     "MiniStorageHeadEquipment",
     "ToweletteCompat"
   ],
+  "client": [
+    "InventoryTabsBottomRowFix",
+    "InventoryTabsFix"
+  ],
   "injectors": {
     "defaultRequire": 1
   },

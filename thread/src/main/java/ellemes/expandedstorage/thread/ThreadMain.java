@@ -18,6 +18,7 @@ import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.thread.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.thread.block.misc.GenericItemAccess;
+import ellemes.expandedstorage.thread.compat.inventory_tabs.InventoryTabCompat;
 import ellemes.expandedstorage.thread.compat.carrier.CarrierCompat;
 import ellemes.expandedstorage.thread.compat.htm.HTMLockable;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -29,6 +30,7 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.Sheets;
@@ -118,6 +120,7 @@ public class ThreadMain {
         ThreadMain.Client.registerItemRenderers(content.getChestItems());
         ThreadMain.Client.registerMinecartEntityRenderers(content.getChestMinecartEntityTypes());
         ThreadMain.Client.registerMinecartItemRenderers(content.getChestMinecartAndTypes());
+        ThreadMain.Client.registerInventoryTabsCompat();
     }
 
     public static class Client {
@@ -145,7 +148,7 @@ public class ThreadMain {
 
         public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
             for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
-                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer(context, ModelLayers.CHEST_MINECART));
+                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
             }
         }
 
@@ -154,6 +157,12 @@ public class ThreadMain {
                 Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> pair.getValue().getValue().create(Minecraft.getInstance().level));
                 BuiltinItemRendererRegistry.INSTANCE.register(pair.getKey().getValue(), (itemStack, transform, stack, source, light, overlay) ->
                         Minecraft.getInstance().getEntityRenderDispatcher().render(renderEntity.get(), 0, 0, 0, 0, 0, stack, source, light));
+            }
+        }
+
+        public static void registerInventoryTabsCompat() {
+            if (FabricLoader.getInstance().isModLoaded("inventorytabs")) {
+                InventoryTabCompat.register();
             }
         }
     }

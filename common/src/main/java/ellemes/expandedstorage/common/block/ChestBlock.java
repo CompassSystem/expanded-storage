@@ -127,7 +127,7 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
     }
 
     @Override
-    protected boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
+    public boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
         return net.minecraft.world.level.block.ChestBlock.isChestBlockedAt(level, pos);
     }
 }

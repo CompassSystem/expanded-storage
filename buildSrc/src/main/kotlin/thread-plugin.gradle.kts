@@ -26,6 +26,17 @@ repositories {
             includeGroup("com.terraformersmc")
         }
     }
+    exclusiveContent {// Inventory Tabs
+        forRepository {
+            maven {
+                name = "Jitpack Maven"
+                url = uri("https://jitpack.io")
+            }
+        }
+        filter {
+            includeGroup("com.github.Andrew6rant")
+        }
+    }
 //    maven { // Not Sure
 //        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
 //    }
@@ -79,6 +90,10 @@ dependencies {
     }
 
     "modCompileOnly"("maven.modrinth:emi:${project.properties["emi_version"]}") {
+        excludeFabric(this)
+    }
+
+    "modImplementation"("com.github.Andrew6rant:InventoryTabs:inventorytabs-0.8.1-1.19.x") {
         excludeFabric(this)
     }
 }
