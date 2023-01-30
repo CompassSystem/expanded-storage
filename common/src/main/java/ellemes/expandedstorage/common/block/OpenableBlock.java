@@ -96,11 +96,9 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         boolean isClient = level.isClientSide();
-        if (isClient) {
-            boolean result = ScreenOpeningApi.ensureScreenTypeSet(this);
-            return result ? InteractionResult.SUCCESS : InteractionResult.CONSUME_PARTIAL;
+        if (!isClient) {
+            InventoryOpeningApi.openBlockInventory((ServerPlayer) player, pos, this);
         }
-        InventoryOpeningApi.openBlockInventory((ServerPlayer) player, pos, this);
-        return InteractionResult.CONSUME;
+        return InteractionResult.sidedSuccess(isClient);
     }
 }

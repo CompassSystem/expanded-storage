@@ -10,3 +10,4 @@ mutable field net/minecraft/world/inventory/Slot y I
 accessible field net/minecraft/world/inventory/AbstractContainerMenu remoteSlots Lnet/minecraft/core/NonNullList;
 accessible field net/minecraft/world/inventory/AbstractContainerMenu lastSlots Lnet/minecraft/core/NonNullList;
 accessible method net/minecraft/client/Minecraft startUseItem ()V
+accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;

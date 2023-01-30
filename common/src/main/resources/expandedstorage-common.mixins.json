@@ -6,9 +6,6 @@
     "BlockEntityIdFix",
     "DataFixerEntrypoint"
   ],
-  "client": [
-    "NoUsePacketOnPartialConsume"
-  ],
   "injectors": {
     "defaultRequire": 1
   },

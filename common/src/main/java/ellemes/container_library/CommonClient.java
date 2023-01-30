@@ -4,6 +4,7 @@ import ellemes.container_library.api.v3.OpenableInventoryProvider;
 import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.client.ScreenTypeApi;
 import ellemes.container_library.client.KeyHandler;
+import ellemes.container_library.client.gui.FakePickScreen;
 import ellemes.container_library.client.gui.PageScreen;
 import ellemes.container_library.client.gui.ScrollScreen;
 import ellemes.container_library.client.gui.SingleScreen;
@@ -50,11 +51,13 @@ public class CommonClient {
                         Component.translatable("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
                 ));
 
+        ScreenTypeApi.registerScreenType(Utils.UNSET_SCREEN_TYPE, FakePickScreen::new);
         ScreenTypeApi.registerScreenType(Utils.PAGE_SCREEN_TYPE, PageScreen::new);
         ScreenTypeApi.registerScreenType(Utils.SCROLL_SCREEN_TYPE, ScrollScreen::new);
         ScreenTypeApi.registerScreenType(Utils.SINGLE_SCREEN_TYPE, SingleScreen::new);
 
         // todo: these settings leave no room for rei/jei should we take those into consideration for minimum screen width
+        ScreenTypeApi.registerDefaultScreenSize(Utils.UNSET_SCREEN_TYPE, FakePickScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.PAGE_SCREEN_TYPE, PageScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.SCROLL_SCREEN_TYPE, ScrollScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.SINGLE_SCREEN_TYPE, SingleScreen::retrieveScreenSize);
