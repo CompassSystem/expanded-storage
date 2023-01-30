@@ -22,9 +22,9 @@ public class ExpandedChestTabProvider extends BlockTabProvider {
         tabs.removeIf(tab -> tab instanceof ExpandedBlockTab<?> && tab.shouldBeRemoved());
 
         List<ExpandedDoubleChestTab> doubleChestTabs = tabs.stream()
-                                               .filter(tab -> tab instanceof ExpandedDoubleChestTab)
-                                               .map(tab -> (ExpandedDoubleChestTab) tab)
-                                               .toList();
+                                                           .filter(tab -> tab instanceof ExpandedDoubleChestTab)
+                                                           .map(tab -> (ExpandedDoubleChestTab) tab)
+                                                           .toList();
 
         Set<ExpandedDoubleChestTab> duplicateDoubleChestTabs = new HashSet<>();
         for (ExpandedDoubleChestTab tab : doubleChestTabs) {

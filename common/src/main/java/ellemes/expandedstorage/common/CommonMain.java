@@ -284,7 +284,9 @@ public final class CommonMain {
     }
 
     public static ResourceLocation getChestTexture(ResourceLocation block, EsChestType chestType) {
-        if (CommonMain.CHEST_TEXTURES.containsKey(block)) return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
+        if (CommonMain.CHEST_TEXTURES.containsKey(block)) {
+            return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
+        }
         return MissingTextureAtlasSprite.getLocation();
     }
 
@@ -319,7 +321,7 @@ public final class CommonMain {
             /*Minecart Chest*/ BiFunction<Item.Properties, ResourceLocation, ChestMinecartItem> chestMinecartItemMaker,
             /*Old Chest*/
             /*Barrel*/ TagKey<Block> barrelTag,
-            /*Mini Chest*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
+            /*Mini Storage*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
         CommonMain.itemAccess = itemAccess;
         CommonMain.lockable = lockable;
 

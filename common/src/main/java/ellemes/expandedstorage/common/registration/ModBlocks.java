@@ -114,15 +114,15 @@ public final class ModBlocks {
 
     public static List<OpenableBlock> all() {
         return Arrays.stream(ModBlocks.class.getFields())
-                .filter(it -> OpenableBlock.class.isAssignableFrom(it.getType()))
-                .map(it -> {
-                    try {
-                        return (OpenableBlock) it.get(null);
-                    } catch (IllegalAccessException e) {
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .toList();
+                     .filter(it -> OpenableBlock.class.isAssignableFrom(it.getType()))
+                     .map(it -> {
+                         try {
+                             return (OpenableBlock) it.get(null);
+                         } catch (IllegalAccessException e) {
+                             return null;
+                         }
+                     })
+                     .filter(Objects::nonNull)
+                     .toList();
     }
 }

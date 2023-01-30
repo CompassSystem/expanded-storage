@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class InventoryTabsFix {
 
     @Inject(
-            method= "init(Ljava/lang/String;)V",
+            method = "init(Ljava/lang/String;)V",
             at = @At("TAIL"),
             remap = false
     )

@@ -25,7 +25,7 @@ public final class ForgeMain {
             });
 
             return menuType;
-            }, new ForgeNetworkWrapper());
+        }, new ForgeNetworkWrapper());
 
         if (FMLLoader.getDist() == Dist.CLIENT) {
             ForgeClient.initialize();

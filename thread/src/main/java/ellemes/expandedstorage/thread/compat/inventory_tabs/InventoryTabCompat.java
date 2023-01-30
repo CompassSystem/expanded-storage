@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class InventoryTabCompat {
     private static int tickCounter = 0;
+
     public static void register() {
         TabProviderRegistry.register(Utils.id("double_chest_tab"), new ExpandedChestTabProvider());
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
