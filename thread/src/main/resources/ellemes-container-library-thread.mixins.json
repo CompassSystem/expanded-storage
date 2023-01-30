@@ -3,8 +3,7 @@
   "package": "ellemes.container_library.thread.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
-    "LastAfterInitCallbackMixin",
-    "BeforeUseMixin"
+    "LastAfterInitCallbackMixin"
   ],
   "injectors": {
     "defaultRequire": 1
