@@ -45,7 +45,7 @@ public final class FakePickScreen extends AbstractScreen {
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
         ResourceLocation preference = CommonClient.getConfigWrapper().getPreferredScreenType();
-        if (preference == Utils.UNSET_SCREEN_TYPE) {
+        if (preference.equals(Utils.UNSET_SCREEN_TYPE)) {
             minecraft.player.closeContainer();
         } else {
             int invSize = menu.getInventory().getContainerSize();

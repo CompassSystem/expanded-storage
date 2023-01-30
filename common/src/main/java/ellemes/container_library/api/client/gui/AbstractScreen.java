@@ -121,7 +121,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         if (this.handleKeyPress(keyCode, scanCode, modifiers)) {
             return true;
         } else if (CommonClient.isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
-                && CommonClient.getConfigWrapper().getPreferredScreenType() != Utils.UNSET_SCREEN_TYPE) {
+                && !CommonClient.getConfigWrapper().getPreferredScreenType().equals(Utils.UNSET_SCREEN_TYPE)) {
             minecraft.setScreen(new PickScreen(this));
             return true;
         }

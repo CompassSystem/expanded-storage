@@ -2,5 +2,5 @@
 - Fixed piglins not being angered.
 - Added tag descriptions for EMI.
 - Fix upgrades causing errors when the target tier doesn't exist.
-- Implement FTB chunks support.
 - Updated mod icon to new textures.
+- Rewrote how chests are opened which should greatly improve mod compatibility, especially with claim mods.
