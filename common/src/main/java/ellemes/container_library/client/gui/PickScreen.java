@@ -143,8 +143,8 @@ public final class PickScreen extends Screen {
 
     private void updatePlayerPreference(ResourceLocation selection) {
         CommonClient.getConfigWrapper().setPreferredScreenType(selection);
-        onOptionPicked.run();
         this.onClose();
+        onOptionPicked.run();
     }
 
     @Override

@@ -95,7 +95,7 @@ public abstract class NetworkWrapper {
         buffer.release();
     }
 
-    private void s_openInventory(ServerPlayer player, OpenableInventory inventory, Consumer<ServerPlayer> onInitialOpen, ResourceLocation forcedScreenType) {
+    public void s_openInventory(ServerPlayer player, OpenableInventory inventory, Consumer<ServerPlayer> onInitialOpen, ResourceLocation forcedScreenType) {
         Component title = inventory.getInventoryTitle();
         if (!inventory.canBeUsedBy(player)) {
             player.displayClientMessage(Component.translatable("container.isLocked", title), true);

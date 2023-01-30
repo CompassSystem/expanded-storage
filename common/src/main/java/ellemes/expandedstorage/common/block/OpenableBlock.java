@@ -1,8 +1,9 @@
 package ellemes.expandedstorage.common.block;
 
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
-import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.context.BlockContext;
+import ellemes.container_library.api.v4.InventoryOpeningApi;
+import ellemes.container_library.api.v4.ScreenOpeningApi;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import net.minecraft.core.BlockPos;
@@ -96,8 +97,10 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         boolean isClient = level.isClientSide();
         if (isClient) {
-            ScreenOpeningApi.openBlockInventory(pos);
+            boolean result = ScreenOpeningApi.ensureScreenTypeSet(this);
+            return result ? InteractionResult.SUCCESS : InteractionResult.CONSUME_PARTIAL;
         }
-        return InteractionResult.sidedSuccess(isClient);
+        InventoryOpeningApi.openBlockInventory((ServerPlayer) player, pos, this);
+        return InteractionResult.CONSUME;
     }
 }
