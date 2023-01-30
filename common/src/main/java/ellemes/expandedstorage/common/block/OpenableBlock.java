@@ -3,7 +3,6 @@ package ellemes.expandedstorage.common.block;
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
 import ellemes.container_library.api.v3.context.BlockContext;
 import ellemes.container_library.api.v4.InventoryOpeningApi;
-import ellemes.container_library.api.v4.ScreenOpeningApi;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import net.minecraft.core.BlockPos;

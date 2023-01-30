@@ -2,6 +2,7 @@ package ellemes.container_library.api.v4;
 
 import ellemes.container_library.CommonMain;
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
+import ellemes.container_library.api.v3.context.BaseContext;
 import ellemes.container_library.api.v3.context.BlockContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,5 +14,9 @@ public class InventoryOpeningApi {
 
     public static void openBlockInventory(ServerPlayer player, BlockPos pos, OpenableInventoryProvider<BlockContext> inventory) {
         CommonMain.getNetworkWrapper().s_openInventory(player, inventory.getOpenableInventory(new BlockContext(player.getLevel(), player, pos)), inventory::onInitialOpen, inventory.getForcedScreenType());
+    }
+
+    public static void openEntityInventory(ServerPlayer player, OpenableInventoryProvider<BaseContext> inventory) {
+        CommonMain.getNetworkWrapper().s_openInventory(player, inventory.getOpenableInventory(new BaseContext(player.getLevel(), player)), inventory::onInitialOpen, inventory.getForcedScreenType());
     }
 }

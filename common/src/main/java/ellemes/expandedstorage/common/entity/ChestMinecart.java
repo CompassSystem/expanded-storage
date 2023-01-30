@@ -2,8 +2,8 @@ package ellemes.expandedstorage.common.entity;
 
 import ellemes.container_library.api.v3.OpenableInventory;
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
-import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.context.BaseContext;
+import ellemes.container_library.api.v4.InventoryOpeningApi;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.misc.ExposedInventory;
 import net.minecraft.core.NonNullList;
@@ -64,8 +64,8 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         boolean isClient = level.isClientSide();
-        if (isClient) {
-            ScreenOpeningApi.openEntityInventory(this);
+        if (!isClient) {
+            InventoryOpeningApi.openEntityInventory((ServerPlayer) player, this);
         }
         return InteractionResult.sidedSuccess(isClient);
     }

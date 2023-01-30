@@ -8,17 +8,13 @@ import ellemes.container_library.api.client.gui.AbstractScreen;
 import ellemes.container_library.api.client.gui.TexturedRect;
 import ellemes.container_library.api.inventory.AbstractHandler;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public final class SingleScreen extends AbstractScreen {
@@ -152,10 +148,5 @@ public final class SingleScreen extends AbstractScreen {
         for (int x = 0; x < 9; x++) {
             menu.addClientSlot(new Slot(playerInventory, x, left + Utils.SLOT_SIZE * x, top + 58));
         }
-    }
-
-    @NotNull
-    public List<Rect2i> getExclusionZones() {
-        return Collections.emptyList();
     }
 }
