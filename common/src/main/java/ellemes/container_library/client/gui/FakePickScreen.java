@@ -19,6 +19,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,12 @@ public final class FakePickScreen extends AbstractScreen {
 
     public FakePickScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
         super(handler, playerInventory, title, screenSize);
+        for (int i = 0; i < menu.getInventory().getContainerSize(); i++) {
+            menu.addClientSlot(new Slot(menu.getInventory(), i, 0, 0));
+        }
+        for (int x = 0; x < 36; x++) {
+            menu.addClientSlot(new Slot(playerInventory, x, 0, 0));
+        }
     }
 
     @Override
