@@ -1,5 +1,4 @@
 import dev.mcmeta.thread_plugin.ModSupport
-import org.gradle.api.artifacts.ModuleDependency
 
 repositories {
     maven { // Cardinal Components
