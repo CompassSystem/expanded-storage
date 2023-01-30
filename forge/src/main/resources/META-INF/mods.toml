@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[43,)"
-issueTrackerURL = "https://github.com/Ellemes/expanded-storage/issues/"
+issueTrackerURL = "https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues"
 license = "See LICENSE file"
 
 [[mods]]

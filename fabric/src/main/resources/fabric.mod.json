@@ -37,9 +37,9 @@
     "expandedstorage-thread.mixins.json"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
-    "issues": "https://github.com/Ellemes/expanded-storage/issues/",
-    "sources": "https://github.com/Ellemes/ExpandedStorage/"
+    "homepage": "https://modrinth.com/mod/expanded-storage",
+    "issues": "https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues",
+    "sources": "https://gitlab.com/BucketOfCompasses/expanded-storage"
   },
   "icon": "icon.png",
   "id": "expandedstorage",
