@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
-import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
+import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.thread.datagen.content.ThreadTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;

@@ -1,10 +1,10 @@
 package ellemes.expandedstorage.forge.datagen.providers;
 
-import ellemes.expandedstorage.common.misc.Utils;
-import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.forge.datagen.content.ForgeTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;

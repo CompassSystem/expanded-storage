@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.fabric;
 
+import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
-import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
