@@ -16,7 +16,7 @@
     "depends": [
       {
         "id": "org.quiltmc:quilt_loader",
-        "versions": ">=0.17.6"
+        "versions": ">=0.17.10"
       },
       {
         "id": "minecraft",
