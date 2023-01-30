@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.compat.carrier;
 
-import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
+import ellemes.expandedstorage.common.block.OpenableBlock;
 import me.steven.carrier.api.CarriableRegistry;
 
 public final class CarrierCompat {
@@ -9,7 +9,7 @@ public final class CarrierCompat {
         CarriableRegistry.INSTANCE.register(block.getBlockId(), new CarriableChest(block.getBlockId(), block));
     }
 
-    public static void registerOldChestBlock(AbstractChestBlock block) {
-        CarriableRegistry.INSTANCE.register(block.getBlockId(), new CarriableOldChest(block.getBlockId(), block));
+    public static void registerOpenableBlock(OpenableBlock block) {
+        CarriableRegistry.INSTANCE.register(block.getBlockId(), new CarriableBlock(block.getBlockId(), block));
     }
 }

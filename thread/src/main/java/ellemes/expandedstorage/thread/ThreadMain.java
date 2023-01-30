@@ -2,25 +2,24 @@ package ellemes.expandedstorage.thread;
 
 import com.google.common.base.Suppliers;
 import ellemes.expandedstorage.common.CommonMain;
-import ellemes.expandedstorage.common.block.strategies.ItemAccess;
-import ellemes.expandedstorage.common.item.ChestMinecartItem;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
-import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
+import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.common.item.ChestMinecartItem;
+import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.thread.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.thread.block.misc.GenericItemAccess;
-import ellemes.expandedstorage.thread.compat.inventory_tabs.InventoryTabCompat;
 import ellemes.expandedstorage.thread.compat.carrier.CarrierCompat;
 import ellemes.expandedstorage.thread.compat.htm.HTMLockable;
+import ellemes.expandedstorage.thread.compat.inventory_tabs.InventoryTabCompat;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -106,12 +105,12 @@ public class ThreadMain {
     }
 
     public static void registerCarrierCompat(Content content) {
-        for (NamedValue<ChestBlock> block : content.getChestBlocks()) {
-            CarrierCompat.registerChestBlock(block.getValue());
-        }
-
-        for (NamedValue<AbstractChestBlock> block : content.getOldChestBlocks()) {
-            CarrierCompat.registerOldChestBlock(block.getValue());
+        for (NamedValue<? extends OpenableBlock> block : content.getBlocks()) {
+            if (block.getValue() instanceof ChestBlock chestBlock) {
+                CarrierCompat.registerChestBlock(chestBlock);
+            } else {
+                CarrierCompat.registerOpenableBlock(block.getValue());
+            }
         }
     }
 
