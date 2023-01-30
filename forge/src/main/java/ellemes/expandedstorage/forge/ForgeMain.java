@@ -4,17 +4,17 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
-import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.common.block.misc.BasicLockable;
-import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
-import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
+import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
+import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
 import ellemes.expandedstorage.forge.item.ChestMinecartItem;
 import ellemes.expandedstorage.forge.item.MiniStorageBlockItem;
@@ -160,7 +160,7 @@ public final class ForgeMain {
         }
     }
 
-    private static <T extends BlockEntity> void registerBlockEntity(IForgeRegistry<BlockEntityType<?>>  registry, NamedValue<BlockEntityType<T>> blockEntityType) {
+    private static <T extends BlockEntity> void registerBlockEntity(IForgeRegistry<BlockEntityType<?>> registry, NamedValue<BlockEntityType<T>> blockEntityType) {
         registry.register(blockEntityType.getValue().setRegistryName(blockEntityType.getName()));
     }
 }

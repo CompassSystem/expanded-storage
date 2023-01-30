@@ -120,7 +120,8 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     public final boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.handleKeyPress(keyCode, scanCode, modifiers)) {
             return true;
-        } else if (CommonClient.isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null) {
+        } else if (CommonClient.isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
+                && !CommonClient.getConfigWrapper().getPreferredScreenType().equals(Utils.UNSET_SCREEN_TYPE)) {
             minecraft.setScreen(new PickScreen(this));
             return true;
         }
@@ -136,7 +137,9 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
     @NotNull
     @ApiStatus.OverrideOnly
-    public abstract List<Rect2i> getExclusionZones();
+    public List<Rect2i> getExclusionZones() {
+        return List.of();
+    }
 
     public int getInventoryWidth() {
         return inventoryWidth;

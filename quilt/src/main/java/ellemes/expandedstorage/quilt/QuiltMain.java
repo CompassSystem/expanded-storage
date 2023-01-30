@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.Version;
+import org.quiltmc.loader.api.VersionFormatException;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
@@ -33,8 +34,13 @@ public final class QuiltMain implements ModInitializer {
             return;
         }
         boolean isCarrierCompatEnabled = QuiltLoader.getModContainer("carrier").map(it -> {
-            Version carrierVersion = it.metadata().version();
-            return carrierVersion.isSemantic() && carrierVersion.semantic().compareTo(Version.of("1.8.0").semantic()) > 0;
+            try {
+                Version.Semantic version = Version.Semantic.of(it.metadata().version().raw());
+                return version.compareTo(Version.Semantic.of(1, 8, 0, "", "")) > 0;
+            } catch (VersionFormatException e) {
+                System.err.println("Carrier compat broke, cannot parse mod version.");
+                return false;
+            }
         }).orElse(false);
 
         CreativeModeTab group = QuiltItemGroup.builder(Utils.id("tab")).icon(() -> new ItemStack(Registry.ITEM.get(Utils.id("netherite_chest")))).build();

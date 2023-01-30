@@ -262,6 +262,10 @@
   "item.expandedstorage.diamond_lock":                                     "Diamond Lock",
   "tooltip.expandedstorage.diamond_lock":                                  "Use on an inventory to lock it so it can only be opened by you.",
 
+  "tag.expandedstorage.wooden_chests":                                     "Wooden Chests and Expanded Storage's Tier Equivalents",
+  "tag.c.wooden_barrels":                                                  "Wooden Barrels",
+  "tag.c.bamboo":                                                          "Bamboo",
+
   "screen.ellemes_container_lib.change_screen_button":                     "Change Screen Type",
   "screen.ellemes_container_lib.screen_picker_title":                      "Select Screen Type",
   "screen.ellemes_container_lib.page_screen":                              "Paginated Screen",

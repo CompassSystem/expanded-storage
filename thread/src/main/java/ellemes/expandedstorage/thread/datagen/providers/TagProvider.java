@@ -95,6 +95,7 @@ public final class TagProvider {
             return "Expanded Storage - Item Tags";
         }
     }
+
     public static final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
         public EntityType(FabricDataGenerator generator) {
             super(generator);

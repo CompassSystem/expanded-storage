@@ -143,7 +143,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return CursedChestType.SINGLE;
     }
 
-    protected boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
+    public boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
         return false;
     }
 

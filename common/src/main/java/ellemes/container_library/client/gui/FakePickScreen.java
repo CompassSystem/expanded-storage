@@ -3,7 +3,8 @@ package ellemes.container_library.client.gui;
 import com.google.common.collect.ImmutableSortedSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.container_library.CommonClient;
-import ellemes.container_library.api.client.function.ScreenSizePredicate;
+import ellemes.container_library.Utils;
+import ellemes.container_library.api.client.function.ScreenSize;
 import ellemes.container_library.api.client.gui.AbstractScreen;
 import ellemes.container_library.api.inventory.AbstractHandler;
 import ellemes.container_library.client.PickButton;
@@ -12,83 +13,59 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-public final class PickScreen extends Screen {
-    public static final Map<ResourceLocation, PickButton> BUTTON_SETTINGS = new HashMap<>();
+public final class FakePickScreen extends AbstractScreen {
+    private static final Component TITLE = new TranslatableComponent("screen.ellemes_container_lib.screen_picker_title");
     private final Set<ResourceLocation> options = ImmutableSortedSet.copyOf(PickScreen.BUTTON_SETTINGS.keySet());
-    private final Supplier<Screen> returnToScreen;
     private final List<ScreenPickButton> optionButtons = new ArrayList<>(options.size());
-    private final @NotNull Runnable onOptionPicked;
-    private final AbstractHandler handler;
     private int topPadding;
 
-    public PickScreen(AbstractScreen currentScreen) {
-        this(currentScreen.getMenu(), () -> {
-            return AbstractScreen.createScreen(currentScreen.getMenu(), Minecraft.getInstance().player.getInventory(), currentScreen.getTitle());
-        }, () -> {});
+    public FakePickScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
+        super(handler, playerInventory, title, screenSize);
+        for (int i = 0; i < menu.getInventory().getContainerSize(); i++) {
+            menu.addClientSlot(new Slot(menu.getInventory(), i, 0, 0));
+        }
+        for (int x = 0; x < 36; x++) {
+            menu.addClientSlot(new Slot(playerInventory, x, 0, 0));
+        }
     }
 
-    public PickScreen(Supplier<Screen> returnToScreen) {
-        this(null, returnToScreen, () -> {});
-    }
-
-    public PickScreen(@NotNull Runnable onOptionPicked) {
-        this(null, () -> null, onOptionPicked);
-    }
-
-    private PickScreen(@Nullable AbstractHandler handler, Supplier<Screen> returnToScreen, Runnable onOptionPicked) {
-        super(new TranslatableComponent("screen.ellemes_container_lib.screen_picker_title"));
-        this.handler = handler;
-        this.returnToScreen = returnToScreen;
-        this.onOptionPicked = onOptionPicked;
-    }
-
-    @Deprecated
-    @ApiStatus.Internal
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    public static void declareButtonSettings(ResourceLocation type, ResourceLocation texture, Component title, ScreenSizePredicate warningTest, List<Component> warningText) {
-        PickScreen.BUTTON_SETTINGS.putIfAbsent(type, new PickButton(texture, title, warningTest, warningText));
+    @Override
+    protected void renderBg(PoseStack stack, float f, int i, int j) {
+        this.renderBackground(stack);
     }
 
     @Override
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
-        if (handler != null) {
-            ResourceLocation preference = CommonClient.getConfigWrapper().getPreferredScreenType();
-            int invSize = handler.getInventory().getContainerSize();
+        ResourceLocation preference = CommonClient.getConfigWrapper().getPreferredScreenType();
+        if (preference.equals(Utils.UNSET_SCREEN_TYPE)) {
+            minecraft.player.closeContainer();
+        } else {
+            int invSize = menu.getInventory().getContainerSize();
             if (AbstractScreen.getScreenSize(preference, invSize, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
                 minecraft.player.displayClientMessage(new TranslatableComponent("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(new TranslatableComponent("chat.ellemes_container_lib.cannot_display_screen", new TranslatableComponent("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
                 minecraft.player.closeContainer();
                 return;
             }
-            handler.clearSlots();
+            menu.clearSlots();
+            minecraft.setScreen(AbstractScreen.createScreen(menu, Minecraft.getInstance().player.getInventory(), this.getTitle()));
         }
-        minecraft.setScreen(returnToScreen.get());
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        //noinspection ConstantConditions
-        return minecraft.level == null;
     }
 
     @Override
@@ -120,7 +97,7 @@ public final class PickScreen extends Screen {
                     if (isWarn) {
                         tooltip.addAll(settings.getWarningText());
                     }
-                    PickScreen.this.renderTooltip(stack, tooltip, Optional.empty(), x, y);
+                    FakePickScreen.this.renderTooltip(stack, tooltip, Optional.empty(), x, y);
                 }
 
                 @Override
@@ -146,14 +123,19 @@ public final class PickScreen extends Screen {
     private void updatePlayerPreference(ResourceLocation selection) {
         CommonClient.getConfigWrapper().setPreferredScreenType(selection);
         this.onClose();
-        onOptionPicked.run();
     }
 
     @Override
     public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
         this.renderBackground(stack);
-        super.render(stack, mouseX, mouseY, delta);
+        for (Widget widget : this.renderables) {
+            widget.render(stack, mouseX, mouseY, delta);
+        }
         optionButtons.forEach(button -> button.renderButtonTooltip(stack, mouseX, mouseY));
-        GuiComponent.drawCenteredString(stack, font, title, width / 2, Math.max(topPadding / 2, 0), 0xFFFFFFFF);
+        GuiComponent.drawCenteredString(stack, font, TITLE, width / 2, Math.max(topPadding / 2, 0), 0xFFFFFFFF);
+    }
+
+    public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {
+        return ScreenSize.of(0, 0);
     }
 }

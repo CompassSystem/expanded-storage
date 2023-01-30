@@ -18,6 +18,7 @@ public final class MixinPlugin implements IMixinConfigPlugin {
         return switch (className) {
             case "HTMChestCompat", "HTMLockableBlockEntityCompat" -> FabricLoader.getInstance().isModLoaded("htm");
             case "ToweletteCompat" -> FabricLoader.getInstance().isModLoaded("towelette");
+            case "InventoryTabsBottomRowFix", "InventoryTabsFix" -> FabricLoader.getInstance().isModLoaded("inventorytabs");
             default -> true;
         };
     }

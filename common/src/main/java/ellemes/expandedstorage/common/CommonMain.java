@@ -166,6 +166,9 @@ public final class CommonMain {
             }
             if (verifiedSize) {
                 ChestBlock toBlock = (ChestBlock) CommonMain.getTieredObject(CommonMain.CHEST_OBJECT_TYPE, to);
+                if (toBlock == null) {
+                    return false;
+                }
                 NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
                 LockCode code = LockCode.fromTag(tag);
                 ContainerHelper.loadAllItems(tag, inventory);
@@ -199,6 +202,9 @@ public final class CommonMain {
     private static boolean upgradeSingleBlockToOldChest(Level level, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
         if (((OpenableBlock) state.getBlock()).getObjTier() == from) {
             AbstractChestBlock toBlock = (AbstractChestBlock) CommonMain.getTieredObject(CommonMain.OLD_CHEST_OBJECT_TYPE, to);
+            if (toBlock == null) {
+                return false;
+            }
             NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
             BlockEntity blockEntity = level.getBlockEntity(pos);
             //noinspection ConstantConditions
