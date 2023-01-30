@@ -21,6 +21,7 @@ u.configureCurseForge {
         optionalDependency("flan")
         optionalDependency("inventory-profiles-next")
         optionalDependency("emi")
+        optionalDependency("inventory-tabs-updated")
     })
 }
 
@@ -36,5 +37,6 @@ u.configureModrinth {
 //        optional.project("flan") flan (not on Modrinth)
         optional.project("inventory-profiles-next") // O7RBXm3n
         optional.project("emi") // fRiHVvU7
+        optional.project("inventory-tabs-updated") // F1AqcMCK
     }
 }
