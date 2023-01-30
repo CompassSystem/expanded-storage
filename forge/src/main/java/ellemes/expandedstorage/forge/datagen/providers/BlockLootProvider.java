@@ -18,8 +18,8 @@ public final class BlockLootProvider extends BlockLoot {
     @Override
     protected Iterable<Block> getKnownBlocks() {
         return ForgeRegistries.BLOCKS.getEntries().stream()
-                .filter(entry -> entry.getKey().location().getNamespace().equals(Utils.MOD_ID))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toSet());
+                                     .filter(entry -> entry.getKey().location().getNamespace().equals(Utils.MOD_ID))
+                                     .map(Map.Entry::getValue)
+                                     .collect(Collectors.toSet());
     }
 }

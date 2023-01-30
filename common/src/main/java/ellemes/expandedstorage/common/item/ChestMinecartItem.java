@@ -22,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 public class ChestMinecartItem extends Item {
     private static final DispenseItemBehavior DISPENSER_BEHAVIOR = new DefaultDispenseItemBehavior() {
         private final DispenseItemBehavior defaultDispenserBehaviour = new DefaultDispenseItemBehavior();
+
         @Override
         public ItemStack execute(BlockSource block, ItemStack stack) {
             Direction forward = block.getBlockState().getValue(DispenserBlock.FACING);
@@ -45,7 +46,7 @@ public class ChestMinecartItem extends Item {
             if (railHeight == -2) { // No rail detected
                 this.defaultDispenserBehaviour.dispense(block, stack);
             } else {
-                Vec3 posVec = new Vec3(x, y +  railHeight + 0.0625, z);
+                Vec3 posVec = new Vec3(x, y + railHeight + 0.0625, z);
                 ChestMinecart cart = ChestMinecart.createMinecart(level, posVec, ((ChestMinecartItem) stack.getItem()).cartId); // 1/16th of a block above the rail
                 if (stack.hasCustomHoverName()) {
                     cart.setCustomName(stack.getHoverName());

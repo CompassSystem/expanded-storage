@@ -283,7 +283,9 @@ public final class CommonMain {
     }
 
     public static ResourceLocation getChestTexture(ResourceLocation block, CursedChestType chestType) {
-        if (CommonMain.CHEST_TEXTURES.containsKey(block)) return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
+        if (CommonMain.CHEST_TEXTURES.containsKey(block)) {
+            return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
+        }
         return MissingTextureAtlasSprite.getLocation();
     }
 
