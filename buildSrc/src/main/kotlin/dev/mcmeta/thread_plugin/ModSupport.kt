@@ -7,7 +7,6 @@ object ModVersions {
     val AMECS = "1.3.8+mc.1.19-rc2"
     val CCA = "5.0.2"
     val EMI = "0.4.3+1.19"
-    val FLAN = "1.7.9"
     val IPN = "1.8.5"
     val IPN_MINECRAFT = "1.19.2"
     val MODMENU = "4.1.1"
@@ -18,7 +17,7 @@ val emptyAdditionalDependencyExclusions = fun ModuleDependency.() {
 
 }
 
-// todo: rework to allow different dependencies for compile / runtime
+// todo: rework to allow different dependencies for compile / runtime (api compile only, full mod runtime only)
 enum class ModSupport(
     vararg val dependencies: String,
     val block: ModuleDependency.() -> Unit = emptyAdditionalDependencyExclusions
@@ -37,9 +36,6 @@ enum class ModSupport(
         "net.devtech:arrp:0.5.5"
     ),
     EMI("maven.modrinth:emi:${ModVersions.EMI}"),
-    FLAN("io.github.flemmli97:flan:1.18.2-${ModVersions.FLAN}:fabric-api", block = {
-        exclude(group = "curse.maven")
-    }),
     HTM("curse.maven:htm-462534:3539120"),
     INVENTORY_PROFILES(
         "maven.modrinth:inventory-profiles-next:fabric-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}",

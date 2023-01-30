@@ -1,7 +1,6 @@
 package ellemes.container_library;
 
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
-import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.client.ScreenTypeApi;
 import ellemes.container_library.client.KeyHandler;
 import ellemes.container_library.client.gui.FakePickScreen;
@@ -86,14 +85,16 @@ public class CommonClient {
                     BlockState state = level.getBlockState(blockHit.getBlockPos());
                     Block block = state.getBlock();
                     if (block instanceof OpenableInventoryProvider<?>) {
-                        ScreenOpeningApi.openBlockInventory(blockHit.getBlockPos());
+                        // todo: send item use packet.
+//                        ScreenOpeningApi.openBlockInventory(blockHit.getBlockPos());
                         return true;
                     }
                 }
                 case ENTITY -> {
                     Entity entity = ((EntityHitResult) hit).getEntity();
                     if (entity instanceof OpenableInventoryProvider<?>) {
-                        ScreenOpeningApi.openEntityInventory(entity);
+                        // todo: send item use packet.
+//                        ScreenOpeningApi.openEntityInventory(entity);
                         return true;
                     }
                 }
