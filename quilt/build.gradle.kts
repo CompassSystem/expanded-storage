@@ -18,7 +18,6 @@ u.configureCurseForge {
         optionalDependency("roughly-enough-items")
         optionalDependency("modmenu")
         optionalDependency("amecs")
-        optionalDependency("flan")
         optionalDependency("inventory-profiles-next")
         optionalDependency("emi")
         optionalDependency("inventory-tabs-updated")
@@ -34,7 +33,6 @@ u.configureModrinth {
         optional.project("roughly-enough-items") // nfn13YXA
         optional.project("modmenu") // mOgUt4GM
         optional.project("amecs") // rcLriA4v
-//        optional.project("flan") flan (not on Modrinth)
         optional.project("inventory-profiles-next") // O7RBXm3n
         optional.project("emi") // fRiHVvU7
         optional.project("inventory-tabs-updated") // F1AqcMCK
