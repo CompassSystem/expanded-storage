@@ -19,6 +19,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Item;
@@ -77,6 +78,13 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
         super.remove(reason);
     }
 
+    @Override
+    public void onInitialOpen(ServerPlayer player) {
+        if (!player.getLevel().isClientSide()) {
+            PiglinAi.angerNearbyPiglins(player, true);
+        }
+    }
+
     public void destroy(DamageSource source) {
         this.kill();
         if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
@@ -94,6 +102,11 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
                     stack.setHoverName(this.getCustomName());
                 }
                 this.spawnAtLocation(stack);
+            }
+            if (!level.isClientSide) {
+                if (breaker != null && breaker.getType() == EntityType.PLAYER) {
+                    PiglinAi.angerNearbyPiglins((Player) breaker, true);
+                }
             }
         }
     }
