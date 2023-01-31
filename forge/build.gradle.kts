@@ -53,13 +53,15 @@ u.configureCurseForge {
         optionalDependency("jei")
         optionalDependency("quark")
         optionalDependency("inventory-profiles-next")
+        optionalDependency("roughly-enough-items")
     })
 }
 
 u.configureModrinth {
     dependencies {
-//        optional.project("jei") // jei (not on Modrinth)
+        optional.project("jei") // u6dRKJwZ
         optional.project("quark") // qnQsVE2z
         optional.project("inventory-profiles-next") // O7RBXm3n
+        optional.project("roughly-enough-items") // nfn13YXA
     }
 }
