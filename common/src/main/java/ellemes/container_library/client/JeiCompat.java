@@ -1,7 +1,8 @@
-package ellemes.container_library.forge.client;
+package ellemes.container_library.client;
 
 import ellemes.container_library.Utils;
 import ellemes.container_library.api.client.gui.AbstractScreen;
+import ellemes.container_library.client.gui.FakePickScreen;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 @JeiPlugin
-public final class ContainerLibraryJeiPlugin implements IModPlugin {
+public final class JeiCompat implements IModPlugin {
     @NotNull
     @Override
     public ResourceLocation getPluginUid() {
@@ -28,5 +29,7 @@ public final class ContainerLibraryJeiPlugin implements IModPlugin {
                 return screen.getExclusionZones();
             }
         });
+
+        registration.addGuiScreenHandler(FakePickScreen.class, fakePickScreen -> null);
     }
 }
