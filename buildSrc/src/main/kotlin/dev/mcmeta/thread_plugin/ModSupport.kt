@@ -43,8 +43,8 @@ enum class ModSupport(
         "net.fabricmc:fabric-language-kotlin:1.7.4+kotlin.1.6.21"
     ),
     INVENTORY_TABS("com.github.Andrew6rant:InventoryTabs:inventorytabs-0.8.1-1.18.x"),
+    JEI("curse.maven:jei-238222:4060783"),
     MOD_MENU("com.terraformersmc:modmenu:${ModVersions.MODMENU}"),
-
     // todo: crashes game at runtime due to obfuscated mixins in jijs?
     REI("me.shedaniel:RoughlyEnoughItems-fabric:${ModVersions.REI}"),
     TOWELETTE(
