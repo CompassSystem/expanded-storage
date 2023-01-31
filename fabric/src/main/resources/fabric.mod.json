@@ -29,7 +29,7 @@
       "ellemes.container_library.thread.client.EmiCompat"
     ],
     "jei_mod_plugin": [
-      "ellemes.container_library.thread.client.JeiCompat"
+      "ellemes.container_library.client.JeiCompat"
     ]
   },
   "environment": "*",

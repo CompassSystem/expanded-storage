@@ -6,4 +6,6 @@ dependencies {
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "com.terraformersmc")
     }
+
+    modCompileOnly("curse.maven:jei-238222:4371828")
 }
