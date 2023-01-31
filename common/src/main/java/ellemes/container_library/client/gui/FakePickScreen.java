@@ -38,7 +38,12 @@ public final class FakePickScreen extends AbstractScreen {
         for (int i = 0; i < menu.getInventory().getContainerSize(); i++) {
             menu.addClientSlot(new Slot(menu.getInventory(), i, 0, 0));
         }
-        for (int x = 0; x < 36; x++) {
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 9; x++) {
+                menu.addClientSlot(new Slot(playerInventory, y * 9 + x + 9, 0, 0));
+            }
+        }
+        for (int x = 0; x < 9; x++) {
             menu.addClientSlot(new Slot(playerInventory, x, 0, 0));
         }
     }
