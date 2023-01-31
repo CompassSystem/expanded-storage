@@ -28,12 +28,22 @@ public final class PageButton extends Button {
     }
 
     @Override
+    protected int getTextureY() {
+        if (!this.active) {
+            return 0;
+        } else if (this.isHoveredOrFocused()) {
+            return 24;
+        }
+        return 12;
+    }
+
+    @Override
     public void renderButton(PoseStack stack, int mouseX, int mouseY, float delta) {
         RenderSystem.setShaderTexture(0, PageButton.TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        GuiComponent.blit(stack, this.getX(), this.getY(), textureOffset * 12, this.getYImage(this.isHoveredOrFocused()) * 12, width, height, 32, 48);
+        GuiComponent.blit(stack, this.getX(), this.getY(), textureOffset * 12, this.getTextureY(), width, height, 32, 48);
     }
 }
