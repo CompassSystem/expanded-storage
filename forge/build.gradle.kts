@@ -27,12 +27,17 @@ repositories {
         name = "Jared"
         url = uri("https://maven.blamejared.com/")
     }
+    maven { // Roughly Enough Items
+        name = "Shedaniel"
+        url = uri("https://maven.shedaniel.me/")
+    }
 }
 
 dependencies {
     compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}:${properties["jei_version"]}:api")
     modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}")
     modCompileOnly("vazkii.quark:Quark:3.3-test-367.2454")// todo: change version
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${ModVersions.REI}")
 }
 
 tasks.getByName<MinifyJsonTask>("minJar") {
