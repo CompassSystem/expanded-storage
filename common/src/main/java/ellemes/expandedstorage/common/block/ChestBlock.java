@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.common.block;
 
-import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.api.EsChestType;
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -127,7 +127,7 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
     }
 
     @Override
-    protected boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
+    public boolean isAccessBlocked(LevelAccessor level, BlockPos pos) {
         return net.minecraft.world.level.block.ChestBlock.isChestBlockedAt(level, pos);
     }
 }

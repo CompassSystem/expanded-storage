@@ -28,8 +28,8 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 public final class PickScreen extends Screen {
-    private static final Component CURRENT_OPTION_TEXT = Component.translatable("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
-    private static final Map<ResourceLocation, PickButton> BUTTON_SETTINGS = new HashMap<>();
+    public static final Component CURRENT_OPTION_TEXT = Component.translatable("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
+    public static final Map<ResourceLocation, PickButton> BUTTON_SETTINGS = new HashMap<>();
     private final Set<ResourceLocation> options = ImmutableSortedSet.copyOf(PickScreen.BUTTON_SETTINGS.keySet());
     private final Supplier<Screen> returnToScreen;
     private final @NotNull Runnable onOptionPicked;
@@ -118,8 +118,8 @@ public final class PickScreen extends Screen {
 
     private void updatePlayerPreference(ResourceLocation selection) {
         CommonClient.getConfigWrapper().setPreferredScreenType(selection);
-        onOptionPicked.run();
         this.onClose();
+        onOptionPicked.run();
     }
 
     @Override

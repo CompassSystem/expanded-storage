@@ -2,8 +2,8 @@ package ellemes.expandedstorage.common.entity;
 
 import ellemes.container_library.api.v3.OpenableInventory;
 import ellemes.container_library.api.v3.OpenableInventoryProvider;
-import ellemes.container_library.api.v3.client.ScreenOpeningApi;
 import ellemes.container_library.api.v3.context.BaseContext;
+import ellemes.container_library.api.v4.InventoryOpeningApi;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.misc.ExposedInventory;
 import net.minecraft.core.NonNullList;
@@ -19,6 +19,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Item;
@@ -63,8 +64,8 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         boolean isClient = level.isClientSide();
-        if (isClient) {
-            ScreenOpeningApi.openEntityInventory(this);
+        if (!isClient) {
+            InventoryOpeningApi.openEntityInventory((ServerPlayer) player, this);
         }
         return InteractionResult.sidedSuccess(isClient);
     }
@@ -75,6 +76,13 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
             Containers.dropContents(level, this, this);
         }
         super.remove(reason);
+    }
+
+    @Override
+    public void onInitialOpen(ServerPlayer player) {
+        if (!player.getLevel().isClientSide()) {
+            PiglinAi.angerNearbyPiglins(player, true);
+        }
     }
 
     public void destroy(DamageSource source) {
@@ -94,6 +102,11 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
                     stack.setHoverName(this.getCustomName());
                 }
                 this.spawnAtLocation(stack);
+            }
+            if (!level.isClientSide) {
+                if (breaker != null && breaker.getType() == EntityType.PLAYER) {
+                    PiglinAi.angerNearbyPiglins((Player) breaker, true);
+                }
             }
         }
     }

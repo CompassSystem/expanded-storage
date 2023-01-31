@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
+import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.ModItems;
-import ellemes.expandedstorage.common.datagen.content.ModTags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -422,14 +422,14 @@ public class RecipeHelper {
                 .define('I', ironIngots)
                 .define('B', ModItems.COPPER_BARREL)
                 .save(exporter);
-        shapedRecipe(ModItems.GOLD_BARREL, RecipeCategory.MISC,  1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.IRON_BARREL)
+        shapedRecipe(ModItems.GOLD_BARREL, RecipeCategory.MISC, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.IRON_BARREL)
                 .pattern("GGG")
                 .pattern("GBG")
                 .pattern("GGG")
                 .define('G', goldIngots)
                 .define('B', ModItems.IRON_BARREL)
                 .save(exporter);
-        shapedRecipe(ModItems.DIAMOND_BARREL, RecipeCategory.MISC,  1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.GOLD_BARREL)
+        shapedRecipe(ModItems.DIAMOND_BARREL, RecipeCategory.MISC, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.GOLD_BARREL)
                 .pattern("GGG")
                 .pattern("DBD")
                 .pattern("GGG")
@@ -437,39 +437,39 @@ public class RecipeHelper {
                 .define('D', diamonds)
                 .define('B', ModItems.GOLD_BARREL)
                 .save(exporter);
-        shapedRecipe(ModItems.OBSIDIAN_BARREL, RecipeCategory.MISC,  1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.DIAMOND_BARREL)
+        shapedRecipe(ModItems.OBSIDIAN_BARREL, RecipeCategory.MISC, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.DIAMOND_BARREL)
                 .pattern("OOO")
                 .pattern("OBO")
                 .pattern("OOO")
                 .define('O', obsidianBlocks)
                 .define('B', ModItems.DIAMOND_BARREL)
                 .save(exporter);
-        smithingRecipe(ModItems.NETHERITE_BARREL, ModItems.OBSIDIAN_BARREL, netheriteIngots, RecipeCategory.MISC,  Criterions.HAS_PREVIOUS_BLOCK, exporter);
+        smithingRecipe(ModItems.NETHERITE_BARREL, ModItems.OBSIDIAN_BARREL, netheriteIngots, RecipeCategory.MISC, Criterions.HAS_PREVIOUS_BLOCK, exporter);
     }
 
     private void offerMiniStorageRecipes(Consumer<FinishedRecipe> exporter) {
-        shapedRecipe(ModItems.VANILLA_WOOD_MINI_CHEST, RecipeCategory.MISC,  4, Criterions.HAS_ITEM, Items.CHEST)
+        shapedRecipe(ModItems.VANILLA_WOOD_MINI_CHEST, RecipeCategory.MISC, 4, Criterions.HAS_ITEM, Items.CHEST)
                 .pattern(" P ")
                 .pattern("PBP")
                 .pattern(" P ")
                 .define('P', Items.PAPER)
                 .define('B', Items.CHEST)
                 .save(exporter);
-        shapedRecipe(ModItems.WOOD_MINI_CHEST, RecipeCategory.MISC,  4, Criterions.HAS_ITEM, ModItems.WOOD_CHEST)
+        shapedRecipe(ModItems.WOOD_MINI_CHEST, RecipeCategory.MISC, 4, Criterions.HAS_ITEM, ModItems.WOOD_CHEST)
                 .pattern(" P ")
                 .pattern("PBP")
                 .pattern(" P ")
                 .define('P', Items.PAPER)
                 .define('B', ModItems.WOOD_CHEST)
                 .save(exporter);
-        shapedRecipe(ModItems.PUMPKIN_MINI_CHEST, RecipeCategory.MISC,  4, Criterions.HAS_ITEM, ModItems.PUMPKIN_CHEST)
+        shapedRecipe(ModItems.PUMPKIN_MINI_CHEST, RecipeCategory.MISC, 4, Criterions.HAS_ITEM, ModItems.PUMPKIN_CHEST)
                 .pattern(" P ")
                 .pattern("PBP")
                 .pattern(" P ")
                 .define('P', Items.PAPER)
                 .define('B', ModItems.PUMPKIN_CHEST)
                 .save(exporter);
-        shapedRecipe(ModItems.RED_MINI_PRESENT, RecipeCategory.MISC,  4, Criterions.HAS_ITEM, ModItems.PRESENT)
+        shapedRecipe(ModItems.RED_MINI_PRESENT, RecipeCategory.MISC, 4, Criterions.HAS_ITEM, ModItems.PRESENT)
                 .pattern(" P ")
                 .pattern("PBP")
                 .pattern(" P ")

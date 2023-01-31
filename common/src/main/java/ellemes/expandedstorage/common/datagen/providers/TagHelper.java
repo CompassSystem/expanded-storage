@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
 import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
+import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.common.registration.ModItems;
-import ellemes.expandedstorage.common.datagen.content.ModTags;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.tags.TagsProvider;
@@ -18,11 +18,11 @@ import net.minecraft.world.level.block.Block;
 import java.util.function.Function;
 
 public class TagHelper {
-    
+
     private static <T> ResourceKey<T> resourceKeyOf(Registry<T> registry, T thing) {
         return registry.getResourceKey(thing).orElseThrow();
     }
-    
+
     private static ResourceKey<Block> block(Block block) {
         return resourceKeyOf(BuiltInRegistries.BLOCK, block);
     }
@@ -34,7 +34,7 @@ public class TagHelper {
     private static ResourceKey<EntityType<?>> entityType(EntityType<?> entityType) {
         return resourceKeyOf(BuiltInRegistries.ENTITY_TYPE, entityType);
     }
-    
+
     public static void registerBlockTags(Function<TagKey<Block>, TagsProvider.TagAppender<Block>> tagMaker) {
         tagMaker.apply(BlockTags.MINEABLE_WITH_AXE)
                 .add(block(ModBlocks.COPPER_BARREL))

@@ -19,7 +19,7 @@ public class TagReloadListener {
     private List<Block> miniChestCycleBlocks = null;
     private List<Block> miniChestSecretCycleBlocks = null;
     private List<Block> miniChestSecretCycle2Blocks = null;
-    private List<? extends  EntityType<?>> minecartChestCycleEntityTypes = null;
+    private List<? extends EntityType<?>> minecartChestCycleEntityTypes = null;
 
     public void postDataReload() { // todo: get level I think
         chestCycleBlocks = BuiltInRegistries.BLOCK.getOrCreateTag(chestCycle).stream().map(Holder::value).toList();

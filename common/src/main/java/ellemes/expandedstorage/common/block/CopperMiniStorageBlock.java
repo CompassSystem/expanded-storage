@@ -18,6 +18,7 @@ public final class CopperMiniStorageBlock extends MiniStorageBlock implements We
         super(settings, blockId, Utils.COPPER_TIER_ID, openingStat);
         this.weatherState = weatherState;
     }
+
     @Override
     public boolean isRandomlyTicking(BlockState state) {
         return CopperBlockHelper.getNextOxidisedState(state).isPresent();

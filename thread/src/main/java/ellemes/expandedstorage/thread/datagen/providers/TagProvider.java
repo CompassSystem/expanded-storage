@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.thread.datagen.providers;
 
-import ellemes.expandedstorage.common.registration.ModBlocks;
-import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.datagen.providers.TagHelper;
+import ellemes.expandedstorage.common.registration.ModBlocks;
+import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.thread.datagen.content.ThreadTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -98,6 +98,7 @@ public final class TagProvider {
             return "Expanded Storage - Item Tags";
         }
     }
+
     public static final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
         public EntityType(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> providerFuture) {
             super(output, providerFuture);

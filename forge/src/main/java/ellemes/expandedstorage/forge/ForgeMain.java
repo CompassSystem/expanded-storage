@@ -4,20 +4,20 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
-import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.common.block.misc.BasicLockable;
+import ellemes.expandedstorage.common.registration.Content;
+import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
 import ellemes.expandedstorage.forge.item.ChestMinecartItem;
 import ellemes.expandedstorage.forge.item.MiniStorageBlockItem;
-import ellemes.expandedstorage.common.registration.Content;
-import ellemes.expandedstorage.common.registration.NamedValue;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -106,7 +106,7 @@ public final class ForgeMain {
                 });
                 builder.title(Component.translatable("itemGroup.expandedstorage.tab"));
             });
-        } );
+        });
 
         modBus.addListener((RegisterEvent event) -> {
             event.register(ForgeRegistries.Keys.STAT_TYPES, helper -> {

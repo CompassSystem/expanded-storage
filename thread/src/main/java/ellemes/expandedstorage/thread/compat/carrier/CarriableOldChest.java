@@ -2,7 +2,7 @@ package ellemes.expandedstorage.thread.compat.carrier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import me.steven.carrier.api.Carriable;
 import me.steven.carrier.api.CarriablePlacementContext;
 import me.steven.carrier.api.CarrierComponent;
@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -29,11 +28,11 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-class CarriableOldChest implements Carriable<Block> {
+class CarriableBlock implements Carriable<Block> {
     private final ResourceLocation id;
     private final Block parent;
 
-    public CarriableOldChest(ResourceLocation id, Block parent) {
+    public CarriableBlock(ResourceLocation id, Block parent) {
         this.id = id;
         this.parent = parent;
     }
@@ -49,13 +48,12 @@ class CarriableOldChest implements Carriable<Block> {
     public final InteractionResult tryPickup(@NotNull CarrierComponent component, @NotNull Level level, @NotNull BlockPos pos, @Nullable Entity entity) {
         if (level.isClientSide()) return InteractionResult.PASS;
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof OldChestBlockEntity && !blockEntity.isRemoved()) {
-            CompoundTag tag = new CompoundTag();
-            tag.put("blockEntity", blockEntity.saveWithoutMetadata());
-            CarryingData carrying = new CarryingData(id, tag);
-            component.setCarryingData(carrying);
+        if (blockEntity instanceof OpenableBlockEntity && !blockEntity.isRemoved()) {
+            BlockState state = level.getBlockState(pos);
+            CarryingData carrying = new CarryingData(id, state, blockEntity);
             level.removeBlockEntity(pos);
             level.removeBlock(pos, false); // todo: may return false if failed to remove block?
+            component.setCarryingData(carrying);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
@@ -77,6 +75,7 @@ class CarriableOldChest implements Carriable<Block> {
         }
         blockEntity.load(carrying.getBlockEntityTag());
         component.setCarryingData(null);
+        level.blockUpdated(pos, state.getBlock());
         return InteractionResult.SUCCESS;
     }
 

@@ -27,19 +27,19 @@ import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.item.EntityInteractableItem;
 import ellemes.expandedstorage.common.item.EntityMutatorBehaviour;
 import ellemes.expandedstorage.common.item.EntityUpgradeBehaviour;
-import ellemes.expandedstorage.common.item.ToolUsageResult;
-import ellemes.expandedstorage.common.misc.TieredObject;
-import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.StorageMutator;
+import ellemes.expandedstorage.common.item.ToolUsageResult;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
+import ellemes.expandedstorage.common.misc.Tier;
+import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
+import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.common.registration.ObjectConsumer;
-import ellemes.expandedstorage.common.misc.Tier;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -158,6 +158,9 @@ public final class CommonMain {
             }
             if (verifiedSize) {
                 ChestBlock toBlock = (ChestBlock) CommonMain.getTieredObject(CommonMain.CHEST_OBJECT_TYPE, to);
+                if (toBlock == null) {
+                    return false;
+                }
                 NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
                 LockCode code = LockCode.fromTag(tag);
                 ContainerHelper.loadAllItems(tag, inventory);
@@ -191,6 +194,9 @@ public final class CommonMain {
     private static boolean upgradeSingleBlockToOldChest(Level level, BlockState state, BlockPos pos, ResourceLocation from, ResourceLocation to) {
         if (((OpenableBlock) state.getBlock()).getObjTier() == from) {
             AbstractChestBlock toBlock = (AbstractChestBlock) CommonMain.getTieredObject(CommonMain.OLD_CHEST_OBJECT_TYPE, to);
+            if (toBlock == null) {
+                return false;
+            }
             NonNullList<ItemStack> inventory = NonNullList.withSize(toBlock.getSlotCount(), ItemStack.EMPTY);
             BlockEntity blockEntity = level.getBlockEntity(pos);
             //noinspection ConstantConditions
@@ -269,7 +275,9 @@ public final class CommonMain {
     }
 
     public static ResourceLocation getChestTexture(ResourceLocation block, EsChestType chestType) {
-        if (CommonMain.CHEST_TEXTURES.containsKey(block)) return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
+        if (CommonMain.CHEST_TEXTURES.containsKey(block)) {
+            return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
+        }
         return MissingTextureAtlasSprite.getLocation();
     }
 
@@ -304,7 +312,7 @@ public final class CommonMain {
             /*Minecart Chest*/ BiFunction<Item.Properties, ResourceLocation, ChestMinecartItem> chestMinecartItemMaker,
             /*Old Chest*/
             /*Barrel*/ TagKey<Block> barrelTag,
-            /*Mini Chest*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
+            /*Mini Storage*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
         CommonMain.itemAccess = itemAccess;
         CommonMain.lockable = lockable;
 

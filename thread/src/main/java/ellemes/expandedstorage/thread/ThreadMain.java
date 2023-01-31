@@ -2,16 +2,15 @@ package ellemes.expandedstorage.thread;
 
 import com.google.common.base.Suppliers;
 import ellemes.expandedstorage.common.CommonMain;
-import ellemes.expandedstorage.common.block.strategies.ItemAccess;
-import ellemes.expandedstorage.common.item.ChestMinecartItem;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
-import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.ChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
+import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.common.item.ChestMinecartItem;
+import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.Content;
@@ -21,6 +20,7 @@ import ellemes.expandedstorage.thread.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.thread.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.thread.compat.carrier.CarrierCompat;
 import ellemes.expandedstorage.thread.compat.htm.HTMLockable;
+import ellemes.expandedstorage.thread.compat.inventory_tabs.InventoryTabCompat;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -30,6 +30,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
@@ -62,11 +63,11 @@ public class ThreadMain {
 
     public static void constructContent(boolean htmPresent, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {
         CreativeModeTab group = FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
-                .displayItems((featureFlagSet, output, someBoolean) ->  {
-                    CommonMain.generateDisplayItems(featureFlagSet, stack -> {
-                        output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                    });
-                }).build();
+                                               .displayItems((featureFlagSet, output, someBoolean) -> {
+                                                   CommonMain.generateDisplayItems(featureFlagSet, stack -> {
+                                                       output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                                                   });
+                                               }).build();
 
         CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, tagReloadListener, contentRegistrationConsumer,
                 /*Base*/ true,
@@ -112,12 +113,12 @@ public class ThreadMain {
     }
 
     public static void registerCarrierCompat(Content content) {
-        for (NamedValue<ChestBlock> block : content.getChestBlocks()) {
-            CarrierCompat.registerChestBlock(block.getValue());
-        }
-
-        for (NamedValue<AbstractChestBlock> block : content.getOldChestBlocks()) {
-            CarrierCompat.registerOldChestBlock(block.getValue());
+        for (NamedValue<? extends OpenableBlock> block : content.getBlocks()) {
+            if (block.getValue() instanceof ChestBlock chestBlock) {
+                CarrierCompat.registerChestBlock(chestBlock);
+            } else {
+                CarrierCompat.registerOpenableBlock(block.getValue());
+            }
         }
     }
 
@@ -126,6 +127,7 @@ public class ThreadMain {
         ThreadMain.Client.registerItemRenderers(content.getChestItems());
         ThreadMain.Client.registerMinecartEntityRenderers(content.getChestMinecartEntityTypes());
         ThreadMain.Client.registerMinecartItemRenderers(content.getChestMinecartAndTypes());
+        ThreadMain.Client.registerInventoryTabsCompat();
     }
 
     public static class Client {
@@ -159,6 +161,12 @@ public class ThreadMain {
                 Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> pair.getValue().getValue().create(Minecraft.getInstance().level));
                 BuiltinItemRendererRegistry.INSTANCE.register(pair.getKey().getValue(), (itemStack, transform, stack, source, light, overlay) ->
                         Minecraft.getInstance().getEntityRenderDispatcher().render(renderEntity.get(), 0, 0, 0, 0, 0, stack, source, light));
+            }
+        }
+
+        public static void registerInventoryTabsCompat() {
+            if (FabricLoader.getInstance().isModLoaded("inventorytabs")) {
+                InventoryTabCompat.register();
             }
         }
     }

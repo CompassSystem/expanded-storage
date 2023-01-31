@@ -8,14 +8,10 @@ import ellemes.container_library.api.inventory.AbstractHandler;
 import ellemes.container_library.api.v3.client.ScreenTypeApi;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public final class MiniStorageScreen extends AbstractScreen {
     private static final ResourceLocation TEXTURE = Utils.id("textures/gui/container/mini_chest_screen.png");
@@ -53,11 +49,5 @@ public final class MiniStorageScreen extends AbstractScreen {
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(1, 1, 1, 1);
         GuiComponent.blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight, MiniStorageScreen.TEXTURE_WIDTH, MiniStorageScreen.TEXTURE_HEIGHT);
-    }
-
-    @NotNull
-    @Override
-    public List<Rect2i> getExclusionZones() {
-        return List.of();
     }
 }

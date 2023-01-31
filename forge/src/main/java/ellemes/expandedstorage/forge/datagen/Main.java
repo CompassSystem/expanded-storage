@@ -9,9 +9,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.data.event.GatherDataEvent;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,7 +21,7 @@ public final class Main {
     public static void gatherData(final GatherDataEvent event) {
         final DataGenerator generator = event.getGenerator();
         final PackOutput output = generator.getPackOutput();
-        final CompletableFuture<HolderLookup.Provider> lookupProvider= event.getLookupProvider();
+        final CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         final ExistingFileHelper fileHelper = event.getExistingFileHelper();
         final BlockTagsProvider blockTagsProvider = new TagProvider.Block(output, lookupProvider, fileHelper);
         generator.addProvider(event.includeServer(), blockTagsProvider);

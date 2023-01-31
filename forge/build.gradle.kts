@@ -1,3 +1,4 @@
+import dev.mcmeta.thread_plugin.ModVersions
 import ellemes.gradle.mod.api.task.MinifyJsonTask
 
 plugins {
@@ -26,15 +27,17 @@ repositories {
         name = "Jared"
         url = uri("https://maven.blamejared.com/")
     }
-}
-
-val noConfiguration: (ModuleDependency) -> Unit = {
+    maven { // Roughly Enough Items
+        name = "Shedaniel"
+        url = uri("https://maven.shedaniel.me/")
+    }
 }
 
 dependencies {
     compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}-forge-api:${properties["jei_version"]}")
-    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${properties["ipn_minecraft_version"]}-${properties["ipn_version"]}")
+    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}")
     modCompileOnly("vazkii.quark:Quark:3.3-373.2529")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${ModVersions.REI}")
 }
 
 tasks.getByName<MinifyJsonTask>("minJar") {
@@ -50,13 +53,15 @@ u.configureCurseForge {
         optionalDependency("jei")
         optionalDependency("quark")
         optionalDependency("inventory-profiles-next")
+        optionalDependency("roughly-enough-items")
     })
 }
 
 u.configureModrinth {
     dependencies {
-//        optional.project("jei") // jei (not on Modrinth)
-//        optional.project("quark") // quark (not on Modrinth)
-        optional.project("inventory-profiles-next")
+        optional.project("jei") // u6dRKJwZ
+        optional.project("quark") // qnQsVE2z
+        optional.project("inventory-profiles-next") // O7RBXm3n
+        optional.project("roughly-enough-items") // nfn13YXA
     }
 }
