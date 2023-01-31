@@ -16,7 +16,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,11 +38,13 @@ public final class PickScreen extends Screen {
     public PickScreen(AbstractScreen currentScreen) {
         this(currentScreen.getMenu(), () -> {
             return AbstractScreen.createScreen(currentScreen.getMenu(), Minecraft.getInstance().player.getInventory(), currentScreen.getTitle());
-        }, () -> {});
+        }, () -> {
+        });
     }
 
     public PickScreen(Supplier<Screen> returnToScreen) {
-        this(null, returnToScreen, () -> {});
+        this(null, returnToScreen, () -> {
+        });
     }
 
     public PickScreen(@NotNull Runnable onOptionPicked) {
@@ -91,7 +92,7 @@ public final class PickScreen extends Screen {
         super.init();
         ResourceLocation preference = CommonClient.getConfigWrapper().getPreferredScreenType();
         int choices = options.size();
-        int columns = Math.min(Mth.intFloorDiv(width, 96), choices);
+        int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is smallest gap for any screen.
         int outerPadding = (width - (((columns - 1) * innerPadding) + (columns * 96))) / 2;
         int x = 0;

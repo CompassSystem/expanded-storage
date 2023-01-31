@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.container_library.Utils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -16,6 +17,7 @@ public final class PageButton extends Button {
     public PageButton(int x, int y, int textureOffset, Component message, OnPress onPress) {
         super(x, y, 12, 12, message, onPress, Button.DEFAULT_NARRATION);
         this.textureOffset = textureOffset;
+        this.setTooltip(Tooltip.create(message));
     }
 
     public void setActive(boolean active) {
@@ -33,16 +35,5 @@ public final class PageButton extends Button {
         RenderSystem.defaultBlendFunc();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GuiComponent.blit(stack, this.getX(), this.getY(), textureOffset * 12, this.getYImage(this.isHoveredOrFocused()) * 12, width, height, 32, 48);
-    }
-
-    public void renderButtonTooltip(PoseStack stack, int mouseX, int mouseY) {
-        // todo: fix
-//        if (active) {
-//            if (isHovered) {
-//                this.renderToolTip(stack, mouseX, mouseY);
-//            } else if (this.isFocused()) {
-//                this.renderToolTip(stack, this.getX(), this.getY());
-//            }
-//        }
     }
 }

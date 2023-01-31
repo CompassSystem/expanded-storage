@@ -283,13 +283,13 @@ public final class ScrollScreen extends AbstractScreen {
                 menu.setSlotRange(setOutBegin, setOutBegin + setAmount, index -> -2000);
                 menu.moveSlotRange(movableBegin, setInBegin, -18 * rows);
                 menu.setSlotRange(setInBegin, Math.min(setInBegin + setAmount, totalSlots),
-                        index -> 18 * Mth.intFloorDiv(index - movableBegin + inventoryWidth, inventoryWidth));
+                        index -> 18 * Math.floorDiv(index - movableBegin + inventoryWidth, inventoryWidth));
             } else {
                 int setInBegin = newTopRow * inventoryWidth;
                 int movableBegin = oldTopRow * inventoryWidth;
                 int setOutBegin = movableBegin + movableAmount;
                 menu.setSlotRange(setInBegin, setInBegin + setAmount,
-                        index -> 18 * Mth.intFloorDiv(index - setInBegin + inventoryWidth, inventoryWidth));
+                        index -> 18 * Math.floorDiv(index - setInBegin + inventoryWidth, inventoryWidth));
                 menu.moveSlotRange(movableBegin, setOutBegin, 18 * rows);
                 menu.setSlotRange(setOutBegin, Math.min(setOutBegin + setAmount, totalSlots), index -> -2000);
             }
@@ -298,7 +298,7 @@ public final class ScrollScreen extends AbstractScreen {
             menu.setSlotRange(oldMin, Math.min(oldMin + inventoryWidth * inventoryHeight, totalSlots), index -> -2000);
             int newMin = newTopRow * inventoryWidth;
             menu.setSlotRange(newMin, newMin + inventoryWidth * inventoryHeight - (blankAreaVisible ? blankSlots : 0),
-                    index -> 18 + 18 * Mth.intFloorDiv(index - newMin, inventoryWidth));
+                    index -> 18 + 18 * Math.floorDiv(index - newMin, inventoryWidth));
         }
     }
 

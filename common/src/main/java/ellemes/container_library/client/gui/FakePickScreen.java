@@ -17,7 +17,6 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
@@ -71,7 +70,7 @@ public final class FakePickScreen extends AbstractScreen {
         super.init();
         ResourceLocation preference = CommonClient.getConfigWrapper().getPreferredScreenType();
         int choices = options.size();
-        int columns = Math.min(Mth.intFloorDiv(width, 96), choices);
+        int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is smallest gap for any screen.
         int outerPadding = (width - (((columns - 1) * innerPadding) + (columns * 96))) / 2;
         int x = 0;
@@ -91,7 +90,7 @@ public final class FakePickScreen extends AbstractScreen {
                 settings.getWarningText().forEach(tooltipMessage::append);
             }
             this.addRenderableWidget(new ScreenPickButton(outerPadding + (innerPadding + 96) * x, topPadding, 96, 96,
-                    settings.getTexture(), settings.getTitle(), isWarn, isCurrent, __ -> this.updatePlayerPreference(option), Tooltip.create(tooltipMessage, tooltipMessage)));
+                    settings.getTexture(), settings.getTitle(), isWarn, isCurrent, __ -> this.updatePlayerPreference(option), Tooltip.create(tooltipMessage)));
             x++;
         }
     }

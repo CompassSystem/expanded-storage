@@ -12,7 +12,6 @@ import ellemes.container_library.api.inventory.AbstractHandler;
 import ellemes.container_library.client.gui.widget.PageButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
@@ -154,7 +153,7 @@ public final class PageScreen extends AbstractScreen {
                 rightPageButton.setActive(false);
                 // todo: calculate blankArea once & add boolean field
                 if (blankSlots > 0) {
-                    int rows = Mth.intFloorDiv(blankSlots, inventoryWidth);
+                    int rows = Math.floorDiv(blankSlots, inventoryWidth);
                     int remainder = (blankSlots - inventoryWidth * rows);
                     int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
                     int xLeft = leftPos + Utils.CONTAINER_PADDING_LDR;
@@ -196,13 +195,6 @@ public final class PageScreen extends AbstractScreen {
     private void setPageText() {
         currentPageText = Component.translatable("screen.ellemes_container_lib.page_x_y", page, pages);
         pageTextX = (leftPageButton.getX() + leftPageButton.getWidth() + rightPageButton.getX()) / 2.0f - font.width(currentPageText) / 2.0f + 0.5f;
-    }
-
-    @Override
-    protected void renderTooltip(PoseStack stack, int mouseX, int mouseY) {
-        super.renderTooltip(stack, mouseX, mouseY);
-        leftPageButton.renderButtonTooltip(stack, mouseX, mouseY);
-        rightPageButton.renderButtonTooltip(stack, mouseX, mouseY);
     }
 
     @Override
@@ -274,9 +266,5 @@ public final class PageScreen extends AbstractScreen {
                 Component.translatable("screen.ellemes_container_lib.next_page"), button -> this.setPage(page, page + 1));
         this.addRenderableWidget(rightPageButton);
         this.setPageText();
-    }
-
-    private void renderButtonTooltip(AbstractButton button, PoseStack stack, int x, int y) {
-        this.renderTooltip(stack, button.getMessage(), x, y);
     }
 }
