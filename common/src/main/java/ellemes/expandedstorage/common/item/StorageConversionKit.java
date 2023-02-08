@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.item;
 
-import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.OldConversionCode;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -45,7 +45,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
         if (player != null) {
             if (player.isShiftKeyDown()) {
                 Block block = level.getBlockState(context.getClickedPos()).getBlock();
-                BlockUpgradeBehaviour behaviour = CommonMain.getBlockUpgradeBehaviour(block);
+                BlockUpgradeBehaviour behaviour = OldConversionCode.getBlockUpgradeBehaviour(block);
                 if (behaviour != null) {
                     if (level.isClientSide()) {
                         return InteractionResult.CONSUME;
@@ -69,7 +69,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
 
     @Override
     public InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
-        EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
+        EntityUpgradeBehaviour behaviour = OldConversionCode.getEntityUpgradeBehaviour(entity);
         if (behaviour != null) {
             if (behaviour.tryUpgradeEntity(player, hand, entity, from, to)) {
                 player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);

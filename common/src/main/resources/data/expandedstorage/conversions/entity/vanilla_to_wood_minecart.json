@@ -1,9 +1,0 @@
-{
-  "type": "expandedstorage:entity_conversion",
-  "input": {
-    "entity": "minecraft:chest_minecart"
-  },
-  "result": {
-    "entity": "expandedstorage:wood_chest_minecart"
-  }
-}

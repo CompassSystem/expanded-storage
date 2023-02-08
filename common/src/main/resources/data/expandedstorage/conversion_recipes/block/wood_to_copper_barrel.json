@@ -1,0 +1,18 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "inputs": [
+    {
+      "condition": "expandedstorage:in_tag",
+      "tag": "c:wooden_barrels"
+    },
+    {
+      "condition": "expandedstorage:is_wooden_barrel"
+    }
+  ],
+  "result": {
+    "id": "expandedstorage:copper_barrel"
+  },
+  "tool": {
+    "id": "expandedstorage:wood_to_copper_upgrade"
+  }
+}

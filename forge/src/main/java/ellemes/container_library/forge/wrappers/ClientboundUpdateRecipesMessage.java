@@ -2,13 +2,8 @@ package ellemes.container_library.forge.wrappers;
 
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
-import ellemes.expandedstorage.common.recipe.block.ManyBlockConversionRecipe;
-import ellemes.expandedstorage.common.recipe.block.SingleBlockConversionRecipe;
 import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
-import ellemes.expandedstorage.common.recipe.entity.ManyEntityConversionRecipe;
-import ellemes.expandedstorage.common.recipe.entity.SingleEntityConversionRecipe;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
@@ -29,27 +24,14 @@ public class ClientboundUpdateRecipesMessage {
     }
 
     public static ClientboundUpdateRecipesMessage decode(FriendlyByteBuf buffer) {
-        List<BlockConversionRecipe<?>> blockRecipes = new ArrayList<>();
-        List<EntityConversionRecipe<?>> entityRecipes = new ArrayList<>();
-        ResourceLocation type = buffer.readResourceLocation();
-        if (type.equals(new ResourceLocation("expandedstorage", "single_block"))) {
-            blockRecipes.addAll(buffer.<SingleBlockConversionRecipe<?>, ArrayList<SingleBlockConversionRecipe<?>>>readCollection(ArrayList::new, SingleBlockConversionRecipe::readFromBuffer));
-        }
-        if (type.equals(new ResourceLocation("expandedstorage", "many_block"))) {
-            blockRecipes.addAll(buffer.<ManyBlockConversionRecipe<?>, ArrayList<ManyBlockConversionRecipe<?>>>readCollection(ArrayList::new, ManyBlockConversionRecipe::readFromBuffer));
-        }
-        if (type.equals(new ResourceLocation("expandedstorage", "single_entity"))) {
-            entityRecipes.addAll(buffer.<SingleEntityConversionRecipe<?>, ArrayList<SingleEntityConversionRecipe<?>>>readCollection(ArrayList::new, SingleEntityConversionRecipe::readFromBuffer));
-        }
-        if (type.equals(new ResourceLocation("expandedstorage", "many_entity"))) {
-            entityRecipes.addAll(buffer.<ManyEntityConversionRecipe<?>, ArrayList<ManyEntityConversionRecipe<?>>>readCollection(ArrayList::new, ManyEntityConversionRecipe::readFromBuffer));
-        }
+        List<BlockConversionRecipe<?>> blockRecipes = new ArrayList<>(buffer.readCollection(ArrayList::new, BlockConversionRecipe::readFromBuffer));
+        List<EntityConversionRecipe<?>> entityRecipes = new ArrayList<>(buffer.readCollection(ArrayList::new, EntityConversionRecipe::readFromBuffer));
         return new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes);
     }
 
     public static void handle(ClientboundUpdateRecipesMessage msg, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
-            ConversionRecipeManager.INSTANCE.replaceAllRecipes(msg.blockRecipes, msg.entityRecipes);
+            ConversionRecipeManager.INSTANCE.replaceAllRecipes(msg.blockRecipes, msg.entityRecipes, false);
         });
     }
 }

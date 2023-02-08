@@ -11,6 +11,7 @@ import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
@@ -34,6 +35,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -72,6 +74,7 @@ public final class ForgeMain {
                 /*Mini Storage*/ MiniStorageBlockItem::new);
 
         MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> tagReloadListener.postDataReload());
+        MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent event) -> event.addListener(new ConversionRecipeReloadListener()));
 
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, (AttachCapabilitiesEvent<BlockEntity> event) -> {
             if (event.getObject() instanceof OpenableBlockEntity entity) {

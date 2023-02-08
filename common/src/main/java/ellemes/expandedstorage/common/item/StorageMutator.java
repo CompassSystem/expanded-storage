@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.common.item;
 
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.OldConversionCode;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -103,7 +104,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
 
     @Override
     public InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
-        EntityMutatorBehaviour behaviour = CommonMain.getEntityMutatorBehaviour(entity, StorageMutator.getMode(stack));
+        EntityMutatorBehaviour behaviour = OldConversionCode.getEntityMutatorBehaviour(entity, StorageMutator.getMode(stack));
         if (behaviour != null) {
             InteractionResult returnValue = behaviour.attempt(level, entity, stack);
             if (returnValue.shouldSwing()) {
