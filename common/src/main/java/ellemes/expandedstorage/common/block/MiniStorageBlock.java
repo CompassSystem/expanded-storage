@@ -29,14 +29,9 @@ import org.jetbrains.annotations.Nullable;
 public class MiniStorageBlock extends OpenableBlock implements SimpleWaterloggedBlock {
     private static final VoxelShape OUTLINE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
 
-    public MiniStorageBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier, ResourceLocation openingStat) {
-        super(settings, blockId, blockTier, openingStat, 1);
+    public MiniStorageBlock(Properties settings, ResourceLocation openingStat) {
+        super(settings, openingStat, 1);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false));
-    }
-
-    @Override
-    public ResourceLocation getObjType() {
-        return CommonMain.MINI_STORAGE_OBJECT_TYPE;
     }
 
     @Override

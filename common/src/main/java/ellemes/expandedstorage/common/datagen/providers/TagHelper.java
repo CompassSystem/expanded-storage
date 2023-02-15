@@ -1,6 +1,5 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
-import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
 import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.registration.ModBlocks;
@@ -252,49 +251,6 @@ public class TagHelper {
                 .add(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
                 .add(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
                 .add(ModBlocks.IRON_MINI_BARREL_WITH_SPARROW);
-        tagMaker.apply(ModTags.Blocks.CHEST_CYCLE)
-                .add(ModBlocks.WOOD_CHEST)
-                .add(ModBlocks.PUMPKIN_CHEST)
-                .add(ModBlocks.PRESENT)
-                .add(ModBlocks.BAMBOO_CHEST)
-                .add(ModBlocks.MOSS_CHEST);
-        tagMaker.apply(ModTags.Blocks.MINI_CHEST_CYCLE)
-                .add(ModBlocks.VANILLA_WOOD_MINI_CHEST)
-                .add(ModBlocks.WOOD_MINI_CHEST)
-                .add(ModBlocks.PUMPKIN_MINI_CHEST)
-                .add(ModBlocks.RED_MINI_PRESENT)
-                .add(ModBlocks.WHITE_MINI_PRESENT)
-                .add(ModBlocks.CANDY_CANE_MINI_PRESENT)
-                .add(ModBlocks.GREEN_MINI_PRESENT);
-        tagMaker.apply(ModTags.Blocks.MINI_CHEST_SECRET_CYCLE)
-                .add(ModBlocks.VANILLA_WOOD_MINI_CHEST)
-                .add(ModBlocks.WOOD_MINI_CHEST)
-                .add(ModBlocks.PUMPKIN_MINI_CHEST)
-                .add(ModBlocks.RED_MINI_PRESENT)
-                .add(ModBlocks.WHITE_MINI_PRESENT)
-                .add(ModBlocks.CANDY_CANE_MINI_PRESENT)
-                .add(ModBlocks.GREEN_MINI_PRESENT)
-                .add(ModBlocks.LAVENDER_MINI_PRESENT)
-                .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT);
-        tagMaker.apply(ModTags.Blocks.MINI_CHEST_SECRET_CYCLE_2)
-                .add(ModBlocks.VANILLA_WOOD_MINI_CHEST)
-                .add(ModBlocks.WOOD_MINI_CHEST)
-                .add(ModBlocks.PUMPKIN_MINI_CHEST)
-                .add(ModBlocks.RED_MINI_PRESENT)
-                .add(ModBlocks.WHITE_MINI_PRESENT)
-                .add(ModBlocks.CANDY_CANE_MINI_PRESENT)
-                .add(ModBlocks.GREEN_MINI_PRESENT)
-                .add(ModBlocks.LAVENDER_MINI_PRESENT)
-                .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT)
-                .add(ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.PUMPKIN_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.RED_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.WHITE_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW);
     }
 
     public static void registerItemTags(Function<TagKey<Item>, TagsProvider.TagAppender<Item>> tagMaker) {
@@ -321,11 +277,6 @@ public class TagHelper {
     }
 
     public static void registerEntityTypeTags(Function<TagKey<EntityType<?>>, TagsProvider.TagAppender<EntityType<?>>> tagMaker) {
-        tagMaker.apply(ModTags.EntityTypes.MINECART_CHEST_CYCLE)
-                .add(ModEntityTypes.WOOD_CHEST_MINECART)
-                .add(ModEntityTypes.PUMPKIN_CHEST_MINECART)
-                .add(ModEntityTypes.PRESENT_MINECART)
-                .add(ModEntityTypes.BAMBOO_CHEST_MINECART)
-                .add(ModEntityTypes.MOSS_CHEST_MINECART);
+
     }
 }

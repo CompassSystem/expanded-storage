@@ -22,14 +22,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
 public class BarrelBlock extends OpenableBlock {
-    public BarrelBlock(Properties settings, ResourceLocation blockId, ResourceLocation tierId, ResourceLocation openingStat, int slotCount) {
-        super(settings, blockId, tierId, openingStat, slotCount);
+    public BarrelBlock(Properties settings, ResourceLocation openingStat, int slotCount) {
+        super(settings, openingStat, slotCount);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP).setValue(BlockStateProperties.OPEN, false));
-    }
-
-    @Override
-    public ResourceLocation getObjType() {
-        return CommonMain.BARREL_OBJECT_TYPE;
     }
 
     @Nullable

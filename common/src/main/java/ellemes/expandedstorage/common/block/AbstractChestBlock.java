@@ -52,8 +52,8 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         }
     };
 
-    public AbstractChestBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier, ResourceLocation openingStat, int slotCount) {
-        super(settings, blockId, blockTier, openingStat, slotCount);
+    public AbstractChestBlock(Properties settings, ResourceLocation openingStat, int slotCount) {
+        super(settings, openingStat, slotCount);
         this.registerDefaultState(this.defaultBlockState()
                                       .setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.SINGLE)
                                       .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
@@ -125,11 +125,6 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     protected <T extends OldChestBlockEntity> BlockEntityType<T> getBlockEntityType() {
         //noinspection unchecked
         return (BlockEntityType<T>) CommonMain.getOldChestBlockEntityType();
-    }
-
-    @Override
-    public ResourceLocation getObjType() {
-        return CommonMain.OLD_CHEST_OBJECT_TYPE;
     }
 
     @Override

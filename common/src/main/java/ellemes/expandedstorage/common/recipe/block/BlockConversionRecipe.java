@@ -2,6 +2,7 @@ package ellemes.expandedstorage.common.recipe.block;
 
 import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
+import ellemes.expandedstorage.common.item.ToolUsageResult;
 import ellemes.expandedstorage.common.recipe.misc.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.BlockPos;
@@ -29,11 +30,11 @@ public class BlockConversionRecipe<O extends Block> {
     }
 
     public boolean inputMatches(BlockState state) {
-        return inputs.stream().anyMatch(partial -> partial.test(state));
+        return inputs.stream().anyMatch(condition -> condition.test(state));
     }
 
-    public final void process(Level level, BlockState state, BlockPos pos) {
-
+    public final ToolUsageResult process(Level level, BlockState state, BlockPos pos) {
+        return ToolUsageResult.fail();
     }
 
     public final int getUsageCount(BlockState input) {

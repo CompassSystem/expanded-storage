@@ -8,8 +8,6 @@ import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntit
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
-import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
 import ellemes.expandedstorage.common.registration.Content;
@@ -37,7 +35,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -56,8 +53,6 @@ public final class ForgeMain {
     public ForgeMain() {
         new ellemes.container_library.forge.ForgeMain();
 
-        TagReloadListener tagReloadListener = new TagReloadListener();
-
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
                 new CreativeModeTab(Utils.MOD_ID + ".tab") {
                     @NotNull
@@ -65,15 +60,13 @@ public final class ForgeMain {
                     public ItemStack makeIcon() {
                         return new ItemStack(ForgeRegistries.ITEMS.getValue(Utils.id("netherite_chest")), 1);
                     }
-                }, FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
+                }, FMLLoader.getDist().isClient(), this::registerContent,
                 /*Base*/ false,
-                /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
+                /*Chest*/ ChestBlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
                 /*Mini Storage*/ MiniStorageBlockItem::new);
-
-        MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> tagReloadListener.postDataReload());
         MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent event) -> event.addListener(new ConversionRecipeReloadListener()));
 
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, (AttachCapabilitiesEvent<BlockEntity> event) -> {
@@ -111,10 +104,7 @@ public final class ForgeMain {
             });
 
             event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
-                CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
-                    helper.register(name, value);
-                    CommonMain.registerTieredObject(value);
-                });
+                CommonMain.iterateNamedList(content.getBlocks(), helper::register);
             });
 
             event.register(ForgeRegistries.Keys.ITEMS, helper -> {
@@ -129,12 +119,7 @@ public final class ForgeMain {
             });
 
             event.register(ForgeRegistries.Keys.ENTITY_TYPES, helper -> {
-                CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
-                    helper.register(name, value);
-                    if (value instanceof TieredObject object) {
-                        CommonMain.registerTieredObject(object);
-                    }
-                });
+                CommonMain.iterateNamedList(content.getEntityTypes(), helper::register);
             });
         });
 

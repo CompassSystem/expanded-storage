@@ -4,6 +4,7 @@ import ellemes.expandedstorage.common.recipe.misc.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -26,8 +27,8 @@ public class EntityConversionRecipe<O extends Entity> {
         return inputs.stream().anyMatch(condition -> condition.test(entity));
     }
 
-    public void process(Level level, Entity input) {
-
+    public InteractionResult process(Level level, Entity input) {
+        return InteractionResult.FAIL;
     }
 
     public int getUsageCount(Entity input) {

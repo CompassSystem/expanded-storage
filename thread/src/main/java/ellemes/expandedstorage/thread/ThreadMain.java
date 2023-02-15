@@ -10,8 +10,6 @@ import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
-import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
@@ -60,14 +58,14 @@ public class ThreadMain {
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static void constructContent(boolean htmPresent, CreativeModeTab group, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {
-        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, group, isClient, tagReloadListener, contentRegistrationConsumer,
+    public static void constructContent(boolean htmPresent, CreativeModeTab group, boolean isClient, ContentConsumer contentRegistrationConsumer) {
+        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, group, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
-                /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,
+                /*Chest*/ BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_barrels")),
-                /*Mini Chest*/ BlockItem::new);
+                /*Mini Storage*/ BlockItem::new);
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
     }
@@ -79,7 +77,6 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
             Registry.register(Registry.BLOCK, name, value);
-            CommonMain.registerTieredObject(value);
         });
 
         //noinspection UnstableApiUsage
@@ -89,9 +86,6 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
             Registry.register(Registry.ENTITY_TYPE, name, value);
-            if (value instanceof TieredObject object) {
-                CommonMain.registerTieredObject(object);
-            }
         });
 
         ThreadMain.registerBlockEntity(content.getChestBlockEntityType());
