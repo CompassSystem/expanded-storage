@@ -4,6 +4,7 @@ import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
 import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
@@ -15,18 +16,18 @@ public class ConversionRecipeManager {
     private final List<BlockConversionRecipe<?>> blockRecipes = new ArrayList<>();
     private final List<EntityConversionRecipe<?>> entityRecipes = new ArrayList<>();
 
-    public BlockConversionRecipe<?> getBlockRecipe(BlockState state, RecipeType recipeType) {
+    public BlockConversionRecipe<?> getBlockRecipe(BlockState state, ItemStack tool) {
         for (BlockConversionRecipe<?> recipe : blockRecipes) {
-            if (recipe.getType() == recipeType && recipe.inputMatches(state)) {
+            if (recipe.toolMatches(tool) && recipe.inputMatches(state)) {
                 return recipe;
             }
         }
         return null;
     }
 
-    public EntityConversionRecipe<?> getEntityRecipe(Entity entity, RecipeType recipeType) {
+    public EntityConversionRecipe<?> getEntityRecipe(Entity entity, ItemStack tool) {
         for (EntityConversionRecipe<?> recipe : entityRecipes) {
-            if (recipe.getType() == recipeType && recipe.inputMatches(entity)) {
+            if (recipe.toolMatches(tool) && recipe.inputMatches(entity)) {
                 return recipe;
             }
         }

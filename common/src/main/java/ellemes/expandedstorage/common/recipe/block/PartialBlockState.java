@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.common.recipe.block;
 
 import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +20,10 @@ public class PartialBlockState<T extends Block> {
         this.properties = properties;
     }
 
+    public static PartialBlockState<?> readFromJson(JsonObject object) {
+        return null;
+    }
+
     public boolean matches(BlockState state) {
         if (state.getBlock() != block) {
             return false;
@@ -33,6 +38,14 @@ public class PartialBlockState<T extends Block> {
             }
         }
         return true;
+    }
+
+    // I hate generics.
+    public <K extends Comparable<K>, V extends K> BlockState transform(BlockState state) {
+        for (Map.Entry<Property<?>, ?> entry : properties.entrySet()) {
+            state = state.setValue((Property<K>) entry.getKey(), (V) entry.getValue());
+        }
+        return state;
     }
 
     public static <T extends Block> PartialBlockState<T> of(T block) {

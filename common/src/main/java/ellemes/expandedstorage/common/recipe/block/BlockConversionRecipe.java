@@ -2,10 +2,11 @@ package ellemes.expandedstorage.common.recipe.block;
 
 import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
-import ellemes.expandedstorage.common.recipe.RecipeType;
 import ellemes.expandedstorage.common.recipe.misc.RecipeCondition;
+import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
@@ -17,12 +18,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class BlockConversionRecipe<O extends Block> {
-    private final RecipeType recipeType;
+    private final RecipeTool recipeTool;
     private final PartialBlockState<O> output;
     private final Collection<RecipeCondition<BlockState>> inputs;
 
-    public BlockConversionRecipe(RecipeType recipeType, PartialBlockState<O> output, Collection<RecipeCondition<BlockState>> inputs) {
-        this.recipeType = recipeType;
+    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<RecipeCondition<BlockState>> inputs) {
+        this.recipeTool = recipeTool;
         this.output = output;
         this.inputs = inputs;
     }
@@ -45,20 +46,20 @@ public class BlockConversionRecipe<O extends Block> {
         return output;
     }
 
-    public RecipeType getType() {
-        return recipeType;
-    }
-
     public void writeToBuffer(FriendlyByteBuf buffer) {
-        buffer.writeEnum(recipeType);
+        recipeTool.writeToBuffer(buffer);
         output.writeToBuffer(buffer);
         buffer.writeCollection(inputs, (b, recipeCondition) -> recipeCondition.writeToBuffer(b));
     }
 
     public static BlockConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
-        RecipeType recipeType = buffer.readEnum(RecipeType.class);
+        RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         PartialBlockState<?> output = PartialBlockState.readFromBuffer(buffer);
         List<RecipeCondition<BlockState>> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
-        return new BlockConversionRecipe<>(recipeType, output, inputs);
+        return new BlockConversionRecipe<>(recipeTool, output, inputs);
+    }
+
+    public boolean toolMatches(ItemStack tool) {
+        return recipeTool.isMatchFor(tool);
     }
 }

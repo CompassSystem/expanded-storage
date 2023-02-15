@@ -20,20 +20,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public final class StorageConversionKit extends Item implements EntityInteractableItem {
-    private final ResourceLocation from;
-    private final ResourceLocation to;
+    private final ResourceLocation fromTier;
+    private final ResourceLocation toTier;
     private final Component instructionsFirst;
     private final Component instructionsSecond;
 
-    public StorageConversionKit(Properties settings, ResourceLocation from, ResourceLocation to, boolean manuallyWrapTooltips) {
+    public StorageConversionKit(Properties settings, ResourceLocation fromTier, ResourceLocation toTier, boolean manuallyWrapTooltips) {
         super(settings);
-        this.from = from;
-        this.to = to;
+        this.fromTier = fromTier;
+        this.toTier = toTier;
         if (manuallyWrapTooltips) {
-            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
-            this.instructionsSecond = Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
+            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
+            this.instructionsSecond = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
         } else {
-            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY).append(Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY));
+            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY).append(Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY));
             this.instructionsSecond = Component.literal("");
         }
     }
@@ -49,7 +49,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
                 if (behaviour != null) {
                     if (level.isClientSide()) {
                         return InteractionResult.CONSUME;
-                    } else if (behaviour.tryUpgradeBlock(context, from, to)) {
+                    } else if (behaviour.tryUpgradeBlock(context, fromTier, toTier)) {
                         player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                         return InteractionResult.SUCCESS;
                     }
@@ -71,7 +71,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
     public InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
         EntityUpgradeBehaviour behaviour = OldConversionCode.getEntityUpgradeBehaviour(entity);
         if (behaviour != null) {
-            if (behaviour.tryUpgradeEntity(player, hand, entity, from, to)) {
+            if (behaviour.tryUpgradeEntity(player, hand, entity, fromTier, toTier)) {
                 player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                 return InteractionResult.SUCCESS;
             }

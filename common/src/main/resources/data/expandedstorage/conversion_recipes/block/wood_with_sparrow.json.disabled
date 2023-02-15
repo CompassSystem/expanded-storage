@@ -1,15 +1,18 @@
 {
   "type": "expandedstorage:block_conversion",
   "inputs": [
-    {
-      "id": "expandedstorage:mini_chest",
-      "state": {
-        "sparrow": false
+    [
+      {
+        "tag": "expandedstorage:mini_storage_blocks"
+      },
+      {
+        "state": {
+          "sparrow": false
+        }
       }
-    }
+    ]
   ],
   "result": {
-    "id": "expandedstorage:mini_chest",
     "state": {
       "sparrow": true
     }

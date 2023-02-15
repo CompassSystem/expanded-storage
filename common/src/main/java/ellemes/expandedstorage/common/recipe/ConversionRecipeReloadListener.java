@@ -2,19 +2,27 @@ package ellemes.expandedstorage.common.recipe;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
+import ellemes.expandedstorage.common.recipe.block.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
+import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
+import ellemes.expandedstorage.common.recipe.misc.RecipeCondition;
+import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.entity.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -32,57 +40,52 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
     protected void apply(Map<ResourceLocation, JsonElement> recipes, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
         recipes.forEach((name, json) -> {
             try {
-                parseRecipe(name, json);
-            } catch (JsonSyntaxException e) {
+                parseRecipe(json);
+            } catch (Exception e) {
                 LOGGER.error("Invalid conversion recipe " + name, e);
             }
         });
 
-//        blockRecipes.add(new BlockConversionRecipe<>(RecipeType.UPGRADE, PartialBlockState.of(ModBlocks.IRON_CHEST), List.of(PartialBlockState.of(ModBlocks.WOOD_CHEST))));
-//        blockRecipes.add(new BlockConversionRecipe<>(RecipeType.UPGRADE, PartialBlockState.of(ModBlocks.GOLD_CHEST), List.of(PartialBlockState.of(ModBlocks.IRON_CHEST))));
-
         ConversionRecipeManager.INSTANCE.replaceAllRecipes(blockRecipes, entityRecipes, true);
     }
 
-    private void parseRecipe(ResourceLocation name, JsonElement json) throws JsonSyntaxException {
+    private void parseRecipe(JsonElement json) throws JsonSyntaxException {
         if (!json.isJsonObject()) {
             throw new JsonSyntaxException("root must be a json object");
         }
         JsonObject root = json.getAsJsonObject();
-        if (!root.has("type")) {
-            throw new JsonSyntaxException("Missing type entry");
-        }
-        if (!root.get("type").isJsonPrimitive() || !root.get("type").getAsJsonPrimitive().isString()) {
-            throw new JsonSyntaxException("type entry must be a String");
-        }
-        ResourceLocation type = ResourceLocation.tryParse(root.getAsJsonPrimitive("type").getAsString());
-        if (type == null) {
-            throw new JsonSyntaxException("type entry must be a valid ResourceLocation");
-        }
-        boolean requiresUpgrade = false;
-        if (root.has("requires_upgrade")) {
-            JsonElement requiresUpgradeElement = root.get("requires_upgrade");
-            if (requiresUpgradeElement.isJsonPrimitive() && requiresUpgradeElement.getAsJsonPrimitive().isBoolean()) {
-                requiresUpgrade = requiresUpgradeElement.getAsBoolean();
-            } else {
-                throw new JsonSyntaxException("requires_upgrade must be a boolean.");
-            }
-        }
+
+        ResourceLocation type = JsonHelper.getJsonResourceLocation(root, "type");
+        RecipeTool recipeTool = RecipeTool.fromJsonObject(JsonHelper.getJsonObject(root, "tool"));
 
         if (type.toString().equals("expandedstorage:block_conversion")) {
-            parseBlockRecipe(name, root, requiresUpgrade);
+            parseBlockRecipe(root, recipeTool);
         } else if (type.toString().equals("expandedstorage:entity_conversion")) {
-            parseEntityRecipe(name, root, requiresUpgrade);
+            parseEntityRecipe(root, recipeTool);
         } else {
             throw new JsonSyntaxException("type must be either: \"expandedstorage:block_conversion\" or \"expandedstorage:entity_conversion\"");
         }
     }
 
-    private void parseBlockRecipe(ResourceLocation name, JsonObject root, boolean requiresUpgrade) {
-
+    private void parseBlockRecipe(JsonObject root, RecipeTool recipeTool) {
+        JsonArray inputs = JsonHelper.getJsonArray(root, "inputs");
+        RecipeCondition[] recipeInputs = new RecipeCondition[inputs.size()];
+        for (int i = 0; i < inputs.size(); i++) {
+            JsonElement input = inputs.get(i);
+            recipeInputs[i] = RecipeCondition.readBlockCondition(input);
+        }
+        PartialBlockState<?> output = PartialBlockState.readFromJson(JsonHelper.getJsonObject(root, "result"));
+        blockRecipes.add(new BlockConversionRecipe<>(recipeTool, output, Arrays.asList(recipeInputs)));
     }
 
-    private void parseEntityRecipe(ResourceLocation name, JsonObject root, boolean requiresUpgrade) {
-
+    private void parseEntityRecipe(JsonObject root, RecipeTool recipeTool) {
+        JsonArray inputs = JsonHelper.getJsonArray(root, "inputs");
+        RecipeCondition[] recipeInputs = new RecipeCondition[inputs.size()];
+        for (int i = 0; i < inputs.size(); i++) {
+            JsonElement input = inputs.get(i);
+            recipeInputs[i] = RecipeCondition.readEntityCondition(input);
+        }
+        EntityType<?> output = Registry.ENTITY_TYPE.getOptional(JsonHelper.getJsonResourceLocation(JsonHelper.getJsonObject(root, "result"), "id")).orElseThrow();
+        entityRecipes.add(new EntityConversionRecipe<>(recipeTool, output, Arrays.asList(recipeInputs)));
     }
 }

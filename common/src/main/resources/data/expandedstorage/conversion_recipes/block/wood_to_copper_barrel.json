@@ -2,8 +2,7 @@
   "type": "expandedstorage:block_conversion",
   "inputs": [
     {
-      "condition": "expandedstorage:in_tag",
-      "tag": "c:wooden_barrels"
+      "tag": "forge:barrels/wooden"
     },
     {
       "condition": "expandedstorage:is_wooden_barrel"
@@ -13,6 +12,6 @@
     "id": "expandedstorage:copper_barrel"
   },
   "tool": {
-    "id": "expandedstorage:wood_to_copper_upgrade"
+    "id": "expandedstorage:wood_to_copper_conversion_kit"
   }
 }
