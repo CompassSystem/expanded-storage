@@ -38,7 +38,7 @@ public final class PageButton extends Button {
     }
 
     @Override
-    public void renderButton(PoseStack stack, int mouseX, int mouseY, float delta) {
+    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
         RenderSystem.setShaderTexture(0, PageButton.TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
         RenderSystem.enableBlend();

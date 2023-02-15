@@ -53,8 +53,8 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -646,7 +646,7 @@ public final class CommonMain {
         return InteractionResult.PASS;
     }
 
-    public static void generateDisplayItems(FeatureFlagSet featureFlagSet, Consumer<ItemStack> output) {
+    public static void generateDisplayItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, Consumer<ItemStack> output) {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
         output.accept(ModItems.STORAGE_MUTATOR.getDefaultInstance());
         // todo: add lock stuff when finished and ported.

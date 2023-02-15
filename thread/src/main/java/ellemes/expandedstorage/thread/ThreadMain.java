@@ -73,8 +73,8 @@ public class ThreadMain {
 
     public static void constructContent(boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
         CreativeModeTab group = FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
-                                               .displayItems((featureFlagSet, output, someBoolean) -> {
-                                                   CommonMain.generateDisplayItems(featureFlagSet, stack -> {
+                                               .displayItems((itemDisplayParameters, output) -> {
+                                                   CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
                                                        output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                                                    });
                                                }).build();
@@ -156,7 +156,7 @@ public class ThreadMain {
         public static void registerItemRenderers(List<NamedValue<BlockItem>> items) {
             for (NamedValue<BlockItem> item : items) {
                 ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getValue().getBlock().defaultBlockState());
-                BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, transform, stack, source, light, overlay) ->
+                BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, context, stack, source, light, overlay) ->
                         Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay));
             }
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.SINGLE_LAYER, ChestBlockEntityRenderer::createSingleBodyLayer);

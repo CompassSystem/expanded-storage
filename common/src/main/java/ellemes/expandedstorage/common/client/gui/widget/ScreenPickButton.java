@@ -24,7 +24,7 @@ public final class ScreenPickButton extends Button {
     }
 
     @Override
-    public void renderButton(PoseStack stack, int mouseX, int mouseY, float delta) {
+    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
         GuiComponent.blit(stack, this.getX(), this.getY(), 0, height * (this.isHoveredOrFocused() ? 1 : isCurrentPreference ? 2 : 0), width, height, width, height * 3);
