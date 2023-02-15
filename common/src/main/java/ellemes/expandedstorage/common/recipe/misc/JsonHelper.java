@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.common.recipe.misc;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.resources.ResourceLocation;
@@ -48,5 +49,11 @@ public class JsonHelper {
         }
 
         return object.getAsJsonArray(name);
+    }
+
+    public static String toString(String key, JsonElement value) {
+        if (value.isJsonPrimitive()) {
+            return value.getAsJsonPrimitive().getAsString();
+        } else throw new IllegalArgumentException("Cannot convert" + key + "'s value to a string");
     }
 }

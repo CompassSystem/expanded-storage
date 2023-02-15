@@ -39,7 +39,7 @@ public interface RecipeCondition<T> {
             JsonObject object = condition.getAsJsonObject();
             if (object.has("tag")) {
                 TagKey<T> tag = TagKey.create(registry.key(), JsonHelper.getJsonResourceLocation(object, "tag"));
-                return new IsInTagCondition<>(registry, tag);
+                return new IsInTagCondition<>(tag);
             } else if (object.has("id")) {
                 return new IsRegistryObject<>(registry, JsonHelper.getJsonResourceLocation(object, "id"));
             }
@@ -100,16 +100,18 @@ public interface RecipeCondition<T> {
 
 class IsInTagCondition<T> implements RecipeCondition<T> {
     private static final ResourceLocation NETWORK_ID = new ResourceLocation("expandedstorage", "in_tag");
-    private final Set<T> values;
     private final TagKey<T> tagKey;
+    private Set<T> values;
 
-    public IsInTagCondition(Registry<T> registry, TagKey<T> tagKey) {
-        this.values = registry.getTag(tagKey).orElseThrow().stream().map(Holder::value).collect(Collectors.toUnmodifiableSet());
+    public IsInTagCondition(TagKey<T> tagKey) {
         this.tagKey = tagKey;
     }
 
     @Override
     public boolean test(T subject) {
+        if (values == null) {
+            values = ((Registry<T>) Registry.REGISTRY.get(tagKey.registry().location())).getTag(tagKey).orElseThrow().stream().map(Holder::value).collect(Collectors.toUnmodifiableSet());
+        }
         return values.contains(subject);
     }
 
@@ -131,7 +133,7 @@ class IsInTagCondition<T> implements RecipeCondition<T> {
         if (registry == null) {
             throw new NullPointerException("Unknown registry: " + registryId);
         }
-        return new IsInTagCondition<>(registry, TagKey.create(registry.key(), tag));
+        return new IsInTagCondition<>(TagKey.create(registry.key(), tag));
     }
 
     static {

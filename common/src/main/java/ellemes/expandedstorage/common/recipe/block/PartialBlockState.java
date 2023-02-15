@@ -1,7 +1,9 @@
 package ellemes.expandedstorage.common.recipe.block;
 
 import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PartialBlockState<T extends Block> {
     private final T block;
@@ -21,7 +25,35 @@ public class PartialBlockState<T extends Block> {
     }
 
     public static PartialBlockState<?> readFromJson(JsonObject object) {
-        return null;
+        ResourceLocation blockId = JsonHelper.getJsonResourceLocation(object, "id");
+        Optional<Block> block = Registry.BLOCK.getOptional(blockId);
+        if (block.isEmpty()) {
+            throw new IllegalArgumentException("Block id refers to unregistered block");
+        }
+        Map<String, Property<?>> propertyLookup = block.get().defaultBlockState().getProperties().stream()
+                                                       .map(it -> Map.entry(it.getName(), it))
+                                                       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        if (object.has("state")) {
+            JsonObject properties = object.getAsJsonObject("state");
+            Map.Entry[] stateProperties = new Map.Entry[properties.size()];
+            int index = 0;
+
+            for (Map.Entry<String, JsonElement> propertyEntry : properties.entrySet()) {
+                if (!propertyLookup.containsKey(propertyEntry.getKey())) {
+                    throw new IllegalArgumentException("Block does not contain property with name: " + propertyEntry.getKey());
+                }
+                Property<?> property = propertyLookup.get(propertyEntry.getKey());
+                String propertyValue = JsonHelper.toString(property.getName(), propertyEntry.getValue());
+                Optional<?> value = property.getValue(propertyValue);
+                if (value.isEmpty()) {
+                    throw new IllegalStateException("Property " + property.getName() + " doesn't contain value " + propertyValue);
+                }
+                stateProperties[index] = Map.entry(property, value.get());
+                index++;
+            }
+            return new PartialBlockState<>(block.get(), Map.ofEntries(stateProperties));
+        }
+        return new PartialBlockState<>(block.get(), Map.of());
     }
 
     public boolean matches(BlockState state) {
