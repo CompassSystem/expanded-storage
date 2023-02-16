@@ -50,7 +50,10 @@ public class BlockConversionRecipe<O extends Block> {
     public void writeToBuffer(FriendlyByteBuf buffer) {
         recipeTool.writeToBuffer(buffer);
         output.writeToBuffer(buffer);
-        buffer.writeCollection(inputs, (b, recipeCondition) -> recipeCondition.writeToBuffer(b));
+        buffer.writeCollection(inputs, (b, recipeCondition) -> {
+            b.writeResourceLocation(recipeCondition.getNetworkId());
+            recipeCondition.writeToBuffer(b);
+        });
     }
 
     public static BlockConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {

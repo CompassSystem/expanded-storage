@@ -10,7 +10,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class EntityConversionRecipe<O extends Entity> {
     private final RecipeTool recipeTool;
@@ -44,11 +46,18 @@ public class EntityConversionRecipe<O extends Entity> {
     }
 
     public void writeToBuffer(FriendlyByteBuf buffer) {
+        recipeTool.writeToBuffer(buffer);
         buffer.writeResourceLocation(Registry.ENTITY_TYPE.getKey(output));
-        buffer.writeCollection(inputs, (b, condition) -> condition.writeToBuffer(buffer));
+        buffer.writeCollection(inputs, (b, condition) -> {
+            b.writeResourceLocation(condition.getNetworkId());
+            condition.writeToBuffer(buffer);
+        });
     }
 
     public static EntityConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
-        return null;
+        RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
+        EntityType<?> output = Registry.ENTITY_TYPE.get(buffer.readResourceLocation());
+        List<RecipeCondition<Entity>> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
+        return new EntityConversionRecipe<>(recipeTool, output, inputs);
     }
 }

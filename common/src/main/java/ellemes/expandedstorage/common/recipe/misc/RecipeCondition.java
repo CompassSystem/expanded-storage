@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import ellemes.container_library.Utils;
+import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
  * Is it over-engineer, probably not going to be used and eventually be removed? Yes!
  * <p>
  * todo: recipe condition for checking if input has specific properties
+ * todo: conditions check against wrong thing. e.g. input is entity, compares entity_type,
+ *  input is blockstate, compares block
  */
 public interface RecipeCondition<T> {
     Map<ResourceLocation, Function<FriendlyByteBuf, RecipeCondition<?>>> RECIPE_DESERIALIZERS = new HashMap<>();
@@ -99,7 +101,7 @@ public interface RecipeCondition<T> {
 }
 
 class IsInTagCondition<T> implements RecipeCondition<T> {
-    private static final ResourceLocation NETWORK_ID = new ResourceLocation("expandedstorage", "in_tag");
+    private static final ResourceLocation NETWORK_ID = Utils.id("in_tag");
     private final TagKey<T> tagKey;
     private Set<T> values;
 
@@ -122,7 +124,7 @@ class IsInTagCondition<T> implements RecipeCondition<T> {
 
     @Override
     public void writeToBuffer(FriendlyByteBuf buffer) {
-        buffer.writeResourceLocation(tagKey.registry().registry());
+        buffer.writeResourceLocation(tagKey.registry().location());
         buffer.writeResourceLocation(tagKey.location());
     }
 
@@ -142,7 +144,7 @@ class IsInTagCondition<T> implements RecipeCondition<T> {
 }
 
 class IsInstanceOfCondition<T> implements RecipeCondition<T> {
-    private static final ResourceLocation NETWORK_ID = new ResourceLocation("expandedstorage", "is_instance");
+    private static final ResourceLocation NETWORK_ID = Utils.id("is_instance");
     private final Class<?> clazz;
 
     public IsInstanceOfCondition(Class<?> clazz) {
@@ -180,7 +182,7 @@ class IsInstanceOfCondition<T> implements RecipeCondition<T> {
 }
 
 class IsRegistryObject<T> implements RecipeCondition<T> {
-    private static final ResourceLocation NETWORK_ID = new ResourceLocation("expandedstorage", "is_registry_object");
+    private static final ResourceLocation NETWORK_ID = Utils.id("is_registry_object");
     private final T value;
     private final ResourceLocation registry;
     private final ResourceLocation objectId;
@@ -223,7 +225,7 @@ class IsRegistryObject<T> implements RecipeCondition<T> {
 }
 
 class BlockToBlockStateCondition implements RecipeCondition<BlockState> {
-    private static final ResourceLocation NETWORK_ID = new ResourceLocation("expandedstorage", "block_condition_wrapper");
+    private static final ResourceLocation NETWORK_ID = Utils.id("block_condition_wrapper");
     private final RecipeCondition<Block> baseCondition;
 
     public BlockToBlockStateCondition(RecipeCondition<Block> base) {

@@ -46,7 +46,7 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
             }
         });
 
-        ConversionRecipeManager.INSTANCE.replaceAllRecipes(blockRecipes, entityRecipes, true);
+        ConversionRecipeManager.INSTANCE.replaceAllRecipes(blockRecipes, entityRecipes);
     }
 
     private void parseRecipe(JsonElement json) throws JsonSyntaxException {

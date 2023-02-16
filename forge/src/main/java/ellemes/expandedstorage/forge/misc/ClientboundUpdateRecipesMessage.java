@@ -1,4 +1,4 @@
-package ellemes.container_library.forge.wrappers;
+package ellemes.expandedstorage.forge.misc;
 
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
@@ -20,7 +20,8 @@ public class ClientboundUpdateRecipesMessage {
     }
 
     public static void encode(ClientboundUpdateRecipesMessage msg, FriendlyByteBuf buffer) {
-        ConversionRecipeManager.INSTANCE.writeRecipesToNetworkBuffer(buffer);
+        buffer.writeCollection(msg.blockRecipes, (b, recipe) -> recipe.writeToBuffer(b));
+        buffer.writeCollection(msg.entityRecipes, (b, recipe) -> recipe.writeToBuffer(b));
     }
 
     public static ClientboundUpdateRecipesMessage decode(FriendlyByteBuf buffer) {
@@ -31,7 +32,7 @@ public class ClientboundUpdateRecipesMessage {
 
     public static void handle(ClientboundUpdateRecipesMessage msg, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
-            ConversionRecipeManager.INSTANCE.replaceAllRecipes(msg.blockRecipes, msg.entityRecipes, false);
+            ConversionRecipeManager.INSTANCE.replaceAllRecipes(msg.blockRecipes, msg.entityRecipes);
         });
     }
 }

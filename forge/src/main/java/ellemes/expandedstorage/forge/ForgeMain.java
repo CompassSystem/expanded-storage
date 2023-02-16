@@ -10,6 +10,7 @@ import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
@@ -36,6 +37,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -67,6 +69,7 @@ public final class ForgeMain {
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
                 /*Mini Storage*/ MiniStorageBlockItem::new);
         MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent event) -> event.addListener(new ConversionRecipeReloadListener()));
+        MinecraftForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> PlatformHelper.instance().sendConversionRecipesToClient(event.getPlayer(), ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes()));
 
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, (AttachCapabilitiesEvent<BlockEntity> event) -> {
             if (event.getObject() instanceof OpenableBlockEntity entity) {

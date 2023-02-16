@@ -2,12 +2,12 @@ package ellemes.expandedstorage.common.recipe;
 
 import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
 import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ConversionRecipeManager {
@@ -34,21 +34,20 @@ public class ConversionRecipeManager {
         return null;
     }
 
-    public void writeRecipesToNetworkBuffer(FriendlyByteBuf buffer) {
-        buffer.writeCollection(blockRecipes, (b, recipe) -> recipe.writeToBuffer(b));
-        buffer.writeCollection(entityRecipes, (b, recipe) -> recipe.writeToBuffer(b));
+    public List<BlockConversionRecipe<?>> getBlockRecipes() {
+        return Collections.unmodifiableList(blockRecipes);
     }
 
-    public void replaceAllRecipes(List<BlockConversionRecipe<?>> blockRecipes, List<EntityConversionRecipe<?>> entityRecipes, boolean sendToClient) {
+    public List<EntityConversionRecipe<?>> getEntityRecipes() {
+        return Collections.unmodifiableList(entityRecipes);
+    }
+
+    public void replaceAllRecipes(List<BlockConversionRecipe<?>> blockRecipes, List<EntityConversionRecipe<?>> entityRecipes) {
         System.out.println("DEBUG");
         System.out.println("UPDATING CONVERSION RECIPES");
         this.blockRecipes.clear();
         this.blockRecipes.addAll(blockRecipes);
         this.entityRecipes.clear();
         this.entityRecipes.addAll(entityRecipes);
-
-        if (sendToClient) {
-            // somehow call fabric/quilt/forge networking code
-        }
     }
 }

@@ -3,6 +3,9 @@ package ellemes.expandedstorage.forge.misc;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.inventory.ServerScreenHandlerFactory;
 import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
+import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,14 +17,25 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class ForgePlatformHelper implements PlatformHelper {
+    private final SimpleChannel channel;
     private MenuType<AbstractHandler> menuType;
     private ForgeClientHelper clientPlatformHelper;
 
     public static ForgePlatformHelper instance() {
         return (ForgePlatformHelper) PlatformHelper.instance();
+    }
+
+    {
+        channel = NetworkRegistry.newSimpleChannel(Utils.id("channel"), () -> "1.0", "1.0"::equals, "1.0"::equals);
+        channel.registerMessage(0, ClientboundUpdateRecipesMessage.class, ClientboundUpdateRecipesMessage::encode, ClientboundUpdateRecipesMessage::decode, ClientboundUpdateRecipesMessage::handle);
     }
 
     @Override
@@ -59,5 +73,14 @@ public class ForgePlatformHelper implements PlatformHelper {
                 buffer.writeResourceLocation(forcedScreenType);
             }
         });
+    }
+
+    @Override
+    public void sendConversionRecipesToClient(@Nullable ServerPlayer target, List<BlockConversionRecipe<?>> blockRecipes, List<EntityConversionRecipe<?>> entityRecipes) {
+        if (target == null) {
+            channel.send(PacketDistributor.ALL.noArg(), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
+        } else {
+            channel.send(PacketDistributor.PLAYER.with(() -> target), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
+        }
     }
 }
