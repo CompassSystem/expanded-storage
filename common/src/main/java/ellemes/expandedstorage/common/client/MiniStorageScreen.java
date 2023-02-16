@@ -2,10 +2,10 @@ package ellemes.expandedstorage.common.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import ellemes.container_library.api.client.function.ScreenSize;
-import ellemes.container_library.api.client.gui.AbstractScreen;
-import ellemes.container_library.api.inventory.AbstractHandler;
-import ellemes.container_library.api.v3.client.ScreenTypeApi;
+import ellemes.expandedstorage.api.client.function.ScreenSize;
+import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.api.v3.client.ScreenTypeApi;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;

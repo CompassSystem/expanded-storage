@@ -11,7 +11,8 @@
   ],
   "client": [
     "InventoryTabsBottomRowFix",
-    "InventoryTabsFix"
+    "InventoryTabsFix",
+    "LastAfterInitCallbackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

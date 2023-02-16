@@ -6,8 +6,8 @@
     "version": "${version}",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": ["ellemes.container_library.quilt.QuiltMain", "ellemes.expandedstorage.quilt.QuiltMain"],
-      "client_init": ["ellemes.container_library.quilt.QuiltClient"],
+      "init": ["ellemes.expandedstorage.quilt.QuiltMain"],
+      "client_init": ["ellemes.expandedstorage.quilt.QuiltClient"],
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
       "rei_client": "ellemes.container_library.thread.client.ReiCompat",
       "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
@@ -52,7 +52,6 @@
     }
   },
   "mixin": [
-    "ellemes-container-library-thread.mixins.json",
     "expandedstorage-common.mixins.json",
     "expandedstorage-thread.mixins.json"
   ]

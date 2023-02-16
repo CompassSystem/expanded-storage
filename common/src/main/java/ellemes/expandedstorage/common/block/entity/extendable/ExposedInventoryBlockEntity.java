@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.block.entity.extendable;
 
-import ellemes.expandedstorage.common.misc.ExposedInventory;
+import ellemes.expandedstorage.common.inventory.ExposedInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;

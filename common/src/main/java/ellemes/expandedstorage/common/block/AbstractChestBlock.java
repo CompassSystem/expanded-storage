@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.common.block;
 
-import ellemes.container_library.api.v3.OpenableInventory;
-import ellemes.container_library.api.v3.context.BlockContext;
-import ellemes.container_library.api.v3.helpers.OpenableInventories;
 import ellemes.expandedstorage.api.EsChestType;
+import ellemes.expandedstorage.api.v3.OpenableInventory;
+import ellemes.expandedstorage.api.v3.context.BlockContext;
+import ellemes.expandedstorage.api.v3.helpers.OpenableInventories;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.Property;

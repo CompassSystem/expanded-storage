@@ -8,6 +8,7 @@ import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntit
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
+import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
 import ellemes.expandedstorage.common.registration.Content;
@@ -51,8 +52,6 @@ import java.util.function.Supplier;
 @Mod("expandedstorage")
 public final class ForgeMain {
     public ForgeMain() {
-        new ellemes.container_library.forge.ForgeMain();
-
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
                 new CreativeModeTab(Utils.MOD_ID + ".tab") {
                     @NotNull
@@ -93,6 +92,12 @@ public final class ForgeMain {
                 event.setCancellationResult(result);
                 event.setCanceled(true);
             }
+        });
+
+        FMLJavaModLoadingContext.get().getModEventBus().addListener((RegisterEvent event) -> {
+            event.register(Registry.MENU_REGISTRY, helper -> {
+                helper.register(Utils.HANDLER_TYPE_ID, PlatformHelper.instance().getScreenHandlerType());
+            });
         });
     }
 
@@ -135,8 +140,7 @@ public final class ForgeMain {
 
 
         if (FMLLoader.getDist() == Dist.CLIENT) {
-            ForgeClient.initialize();
-            ForgeClient.registerListeners(modBus, content);
+            ForgeClient.initialize(modBus, content);
         }
     }
 
