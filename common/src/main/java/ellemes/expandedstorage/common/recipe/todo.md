@@ -1,5 +1,5 @@
-- Implement complex conditions
 - Implement networking on quilt & fabric
-
-
-:crying: we need to redesign the json loading to convert from tagkeys -> tags after json loading is done
+- Recipe condition for checking if input has specific properties
+- Conditions check against wrong thing.
+  - input is entity, compares entity_type,
+  - input is blockstate, compares block

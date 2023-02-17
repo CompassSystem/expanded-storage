@@ -10,6 +10,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
@@ -26,10 +27,6 @@ import java.util.stream.Collectors;
 /**
  * This uhhhhh system is uhhhhhhhhh very uhhhhhhhhh yes...
  * Is it over-engineer, probably not going to be used and eventually be removed? Yes!
- * <p>
- * todo: recipe condition for checking if input has specific properties
- * todo: conditions check against wrong thing. e.g. input is entity, compares entity_type,
- *  input is blockstate, compares block
  */
 public interface RecipeCondition<T> {
     Map<ResourceLocation, Function<FriendlyByteBuf, RecipeCondition<?>>> RECIPE_DESERIALIZERS = new HashMap<>();
@@ -88,6 +85,16 @@ public interface RecipeCondition<T> {
         throw new JsonSyntaxException("Unknown recipe condition");
     }
 
+    // Honestly not sure if we like this solution
+    static <T> Object unwrap(T subject) {
+        if (subject instanceof BlockState state) {
+            return state.getBlock();
+        } else if (subject instanceof Entity entity) {
+            return entity.getType();
+        }
+        return subject;
+    }
+
     boolean test(T subject);
 
     ResourceLocation getNetworkId();
@@ -114,7 +121,7 @@ class IsInTagCondition<T> implements RecipeCondition<T> {
         if (values == null) {
             values = ((Registry<T>) Registry.REGISTRY.get(tagKey.registry().location())).getTag(tagKey).orElseThrow().stream().map(Holder::value).collect(Collectors.toUnmodifiableSet());
         }
-        return values.contains(subject);
+        return values.contains(RecipeCondition.unwrap(subject));
     }
 
     @Override
@@ -153,7 +160,7 @@ class IsInstanceOfCondition<T> implements RecipeCondition<T> {
 
     @Override
     public boolean test(T subject) {
-        return clazz.isAssignableFrom(subject.getClass());
+        return clazz.isAssignableFrom(RecipeCondition.unwrap(subject).getClass());
     }
 
     @Override
@@ -195,7 +202,7 @@ class IsRegistryObject<T> implements RecipeCondition<T> {
 
     @Override
     public boolean test(T subject) {
-        return subject == value;
+        return RecipeCondition.unwrap(subject) == value;
     }
 
     @Override
