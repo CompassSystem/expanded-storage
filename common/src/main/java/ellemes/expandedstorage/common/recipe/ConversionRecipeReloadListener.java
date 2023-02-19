@@ -10,7 +10,7 @@ import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
 import ellemes.expandedstorage.common.recipe.block.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
 import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
-import ellemes.expandedstorage.common.recipe.misc.RecipeCondition;
+import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

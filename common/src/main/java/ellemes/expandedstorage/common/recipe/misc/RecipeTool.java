@@ -25,8 +25,14 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
         buffer.writeResourceLocation(toolId);
     }
 
+    public JsonObject toJson() {
+        JsonObject tool = new JsonObject();
+        tool.addProperty("id", toolId.toString());
+        return tool;
+    }
+
     public static final class UpgradeTool extends RecipeTool {
-        private UpgradeTool(ResourceLocation toolId) {
+        public UpgradeTool(ResourceLocation toolId) {
             super(toolId);
         }
     }
@@ -34,7 +40,7 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
     public static final class MutatorTool extends RecipeTool {
         private final String requiredName;
 
-        private MutatorTool(String requiredName) {
+        public MutatorTool(String requiredName) {
             super(Utils.id("storage_mutator"));
             this.requiredName = requiredName;
         }
@@ -52,6 +58,15 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
         public void writeToBuffer(FriendlyByteBuf buffer) {
             super.writeToBuffer(buffer);
             buffer.writeNullable(requiredName, FriendlyByteBuf::writeUtf);
+        }
+
+        @Override
+        public JsonObject toJson() {
+            JsonObject tool = super.toJson();
+            if (requiredName != null) {
+                tool.addProperty("name", requiredName);
+            }
+            return tool;
         }
     }
 

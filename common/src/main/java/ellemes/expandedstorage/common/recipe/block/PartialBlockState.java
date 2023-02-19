@@ -19,6 +19,10 @@ public class PartialBlockState<T extends Block> {
     private final T block;
     private final Map<Property<?>, ?> properties;
 
+    public PartialBlockState(T block) {
+        this(block, Map.of());
+    }
+
     public PartialBlockState(T block, Map<Property<?>, ?> properties) {
         this.block = block;
         this.properties = properties;
@@ -111,5 +115,18 @@ public class PartialBlockState<T extends Block> {
             properties.put(key, value);
         }
         return PartialBlockState.of(block, properties);
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", block.builtInRegistryHolder().key().location().toString());
+        if (!properties.isEmpty()) {
+            JsonObject jsonProperties = new JsonObject();
+            for (Map.Entry<Property<?>, ?> property : properties.entrySet()) {
+                jsonProperties.addProperty(property.getKey().getName(), property.getValue().toString());
+            }
+            json.add("state", jsonProperties);
+        }
+        return json;
     }
 }

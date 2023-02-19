@@ -1,9 +1,12 @@
 package ellemes.expandedstorage.common.recipe.block;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.item.ToolUsageResult;
-import ellemes.expandedstorage.common.recipe.misc.RecipeCondition;
+import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,9 +24,9 @@ import java.util.List;
 public class BlockConversionRecipe<O extends Block> {
     private final RecipeTool recipeTool;
     private final PartialBlockState<O> output;
-    private final Collection<RecipeCondition<BlockState>> inputs;
+    private final Collection<RecipeCondition> inputs;
 
-    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<RecipeCondition<BlockState>> inputs) {
+    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<RecipeCondition> inputs) {
         this.recipeTool = recipeTool;
         this.output = output;
         this.inputs = inputs;
@@ -59,11 +62,24 @@ public class BlockConversionRecipe<O extends Block> {
     public static BlockConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         PartialBlockState<?> output = PartialBlockState.readFromBuffer(buffer);
-        List<RecipeCondition<BlockState>> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
+        List<RecipeCondition> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
         return new BlockConversionRecipe<>(recipeTool, output, inputs);
     }
 
     public boolean toolMatches(ItemStack tool) {
         return recipeTool.isMatchFor(tool);
+    }
+
+    public JsonElement toJson() {
+        JsonObject recipe = new JsonObject();
+        recipe.addProperty("type", "expandedstorage:block_conversion");
+        recipe.add("tool", recipeTool.toJson());
+        recipe.add("result", output.toJson());
+        JsonArray jsonInputs = new JsonArray();
+        for (RecipeCondition input : inputs) {
+            jsonInputs.add(input.toJson());
+        }
+        recipe.add("inputs", jsonInputs);
+        return recipe;
     }
 }

@@ -1,6 +1,9 @@
 package ellemes.expandedstorage.common.recipe.entity;
 
-import ellemes.expandedstorage.common.recipe.misc.RecipeCondition;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,9 +20,9 @@ import java.util.List;
 public class EntityConversionRecipe<O extends Entity> {
     private final RecipeTool recipeTool;
     private final EntityType<O> output;
-    private final Collection<RecipeCondition<Entity>> inputs;
+    private final Collection<RecipeCondition> inputs;
 
-    public EntityConversionRecipe(RecipeTool recipeTool, EntityType<O> output, Collection<RecipeCondition<Entity>> inputs) {
+    public EntityConversionRecipe(RecipeTool recipeTool, EntityType<O> output, Collection<RecipeCondition> inputs) {
         this.recipeTool = recipeTool;
         this.output = output;
         this.inputs = inputs;
@@ -57,7 +60,20 @@ public class EntityConversionRecipe<O extends Entity> {
     public static EntityConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         EntityType<?> output = Registry.ENTITY_TYPE.get(buffer.readResourceLocation());
-        List<RecipeCondition<Entity>> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
+        List<RecipeCondition> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
         return new EntityConversionRecipe<>(recipeTool, output, inputs);
+    }
+
+    public JsonElement toJson() {
+        JsonObject recipe = new JsonObject();
+        recipe.addProperty("type", "expandedstorage:entity_conversion");
+        recipe.add("tool", recipeTool.toJson());
+        recipe.addProperty("result", output.builtInRegistryHolder().key().location().toString());
+        JsonArray jsonInputs = new JsonArray();
+        for (RecipeCondition input : inputs) {
+            jsonInputs.add(input.toJson());
+        }
+        recipe.add("inputs", jsonInputs);
+        return recipe;
     }
 }
