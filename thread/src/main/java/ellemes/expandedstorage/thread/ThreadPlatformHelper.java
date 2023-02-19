@@ -8,7 +8,6 @@ import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
 import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
 import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -22,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ThreadPlatformHelper implements PlatformHelper {
+public abstract class ThreadPlatformHelper implements PlatformHelper {
     private ThreadClientHelper clientHelper;
 
     private final ExtendedScreenHandlerType<AbstractHandler> menuType;
@@ -39,10 +38,12 @@ public class ThreadPlatformHelper implements PlatformHelper {
     @Override
     public ClientPlatformHelper clientHelper() {
         if (clientHelper == null) {
-            clientHelper = new ThreadClientHelper();
+            clientHelper = createClientHelper();
         }
         return clientHelper;
     }
+
+    protected abstract ThreadClientHelper createClientHelper();
 
     @Override
     public MenuType<AbstractHandler> getScreenHandlerType() {
@@ -61,12 +62,14 @@ public class ThreadPlatformHelper implements PlatformHelper {
         buffer.writeCollection(entityRecipes, (b, recipe) -> recipe.writeToBuffer(b));
         if (target == null) {
             for (ServerPlayer player : minecraftServer.getPlayerList().getPlayers()) {
-                ServerPlayNetworking.send(player, ThreadMain.UPDATE_RECIPES_ID, buffer);
+                sendPacket(player, ThreadMain.UPDATE_RECIPES_ID, buffer);
             }
         } else {
-            ServerPlayNetworking.send(target, ThreadMain.UPDATE_RECIPES_ID, buffer);
+            sendPacket(target, ThreadMain.UPDATE_RECIPES_ID, buffer);
         }
     }
+
+    protected abstract void sendPacket(ServerPlayer player, ResourceLocation packetId, FriendlyByteBuf buffer);
 
     public void setServerInstance(MinecraftServer server) {
         this.minecraftServer = server;

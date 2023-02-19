@@ -78,9 +78,14 @@ public class ForgePlatformHelper implements PlatformHelper {
     @Override
     public void sendConversionRecipesToClient(@Nullable ServerPlayer target, List<BlockConversionRecipe<?>> blockRecipes, List<EntityConversionRecipe<?>> entityRecipes) {
         if (target == null) {
+            // Should be valid to send updates here as remote present check has been done on join.
             channel.send(PacketDistributor.ALL.noArg(), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
         } else {
-            channel.send(PacketDistributor.PLAYER.with(() -> target), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
+            if (!channel.isRemotePresent(target.connection.connection)) {
+                target.connection.disconnect(Component.translatable("text.expandedstorage.disconnect.old_version"));
+            } else {
+                channel.send(PacketDistributor.PLAYER.with(() -> target), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
+            }
         }
     }
 }
