@@ -20,16 +20,30 @@ import java.util.List;
 public class EntityConversionRecipe<O extends Entity> {
     private final RecipeTool recipeTool;
     private final EntityType<O> output;
-    private final Collection<RecipeCondition> inputs;
+    private final Collection<? extends RecipeCondition> inputs;
 
-    public EntityConversionRecipe(RecipeTool recipeTool, EntityType<O> output, Collection<RecipeCondition> inputs) {
+    public EntityConversionRecipe(RecipeTool recipeTool, EntityType<O> output, Collection<? extends RecipeCondition> inputs) {
         this.recipeTool = recipeTool;
         this.output = output;
         this.inputs = inputs;
     }
 
     public boolean inputMatches(Entity entity) {
-        return inputs.stream().anyMatch(condition -> condition.test(entity));
+        for (RecipeCondition input : inputs) {
+            if (input.test(entity)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPreferredRecipe(Entity entity) {
+        for (RecipeCondition input : inputs) {
+            if (input.test(entity) && input.isExactMatch()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public InteractionResult process(Level level, Entity input) {

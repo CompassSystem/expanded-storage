@@ -8,6 +8,7 @@ import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTool.MutatorTool {
@@ -35,6 +36,10 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
         public UpgradeTool(ResourceLocation toolId) {
             super(toolId);
         }
+
+        public UpgradeTool(Item item) {
+            super(item.builtInRegistryHolder().key().location());
+        }
     }
 
     public static final class MutatorTool extends RecipeTool {
@@ -49,7 +54,7 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
         public boolean isMatchFor(ItemStack tool) {
             boolean isNameMatch = true;
             if (requiredName != null) {
-                isNameMatch = requiredName.equals(tool.getHoverName().getString());
+                isNameMatch = tool.getHoverName().getString().equalsIgnoreCase(requiredName);
             }
             return isNameMatch && super.isMatchFor(tool);
         }

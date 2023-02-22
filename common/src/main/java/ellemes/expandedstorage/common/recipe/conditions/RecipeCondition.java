@@ -90,6 +90,8 @@ public interface RecipeCondition {
         return subject;
     }
 
+    boolean isExactMatch();
+
     boolean test(Object subject);
 
     ResourceLocation getNetworkId();

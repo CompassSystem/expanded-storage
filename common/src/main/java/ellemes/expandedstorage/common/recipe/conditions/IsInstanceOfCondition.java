@@ -15,6 +15,11 @@ public class IsInstanceOfCondition implements RecipeCondition {
     }
 
     @Override
+    public boolean isExactMatch() {
+        return false;
+    }
+
+    @Override
     public boolean test(Object subject) {
         return clazz.isAssignableFrom(RecipeCondition.unwrap(subject).getClass());
     }
@@ -52,7 +57,7 @@ public class IsInstanceOfCondition implements RecipeCondition {
         if (conditionName != null) {
             json.addProperty("condition", conditionName);
         } else {
-            throw new IllegalStateException("Cannot seralize this instance of to json");
+            throw new IllegalStateException("Cannot serialize this instance of to json");
         }
 
         return json;

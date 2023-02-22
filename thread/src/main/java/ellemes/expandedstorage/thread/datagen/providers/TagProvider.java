@@ -23,6 +23,8 @@ public final class TagProvider {
                 .add(Blocks.CHEST)
                 .add(Blocks.TRAPPED_CHEST)
                 .add(ModBlocks.WOOD_CHEST);
+            this.getOrCreateTagBuilder(ModTags.Blocks.ES_WOODEN_CHESTS)
+                .addTag(ThreadTags.Blocks.WOODEN_CHESTS);
             this.getOrCreateTagBuilder(ThreadTags.Blocks.WOODEN_BARRELS)
                 .add(Blocks.BARREL);
         }

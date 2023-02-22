@@ -251,6 +251,38 @@ public class TagHelper {
                 .add(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
                 .add(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
                 .add(ModBlocks.IRON_MINI_BARREL_WITH_SPARROW);
+        tagMaker.apply(ModTags.Blocks.COPPER_BARRELS)
+                .add(ModBlocks.COPPER_BARREL)
+                .add(ModBlocks.EXPOSED_COPPER_BARREL)
+                .add(ModBlocks.WEATHERED_COPPER_BARREL)
+                .add(ModBlocks.OXIDIZED_COPPER_BARREL)
+                .add(ModBlocks.WAXED_COPPER_BARREL)
+                .add(ModBlocks.WAXED_EXPOSED_COPPER_BARREL)
+                .add(ModBlocks.WAXED_WEATHERED_COPPER_BARREL)
+                .add(ModBlocks.WAXED_OXIDIZED_COPPER_BARREL);
+        tagMaker.apply(ModTags.Blocks.ES_WOODEN_CHESTS)
+                .add(ModBlocks.PUMPKIN_CHEST)
+                .add(ModBlocks.PRESENT)
+                .add(ModBlocks.BAMBOO_CHEST)
+                .add(ModBlocks.MOSS_CHEST);
+//        tagMaker.apply(ModTags.Blocks.COPPER_CHESTS)
+//                .add(ModBlocks.COPPER_CHEST)
+//                .add(ModBlocks.EXPOSED_COPPER_CHEST)
+//                .add(ModBlocks.WEATHERED_COPPER_CHEST)
+//                .add(ModBlocks.OXIDIZED_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_EXPOSED_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_WEATHERED_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_OXIDIZED_COPPER_CHEST);
+//        tagMaker.apply(ModTags.Blocks.OLD_COPPER_CHESTS)
+//                .add(ModBlocks.OLD_COPPER_CHEST)
+//                .add(ModBlocks.OLD_EXPOSED_COPPER_CHEST)
+//                .add(ModBlocks.OLD_WEATHERED_COPPER_CHEST)
+//                .add(ModBlocks.OLD_OXIDIZED_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_OLD_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_OLD_EXPOSED_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_OLD_WEATHERED_COPPER_CHEST)
+//                .add(ModBlocks.WAXED_OLD_OXIDIZED_COPPER_CHEST);
     }
 
     public static void registerItemTags(Function<TagKey<Item>, TagsProvider.TagAppender<Item>> tagMaker) {

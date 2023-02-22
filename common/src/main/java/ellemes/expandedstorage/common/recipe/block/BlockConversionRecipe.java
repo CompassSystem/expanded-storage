@@ -24,19 +24,34 @@ import java.util.List;
 public class BlockConversionRecipe<O extends Block> {
     private final RecipeTool recipeTool;
     private final PartialBlockState<O> output;
-    private final Collection<RecipeCondition> inputs;
+    private final Collection<? extends RecipeCondition> inputs;
 
-    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<RecipeCondition> inputs) {
+    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<? extends RecipeCondition> inputs) {
         this.recipeTool = recipeTool;
         this.output = output;
         this.inputs = inputs;
     }
 
     public boolean inputMatches(BlockState state) {
-        return inputs.stream().anyMatch(condition -> condition.test(state));
+        for (RecipeCondition input : inputs) {
+            if (input.test(state)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPreferredRecipe(BlockState state) {
+        for (RecipeCondition input : inputs) {
+            if (input.test(state) && input.isExactMatch()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public final ToolUsageResult process(Level level, BlockState state, BlockPos pos) {
+        System.out.println("Converting from " + state + " to " + output.getBlock());
         return ToolUsageResult.fail();
     }
 

@@ -60,6 +60,10 @@ public class PartialBlockState<T extends Block> {
         return new PartialBlockState<>(block.get(), Map.of());
     }
 
+    public T getBlock() {
+        return block;
+    }
+
     public boolean matches(BlockState state) {
         if (state.getBlock() != block) {
             return false;

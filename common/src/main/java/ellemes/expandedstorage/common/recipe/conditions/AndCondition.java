@@ -17,6 +17,11 @@ public class AndCondition implements RecipeCondition {
     }
 
     @Override
+    public boolean isExactMatch() {
+        return conditions.stream().allMatch(RecipeCondition::isExactMatch);
+    }
+
+    @Override
     public boolean test(Object subject) {
         for (RecipeCondition condition : conditions) {
             if (!condition.test(subject)) {

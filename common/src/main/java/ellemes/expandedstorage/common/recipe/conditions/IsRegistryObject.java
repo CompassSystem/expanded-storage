@@ -20,6 +20,11 @@ public class IsRegistryObject implements RecipeCondition {
     }
 
     @Override
+    public boolean isExactMatch() {
+        return true;
+    }
+
+    @Override
     public boolean test(Object subject) {
         return RecipeCondition.unwrap(subject) == value;
     }

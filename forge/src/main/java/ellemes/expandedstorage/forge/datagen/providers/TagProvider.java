@@ -24,6 +24,8 @@ public final class TagProvider {
         protected void addTags() {
             TagHelper.registerBlockTags(this::tag);
             this.tag(Tags.Blocks.CHESTS_WOODEN).add(ModBlocks.WOOD_CHEST);
+            this.tag(ModTags.Blocks.ES_WOODEN_CHESTS)
+                .addTag(Tags.Blocks.CHESTS_WOODEN);
         }
 
         @Override

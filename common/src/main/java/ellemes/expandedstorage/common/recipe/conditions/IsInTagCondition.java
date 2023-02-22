@@ -23,6 +23,11 @@ public class IsInTagCondition implements RecipeCondition {
     }
 
     @Override
+    public boolean isExactMatch() {
+        return false;
+    }
+
+    @Override
     public boolean test(Object subject) {
         if (values == null) {
             values = ((HolderSet.Named<Object>) Registry.REGISTRY.get(tagKey.registry().location()).getTag((TagKey) tagKey).orElseThrow()).stream().map(Holder::value).collect(Collectors.toUnmodifiableSet());

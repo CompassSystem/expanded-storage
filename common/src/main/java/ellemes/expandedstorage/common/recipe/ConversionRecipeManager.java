@@ -17,19 +17,27 @@ public class ConversionRecipeManager {
     private final List<EntityConversionRecipe<?>> entityRecipes = new ArrayList<>();
 
     public BlockConversionRecipe<?> getBlockRecipe(BlockState state, ItemStack tool) {
-        for (BlockConversionRecipe<?> recipe : blockRecipes) {
-            if (recipe.toolMatches(tool) && recipe.inputMatches(state)) {
-                return recipe;
+        List<BlockConversionRecipe<?>> matches = blockRecipes.stream().filter(recipe -> recipe.toolMatches(tool) && recipe.inputMatches(state)).toList();
+        for (BlockConversionRecipe<?> match : matches) {
+            if (match.isPreferredRecipe(state)) {
+                return match;
             }
+        }
+        if (matches.size() > 0) {
+            return matches.get(0);
         }
         return null;
     }
 
     public EntityConversionRecipe<?> getEntityRecipe(Entity entity, ItemStack tool) {
-        for (EntityConversionRecipe<?> recipe : entityRecipes) {
-            if (recipe.toolMatches(tool) && recipe.inputMatches(entity)) {
-                return recipe;
+        List<EntityConversionRecipe<?>> matches = entityRecipes.stream().filter(recipe -> recipe.toolMatches(tool) && recipe.inputMatches(entity)).toList();
+        for (EntityConversionRecipe<?> match : matches) {
+            if (match.isPreferredRecipe(entity)) {
+                return match;
             }
+        }
+        if (matches.size() > 0) {
+            return matches.get(0);
         }
         return null;
     }
