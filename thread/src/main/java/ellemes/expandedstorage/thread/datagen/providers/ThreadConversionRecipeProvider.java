@@ -20,4 +20,11 @@ public class ThreadConversionRecipeProvider extends ConversionRecipeProvider {
                 List.of(new IsInTagCondition(ThreadTags.Blocks.WOODEN_CHESTS), RecipeCondition.IS_WOODEN_CHEST)
         );
     }
+
+    @Override
+    protected void registerEntityRecipes() {
+        super.registerEntityRecipes(
+                List.of(new IsInTagCondition(ThreadTags.Entities.WOODEN_CHEST_MINECARTS))
+        );
+    }
 }

@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
+import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
 import ellemes.expandedstorage.common.datagen.content.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.registration.ModBlocks;
@@ -309,6 +310,12 @@ public class TagHelper {
     }
 
     public static void registerEntityTypeTags(Function<TagKey<EntityType<?>>, TagsProvider.TagAppender<EntityType<?>>> tagMaker) {
-
+        tagMaker.apply(ModTags.Entities.ES_WOODEN_CHEST_MINECARTS)
+                .add(EntityType.CHEST_MINECART)
+                .add(ModEntityTypes.WOOD_CHEST_MINECART)
+                .add(ModEntityTypes.PUMPKIN_CHEST_MINECART)
+                .add(ModEntityTypes.PRESENT_MINECART)
+                .add(ModEntityTypes.BAMBOO_CHEST_MINECART)
+                .add(ModEntityTypes.MOSS_CHEST_MINECART);
     }
 }

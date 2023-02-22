@@ -5,6 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -18,6 +19,10 @@ public final class ModTags {
 
     public static class Items {
         public static final TagKey<Item> ES_WOODEN_CHESTS = tag(Registry.ITEM_REGISTRY, Utils.id("wooden_chests"));
+    }
+
+    public static class Entities {
+        public static final TagKey<EntityType<?>> ES_WOODEN_CHEST_MINECARTS = tag(Registry.ENTITY_TYPE_REGISTRY, Utils.id("wooden_chest_minecarts"));
     }
 
     private static <T> TagKey<T> tag(ResourceKey<Registry<T>> registry, ResourceLocation id) {
