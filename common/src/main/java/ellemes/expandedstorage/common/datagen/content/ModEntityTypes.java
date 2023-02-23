@@ -18,6 +18,7 @@ public final class ModEntityTypes {
     public static final EntityType<ChestMinecart> GOLD_CHEST_MINECART = entityType(Utils.id("gold_chest_minecart"));
     public static final EntityType<ChestMinecart> DIAMOND_CHEST_MINECART = entityType(Utils.id("diamond_chest_minecart"));
     public static final EntityType<ChestMinecart> OBSIDIAN_CHEST_MINECART = entityType(Utils.id("obsidian_chest_minecart"));
+    public static final EntityType<ChestMinecart> NETHERITE_CHEST_MINECART = entityType(Utils.id("netherite_chest_minecart"));
 
     private static <T extends Entity> EntityType<T> entityType(ResourceLocation id) {
         return (EntityType<T>) Registry.ENTITY_TYPE.get(id);

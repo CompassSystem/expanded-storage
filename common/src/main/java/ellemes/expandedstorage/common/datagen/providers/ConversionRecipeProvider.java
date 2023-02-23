@@ -401,6 +401,66 @@ public abstract class ConversionRecipeProvider implements DataProvider {
             var isGoldTier = List.of(new IsRegistryObject(Registry.ENTITY_TYPE, ModEntityTypes.GOLD_CHEST_MINECART.builtInRegistryHolder().key().location()));
             var isDiamondTier = List.of(new IsRegistryObject(Registry.ENTITY_TYPE, ModEntityTypes.DIAMOND_CHEST_MINECART.builtInRegistryHolder().key().location()));
             var isObsidianTier = List.of(new IsRegistryObject(Registry.ENTITY_TYPE, ModEntityTypes.OBSIDIAN_CHEST_MINECART.builtInRegistryHolder().key().location()));
+
+            registerEntityRecipe(Utils.id("wood_to_iron_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.WOOD_TO_IRON_CONVERSION_KIT, ModEntityTypes.IRON_CHEST_MINECART, isWoodTier)
+            );
+
+            registerEntityRecipe(Utils.id("wood_to_gold_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.WOOD_TO_GOLD_CONVERSION_KIT, ModEntityTypes.GOLD_CHEST_MINECART, isWoodTier)
+            );
+
+            registerEntityRecipe(Utils.id("wood_to_diamond_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.WOOD_TO_DIAMOND_CONVERSION_KIT, ModEntityTypes.DIAMOND_CHEST_MINECART, isWoodTier)
+            );
+
+            registerEntityRecipe(Utils.id("wood_to_obsidian_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.WOOD_TO_OBSIDIAN_CONVERSION_KIT, ModEntityTypes.OBSIDIAN_CHEST_MINECART, isWoodTier)
+            );
+
+            registerEntityRecipe(Utils.id("wood_to_netherite_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.WOOD_TO_NETHERITE_CONVERSION_KIT, ModEntityTypes.NETHERITE_CHEST_MINECART, isWoodTier)
+            );
+
+            registerEntityRecipe(Utils.id("iron_to_gold_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.IRON_TO_GOLD_CONVERSION_KIT, ModEntityTypes.GOLD_CHEST_MINECART, isIronTier)
+            );
+
+            registerEntityRecipe(Utils.id("iron_to_diamond_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.IRON_TO_DIAMOND_CONVERSION_KIT, ModEntityTypes.DIAMOND_CHEST_MINECART, isIronTier)
+            );
+
+            registerEntityRecipe(Utils.id("iron_to_obsidian_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.IRON_TO_OBSIDIAN_CONVERSION_KIT, ModEntityTypes.OBSIDIAN_CHEST_MINECART, isIronTier)
+            );
+
+            registerEntityRecipe(Utils.id("iron_to_netherite_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.IRON_TO_NETHERITE_CONVERSION_KIT, ModEntityTypes.NETHERITE_CHEST_MINECART, isIronTier)
+            );
+
+            registerEntityRecipe(Utils.id("gold_to_diamond_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.GOLD_TO_DIAMOND_CONVERSION_KIT, ModEntityTypes.DIAMOND_CHEST_MINECART, isGoldTier)
+            );
+
+            registerEntityRecipe(Utils.id("gold_to_obsidian_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.GOLD_TO_OBSIDIAN_CONVERSION_KIT, ModEntityTypes.OBSIDIAN_CHEST_MINECART, isGoldTier)
+            );
+
+            registerEntityRecipe(Utils.id("gold_to_netherite_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.GOLD_TO_NETHERITE_CONVERSION_KIT, ModEntityTypes.NETHERITE_CHEST_MINECART, isGoldTier)
+            );
+
+            registerEntityRecipe(Utils.id("diamond_to_obsidian_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT, ModEntityTypes.OBSIDIAN_CHEST_MINECART, isDiamondTier)
+            );
+
+            registerEntityRecipe(Utils.id("diamond_to_netherite_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.DIAMOND_TO_NETHERITE_CONVERSION_KIT, ModEntityTypes.NETHERITE_CHEST_MINECART, isDiamondTier)
+            );
+
+            registerEntityRecipe(Utils.id("obsidian_to_netherite_chest_minecart"),
+                    new EntityConversionRecipe<>(ConversionRecipeProvider.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT, ModEntityTypes.NETHERITE_CHEST_MINECART, isObsidianTier)
+            );
         }
 
         registerEntityRecipe(Utils.id("vanilla_to_wood_chest_minecart"),
