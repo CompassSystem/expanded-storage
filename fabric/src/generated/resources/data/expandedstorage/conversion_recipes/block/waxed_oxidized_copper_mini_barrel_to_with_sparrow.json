@@ -1,0 +1,15 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "inputs": [
+    {
+      "id": "expandedstorage:waxed_oxidized_copper_mini_barrel"
+    }
+  ],
+  "result": {
+    "id": "expandedstorage:waxed_oxidized_copper_mini_barrel_with_sparrow"
+  },
+  "tool": {
+    "id": "expandedstorage:storage_mutator",
+    "name": "sparrow"
+  }
+}
