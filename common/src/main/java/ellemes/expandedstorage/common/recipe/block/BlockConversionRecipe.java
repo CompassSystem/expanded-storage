@@ -6,11 +6,11 @@ import com.google.gson.JsonObject;
 import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.item.ToolUsageResult;
+import ellemes.expandedstorage.common.recipe.ConversionRecipe;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
@@ -21,33 +21,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class BlockConversionRecipe<O extends Block> {
-    private final RecipeTool recipeTool;
+public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<BlockState> {
     private final PartialBlockState<O> output;
-    private final Collection<? extends RecipeCondition> inputs;
 
     public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<? extends RecipeCondition> inputs) {
-        this.recipeTool = recipeTool;
+        super(recipeTool, inputs);
         this.output = output;
-        this.inputs = inputs;
-    }
-
-    public boolean inputMatches(BlockState state) {
-        for (RecipeCondition input : inputs) {
-            if (input.test(state)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isPreferredRecipe(BlockState state) {
-        for (RecipeCondition input : inputs) {
-            if (input.test(state) && input.isExactMatch()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public final ToolUsageResult process(Level level, BlockState state, BlockPos pos) {
@@ -79,10 +58,6 @@ public class BlockConversionRecipe<O extends Block> {
         PartialBlockState<?> output = PartialBlockState.readFromBuffer(buffer);
         List<RecipeCondition> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
         return new BlockConversionRecipe<>(recipeTool, output, inputs);
-    }
-
-    public boolean toolMatches(ItemStack tool) {
-        return recipeTool.isMatchFor(tool);
     }
 
     public JsonElement toJson() {

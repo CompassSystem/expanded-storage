@@ -8,7 +8,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class ConversionRecipeManager {
     public static final ConversionRecipeManager INSTANCE = new ConversionRecipeManager();
@@ -17,29 +19,19 @@ public class ConversionRecipeManager {
     private final List<EntityConversionRecipe<?>> entityRecipes = new ArrayList<>();
 
     public BlockConversionRecipe<?> getBlockRecipe(BlockState state, ItemStack tool) {
-        List<BlockConversionRecipe<?>> matches = blockRecipes.stream().filter(recipe -> recipe.toolMatches(tool) && recipe.inputMatches(state)).toList();
-        for (BlockConversionRecipe<?> match : matches) {
-            if (match.isPreferredRecipe(state)) {
-                return match;
-            }
-        }
-        if (matches.size() > 0) {
-            return matches.get(0);
-        }
-        return null;
+        return blockRecipes.stream().map(recipe -> Map.entry(recipe, recipe.getRecipeWeight(state, tool)))
+                           .filter(entry -> entry.getValue() > 0)
+                           .max(Comparator.comparingInt(Map.Entry::getValue))
+                           .map(Map.Entry::getKey)
+                           .orElse(null);
     }
 
     public EntityConversionRecipe<?> getEntityRecipe(Entity entity, ItemStack tool) {
-        List<EntityConversionRecipe<?>> matches = entityRecipes.stream().filter(recipe -> recipe.toolMatches(tool) && recipe.inputMatches(entity)).toList();
-        for (EntityConversionRecipe<?> match : matches) {
-            if (match.isPreferredRecipe(entity)) {
-                return match;
-            }
-        }
-        if (matches.size() > 0) {
-            return matches.get(0);
-        }
-        return null;
+        return entityRecipes.stream().map(recipe -> Map.entry(recipe, recipe.getRecipeWeight(entity, tool)))
+                            .filter(entry -> entry.getValue() > 0)
+                            .max(Comparator.comparingInt(Map.Entry::getValue))
+                            .map(Map.Entry::getKey)
+                            .orElse(null);
     }
 
     public List<BlockConversionRecipe<?>> getBlockRecipes() {

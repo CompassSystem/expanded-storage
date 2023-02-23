@@ -3,6 +3,7 @@ package ellemes.expandedstorage.common.recipe.entity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import ellemes.expandedstorage.common.recipe.ConversionRecipe;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.Registry;
@@ -10,40 +11,18 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class EntityConversionRecipe<O extends Entity> {
-    private final RecipeTool recipeTool;
+public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<Entity> {
     private final EntityType<O> output;
-    private final Collection<? extends RecipeCondition> inputs;
 
     public EntityConversionRecipe(RecipeTool recipeTool, EntityType<O> output, Collection<? extends RecipeCondition> inputs) {
-        this.recipeTool = recipeTool;
+        super(recipeTool, inputs);
         this.output = output;
-        this.inputs = inputs;
-    }
-
-    public boolean inputMatches(Entity entity) {
-        for (RecipeCondition input : inputs) {
-            if (input.test(entity)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isPreferredRecipe(Entity entity) {
-        for (RecipeCondition input : inputs) {
-            if (input.test(entity) && input.isExactMatch()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public InteractionResult process(Level level, Entity input) {
@@ -56,10 +35,6 @@ public class EntityConversionRecipe<O extends Entity> {
 
     public EntityType<O> getOutputType() {
         return output;
-    }
-
-    public boolean toolMatches(ItemStack tool) {
-        return recipeTool.isMatchFor(tool);
     }
 
     public void writeToBuffer(FriendlyByteBuf buffer) {

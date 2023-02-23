@@ -73,6 +73,10 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
             }
             return tool;
         }
+
+        public String getRequiredName() {
+            return requiredName;
+        }
     }
 
     public static RecipeTool fromJsonObject(JsonObject object) {
