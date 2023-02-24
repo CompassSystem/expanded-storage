@@ -3,7 +3,7 @@ package ellemes.expandedstorage.common.item;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
-import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
+import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;

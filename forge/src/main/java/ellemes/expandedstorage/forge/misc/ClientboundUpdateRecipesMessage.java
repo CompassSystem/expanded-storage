@@ -1,8 +1,8 @@
 package ellemes.expandedstorage.forge.misc;
 
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
-import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
-import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
+import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
+import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 

@@ -1,9 +1,8 @@
-package ellemes.expandedstorage.common.recipe.block;
+package ellemes.expandedstorage.common.recipe.misc;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

@@ -1,9 +1,8 @@
-package ellemes.expandedstorage.common.recipe.entity;
+package ellemes.expandedstorage.common.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ellemes.expandedstorage.common.recipe.ConversionRecipe;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.Registry;

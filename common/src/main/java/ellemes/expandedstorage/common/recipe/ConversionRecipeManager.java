@@ -1,7 +1,5 @@
 package ellemes.expandedstorage.common.recipe;
 
-import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
-import ellemes.expandedstorage.common.recipe.entity.EntityConversionRecipe;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;

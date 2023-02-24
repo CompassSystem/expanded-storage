@@ -30,7 +30,7 @@ import ellemes.expandedstorage.common.item.ToolUsageResult;
 import ellemes.expandedstorage.common.misc.Tier;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
-import ellemes.expandedstorage.common.recipe.block.BlockConversionRecipe;
+import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
