@@ -410,7 +410,7 @@ public abstract class ConversionRecipeProvider implements DataProvider {
             simpleBlockThemeSwap(Utils.id("red_to_white_mini_present"), ModBlocks.RED_MINI_PRESENT, ModBlocks.WHITE_MINI_PRESENT);
             simpleBlockThemeSwap(Utils.id("white_to_candy_cane_mini_present"), ModBlocks.WHITE_MINI_PRESENT, ModBlocks.CANDY_CANE_MINI_PRESENT);
             simpleBlockThemeSwap(Utils.id("candy_cane_to_green_mini_present"), ModBlocks.CANDY_CANE_MINI_PRESENT, ModBlocks.GREEN_MINI_PRESENT);
-            simpleBlockThemeSwap(Utils.id("green_to_lavender_present"), ModBlocks.LAVENDER_MINI_PRESENT, ModBlocks.GREEN_MINI_PRESENT);
+            simpleBlockThemeSwap(Utils.id("green_to_lavender_present"), ModBlocks.GREEN_MINI_PRESENT, ModBlocks.LAVENDER_MINI_PRESENT);
             simpleBlockThemeSwap(Utils.id("lavender_to_pink_amethyst_mini_present"), ModBlocks.LAVENDER_MINI_PRESENT, ModBlocks.PINK_AMETHYST_MINI_PRESENT);
             simpleBlockThemeSwap(Utils.id("pink_amethyst_to_vanilla_mini_chest"), ModBlocks.PINK_AMETHYST_MINI_PRESENT, ModBlocks.VANILLA_WOOD_MINI_CHEST);
 
@@ -421,7 +421,7 @@ public abstract class ConversionRecipeProvider implements DataProvider {
             sparrowBlockThemeSwap(Utils.id("red_to_white_mini_present_with_sparrow"), ModBlocks.RED_MINI_PRESENT_WITH_SPARROW, ModBlocks.WHITE_MINI_PRESENT_WITH_SPARROW);
             sparrowBlockThemeSwap(Utils.id("white_to_candy_cane_mini_present_with_sparrow"), ModBlocks.WHITE_MINI_PRESENT_WITH_SPARROW, ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW);
             sparrowBlockThemeSwap(Utils.id("candy_cane_to_green_mini_present_with_sparrow"), ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW, ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW);
-            sparrowBlockThemeSwap(Utils.id("green_to_lavender_present_with_sparrow"), ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW, ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW);
+            sparrowBlockThemeSwap(Utils.id("green_to_lavender_present_with_sparrow"), ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW, ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW);
             sparrowBlockThemeSwap(Utils.id("lavender_to_pink_amethyst_mini_present_with_sparrow"), ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW, ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW);
             sparrowBlockThemeSwap(Utils.id("pink_amethyst_with_sparrow_to_vanilla_mini_chest"), ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW, ModBlocks.VANILLA_WOOD_MINI_CHEST);
 

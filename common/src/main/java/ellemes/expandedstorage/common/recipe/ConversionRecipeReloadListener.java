@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
@@ -83,7 +84,10 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
             JsonElement input = inputs.get(i);
             recipeInputs[i] = RecipeCondition.readEntityCondition(input);
         }
-        EntityType<?> output = Registry.ENTITY_TYPE.getOptional(JsonHelper.getJsonResourceLocation(JsonHelper.getJsonObject(root, "result"), "id")).orElseThrow();
+        EntityType<?> output = Registry.ENTITY_TYPE.getOptional(JsonHelper.getJsonResourceLocation(root, "result")).orElseThrow();
+        if (output.getBaseClass() != ChestMinecart.class) {
+            throw new IllegalStateException("\"result\" must be an ExpandedStorage minecart.");
+        }
         entityRecipes.add(new EntityConversionRecipe<>(recipeTool, output, Arrays.asList(recipeInputs)));
     }
 }

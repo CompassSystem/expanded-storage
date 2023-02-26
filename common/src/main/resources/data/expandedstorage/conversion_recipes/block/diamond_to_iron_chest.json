@@ -1,0 +1,14 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "inputs": [
+    {
+      "id": "expandedstorage:diamond_chest"
+    }
+  ],
+  "result": {
+    "id": "expandedstorage:iron_chest"
+  },
+  "tool": {
+    "id": "expandedstorage:copper_to_diamond_conversion_kit"
+  }
+}

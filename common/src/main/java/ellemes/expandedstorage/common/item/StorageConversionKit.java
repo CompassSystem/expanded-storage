@@ -50,7 +50,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
                 if (recipe != null) {
                     if (level.isClientSide()) {
                         return InteractionResult.CONSUME;
-                    } else if (recipe.process(level, state, pos).getResult().shouldSwing()) {
+                    } else if (recipe.process(level, player, tool, state, pos).getResult().shouldSwing()) {
                         player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                         return InteractionResult.SUCCESS;
                     }
@@ -72,7 +72,7 @@ public final class StorageConversionKit extends Item implements EntityInteractab
     public InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
         EntityConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getEntityRecipe(entity, stack);
         if (recipe != null) {
-            if (recipe.process(level, entity).shouldSwing()) {
+            if (recipe.process(level, player, stack, entity).shouldSwing()) {
                 player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                 return InteractionResult.SUCCESS;
             }

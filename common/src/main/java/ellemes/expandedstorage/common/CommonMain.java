@@ -573,7 +573,7 @@ public final class CommonMain {
         CommonMain.registerMutationBehaviour(b -> true, MutationMode.SWAP_THEME, (context, level, state, pos, stack) -> {
             BlockConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getBlockRecipe(state, stack);
             if (recipe != null) {
-                return recipe.process(level, state, pos);
+                return recipe.process(level, context.getPlayer(), stack, state, pos);
             }
             return ToolUsageResult.fail();
         });

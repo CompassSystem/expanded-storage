@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.api;
 
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.state.properties.ChestType;
 
 import java.util.Locale;
 
@@ -19,6 +20,14 @@ public enum EsChestType implements StringRepresentable {
     EsChestType(int offset) {
         this.name = this.name().toLowerCase(Locale.ROOT);
         this.offset = offset;
+    }
+
+    public static EsChestType from(ChestType value) {
+        return switch (value) {
+            case SINGLE -> EsChestType.SINGLE;
+            case LEFT -> EsChestType.LEFT;
+            case RIGHT -> EsChestType.RIGHT;
+        };
     }
 
     @Override

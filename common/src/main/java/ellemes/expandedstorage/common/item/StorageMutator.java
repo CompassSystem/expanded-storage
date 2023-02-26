@@ -109,7 +109,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         if (mode == MutationMode.SWAP_THEME) {
             EntityConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getEntityRecipe(entity, stack);
             if (recipe != null) {
-                InteractionResult result = recipe.process(level, entity);
+                InteractionResult result = recipe.process(level, player, stack, entity);
                 if (result.shouldSwing()) {
                     player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                 }

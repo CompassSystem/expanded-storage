@@ -34,7 +34,7 @@ public abstract class ConversionRecipe<T> {
     }
 
     public int getRecipeWeight(T thing, ItemStack tool) {
-        int weight = 0;
+        int weight = 5;
 
         if (recipeTool.isMatchFor(tool) && inputMatches(thing)) {
             if (recipeTool instanceof RecipeTool.MutatorTool mutatorTool && mutatorTool.getRequiredName() != null) {
