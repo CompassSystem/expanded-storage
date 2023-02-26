@@ -14,6 +14,22 @@ public interface ExposedInventory extends Container {
         ContainerHelper.loadAllItems(tag, getItems());
     }
 
+    default int replaceInventoryWith(NonNullList<ItemStack> items) {
+        NonNullList<ItemStack> inventory = getItems();
+        inventory.clear();
+        //noinspection ConstantValue,DataFlowIssue
+        int size = Math.min(inventory.size(), items.size());
+        //noinspection ConstantValue
+        for (int i = 0; i < size; i++) {
+            ItemStack stack = items.get(i);
+            if (!stack.isEmpty()) {
+                inventory.set(i, stack);
+            }
+        }
+
+        return size;
+    }
+
     default void saveInventoryToTag(CompoundTag tag) {
         ContainerHelper.saveAllItems(tag, getItems());
     }

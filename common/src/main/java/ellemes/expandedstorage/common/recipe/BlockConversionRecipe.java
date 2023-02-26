@@ -77,9 +77,6 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
                 locks.put(position, blockEntity.saveWithoutMetadata());
             } else if (entity instanceof RandomizableContainerBlockEntity blockEntity) {
                 NonNullList<ItemStack> entityItems = blockEntity.getItems();
-                if (entityItems.size() > 27) {
-                    return ToolUsageResult.fail();
-                }
                 items.put(position, entityItems);
                 if (blockEntity.hasCustomName()) {
                     customNames.put(position, blockEntity.getName());
@@ -90,9 +87,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
             }
         }
 
-        for (int posIndex = convertPositions.size() - 1; posIndex >= 0; posIndex--) {
-            BlockPos position = convertPositions.get(posIndex);
-
+        for (BlockPos position : convertPositions) {
             BlockState originalState = level.getBlockState(position);
             BlockState newState = output.getBlock().withPropertiesOf(originalState);
             if (originalState.hasProperty(BlockStateProperties.CHEST_TYPE) && newState.hasProperty(AbstractChestBlock.CURSED_CHEST_TYPE)) {
