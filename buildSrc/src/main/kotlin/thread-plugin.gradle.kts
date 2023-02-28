@@ -12,7 +12,7 @@ repositories {
         forRepository {
             maven {
                 name = "ARRP"
-                url = uri("https://storage.googleapis.com/devan-maven/")
+                url = uri("https://ueaj.dev/maven")
             }
         }
         filter {
