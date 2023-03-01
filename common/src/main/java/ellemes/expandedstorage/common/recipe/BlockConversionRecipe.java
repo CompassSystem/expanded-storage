@@ -42,7 +42,6 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
         this.output = output;
     }
 
-    // todo: this split double chests, we don't know why.
     public final ToolUsageResult process(Level level, Player player, ItemStack tool, BlockState state, BlockPos pos) {
         List<BlockPos> convertPositions = new ArrayList<>();
         convertPositions.add(pos);
@@ -61,12 +60,14 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
             return ToolUsageResult.fail();
         }
 
+        HashMap<BlockPos, BlockState> blockStates = new HashMap<>();
         HashMap<BlockPos, List<ItemStack>> items = new HashMap<>();
         HashMap<BlockPos, Component> customNames = new HashMap<>();
         HashMap<BlockPos, CompoundTag> locks = new HashMap<>();
         // probably replace these maps with a single for loop.
 
         for (BlockPos position : convertPositions) {
+            blockStates.put(position, level.getBlockState(position));
             BlockEntity entity = level.getBlockEntity(position);
 
             if (entity instanceof OpenableBlockEntity blockEntity) {
@@ -88,7 +89,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
         }
 
         for (BlockPos position : convertPositions) {
-            BlockState originalState = level.getBlockState(position);
+            BlockState originalState = blockStates.get(position);
             BlockState newState = output.getBlock().withPropertiesOf(originalState);
             if (originalState.hasProperty(BlockStateProperties.CHEST_TYPE) && newState.hasProperty(AbstractChestBlock.CURSED_CHEST_TYPE)) {
                 newState = newState.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.from(originalState.getValue(BlockStateProperties.CHEST_TYPE)));
