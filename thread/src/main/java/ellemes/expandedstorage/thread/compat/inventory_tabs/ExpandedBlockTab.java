@@ -79,10 +79,9 @@ public class ExpandedBlockTab<T extends OpenableBlock> extends SimpleBlockTab {
     public void renderTabIcon(PoseStack stack, TabRenderInfo tabRenderInfo, AbstractContainerScreen<?> screen) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         Font font = Minecraft.getInstance().font;
-        itemRenderer.blitOffset = 100.0F;
-        itemRenderer.renderAndDecorateItem(itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        itemRenderer.renderGuiItemDecorations(font, itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        itemRenderer.blitOffset = 0.0F;
+        // todo: verify
+        itemRenderer.renderAndDecorateItem(stack, itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        itemRenderer.renderGuiItemDecorations(stack, font, itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
     }
 
     public void update() {

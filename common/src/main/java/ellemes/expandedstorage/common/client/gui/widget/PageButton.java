@@ -27,8 +27,7 @@ public final class PageButton extends Button {
         }
     }
 
-    @Override
-    protected int getTextureY() {
+    private int getTextureY() {
         if (!this.active) {
             return 0;
         } else if (this.isHoveredOrFocused()) {
