@@ -7,11 +7,13 @@
     "HTMChestCompat",
     "HTMLockableBlockEntityCompat",
     "MiniStorageHeadEquipment",
-    "ToweletteCompat"
+    "ToweletteCompat",
+    "SyncRecipesMixin"
   ],
   "client": [
     "InventoryTabsBottomRowFix",
-    "InventoryTabsFix"
+    "InventoryTabsFix",
+    "LastAfterInitCallbackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

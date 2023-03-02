@@ -2,7 +2,7 @@ package ellemes.expandedstorage.thread.compat.inventory_tabs;
 
 import com.kqp.inventorytabs.api.TabProviderRegistry;
 import com.kqp.inventorytabs.tabs.TabManager;
-import ellemes.container_library.Utils;
+import ellemes.expandedstorage.common.misc.Utils;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class InventoryTabCompat {

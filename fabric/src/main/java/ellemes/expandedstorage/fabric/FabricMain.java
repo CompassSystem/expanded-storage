@@ -1,7 +1,6 @@
 package ellemes.expandedstorage.fabric;
 
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.registration.Content;
@@ -39,16 +38,14 @@ public final class FabricMain implements ModInitializer {
         }
 
         boolean isClient = fabricLoader.getEnvironmentType() == EnvType.CLIENT;
-        TagReloadListener tagReloadListener = new TagReloadListener();
         ThreadMain.constructContent(
-                fabricLoader.isModLoaded("htm"), isClient, tagReloadListener,
+                fabricLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)
                         .andThenIf(isClient, this::registerBarrelRenderLayers)
                         .andThen(this::registerOxidisableAndWaxableBlocks)
         );
-        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> tagReloadListener.postDataReload());
     }
 
     private void registerOxidisableAndWaxableBlocks(Content content) {

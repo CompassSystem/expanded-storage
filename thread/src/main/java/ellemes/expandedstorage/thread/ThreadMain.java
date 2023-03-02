@@ -10,9 +10,8 @@ import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
-import ellemes.expandedstorage.common.misc.TieredObject;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
@@ -27,6 +26,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -40,7 +41,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -52,16 +57,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ThreadMain {
+    public static final ResourceLocation UPDATE_RECIPES_ID = Utils.id("update_conversion_recipes");
+
+
     @SuppressWarnings({"UnstableApiUsage"})
     public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
         //noinspection unchecked
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static void constructContent(boolean htmPresent, boolean isClient, TagReloadListener tagReloadListener, ContentConsumer contentRegistrationConsumer) {
+    public static void constructContent(boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
         CreativeModeTab group = FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
                                                .displayItems((featureFlagSet, output, someBoolean) -> {
                                                    CommonMain.generateDisplayItems(featureFlagSet, stack -> {
@@ -69,15 +80,27 @@ public class ThreadMain {
                                                    });
                                                }).build();
 
-        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, tagReloadListener, contentRegistrationConsumer,
+        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
-                /*Chest*/ TagKey.create(Registries.BLOCK, new ResourceLocation("c", "wooden_chests")), BlockItem::new, ChestItemAccess::new,
+                /*Chest*/ BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registries.BLOCK, new ResourceLocation("c", "wooden_barrels")),
-                /*Mini Chest*/ BlockItem::new);
+                /*Mini Storage*/ BlockItem::new);
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
+            private final PreparableReloadListener base = new ConversionRecipeReloadListener();
+            @Override
+            public ResourceLocation getFabricId() {
+                return Utils.id("conversion_recipe_loader");
+            }
+
+            @Override
+            public CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager manager, ProfilerFiller filler1, ProfilerFiller filler2, Executor executor1, Executor executor2) {
+                return base.reload(barrier, manager, filler1, filler2, executor1, executor2);
+            }
+        });
     }
 
     public static void registerContent(Content content) {
@@ -87,7 +110,6 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
             Registry.register(BuiltInRegistries.BLOCK, name, value);
-            CommonMain.registerTieredObject(value);
         });
 
         //noinspection UnstableApiUsage
@@ -97,9 +119,6 @@ public class ThreadMain {
 
         CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
             Registry.register(BuiltInRegistries.ENTITY_TYPE, name, value);
-            if (value instanceof TieredObject object) {
-                CommonMain.registerTieredObject(object);
-            }
         });
 
         ThreadMain.registerBlockEntity(content.getChestBlockEntityType());
@@ -152,7 +171,7 @@ public class ThreadMain {
 
         public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
             for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
-                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer(context, ModelLayers.CHEST_MINECART));
+                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
             }
         }
 

@@ -6,17 +6,18 @@
     "version": "${version}",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": ["ellemes.container_library.quilt.QuiltMain", "ellemes.expandedstorage.quilt.QuiltMain"],
-      "client_init": ["ellemes.container_library.quilt.QuiltClient"],
+      "init": ["ellemes.expandedstorage.quilt.QuiltMain"],
+      "client_init": ["ellemes.expandedstorage.quilt.QuiltClient"],
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
-      "rei_client": "ellemes.container_library.thread.client.ReiCompat",
+      "rei_client": "ellemes.expandedstorage.thread.client.ReiCompat",
       "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
-      "emi": "ellemes.container_library.thread.client.EmiCompat"
+      "emi": "ellemes.expandedstorage.thread.client.EmiCompat",
+      "jei_mod_plugin": "ellemes.expandedstorage.client.JeiCompat"
     },
     "depends": [
       {
         "id": "org.quiltmc:quilt_loader",
-        "versions": ">=0.17.6"
+        "versions": ">=0.17.10"
       },
       {
         "id": "minecraft",
@@ -41,9 +42,9 @@
         "Bucket of Compasses": "Owner"
       },
       "contact": {
-        "homepage": "https://www.curseforge.com/minecraft/mc-mods/expanded-storage/",
-        "issues": "https://github.com/Ellemes/expanded-storage/issues/",
-        "sources": "https://github.com/Ellemes/ExpandedStorage/"
+        "homepage": "https://modrinth.com/mod/expanded-storage",
+        "issues": "https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues",
+        "sources": "https://gitlab.com/BucketOfCompasses/expanded-storage"
       },
       "license": [
       ],
@@ -51,7 +52,6 @@
     }
   },
   "mixin": [
-    "ellemes-container-library-thread.mixins.json",
     "expandedstorage-common.mixins.json",
     "expandedstorage-thread.mixins.json"
   ]

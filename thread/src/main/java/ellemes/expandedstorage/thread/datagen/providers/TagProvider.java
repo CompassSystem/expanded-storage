@@ -8,6 +8,7 @@ import ellemes.expandedstorage.thread.datagen.content.ThreadTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -26,6 +27,8 @@ public final class TagProvider {
                 .add(Blocks.CHEST)
                 .add(Blocks.TRAPPED_CHEST)
                 .add(ModBlocks.WOOD_CHEST);
+            this.getOrCreateTagBuilder(ModTags.Blocks.ES_WOODEN_CHESTS)
+                .addTag(ThreadTags.Blocks.WOODEN_CHESTS);
             this.getOrCreateTagBuilder(ThreadTags.Blocks.WOODEN_BARRELS)
                 .add(Blocks.BARREL);
         }
@@ -99,14 +102,17 @@ public final class TagProvider {
         }
     }
 
-    public static final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
-        public EntityType(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> providerFuture) {
+    public static final class EntityTypes extends FabricTagProvider.EntityTypeTagProvider {
+        public EntityTypes(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> providerFuture) {
             super(output, providerFuture);
         }
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
             TagHelper.registerEntityTypeTags(this::getOrCreateTagBuilder);
+
+            this.getOrCreateTagBuilder(ThreadTags.Entities.WOODEN_CHEST_MINECARTS)
+                .add(EntityType.CHEST_MINECART);
         }
 
         @Override

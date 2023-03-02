@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.common.block;
 
-import ellemes.container_library.api.v3.OpenableInventory;
-import ellemes.container_library.api.v3.context.BlockContext;
+import ellemes.expandedstorage.api.v3.OpenableInventory;
+import ellemes.expandedstorage.api.v3.context.BlockContext;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -22,14 +22,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
 public class BarrelBlock extends OpenableBlock {
-    public BarrelBlock(Properties settings, ResourceLocation blockId, ResourceLocation tierId, ResourceLocation openingStat, int slotCount) {
-        super(settings, blockId, tierId, openingStat, slotCount);
+    public BarrelBlock(Properties settings, ResourceLocation openingStat, int slotCount) {
+        super(settings, openingStat, slotCount);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP).setValue(BlockStateProperties.OPEN, false));
-    }
-
-    @Override
-    public ResourceLocation getObjType() {
-        return CommonMain.BARREL_OBJECT_TYPE;
     }
 
     @Nullable

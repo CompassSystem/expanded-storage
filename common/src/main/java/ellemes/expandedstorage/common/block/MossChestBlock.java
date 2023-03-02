@@ -12,8 +12,8 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MossChestBlock extends ChestBlock implements BonemealableBlock {
-    public MossChestBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier, ResourceLocation openingStat, int slotCount) {
-        super(settings, blockId, blockTier, openingStat, slotCount);
+    public MossChestBlock(Properties settings, ResourceLocation openingStat, int slotCount) {
+        super(settings, openingStat, slotCount);
     }
 
     @Override

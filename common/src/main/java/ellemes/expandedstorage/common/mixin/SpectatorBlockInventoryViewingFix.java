@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.mixin;
 
-import ellemes.container_library.api.v3.OpenableInventoryProvider;
+import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;

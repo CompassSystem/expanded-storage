@@ -1,11 +1,11 @@
 package ellemes.expandedstorage.common.entity;
 
-import ellemes.container_library.api.v3.OpenableInventory;
-import ellemes.container_library.api.v3.OpenableInventoryProvider;
-import ellemes.container_library.api.v3.context.BaseContext;
-import ellemes.container_library.api.v4.InventoryOpeningApi;
+import ellemes.expandedstorage.api.v3.OpenableInventory;
+import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
+import ellemes.expandedstorage.api.v3.context.BaseContext;
+import ellemes.expandedstorage.api.v4.InventoryOpeningApi;
 import ellemes.expandedstorage.common.block.ChestBlock;
-import ellemes.expandedstorage.common.misc.ExposedInventory;
+import ellemes.expandedstorage.common.inventory.ExposedInventory;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;

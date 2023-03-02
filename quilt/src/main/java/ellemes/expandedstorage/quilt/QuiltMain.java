@@ -2,7 +2,6 @@ package ellemes.expandedstorage.quilt;
 
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
@@ -41,15 +40,13 @@ public final class QuiltMain implements ModInitializer {
         }).orElse(false);
 
         boolean isClient = MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
-        TagReloadListener tagReloadListener = new TagReloadListener();
-        ThreadMain.constructContent(QuiltLoader.isModLoaded("htm"), isClient, tagReloadListener,
+        ThreadMain.constructContent(QuiltLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)
                         .andThenIf(isClient, this::registerBarrelRenderLayers)
                         .andThen(this::registerWaxedContent)
         );
-        ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(((server, resourceManager, error) -> tagReloadListener.postDataReload()));
     }
 
     private void registerWaxedContent(Content content) {
