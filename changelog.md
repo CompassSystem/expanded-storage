@@ -1,5 +1,5 @@
-- Fix inventories being rearranged a little on the fake pick screen.
-- Implement REI support on Forge
-- Implement JEI support for Fabric, Forge, and Quilt
-- Fix JEI and REI showing on the fake pick screen.
-- Fix repo url in commit message (see below :D)
+Well we forgot to finish a feature for 8.1.0 before working on this soooooo
+
+I present to you **8.2.0-beta.1**
+
+- Rewrites how conversion kits and the storage mutator's swap theme function works to use datapack recipes instead of an in-code solution.
