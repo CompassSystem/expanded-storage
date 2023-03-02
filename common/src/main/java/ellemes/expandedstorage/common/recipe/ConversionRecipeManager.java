@@ -41,8 +41,6 @@ public class ConversionRecipeManager {
     }
 
     public void replaceAllRecipes(List<BlockConversionRecipe<?>> blockRecipes, List<EntityConversionRecipe<?>> entityRecipes) {
-        System.out.println("DEBUG");
-        System.out.println("UPDATING CONVERSION RECIPES");
         this.blockRecipes.clear();
         this.blockRecipes.addAll(blockRecipes);
         this.entityRecipes.clear();
