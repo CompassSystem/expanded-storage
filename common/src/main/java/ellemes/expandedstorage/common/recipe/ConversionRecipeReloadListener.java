@@ -1,15 +1,9 @@
 package ellemes.expandedstorage.common.recipe;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import ellemes.expandedstorage.common.entity.ChestMinecart;
-import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
-import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
+import com.google.gson.*;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
+import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
+import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -46,6 +40,8 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
         });
 
         ConversionRecipeManager.INSTANCE.replaceAllRecipes(blockRecipes, entityRecipes);
+        blockRecipes.clear();
+        entityRecipes.clear();
     }
 
     private void parseRecipe(JsonElement json) throws JsonSyntaxException {
@@ -67,26 +63,30 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
     }
 
     private void parseBlockRecipe(JsonObject root, RecipeTool recipeTool) {
+        PartialBlockState<?> output = PartialBlockState.readFromJson(JsonHelper.getJsonObject(root, "result"));
+        if (output == null) {
+            return;
+        }
         JsonArray inputs = JsonHelper.getJsonArray(root, "inputs");
         RecipeCondition[] recipeInputs = new RecipeCondition[inputs.size()];
         for (int i = 0; i < inputs.size(); i++) {
             JsonElement input = inputs.get(i);
             recipeInputs[i] = RecipeCondition.readBlockCondition(input);
         }
-        PartialBlockState<?> output = PartialBlockState.readFromJson(JsonHelper.getJsonObject(root, "result"));
         blockRecipes.add(new BlockConversionRecipe<>(recipeTool, output, Arrays.asList(recipeInputs)));
     }
 
     private void parseEntityRecipe(JsonObject root, RecipeTool recipeTool) {
+        ResourceLocation resultId = JsonHelper.getJsonResourceLocation(root, "result");
+        if (resultId.toString().equals("minecraft:air")) {
+            return;
+        }
+        EntityType<?> output = Registry.ENTITY_TYPE.getOptional(resultId).orElseThrow();
         JsonArray inputs = JsonHelper.getJsonArray(root, "inputs");
         RecipeCondition[] recipeInputs = new RecipeCondition[inputs.size()];
         for (int i = 0; i < inputs.size(); i++) {
             JsonElement input = inputs.get(i);
             recipeInputs[i] = RecipeCondition.readEntityCondition(input);
-        }
-        EntityType<?> output = Registry.ENTITY_TYPE.getOptional(JsonHelper.getJsonResourceLocation(root, "result")).orElseThrow();
-        if (output.getBaseClass() != ChestMinecart.class) {
-            throw new IllegalStateException("\"result\" must be an ExpandedStorage minecart.");
         }
         entityRecipes.add(new EntityConversionRecipe<>(recipeTool, output, Arrays.asList(recipeInputs)));
     }

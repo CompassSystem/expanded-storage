@@ -7,13 +7,11 @@ import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.api.ExpandedStorageAccessors;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.common.block.strategies.Lockable;
 import ellemes.expandedstorage.common.item.ToolUsageResult;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -42,89 +40,93 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
         this.output = output;
     }
 
-    public final ToolUsageResult process(Level level, Player player, ItemStack tool, BlockState state, BlockPos pos) {
+    private record InputState(BlockState state, BlockEntity entity) {
+
+    }
+
+    public final ToolUsageResult process(Level level, Player player, ItemStack tool, BlockState clickedState, BlockPos clickedPos) {
         List<BlockPos> convertPositions = new ArrayList<>();
-        convertPositions.add(pos);
-        if (!output.matches(state)) {
-            if (state.hasProperty(BlockStateProperties.CHEST_TYPE)) {
-                ChestType type = state.getValue(BlockStateProperties.CHEST_TYPE);
-                if (type != ChestType.SINGLE) {
-                    convertPositions.add(pos.relative(ChestBlock.getConnectedDirection(state)));
-                }
-            } else if (state.hasProperty(AbstractChestBlock.CURSED_CHEST_TYPE) && state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-                ExpandedStorageAccessors.getAttachedChestDirection(state).ifPresent(direction -> convertPositions.add(pos.relative(direction)));
+        convertPositions.add(clickedPos);
+        if (clickedState.hasProperty(BlockStateProperties.CHEST_TYPE)) {
+            ChestType type = clickedState.getValue(BlockStateProperties.CHEST_TYPE);
+            if (type != ChestType.SINGLE) {
+                convertPositions.add(clickedPos.relative(ChestBlock.getConnectedDirection(clickedState)));
             }
+        } else if (clickedState.hasProperty(AbstractChestBlock.CURSED_CHEST_TYPE) && clickedState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
+            ExpandedStorageAccessors.getAttachedChestDirection(clickedState).ifPresent(direction -> convertPositions.add(clickedPos.relative(direction)));
         }
 
         if (tool.getCount() < convertPositions.size() && !player.isCreative()) {
             return ToolUsageResult.fail();
         }
 
-        HashMap<BlockPos, BlockState> blockStates = new HashMap<>();
-        HashMap<BlockPos, List<ItemStack>> items = new HashMap<>();
-        HashMap<BlockPos, Component> customNames = new HashMap<>();
-        HashMap<BlockPos, CompoundTag> locks = new HashMap<>();
-        // probably replace these maps with a single for loop.
+        HashMap<BlockPos, InputState> originalStates = new HashMap<>();
 
         for (BlockPos position : convertPositions) {
-            blockStates.put(position, level.getBlockState(position));
             BlockEntity entity = level.getBlockEntity(position);
 
-            if (entity instanceof OpenableBlockEntity blockEntity) {
-                items.put(position, blockEntity.getItems());
-                if (blockEntity.hasCustomName()) {
-                    customNames.put(position, blockEntity.getName());
-                }
-                locks.put(position, blockEntity.saveWithoutMetadata());
-            } else if (entity instanceof RandomizableContainerBlockEntity blockEntity) {
-                NonNullList<ItemStack> entityItems = blockEntity.getItems();
-                items.put(position, entityItems);
-                if (blockEntity.hasCustomName()) {
-                    customNames.put(position, blockEntity.getName());
-                }
-                locks.put(position, blockEntity.saveWithoutMetadata());
-            } else {
+            if (!(entity instanceof OpenableBlockEntity || entity instanceof RandomizableContainerBlockEntity)) {
                 return ToolUsageResult.fail();
             }
+            originalStates.put(position, new InputState(level.getBlockState(position), entity));
         }
 
+        int toolsUsed = 0;
         for (BlockPos position : convertPositions) {
-            BlockState originalState = blockStates.get(position);
+            InputState input = originalStates.get(position);
+            BlockState originalState = input.state();
             BlockState newState = output.getBlock().withPropertiesOf(originalState);
             if (originalState.hasProperty(BlockStateProperties.CHEST_TYPE) && newState.hasProperty(AbstractChestBlock.CURSED_CHEST_TYPE)) {
                 newState = newState.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.from(originalState.getValue(BlockStateProperties.CHEST_TYPE)));
             }
             newState = output.transform(newState);
-            level.removeBlockEntity(position);
-            level.setBlockAndUpdate(position, newState);
-            BlockEntity entity = level.getBlockEntity(position);
-            if (entity instanceof OpenableBlockEntity blockEntity) {
-                List<ItemStack> inventory = items.get(position);
-                List<ItemStack> newInventory = blockEntity.getItems();
-                int commonSize = Math.min(inventory.size(), newInventory.size());
-                for (int i = 0; i < commonSize; i++) {
-                    newInventory.set(i, inventory.get(i));
-                }
+            if (newState != originalState) {
+                List<ItemStack> originalItems;
+                Component customName = null;
+                CompoundTag tagForLock = input.entity().saveWithoutMetadata();
 
-                if (newInventory.size() < inventory.size()) { // Why in god's name is someone making an upgrade convert to a smaller chest...
-                    for (int i = newInventory.size(); i < inventory.size(); i++) {
-                        Containers.dropItemStack(level, position.getX(), position.getY(), position.getZ(), inventory.get(i));
+                if (input.entity() instanceof OpenableBlockEntity entity) {
+                    originalItems = entity.getItems();
+                    if (entity.hasCustomName()) {
+                        customName = entity.getName();
                     }
+                } else if (input.entity() instanceof RandomizableContainerBlockEntity entity) {
+                    originalItems = entity.getItems();
+                    customName = entity.getCustomName();
+                } else {
+                    throw new IllegalStateException();
                 }
 
-                if (customNames.containsKey(position)) {
-                    blockEntity.setCustomName(customNames.get(position));
+                level.removeBlockEntity(position);
+                if (level.setBlockAndUpdate(position, newState)) {
+                    if (level.getBlockEntity(position) instanceof OpenableBlockEntity entity) {
+                        List<ItemStack> newInventory = entity.getItems();
+                        int commonSize = Math.min(originalItems.size(), newInventory.size());
+                        for (int i = 0; i < commonSize; i++) {
+                            newInventory.set(i, originalItems.get(i));
+                        }
+
+                        if (newInventory.size() < originalItems.size()) { // Why in god's name is someone making an upgrade convert to a smaller chest...
+                            for (int i = newInventory.size(); i < originalItems.size(); i++) {
+                                Containers.dropItemStack(level, position.getX(), position.getY(), position.getZ(), originalItems.get(i));
+                            }
+                        }
+
+                        entity.setCustomName(customName);
+                        entity.getLockable().readLock(tagForLock);
+                    }
+                    toolsUsed++;
+                } else {
+                    level.setBlockEntity(input.entity());
                 }
-                Lockable lockable = blockEntity.getLockable();
-                lockable.readLock(locks.get(position));
             }
         }
 
         if (recipeTool instanceof RecipeTool.UpgradeTool) {
-            tool.setCount(tool.getCount() - convertPositions.size());
+            tool.setCount(tool.getCount() - toolsUsed);
         }
 
-        return ToolUsageResult.slowSuccess();
+        return toolsUsed > 0 ? ToolUsageResult.slowSuccess() : ToolUsageResult.fail();
     }
 
     public void writeToBuffer(FriendlyByteBuf buffer) {

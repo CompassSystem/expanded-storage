@@ -25,8 +25,8 @@ public enum EsChestType implements StringRepresentable {
     public static EsChestType from(ChestType value) {
         return switch (value) {
             case SINGLE -> EsChestType.SINGLE;
-            case LEFT -> EsChestType.LEFT;
-            case RIGHT -> EsChestType.RIGHT;
+            case LEFT -> EsChestType.RIGHT;
+            case RIGHT -> EsChestType.LEFT;
         };
     }
 

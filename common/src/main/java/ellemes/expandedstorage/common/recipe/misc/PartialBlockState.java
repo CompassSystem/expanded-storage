@@ -29,6 +29,9 @@ public class PartialBlockState<T extends Block> {
 
     public static PartialBlockState<?> readFromJson(JsonObject object) {
         ResourceLocation blockId = JsonHelper.getJsonResourceLocation(object, "id");
+        if (blockId.toString().equals("minecraft:air")) {
+            return null;
+        }
         Optional<Block> block = Registry.BLOCK.getOptional(blockId);
         if (block.isEmpty()) {
             throw new IllegalArgumentException("Block id refers to unregistered block");

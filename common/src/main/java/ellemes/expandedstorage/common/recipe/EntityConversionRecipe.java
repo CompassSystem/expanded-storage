@@ -39,10 +39,13 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
             return InteractionResult.FAIL;
         }
 
-        if (!simulateSpawnUpgradedMinecartChest(input)) {
+        if (input.getType() == output) {
             return InteractionResult.FAIL;
         }
-        else if (level.isClientSide()) {
+
+        if (!simulateSpawnUpgradedMinecartChest(input)) {
+            return InteractionResult.FAIL;
+        } else if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
 
