@@ -1,0 +1,15 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "inputs": [
+    {
+      "id": "expandedstorage:obsidian_mini_chest"
+    }
+  ],
+  "result": {
+    "id": "expandedstorage:obsidian_mini_chest_with_sparrow"
+  },
+  "tool": {
+    "id": "expandedstorage:storage_mutator",
+    "name": "sparrow"
+  }
+}

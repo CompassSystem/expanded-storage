@@ -1,0 +1,14 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "inputs": [
+    {
+      "id": "expandedstorage:iron_mini_chest_with_sparrow"
+    }
+  ],
+  "result": {
+    "id": "expandedstorage:iron_mini_chest"
+  },
+  "tool": {
+    "id": "expandedstorage:storage_mutator"
+  }
+}

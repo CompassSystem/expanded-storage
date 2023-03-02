@@ -1,13 +1,12 @@
-// 22w43a	2022-11-05T10:19:00.1190324	Expanded Storage/Expanded Storage - Block Tags
-4633ea804479d6427e896568197d631a53b810e8 data\c\tags\blocks\wooden_chests.json
-f969c95c2d9d01337f78030e4ad32f98e34161e5 data\minecraft\tags\blocks\guarded_by_piglins.json
+// 1.19.3	2023-03-02T18:11:08.8225348	Expanded Storage/Expanded Storage - Block Tags
+749aec27fbd7253ab54bb4e3f0f1410e4c41e660 data\expandedstorage\tags\blocks\copper_barrels.json
+b51e3de41502cb69e0162107a5a1ebd9d4adb8ca data\minecraft\tags\blocks\mineable\axe.json
+d5bcd136d367515784a4665a163b8fd96ecd8d76 data\minecraft\tags\blocks\needs_stone_tool.json
+deffb6d73200691bcb54dd6dbfaa7f663df5dd3a data\minecraft\tags\blocks\mineable\hoe.json
+06b3ae99f86000367f1fe29a3e355bfc23d50e73 data\minecraft\tags\blocks\mineable\pickaxe.json
+5235d62cd50a4d466869950a0c123c2b12ff7321 data\expandedstorage\tags\blocks\wooden_chests.json
+f765ea3423f721d9280792071a2cfe580042275f data\minecraft\tags\blocks\needs_iron_tool.json
 3c51fa2acfb5400ab1b142008f974fb8e55669c4 data\c\tags\blocks\wooden_barrels.json
-754134ff72863bbe6f3ec4ebd6cf1680909f93e3 data\expandedstorage\tags\blocks\mini_chest_cycle.json
-256e7a297f34cbdff2b979a8c8342b0ef9f9b71d data\expandedstorage\tags\blocks\mini_chest_secret_cycle_2.json
-05cfccaa4cdebd1753be89b5667ca3182b3d49a9 data\minecraft\tags\blocks\needs_diamond_tool.json
-1442f8ac75012393ec03e36740fbbba1e6811894 data\expandedstorage\tags\blocks\mini_chest_secret_cycle.json
-ff64d6f649c98bf26007e16b611a6004d346cae5 data\minecraft\tags\blocks\needs_stone_tool.json
-d18673dbfb8b751ed12baed04eab40870b9f40ec data\expandedstorage\tags\blocks\chest_cycle.json
-90cd132b00b42f333ebe7bdba3b569179e8c35d0 data\minecraft\tags\blocks\mineable\axe.json
-ad43dfc9b2e12e35afc351aadd24590a36481f02 data\minecraft\tags\blocks\mineable\pickaxe.json
-da1112b4bbd7524923bd4ce5bfb477f38847db56 data\minecraft\tags\blocks\needs_iron_tool.json
+e886f948e5bcc0a05bb3ae2b349e5ce363d993c5 data\minecraft\tags\blocks\guarded_by_piglins.json
+4633ea804479d6427e896568197d631a53b810e8 data\c\tags\blocks\wooden_chests.json
+2d0d0d6d8bb218ac6e992b86471460c401e97eca data\minecraft\tags\blocks\needs_diamond_tool.json

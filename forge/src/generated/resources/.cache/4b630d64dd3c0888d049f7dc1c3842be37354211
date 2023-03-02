@@ -1,8 +1,6 @@
-// 1.19.3	2023-01-05T20:09:50.8459536	Expanded Storage - Block Tags
-9031474b5905d218a091b9948f3d8a5bdc4e2a40 data/expandedstorage/tags/blocks/chest_cycle.json
-cd637fc54ea323494c2b4d6dde009cc92822f7cc data/expandedstorage/tags/blocks/mini_chest_cycle.json
-de6873d3317a75a65ce50fb7de7884d10a47f255 data/expandedstorage/tags/blocks/mini_chest_secret_cycle.json
-083bf47efe54b5c6cbc25b6385061fbd22c18fcd data/expandedstorage/tags/blocks/mini_chest_secret_cycle_2.json
+// 1.19.3	2023-03-02T18:13:58.0661138	Expanded Storage - Block Tags
+311c475108d99cd330b77e1460e9c0b1fd8134ff data/expandedstorage/tags/blocks/copper_barrels.json
+a9e669d548f5da1f0ec9384d893b8139a0dc9fcb data/expandedstorage/tags/blocks/wooden_chests.json
 2451ad96a8a6e48fd8ff670e334631db2b4bbbe6 data/forge/tags/blocks/chests/wooden.json
 7e85de0701a70c99544138e8870533fd6e04bd6e data/minecraft/tags/blocks/guarded_by_piglins.json
 5550d84d1552aa5b7865ed70257c23f81c2f8aea data/minecraft/tags/blocks/mineable/axe.json
