@@ -9,10 +9,10 @@
       "init": ["ellemes.expandedstorage.quilt.QuiltMain"],
       "client_init": ["ellemes.expandedstorage.quilt.QuiltClient"],
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
-      "rei_client": "ellemes.container_library.thread.client.ReiCompat",
+      "rei_client": "ellemes.expandedstorage.thread.client.ReiCompat",
       "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
-      "emi": "ellemes.container_library.thread.client.EmiCompat",
-      "jei_mod_plugin": "ellemes.container_library.client.JeiCompat"
+      "emi": "ellemes.expandedstorage.thread.client.EmiCompat",
+      "jei_mod_plugin": "ellemes.expandedstorage.common.client.JeiCompat"
     },
     "depends": [
       {
