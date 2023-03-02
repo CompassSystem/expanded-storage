@@ -5,7 +5,6 @@ import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
-import ellemes.expandedstorage.common.recipe.ConversionRecipe;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.conditions.IsInTagCondition;
 import ellemes.expandedstorage.common.recipe.conditions.IsRegistryObject;
@@ -21,18 +20,12 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public abstract class ConversionRecipeProvider implements DataProvider {
     protected static final RecipeTool UNNAMED_MUTATOR = new RecipeTool.MutatorTool(null);
@@ -65,7 +58,6 @@ public abstract class ConversionRecipeProvider implements DataProvider {
 
     protected static final RecipeTool OBSIDIAN_TO_NETHERITE_CONVERSION_KIT = new RecipeTool.UpgradeTool(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("ConversionRecipeProvider");
     protected final PackOutput.PathProvider pathProvider;
     private final HashMap<ResourceLocation, BlockConversionRecipe<?>> blockRecipes = new HashMap<>();
     private final HashMap<ResourceLocation, EntityConversionRecipe<?>> entityRecipes = new HashMap<>();
