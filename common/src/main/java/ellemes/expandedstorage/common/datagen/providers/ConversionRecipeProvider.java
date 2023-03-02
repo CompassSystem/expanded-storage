@@ -5,6 +5,7 @@ import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
+import ellemes.expandedstorage.common.recipe.ConversionRecipe;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.conditions.IsInTagCondition;
 import ellemes.expandedstorage.common.recipe.conditions.IsRegistryObject;
@@ -25,9 +26,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public abstract class ConversionRecipeProvider implements DataProvider {
     protected static final RecipeTool UNNAMED_MUTATOR = new RecipeTool.MutatorTool(null);
@@ -124,7 +129,6 @@ public abstract class ConversionRecipeProvider implements DataProvider {
         );
     }
 
-    // todo: fix this
     @Override
     public CompletableFuture<?> run(CachedOutput cachedOutput) {
         blockRecipes.clear();
@@ -133,26 +137,12 @@ public abstract class ConversionRecipeProvider implements DataProvider {
         this.registerBlockRecipes();
         this.registerEntityRecipes();
 
-        blockRecipes.forEach((id, recipe) -> {
-            JsonElement json = recipe.toJson();
-            Path path = pathProvider.json(id);
-            try {
-                DataProvider.saveStable(cachedOutput, json, path);
-            } catch (IOException iOException) {
-                LOGGER.error("Couldn't save a block conversion recipe to {}", path, iOException);
-            }
-        });
-
-        entityRecipes.forEach((id, recipe) -> {
-            JsonElement json = recipe.toJson();
-            Path path = pathProvider.json(id);
-            try {
-                DataProvider.saveStable(cachedOutput, json, path);
-            } catch (IOException iOException) {
-                LOGGER.error("Couldn't save a entity conversion recipe to {}", path, iOException);
-            }
-        });
-        return null;
+        return CompletableFuture.allOf(Stream.concat(blockRecipes.entrySet().stream(), entityRecipes.entrySet().stream())
+                .map(entry -> {
+                    JsonElement json = entry.getValue().toJson();
+                    Path path = pathProvider.json(entry.getKey());
+                    return DataProvider.saveStable(cachedOutput, json, path);
+                }).toArray(CompletableFuture[]::new));
     }
 
     protected abstract void registerBlockRecipes();

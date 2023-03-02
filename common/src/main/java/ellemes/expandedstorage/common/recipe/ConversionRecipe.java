@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.common.recipe;
 
+import com.google.gson.JsonElement;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.world.item.ItemStack;
@@ -50,4 +51,6 @@ public abstract class ConversionRecipe<T> {
 
         return weight;
     }
+
+    public abstract JsonElement toJson();
 }

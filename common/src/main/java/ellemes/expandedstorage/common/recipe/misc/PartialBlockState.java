@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -32,7 +33,7 @@ public class PartialBlockState<T extends Block> {
         if (blockId.toString().equals("minecraft:air")) {
             return null;
         }
-        Optional<Block> block = Registry.BLOCK.getOptional(blockId);
+        Optional<Block> block = BuiltInRegistries.BLOCK.getOptional(blockId);
         if (block.isEmpty()) {
             throw new IllegalArgumentException("Block id refers to unregistered block");
         }
@@ -99,7 +100,7 @@ public class PartialBlockState<T extends Block> {
     }
 
     public void writeToBuffer(FriendlyByteBuf buffer) {
-        buffer.writeResourceLocation(Registry.BLOCK.getKey(block));
+        buffer.writeResourceLocation(BuiltInRegistries.BLOCK.getKey(block));
         buffer.writeInt(properties.size());
         for (Map.Entry<Property<?>, ?> property : properties.entrySet()) {
             buffer.writeUtf(property.getKey().getName());
@@ -109,7 +110,7 @@ public class PartialBlockState<T extends Block> {
 
     public static PartialBlockState<?> readFromBuffer(FriendlyByteBuf buffer) {
         ResourceLocation id = buffer.readResourceLocation();
-        Block block = Registry.BLOCK.get(id);
+        Block block = BuiltInRegistries.BLOCK.get(id);
         int mapSize = buffer.readInt();
         if (mapSize == 0) {
             return PartialBlockState.of(block);

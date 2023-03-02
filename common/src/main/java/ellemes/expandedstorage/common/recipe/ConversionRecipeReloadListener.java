@@ -6,6 +6,7 @@ import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -81,7 +82,7 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
         if (resultId.toString().equals("minecraft:air")) {
             return;
         }
-        EntityType<?> output = Registry.ENTITY_TYPE.getOptional(resultId).orElseThrow();
+        EntityType<?> output = BuiltInRegistries.ENTITY_TYPE.getOptional(resultId).orElseThrow();
         JsonArray inputs = JsonHelper.getJsonArray(root, "inputs");
         RecipeCondition[] recipeInputs = new RecipeCondition[inputs.size()];
         for (int i = 0; i < inputs.size(); i++) {

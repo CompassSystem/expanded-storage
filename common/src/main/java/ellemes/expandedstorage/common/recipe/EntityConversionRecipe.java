@@ -7,7 +7,7 @@ import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Clearable;
@@ -50,27 +50,27 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
         }
 
         ServerLevel serverLevel = (ServerLevel) level;
-        ChestMinecart newCart = (ChestMinecart) output.create(serverLevel, null, input.hasCustomName() ? input.getCustomName() : null, null, input.getOnPos(), MobSpawnType.COMMAND, true, false);
+        ChestMinecart newCart = ((EntityType<ChestMinecart>) output).create(serverLevel, null, cart -> {
+            boolean isMinecraftCart = input instanceof AbstractMinecartContainer;
+            NonNullList<ItemStack> items = isMinecraftCart ? ((AbstractMinecartContainer) input).getItemStacks() : ((ChestMinecart) input).getItems();
+            int inserted = cart.replaceInventoryWith(items);
+            if (inserted < items.size()) {
+                Vec3 pos = input.position();
+                for (int i = inserted; i < items.size(); i++) {
+                    Containers.dropItemStack(level, pos.x(), pos.y(), pos.z(), items.get(i));
+                }
+            }
+            cart.setPos(input.position());
+            cart.setXRot(input.getXRot());
+            cart.setYRot(input.getYRot());
+            cart.setDeltaMovement(input.getDeltaMovement());
+            if (input.hasCustomName()) {
+                cart.setCustomName(input.getCustomName());
+            }
+        }, input.getOnPos(), MobSpawnType.COMMAND, true, false);
 
         if (newCart == null) {
             return InteractionResult.FAIL;
-        }
-
-        boolean isMinecraftCart = input instanceof AbstractMinecartContainer;
-        NonNullList<ItemStack> items = isMinecraftCart ? ((AbstractMinecartContainer) input).getItemStacks() : ((ChestMinecart) input).getItems();
-        int inserted = newCart.replaceInventoryWith(items);
-        if (inserted < items.size()) {
-            Vec3 pos = input.position();
-            for (int i = inserted; i < items.size(); i++) {
-                Containers.dropItemStack(level, pos.x(), pos.y(), pos.z(), items.get(i));
-            }
-        }
-        newCart.setPos(input.position());
-        newCart.setXRot(input.getXRot());
-        newCart.setYRot(input.getYRot());
-        newCart.setDeltaMovement(input.getDeltaMovement());
-        if (input.hasCustomName()) {
-            newCart.setCustomName(input.getCustomName());
         }
         serverLevel.addFreshEntityWithPassengers(newCart);
         ((Clearable) input).clearContent();
@@ -91,7 +91,7 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
 
     public void writeToBuffer(FriendlyByteBuf buffer) {
         recipeTool.writeToBuffer(buffer);
-        buffer.writeResourceLocation(Registry.ENTITY_TYPE.getKey(output));
+        buffer.writeResourceLocation(BuiltInRegistries.ENTITY_TYPE.getKey(output));
         buffer.writeCollection(inputs, (b, condition) -> {
             b.writeResourceLocation(condition.getNetworkId());
             condition.writeToBuffer(buffer);
@@ -100,11 +100,12 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
 
     public static EntityConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
-        EntityType<?> output = Registry.ENTITY_TYPE.get(buffer.readResourceLocation());
+        EntityType<?> output = BuiltInRegistries.ENTITY_TYPE.get(buffer.readResourceLocation());
         List<RecipeCondition> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
         return new EntityConversionRecipe<>(recipeTool, output, inputs);
     }
 
+    @Override
     public JsonElement toJson() {
         JsonObject recipe = new JsonObject();
         recipe.addProperty("type", "expandedstorage:entity_conversion");

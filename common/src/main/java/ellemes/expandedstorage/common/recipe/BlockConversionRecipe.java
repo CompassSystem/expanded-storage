@@ -145,6 +145,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
         return new BlockConversionRecipe<>(recipeTool, output, inputs);
     }
 
+    @Override
     public JsonElement toJson() {
         JsonObject recipe = new JsonObject();
         recipe.addProperty("type", "expandedstorage:block_conversion");

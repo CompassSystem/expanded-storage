@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -40,7 +41,7 @@ public interface RecipeCondition {
         } else if (condition.isJsonArray()) {
             JsonArray conditions = condition.getAsJsonArray();
             RecipeCondition[] recipeConditions = new RecipeCondition[conditions.size()];
-            Function<JsonElement, RecipeCondition> function = registry == Registry.BLOCK ? RecipeCondition::readBlockCondition : RecipeCondition::readEntityCondition;
+            Function<JsonElement, RecipeCondition> function = registry == BuiltInRegistries.BLOCK ? RecipeCondition::readBlockCondition : RecipeCondition::readEntityCondition;
             for (int i = 0; i < conditions.size(); i++) {
                 recipeConditions[i] = function.apply(conditions.get(i));
             }
@@ -52,7 +53,7 @@ public interface RecipeCondition {
     }
 
     static RecipeCondition readBlockCondition(JsonElement condition) {
-        RecipeCondition generic = tryReadGenericCondition(condition, Registry.BLOCK);
+        RecipeCondition generic = tryReadGenericCondition(condition, BuiltInRegistries.BLOCK);
         if (generic != null) {
             return generic;
         }
@@ -73,7 +74,7 @@ public interface RecipeCondition {
     }
 
     static RecipeCondition readEntityCondition(JsonElement condition) {
-        RecipeCondition generic = tryReadGenericCondition(condition, Registry.ENTITY_TYPE);
+        RecipeCondition generic = tryReadGenericCondition(condition, BuiltInRegistries.ENTITY_TYPE);
         if (generic != null) {
             return generic;
         }
