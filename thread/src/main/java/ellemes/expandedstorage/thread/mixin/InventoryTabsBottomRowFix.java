@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.thread.mixin;
 
 import com.kqp.inventorytabs.tabs.render.TabRenderingHints;
-import ellemes.container_library.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(AbstractScreen.class)

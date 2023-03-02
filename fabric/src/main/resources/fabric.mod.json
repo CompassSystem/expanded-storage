@@ -10,11 +10,10 @@
   },
   "entrypoints": {
     "main": [
-      "ellemes.container_library.fabric.FabricMain",
       "ellemes.expandedstorage.fabric.FabricMain"
     ],
     "client": [
-      "ellemes.container_library.fabric.FabricClient"
+      "ellemes.expandedstorage.fabric.FabricClient"
     ],
     "fabric-datagen": [
       "ellemes.expandedstorage.thread.datagen.Main"
@@ -23,19 +22,18 @@
       "ellemes.expandedstorage.thread.client.ModMenuCompat"
     ],
     "rei_client": [
-      "ellemes.container_library.thread.client.ReiCompat"
+      "ellemes.expandedstorage.thread.client.ReiCompat"
     ],
     "emi": [
-      "ellemes.container_library.thread.client.EmiCompat"
+      "ellemes.expandedstorage.thread.client.EmiCompat"
     ],
     "jei_mod_plugin": [
-      "ellemes.container_library.client.JeiCompat"
+      "ellemes.expandedstorage.common.client.JeiCompat"
     ]
   },
   "environment": "*",
   "authors": ["Bucket of Compasses"],
   "mixins": [
-    "ellemes-container-library-thread.mixins.json",
     "expandedstorage-common.mixins.json",
     "expandedstorage-thread.mixins.json"
   ],

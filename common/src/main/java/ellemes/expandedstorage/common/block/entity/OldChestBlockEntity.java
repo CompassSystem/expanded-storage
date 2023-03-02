@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.block.entity;
 
-import ellemes.container_library.api.helpers.VariableSidedInventory;
+import ellemes.expandedstorage.api.helpers.VariableSidedInventory;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.InventoryBlockEntity;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;

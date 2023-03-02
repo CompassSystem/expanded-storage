@@ -1,8 +1,11 @@
 package ellemes.expandedstorage.common.item;
 
-import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
+import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
+import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -14,26 +17,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public final class StorageConversionKit extends Item implements EntityInteractableItem {
-    private final ResourceLocation from;
-    private final ResourceLocation to;
     private final Component instructionsFirst;
     private final Component instructionsSecond;
 
-    public StorageConversionKit(Properties settings, ResourceLocation from, ResourceLocation to, boolean manuallyWrapTooltips) {
+    public StorageConversionKit(Properties settings, ResourceLocation fromTier, ResourceLocation toTier, boolean manuallyWrapTooltips) {
         super(settings);
-        this.from = from;
-        this.to = to;
         if (manuallyWrapTooltips) {
-            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
-            this.instructionsSecond = Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
+            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
+            this.instructionsSecond = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
         } else {
-            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY).append(Component.translatable("tooltip.expandedstorage.conversion_kit_" + from.getPath() + "_" + to.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY));
+            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY).append(Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY));
             this.instructionsSecond = Component.literal("");
         }
     }
@@ -44,12 +43,14 @@ public final class StorageConversionKit extends Item implements EntityInteractab
         Player player = context.getPlayer();
         if (player != null) {
             if (player.isShiftKeyDown()) {
-                Block block = level.getBlockState(context.getClickedPos()).getBlock();
-                BlockUpgradeBehaviour behaviour = CommonMain.getBlockUpgradeBehaviour(block);
-                if (behaviour != null) {
+                ItemStack tool = context.getItemInHand();
+                BlockPos pos = context.getClickedPos();
+                BlockState state = level.getBlockState(pos);
+                BlockConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getBlockRecipe(state, tool);
+                if (recipe != null) {
                     if (level.isClientSide()) {
                         return InteractionResult.CONSUME;
-                    } else if (behaviour.tryUpgradeBlock(context, from, to)) {
+                    } else if (recipe.process(level, player, tool, state, pos).getResult().shouldSwing()) {
                         player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                         return InteractionResult.SUCCESS;
                     }
@@ -69,9 +70,9 @@ public final class StorageConversionKit extends Item implements EntityInteractab
 
     @Override
     public InteractionResult es_interactEntity(Level level, Entity entity, Player player, InteractionHand hand, ItemStack stack) {
-        EntityUpgradeBehaviour behaviour = CommonMain.getEntityUpgradeBehaviour(entity);
-        if (behaviour != null) {
-            if (behaviour.tryUpgradeEntity(player, hand, entity, from, to)) {
+        EntityConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getEntityRecipe(entity, stack);
+        if (recipe != null) {
+            if (recipe.process(level, player, stack, entity).shouldSwing()) {
                 player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                 return InteractionResult.SUCCESS;
             }

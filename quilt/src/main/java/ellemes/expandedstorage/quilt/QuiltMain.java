@@ -2,7 +2,6 @@ package ellemes.expandedstorage.quilt;
 
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
@@ -23,7 +22,6 @@ import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.content.registry.api.ReversibleBlockEntry;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.item.group.api.QuiltItemGroup;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
 import org.slf4j.LoggerFactory;
 
 public final class QuiltMain implements ModInitializer {
@@ -46,15 +44,13 @@ public final class QuiltMain implements ModInitializer {
 
         CreativeModeTab group = QuiltItemGroup.builder(Utils.id("tab")).icon(() -> new ItemStack(Registry.ITEM.get(Utils.id("netherite_chest")))).build();
         boolean isClient = MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
-        TagReloadListener tagReloadListener = new TagReloadListener();
-        ThreadMain.constructContent(QuiltLoader.isModLoaded("htm"), group, isClient, tagReloadListener,
+        ThreadMain.constructContent(QuiltLoader.isModLoaded("htm"), group, isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)
                         .andThenIf(isClient, this::registerBarrelRenderLayers)
                         .andThen(this::registerWaxedContent)
         );
-        ResourceLoaderEvents.END_DATA_PACK_RELOAD.register(((server, resourceManager, error) -> tagReloadListener.postDataReload()));
     }
 
     private void registerWaxedContent(Content content) {

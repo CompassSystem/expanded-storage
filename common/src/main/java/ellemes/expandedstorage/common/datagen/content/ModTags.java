@@ -10,19 +10,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public final class ModTags {
+    public static class Blocks {
+        public static final TagKey<Block> ES_WOODEN_CHESTS = tag(Registry.BLOCK_REGISTRY, Utils.id("wooden_chests"));
+        public static final TagKey<Block> COPPER_BARRELS = tag(Registry.BLOCK_REGISTRY, Utils.id("copper_barrels"));
+//        public static final TagKey<Block> COPPER_CHESTS = tag(Registry.BLOCK_REGISTRY, Utils.id("copper_chests"));
+//        public static final TagKey<Block> OLD_COPPER_CHESTS = tag(Registry.BLOCK_REGISTRY, Utils.id("old_copper_chests"));
+    }
+
     public static class Items {
         public static final TagKey<Item> ES_WOODEN_CHESTS = tag(Registry.ITEM_REGISTRY, Utils.id("wooden_chests"));
     }
 
-    public static class Blocks {
-        public static final TagKey<Block> CHEST_CYCLE = tag(Registry.BLOCK_REGISTRY, Utils.id("chest_cycle"));
-        public static final TagKey<Block> MINI_CHEST_CYCLE = tag(Registry.BLOCK_REGISTRY, Utils.id("mini_chest_cycle"));
-        public static final TagKey<Block> MINI_CHEST_SECRET_CYCLE = tag(Registry.BLOCK_REGISTRY, Utils.id("mini_chest_secret_cycle"));
-        public static final TagKey<Block> MINI_CHEST_SECRET_CYCLE_2 = tag(Registry.BLOCK_REGISTRY, Utils.id("mini_chest_secret_cycle_2"));
-    }
-
-    public static class EntityTypes {
-        public static final TagKey<EntityType<?>> MINECART_CHEST_CYCLE = tag(Registry.ENTITY_TYPE_REGISTRY, Utils.id("minecart_chest_cycle"));
+    public static class Entities {
+        public static final TagKey<EntityType<?>> ES_WOODEN_CHEST_MINECARTS = tag(Registry.ENTITY_TYPE_REGISTRY, Utils.id("wooden_chest_minecarts"));
     }
 
     private static <T> TagKey<T> tag(ResourceKey<Registry<T>> registry, ResourceLocation id) {
