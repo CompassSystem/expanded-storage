@@ -1,4 +1,4 @@
-// 1.19.3	2023-03-02T18:11:08.8225348	Expanded Storage/Expanded Storage - Recipes
+// 1.19.3	2023-03-03T20:08:32.5917201	Expanded Storage/Expanded Storage - Recipes
 e21614c856836ac8d19ede9ac406b0f238d62f29 data\expandedstorage\advancements\recipes\misc\old_netherite_to_netherite_chest.json
 03ef3f57d98ad72ffad6aeae4041e6c9c03a5660 data\expandedstorage\recipes\gold_barrel.json
 82ddac88e0c0ca9f967e11b891744e17bb2c7085 data\expandedstorage\advancements\recipes\misc\wood_to_diamond_conversion_kit.json
@@ -36,8 +36,8 @@ be46f55f78394ec28ac5229c770661bc958b0283 data\expandedstorage\advancements\recip
 03d7c4739e28e1f157ec1131accbda5130622c06 data\expandedstorage\recipes\wood_chest.json
 b135aeacb6a76a4f9ab2537ec0810e6914527cc0 data\expandedstorage\recipes\moss_chest.json
 07fb7418f20a27dde5458af406461645990d8045 data\expandedstorage\advancements\recipes\misc\iron_to_gold_conversion_kit.json
-aea404c7a44454faf1846fcd617ad174864e92fc data\expandedstorage\recipes\gold_to_obsidian_conversion_kit.json
 74f85a0b3aac6e0028136d2c92816657a17179b8 data\expandedstorage\recipes\netherite_chest.json
+aea404c7a44454faf1846fcd617ad174864e92fc data\expandedstorage\recipes\gold_to_obsidian_conversion_kit.json
 f923d2fe05c2504b87b1674af8834ed380e7c977 data\expandedstorage\recipes\mini_barrel.json
 6940633d7b6fc0107ad67b27d6e31da788459cf9 data\expandedstorage\advancements\recipes\misc\netherite_mini_chest.json
 bcedc7c985ae733cb5b6d13d9a11f32025cebd2f data\expandedstorage\advancements\recipes\misc\copper_to_iron_conversion_kit.json
