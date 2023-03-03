@@ -1,1 +1,2 @@
-- Fix incorrect entry points in the QMJ.
+- Remove some dead code.
+- Added swap theme recipe for modelled -> old chest and back.
