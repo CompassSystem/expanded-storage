@@ -1,10 +1,9 @@
 package ellemes.expandedstorage.common.block;
 
-import ellemes.container_library.api.v3.OpenableInventoryProvider;
-import ellemes.container_library.api.v3.context.BlockContext;
-import ellemes.container_library.api.v4.InventoryOpeningApi;
+import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
+import ellemes.expandedstorage.api.v3.context.BlockContext;
+import ellemes.expandedstorage.api.v4.InventoryOpeningApi;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
-import ellemes.expandedstorage.common.misc.TieredObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,16 +24,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class OpenableBlock extends Block implements OpenableInventoryProvider<BlockContext>, EntityBlock, TieredObject {
-    private final ResourceLocation blockId;
-    private final ResourceLocation blockTier;
+public abstract class OpenableBlock extends Block implements OpenableInventoryProvider<BlockContext>, EntityBlock {
     private final ResourceLocation openingStat;
     private final int slotCount;
 
-    public OpenableBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier, ResourceLocation openingStat, int slotCount) {
+    public OpenableBlock(Properties settings, ResourceLocation openingStat, int slotCount) {
         super(settings);
-        this.blockId = blockId;
-        this.blockTier = blockTier;
         this.openingStat = openingStat;
         this.slotCount = slotCount;
     }
@@ -44,13 +39,8 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
         return new TextComponent(result.getString().replace("Waxed ", ""));
     }
 
-    @Override
-    public final ResourceLocation getObjTier() {
-        return blockTier;
-    }
-
     public final ResourceLocation getBlockId() {
-        return blockId;
+        return this.builtInRegistryHolder().key().location();
     }
 
     public final int getSlotCount() {

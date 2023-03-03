@@ -8,9 +8,10 @@ import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntit
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
-import ellemes.expandedstorage.common.misc.TagReloadListener;
-import ellemes.expandedstorage.common.misc.TieredObject;
+import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
+import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.forge.block.misc.ChestItemAccess;
@@ -25,6 +26,7 @@ import net.minecraft.stats.StatType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
@@ -37,9 +39,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -56,10 +59,6 @@ import java.util.function.Supplier;
 @Mod("expandedstorage")
 public final class ForgeMain {
     public ForgeMain() {
-        new ellemes.container_library.forge.ForgeMain();
-
-        TagReloadListener tagReloadListener = new TagReloadListener();
-
         CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
                 new CreativeModeTab(Utils.MOD_ID + ".tab") {
                     @NotNull
@@ -67,15 +66,15 @@ public final class ForgeMain {
                     public ItemStack makeIcon() {
                         return new ItemStack(ForgeRegistries.ITEMS.getValue(Utils.id("netherite_chest")), 1);
                     }
-                }, FMLLoader.getDist().isClient(), tagReloadListener, this::registerContent,
+                }, FMLLoader.getDist().isClient(), this::registerContent,
                 /*Base*/ false,
-                /*Chest*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "chests/wooden")), ChestBlockItem::new, ChestItemAccess::new,
+                /*Chest*/ ChestBlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
                 /*Mini Storage*/ MiniStorageBlockItem::new);
-
-        MinecraftForge.EVENT_BUS.addListener((TagsUpdatedEvent event) -> tagReloadListener.postDataReload());
+        MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent event) -> event.addListener(new ConversionRecipeReloadListener()));
+        MinecraftForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> PlatformHelper.instance().sendConversionRecipesToClient(event.getPlayer(), ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes()));
 
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, (AttachCapabilitiesEvent<BlockEntity> event) -> {
             if (event.getObject() instanceof OpenableBlockEntity entity) {
@@ -102,6 +101,12 @@ public final class ForgeMain {
                 event.setCanceled(true);
             }
         });
+
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(MenuType.class, (RegistryEvent.Register<MenuType<?>> event) -> {
+            IForgeRegistry<MenuType<?>> registry = event.getRegistry();
+
+            registry.registerAll(PlatformHelper.instance().getScreenHandlerType());
+        });
     }
 
     private void registerContent(Content content) {
@@ -114,7 +119,6 @@ public final class ForgeMain {
             IForgeRegistry<Block> registry = event.getRegistry();
             CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
                 registry.register(value.setRegistryName(name));
-                CommonMain.registerTieredObject(value);
             });
         });
 
@@ -137,9 +141,6 @@ public final class ForgeMain {
             IForgeRegistry<EntityType<?>> registry = event.getRegistry();
             CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
                 registry.register(value.setRegistryName(name));
-                if (value instanceof TieredObject object) {
-                    CommonMain.registerTieredObject(object);
-                }
             });
         });
 
@@ -155,8 +156,7 @@ public final class ForgeMain {
 
 
         if (FMLLoader.getDist() == Dist.CLIENT) {
-            ForgeClient.initialize();
-            ForgeClient.registerListeners(modBus, content);
+            ForgeClient.initialize(modBus, content);
         }
     }
 

@@ -14,8 +14,8 @@ import java.util.Random;
 public final class CopperMiniStorageBlock extends MiniStorageBlock implements WeatheringCopper {
     private final WeatheringCopper.WeatherState weatherState;
 
-    public CopperMiniStorageBlock(Properties settings, ResourceLocation blockId, ResourceLocation openingStat, WeatheringCopper.WeatherState weatherState) {
-        super(settings, blockId, Utils.COPPER_TIER_ID, openingStat);
+    public CopperMiniStorageBlock(Properties settings, ResourceLocation openingStat, WeatheringCopper.WeatherState weatherState) {
+        super(settings, openingStat);
         this.weatherState = weatherState;
     }
 

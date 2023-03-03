@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.forge.datagen;
 
+import ellemes.expandedstorage.forge.datagen.providers.ForgeConversionRecipeProvider;
 import ellemes.expandedstorage.forge.datagen.providers.ItemModelProvider;
 import ellemes.expandedstorage.forge.datagen.providers.LootTableProvider;
 import ellemes.expandedstorage.forge.datagen.providers.RecipeProvider;
@@ -24,5 +25,6 @@ public final class Main {
         generator.addProvider(new RecipeProvider(generator));
         generator.addProvider(new LootTableProvider(generator));
         generator.addProvider(new ItemModelProvider(generator, fileHelper));
+        generator.addProvider(new ForgeConversionRecipeProvider(generator));
     }
 }

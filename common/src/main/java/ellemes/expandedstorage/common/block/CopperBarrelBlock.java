@@ -14,8 +14,8 @@ import java.util.Random;
 public final class CopperBarrelBlock extends BarrelBlock implements WeatheringCopper {
     private final WeatherState weatherState;
 
-    public CopperBarrelBlock(Properties settings, ResourceLocation blockId, ResourceLocation openingStat, int slotCount, WeatheringCopper.WeatherState weatherState) {
-        super(settings, blockId, Utils.COPPER_TIER_ID, openingStat, slotCount);
+    public CopperBarrelBlock(Properties settings, ResourceLocation openingStat, int slotCount, WeatheringCopper.WeatherState weatherState) {
+        super(settings, openingStat, slotCount);
         this.weatherState = weatherState;
     }
 

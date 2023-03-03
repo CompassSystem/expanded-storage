@@ -1,6 +1,7 @@
 package ninjaphenix.expandedstorage.block.misc;
 
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.state.properties.ChestType;
 import ninjaphenix.expandedstorage.api.EsChestType;
 import ninjaphenix.expandedstorage.api.ExpandedStorageAccessors;
 import org.jetbrains.annotations.ApiStatus;
@@ -29,6 +30,14 @@ public enum CursedChestType implements StringRepresentable {
     CursedChestType(int offset) {
         this.name = name().toLowerCase(Locale.ROOT);
         this.offset = offset;
+    }
+
+    public static CursedChestType from(ChestType value) {
+        return switch (value) {
+            case SINGLE -> CursedChestType.SINGLE;
+            case LEFT -> CursedChestType.RIGHT;
+            case RIGHT -> CursedChestType.LEFT;
+        };
     }
 
     public static CursedChestType of(EsChestType type) {

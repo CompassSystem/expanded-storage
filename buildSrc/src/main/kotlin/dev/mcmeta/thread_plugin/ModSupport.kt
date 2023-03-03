@@ -33,7 +33,7 @@ enum class ModSupport(
         "curse.maven:carrier-409184:3671184",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ModVersions.CCA}",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ModVersions.CCA}",
-        "net.devtech:arrp:0.5.5"
+        "net.devtech:arrp:0.6.7"
     ),
     EMI("maven.modrinth:emi:${ModVersions.EMI}"),
     HTM("curse.maven:htm-462534:3539120"),

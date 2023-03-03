@@ -1,6 +1,1 @@
-- Fix inventories being rearranged a little on the fake pick screen.
-- Implement REI support on Forge
-- Implement JEI support for Fabric, Forge, and Quilt
-- Fix JEI and REI showing on the fake pick screen.
-- Fix minecarts dropping themselves and an empty minecart, now correctly drops the chest block.
-- Fix repo url in commit message (see below :D)
+- Backport 8.2.0-beta.1 from 1.19.2

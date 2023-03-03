@@ -42,8 +42,8 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
             Block.box(1, 0, 1, 15, 14, 15)  // Single shape.
     };
 
-    public ChestBlock(Properties settings, ResourceLocation blockId, ResourceLocation blockTier, ResourceLocation openingStat, int slotCount) {
-        super(settings, blockId, blockTier, openingStat, slotCount);
+    public ChestBlock(Properties settings, ResourceLocation openingStat, int slotCount) {
+        super(settings, openingStat, slotCount);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
@@ -88,7 +88,6 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
         return super.updateShape(state, direction, otherState, level, pos, otherPos);
     }
 
-
     @Override
     @SuppressWarnings("deprecation")
     public RenderShape getRenderShape(BlockState state) {
@@ -99,11 +98,6 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
     protected <T extends OldChestBlockEntity> BlockEntityType<T> getBlockEntityType() {
         //noinspection unchecked
         return (BlockEntityType<T>) CommonMain.getChestBlockEntityType();
-    }
-
-    @Override
-    public ResourceLocation getObjType() {
-        return CommonMain.CHEST_OBJECT_TYPE;
     }
 
     @Nullable

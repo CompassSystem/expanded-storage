@@ -1,12 +1,17 @@
 package ellemes.expandedstorage.forge;
 
-import ellemes.container_library.api.v3.client.ScreenOpeningApi;
+import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.api.v3.client.ScreenOpeningApi;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
+import ellemes.expandedstorage.common.client.gui.PageScreen;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
+import ellemes.expandedstorage.forge.misc.ForgePlatformHelper;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -16,7 +21,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -24,13 +32,22 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import java.util.stream.Collectors;
 
 public class ForgeClient {
-    public static void initialize() {
+    public static void initialize(IEventBus modBus, Content content) {
+        CommonClient.initialize();
         ModLoadingContext.get().getActiveContainer().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
                 () -> new ConfigGuiHandler.ConfigGuiFactory((client, screen) -> ScreenOpeningApi.createTypeSelectScreen(() -> screen))
         );
-    }
 
-    public static void registerListeners(IEventBus modBus, Content content) {
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, (ScreenEvent.InitScreenEvent.Post event) -> {
+            if (event.getScreen() instanceof PageScreen screen) {
+                screen.addPageButtons();
+            }
+        });
+
+        ForgePlatformHelper.instance().clientHelper().init(modBus);
+
+        modBus.addListener((FMLClientSetupEvent event) -> MenuScreens.register(ForgePlatformHelper.instance().getScreenHandlerType(), AbstractScreen::createScreen));
+
         modBus.addListener((TextureStitchEvent.Pre event) -> {
             if (!event.getAtlas().location().equals(Sheets.CHEST_SHEET)) {
                 return;

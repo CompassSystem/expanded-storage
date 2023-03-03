@@ -3,6 +3,7 @@ package ellemes.expandedstorage.thread.datagen.content;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -37,6 +38,14 @@ public final class ThreadTags {
 
         private static TagKey<Block> tag(ResourceLocation id) {
             return TagKey.create(Registry.BLOCK_REGISTRY, id);
+        }
+    }
+
+    public static class Entities {
+        public static final TagKey<EntityType<?>> WOODEN_CHEST_MINECARTS = tag(commonId("wooden_chest_minecarts"));
+
+        private static TagKey<EntityType<?>> tag(ResourceLocation id) {
+            return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id);
         }
     }
 }
