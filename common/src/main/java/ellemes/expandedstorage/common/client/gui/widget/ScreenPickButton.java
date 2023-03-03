@@ -23,15 +23,21 @@ public final class ScreenPickButton extends Button {
         this.setTooltip(tooltip);
     }
 
+    private int getTextureY() {
+        return height * (this.isHoveredOrFocused() ? 1 : isCurrentPreference ? 2 : 0);
+    }
+
     @Override
-    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
+    public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
         RenderSystem.setShaderTexture(0, texture);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-        GuiComponent.blit(stack, this.getX(), this.getY(), 0, height * (this.isHoveredOrFocused() ? 1 : isCurrentPreference ? 2 : 0), width, height, width, height * 3);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
+        RenderSystem.enableBlend();
+        RenderSystem.enableDepthTest();
+        GuiComponent.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, this.getTextureY(), this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight() * 3);
         if (showWarningSymbol) {
             RenderSystem.setShaderTexture(0, WARNING_TEXTURE);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
             GuiComponent.blit(stack, this.getX() + width - 28, this.getY() + 9, 0, 0, 16, 32, 16, 32);
         }
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

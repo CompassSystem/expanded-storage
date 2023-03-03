@@ -1,6 +1,5 @@
 package ellemes.expandedstorage.common.client.gui.widget;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -37,12 +36,12 @@ public final class PageButton extends Button {
     }
 
     @Override
-    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
+    public void renderWidget(PoseStack stack, int i, int j, float f) {
         RenderSystem.setShaderTexture(0, PageButton.TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
         RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        GuiComponent.blit(stack, this.getX(), this.getY(), textureOffset * 12, this.getTextureY(), width, height, 32, 48);
+        RenderSystem.enableDepthTest();
+        GuiComponent.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), textureOffset * 12, this.getTextureY(), this.getWidth(), this.getHeight(), 32, 48);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }
