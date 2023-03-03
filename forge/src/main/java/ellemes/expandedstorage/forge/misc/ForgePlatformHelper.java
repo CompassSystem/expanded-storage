@@ -51,6 +51,7 @@ public class ForgePlatformHelper implements PlatformHelper {
     public MenuType<AbstractHandler> getScreenHandlerType() {
         if (menuType == null) {
             menuType = new MenuType<>((IContainerFactory<AbstractHandler>) AbstractHandler::createClientMenu);
+            menuType.setRegistryName(Utils.HANDLER_TYPE_ID);
         }
         return menuType;
     }

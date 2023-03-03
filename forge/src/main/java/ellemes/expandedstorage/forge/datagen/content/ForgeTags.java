@@ -19,7 +19,7 @@ public final class ForgeTags {
         public static final TagKey<EntityType<?>> WOODEN_CHEST_MINECARTS = tag(new ResourceLocation("forge", "chest_minecarts/wooden"));
 
         private static TagKey<EntityType<?>> tag(ResourceLocation id) {
-            return TagKey.create(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), id);
+            return TagKey.create(ForgeRegistries.ENTITIES.getRegistryKey(), id);
         }
     }
 }

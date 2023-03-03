@@ -5,11 +5,12 @@ import ellemes.expandedstorage.common.misc.ClientPlatformHelper;
 import ellemes.expandedstorage.common.misc.ConfigWrapper;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class ForgeClientHelper implements ClientPlatformHelper {
     }
 
     public void init(IEventBus modBus) {
-        modBus.addListener((RegisterKeyMappingsEvent event) -> event.register(binding));
+        modBus.addListener((FMLClientSetupEvent event) -> ClientRegistry.registerKeyBinding(binding));
     }
 
     @Override
