@@ -4,11 +4,11 @@
     "id": "expandedstorage:storage_mutator"
   },
   "result": {
-    "id": "expandedstorage:wood_chest"
+    "id": "expandedstorage:iron_chest"
   },
   "inputs": [
     {
-      "id": "expandedstorage:moss_chest"
+      "id": "expandedstorage:old_iron_chest"
     }
   ]
 }
