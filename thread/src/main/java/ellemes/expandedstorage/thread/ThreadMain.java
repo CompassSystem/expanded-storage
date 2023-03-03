@@ -64,7 +64,6 @@ import java.util.stream.Collectors;
 public class ThreadMain {
     public static final ResourceLocation UPDATE_RECIPES_ID = Utils.id("update_conversion_recipes");
 
-
     @SuppressWarnings({"UnstableApiUsage"})
     public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
         //noinspection unchecked
