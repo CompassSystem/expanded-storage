@@ -399,7 +399,23 @@ public abstract class ConversionRecipeProvider implements DataProvider {
             simpleBlockThemeSwap(Utils.id("pumpkin_to_present_chest"), ModBlocks.PUMPKIN_CHEST, ModBlocks.PRESENT);
             simpleBlockThemeSwap(Utils.id("present_to_bamboo_chest"), ModBlocks.PRESENT, ModBlocks.BAMBOO_CHEST);
             simpleBlockThemeSwap(Utils.id("bamboo_to_moss_chest"), ModBlocks.BAMBOO_CHEST, ModBlocks.MOSS_CHEST);
-            simpleBlockThemeSwap(Utils.id("moss_to_wood_chest"), ModBlocks.MOSS_CHEST, ModBlocks.WOOD_CHEST);
+            simpleBlockThemeSwap(Utils.id("moss_to_old_wood_chest"), ModBlocks.MOSS_CHEST, ModBlocks.OLD_WOOD_CHEST);
+            simpleBlockThemeSwap(Utils.id("old_wood_chest_to_wood_chest"), ModBlocks.OLD_WOOD_CHEST, ModBlocks.WOOD_CHEST);
+
+            simpleBlockThemeSwap(Utils.id("iron_to_old_iron_chest"), ModBlocks.IRON_CHEST, ModBlocks.OLD_IRON_CHEST);
+            simpleBlockThemeSwap(Utils.id("old_iron_to_iron_chest"), ModBlocks.OLD_IRON_CHEST, ModBlocks.IRON_CHEST);
+
+            simpleBlockThemeSwap(Utils.id("gold_to_old_gold_chest"), ModBlocks.GOLD_CHEST, ModBlocks.OLD_GOLD_CHEST);
+            simpleBlockThemeSwap(Utils.id("old_gold_to_gold_chest"), ModBlocks.OLD_GOLD_CHEST, ModBlocks.GOLD_CHEST);
+
+            simpleBlockThemeSwap(Utils.id("diamond_to_old_diamond_chest"), ModBlocks.DIAMOND_CHEST, ModBlocks.OLD_DIAMOND_CHEST);
+            simpleBlockThemeSwap(Utils.id("old_diamond_to_diamond_chest"), ModBlocks.OLD_DIAMOND_CHEST, ModBlocks.DIAMOND_CHEST);
+
+            simpleBlockThemeSwap(Utils.id("obsidian_to_old_obsidian_chest"), ModBlocks.OBSIDIAN_CHEST, ModBlocks.OLD_OBSIDIAN_CHEST);
+            simpleBlockThemeSwap(Utils.id("old_obsidian_to_obsidian_chest"), ModBlocks.OLD_OBSIDIAN_CHEST, ModBlocks.OBSIDIAN_CHEST);
+
+            simpleBlockThemeSwap(Utils.id("netherite_to_old_netherite_chest"), ModBlocks.NETHERITE_CHEST, ModBlocks.OLD_NETHERITE_CHEST);
+            simpleBlockThemeSwap(Utils.id("old_netherite_to_netherite_chest"), ModBlocks.OLD_NETHERITE_CHEST, ModBlocks.NETHERITE_CHEST);
         }
 
         // Mini storage theme swap recipes
