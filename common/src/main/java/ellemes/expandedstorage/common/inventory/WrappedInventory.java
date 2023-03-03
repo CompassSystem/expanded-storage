@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.common.misc;
+package ellemes.expandedstorage.common.inventory;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.WorldlyContainer;

@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.common.block.entity.extendable;
 
 import ellemes.expandedstorage.common.block.strategies.Observable;
-import ellemes.expandedstorage.common.misc.WrappedInventory;
+import ellemes.expandedstorage.common.inventory.WrappedInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
