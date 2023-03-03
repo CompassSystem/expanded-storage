@@ -38,13 +38,11 @@ public final class PickScreen extends Screen {
     public PickScreen(AbstractScreen currentScreen) {
         this(currentScreen.getMenu(), () -> {
             return AbstractScreen.createScreen(currentScreen.getMenu(), Minecraft.getInstance().player.getInventory(), currentScreen.getTitle());
-        }, () -> {
-        });
+        }, () -> {});
     }
 
     public PickScreen(Supplier<Screen> returnToScreen) {
-        this(null, returnToScreen, () -> {
-        });
+        this(null, returnToScreen, () -> {});
     }
 
     public PickScreen(@NotNull Runnable onOptionPicked) {
