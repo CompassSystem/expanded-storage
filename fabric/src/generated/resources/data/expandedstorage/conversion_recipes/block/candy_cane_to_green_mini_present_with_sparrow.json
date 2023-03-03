@@ -1,0 +1,15 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "tool": {
+    "id": "expandedstorage:storage_mutator",
+    "name": "sparrow"
+  },
+  "result": {
+    "id": "expandedstorage:green_mini_present_with_sparrow"
+  },
+  "inputs": [
+    {
+      "id": "expandedstorage:candy_cane_mini_present_with_sparrow"
+    }
+  ]
+}

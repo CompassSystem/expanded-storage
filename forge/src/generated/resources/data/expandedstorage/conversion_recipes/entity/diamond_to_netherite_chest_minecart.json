@@ -1,0 +1,12 @@
+{
+  "type": "expandedstorage:entity_conversion",
+  "tool": {
+    "id": "expandedstorage:diamond_to_netherite_conversion_kit"
+  },
+  "result": "expandedstorage:netherite_chest_minecart",
+  "inputs": [
+    {
+      "id": "expandedstorage:diamond_chest_minecart"
+    }
+  ]
+}

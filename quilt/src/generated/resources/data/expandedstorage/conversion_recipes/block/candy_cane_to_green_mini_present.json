@@ -1,0 +1,14 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "tool": {
+    "id": "expandedstorage:storage_mutator"
+  },
+  "result": {
+    "id": "expandedstorage:green_mini_present"
+  },
+  "inputs": [
+    {
+      "id": "expandedstorage:candy_cane_mini_present"
+    }
+  ]
+}

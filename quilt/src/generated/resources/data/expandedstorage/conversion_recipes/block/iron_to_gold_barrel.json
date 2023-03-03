@@ -1,0 +1,14 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "tool": {
+    "id": "expandedstorage:iron_to_gold_conversion_kit"
+  },
+  "result": {
+    "id": "expandedstorage:gold_barrel"
+  },
+  "inputs": [
+    {
+      "id": "expandedstorage:iron_barrel"
+    }
+  ]
+}

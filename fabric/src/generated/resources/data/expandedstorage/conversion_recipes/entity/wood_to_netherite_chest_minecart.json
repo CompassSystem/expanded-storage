@@ -1,0 +1,12 @@
+{
+  "type": "expandedstorage:entity_conversion",
+  "tool": {
+    "id": "expandedstorage:wood_to_netherite_conversion_kit"
+  },
+  "result": "expandedstorage:netherite_chest_minecart",
+  "inputs": [
+    {
+      "tag": "expandedstorage:wooden_chest_minecarts"
+    }
+  ]
+}

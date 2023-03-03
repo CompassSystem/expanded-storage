@@ -1,0 +1,14 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "tool": {
+    "id": "expandedstorage:obsidian_to_netherite_conversion_kit"
+  },
+  "result": {
+    "id": "expandedstorage:netherite_barrel"
+  },
+  "inputs": [
+    {
+      "id": "expandedstorage:obsidian_barrel"
+    }
+  ]
+}

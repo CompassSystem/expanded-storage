@@ -1,0 +1,15 @@
+{
+  "type": "expandedstorage:block_conversion",
+  "tool": {
+    "id": "expandedstorage:storage_mutator",
+    "name": "sparrow"
+  },
+  "result": {
+    "id": "expandedstorage:copper_mini_barrel_with_sparrow"
+  },
+  "inputs": [
+    {
+      "id": "expandedstorage:copper_mini_barrel"
+    }
+  ]
+}
