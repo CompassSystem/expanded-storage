@@ -1,5 +1,5 @@
 import dev.mcmeta.thread_plugin.ModVersions
-import ellemes.gradle.mod.api.task.MinifyJsonTask
+import ellemes.gradle.mod.api.task.AbstractJsonTask
 
 plugins {
     id("ellemes.gradle.mod").apply(false)
@@ -39,7 +39,7 @@ dependencies {
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${ModVersions.REI}")
 }
 
-tasks.getByName<MinifyJsonTask>("minJar") {
+tasks.getByName<AbstractJsonTask>("minJar") {
     manifest.attributes(mapOf(
             "Automatic-Module-Name" to "ellemes.expandedstorage"
     ))
