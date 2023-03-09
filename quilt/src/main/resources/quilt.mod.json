@@ -17,15 +17,15 @@
     "depends": [
       {
         "id": "org.quiltmc:quilt_loader",
-        "versions": ">=0.17.10"
+        "versions": ">=0.18.3"
       },
       {
         "id": "minecraft",
-        "versions": "1.19.3"
+        "versions": ">=1.19.4-beta.3"
       },
       {
         "id": "org.quiltmc:quilted_fabric_api",
-        "versions": ">=5.0.0-alpha.1"
+        "versions": ">=6.0.0-alpha.1"
       }
     ],
     "breaks": [
