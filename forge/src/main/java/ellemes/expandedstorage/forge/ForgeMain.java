@@ -139,8 +139,8 @@ public final class ForgeMain {
         modBus.addListener((CreativeModeTabEvent.Register event) -> {
             event.registerCreativeModeTab(Utils.id(Utils.MOD_ID + ".tab"), builder -> {
                 builder.icon(() -> ForgeRegistries.ITEMS.getValue(Utils.id("netherite_chest")).getDefaultInstance());
-                builder.displayItems((featureFlagSet, output, bl) -> {
-                    CommonMain.generateDisplayItems(featureFlagSet, output::accept);
+                builder.displayItems((displayParameters, output) -> {
+                    CommonMain.generateDisplayItems(displayParameters, output::accept);
                 });
                 builder.title(Component.translatable("itemGroup.expandedstorage.tab"));
             });

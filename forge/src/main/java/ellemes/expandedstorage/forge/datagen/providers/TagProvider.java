@@ -39,7 +39,7 @@ public final class TagProvider {
 
     public static final class Item extends ItemTagsProvider {
         public Item(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
-            super(output, lookupProvider, blockTagsProvider, Utils.MOD_ID, existingFileHelper);
+            super(output, lookupProvider, blockTagsProvider.contentsGetter(), Utils.MOD_ID, existingFileHelper);
         }
 
         @Override
