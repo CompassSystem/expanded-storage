@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "expandedstorage:bamboo_chest"
-  }
+  },
+  "show_notification": true
 }

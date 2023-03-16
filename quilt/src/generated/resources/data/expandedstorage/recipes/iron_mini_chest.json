@@ -20,5 +20,6 @@
   "result": {
     "count": 8,
     "item": "expandedstorage:iron_mini_chest"
-  }
+  },
+  "show_notification": true
 }

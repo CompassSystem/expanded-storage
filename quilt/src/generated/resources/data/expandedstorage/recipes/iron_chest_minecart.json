@@ -15,5 +15,6 @@
   ],
   "result": {
     "item": "expandedstorage:iron_chest_minecart"
-  }
+  },
+  "show_notification": true
 }

@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "expandedstorage:diamond_barrel"
-  }
+  },
+  "show_notification": true
 }

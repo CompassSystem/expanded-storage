@@ -20,5 +20,6 @@
   "result": {
     "count": 8,
     "item": "expandedstorage:obsidian_mini_barrel"
-  }
+  },
+  "show_notification": true
 }

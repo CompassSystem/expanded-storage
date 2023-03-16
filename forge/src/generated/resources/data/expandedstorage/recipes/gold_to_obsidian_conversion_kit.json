@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "expandedstorage:gold_to_obsidian_conversion_kit"
-  }
+  },
+  "show_notification": true
 }
