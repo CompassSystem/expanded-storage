@@ -5,7 +5,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
-import compasses.expandedstorage.common.block.misc.BasicLockable;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.misc.Utils;
@@ -55,7 +54,7 @@ import java.util.function.Supplier;
 @Mod("expandedstorage")
 public final class ForgeMain {
     public ForgeMain() {
-        CommonMain.constructContent(new ForgeCommonHelper(), GenericItemAccess::new, BasicLockable::new,
+        CommonMain.constructContent(new ForgeCommonHelper(), GenericItemAccess::new, null,
                 FMLLoader.getDist().isClient(), this::registerContent,
                 /*Base*/ false,
                 /*Chest*/ ChestBlockItem::new, ChestItemAccess::new,

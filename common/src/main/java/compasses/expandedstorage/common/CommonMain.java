@@ -195,10 +195,13 @@ public final class CommonMain {
             return statId;
         };
 
-        List<NamedValue<Item>> baseItems = new ArrayList<>(22);
+        List<NamedValue<Item>> baseItems = new ArrayList<>(25);
         /*Base*/
         {
             baseItems.add(new NamedValue<>(Utils.id("storage_mutator"), () -> new StorageMutator(new Item.Properties().stacksTo(1))));
+            baseItems.add(new NamedValue<>(Utils.id("gold_key"), () -> new Item(new Item.Properties().stacksTo(1))));
+            baseItems.add(new NamedValue<>(Utils.id("gold_lock"), () -> new Item(new Item.Properties().stacksTo(16))));
+            baseItems.add(new NamedValue<>(Utils.id("diamond_lock"), () -> new Item(new Item.Properties().stacksTo(16))));
             CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, woodTier, copperTier, ironTier, goldTier, diamondTier, obsidianTier, netheriteTier);
         }
 
@@ -682,7 +685,10 @@ public final class CommonMain {
             output.accept(sparrowMutator);
         }
 
-        // todo: add lock stuff when finished and ported.
+        wrap.accept(ModItems.GOLD_KEY);
+        wrap.accept(ModItems.GOLD_LOCK);
+        wrap.accept(ModItems.DIAMOND_LOCK);
+
         wrap.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);

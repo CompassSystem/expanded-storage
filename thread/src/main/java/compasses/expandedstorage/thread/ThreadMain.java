@@ -5,7 +5,6 @@ import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
-import compasses.expandedstorage.common.block.misc.BasicLockable;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.client.ChestBlockEntityRenderer;
 import compasses.expandedstorage.common.entity.ChestMinecart;
@@ -89,7 +88,7 @@ public class ThreadMain {
                            });
                        }).build();
 
-        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
+        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : null, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
@@ -182,6 +181,7 @@ public class ThreadMain {
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.BOTTOM_LAYER, ChestBlockEntityRenderer::createBottomBodyLayer);
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.FRONT_LAYER, ChestBlockEntityRenderer::createFrontBodyLayer);
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.BACK_LAYER, ChestBlockEntityRenderer::createBackBodyLayer);
+            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.CUSTOM_LOCK_LAYER, ChestBlockEntityRenderer::createCustomLockLayer);
         }
 
         public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {

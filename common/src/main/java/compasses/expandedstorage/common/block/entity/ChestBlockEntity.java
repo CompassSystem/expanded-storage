@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.entity.ChestLidController;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -56,7 +57,7 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
     private final ChestLidController lidController;
 
     public ChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
-                            Function<OpenableBlockEntity, ItemAccess> access, Supplier<Lockable> lockable) {
+                            Function<OpenableBlockEntity, ItemAccess> access, @Nullable Supplier<Lockable> lockable) {
         super(type, pos, state, blockId, access, lockable);
         this.setObservable(new Observable() {
             @Override

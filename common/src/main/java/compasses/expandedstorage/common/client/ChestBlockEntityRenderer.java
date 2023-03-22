@@ -10,6 +10,7 @@ import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.misc.Property;
 import compasses.expandedstorage.common.block.misc.PropertyRetriever;
 import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.misc.VisualLockType;
 import ellemes.expandedstorage.api.EsChestType;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
@@ -43,6 +44,7 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
     public static final ModelLayerLocation BOTTOM_LAYER = new ModelLayerLocation(Utils.id("bottom_chest"), "main");
     public static final ModelLayerLocation FRONT_LAYER = new ModelLayerLocation(Utils.id("front_chest"), "main");
     public static final ModelLayerLocation BACK_LAYER = new ModelLayerLocation(Utils.id("back_chest"), "main");
+    public static final ModelLayerLocation CUSTOM_LOCK_LAYER = new ModelLayerLocation(Utils.id("custom_lock"), "main");
     private static final BlockState DEFAULT_STATE = BuiltInRegistries.BLOCK.get(Utils.id("wood_chest")).defaultBlockState();
 
     private static final Property<ChestBlockEntity, Float2FloatFunction> LID_OPENNESS_FUNCTION_GETTER = new Property<>() {
@@ -87,6 +89,7 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
     private final ModelPart bottomBottom;
     private final ModelPart frontBottom, frontLid, frontLock;
     private final ModelPart backBottom, backLid;
+    private final ModelPart customLockSingle, customLockLeft, customLockRight, customLockTop, customLockFront;
 
     public ChestBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         ModelPart single = context.bakeLayer(ChestBlockEntityRenderer.SINGLE_LAYER);
@@ -114,6 +117,12 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         ModelPart back = context.bakeLayer(ChestBlockEntityRenderer.BACK_LAYER);
         backBottom = back.getChild("bottom");
         backLid = back.getChild("lid");
+        ModelPart customLock = context.bakeLayer(ChestBlockEntityRenderer.CUSTOM_LOCK_LAYER);
+        customLockSingle = customLock.getChild("single");
+        customLockLeft = customLock.getChild("left");
+        customLockRight = customLock.getChild("right");
+        customLockTop = customLock.getChild("top");
+        customLockFront = customLock.getChild("front");
     }
 
     public static LayerDefinition createSingleBodyLayer() {
@@ -176,6 +185,17 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         return LayerDefinition.create(meshDefinition, 48, 48);
     }
 
+    public static LayerDefinition createCustomLockLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        partDefinition.addOrReplaceChild("single", CubeListBuilder.create().texOffs(0, 0).addBox(7, -1, 15, 2, 4, 1), PartPose.offset(0, 8, 0));
+        partDefinition.addOrReplaceChild("left", CubeListBuilder.create().texOffs(0, 5).addBox(15, -1, 15, 1, 4, 1), PartPose.offset(0, 8, 0));
+        partDefinition.addOrReplaceChild("right", CubeListBuilder.create().texOffs(0, 10).addBox(0, -1, 15, 1, 4, 1), PartPose.offset(0, 8, 0));
+        partDefinition.addOrReplaceChild("top", CubeListBuilder.create().texOffs(0, 0).addBox(7, -1, 15, 2, 4, 1), PartPose.offset(0, 8, 0));
+        partDefinition.addOrReplaceChild("front", CubeListBuilder.create().texOffs(0, 0).addBox(7, -1, 31, 2, 4, 1), PartPose.offset(0, 8, -16));
+        return LayerDefinition.create(meshDefinition, 8, 16);
+    }
+
     private static float getLidOpenness(float delta) {
         delta = 1 - delta;
         delta = 1 - delta * delta * delta;
@@ -224,22 +244,30 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
             retriever = PropertyRetriever.createDirect(entity);
         }
         VertexConsumer consumer = new Material(Sheets.CHEST_SHEET, CommonMain.getChestTexture(blockId, chestType)).buffer(provider, RenderType::entityCutout);
+        VisualLockType lockType = entity.getVisualLock();
+        VertexConsumer lockConsumer = consumer;
+        if (lockType == VisualLockType.GOLD) {
+            lockConsumer = new Material(Sheets.CHEST_SHEET, Utils.id("entity/chest/gold_lock")).buffer(provider, RenderType::entityCutout);
+        } else if (lockType == VisualLockType.DIAMOND) {
+            lockConsumer = new Material(Sheets.CHEST_SHEET, Utils.id("entity/chest/diamond_lock")).buffer(provider, RenderType::entityCutout);
+        }
+        boolean isCustomlock = lockConsumer != consumer;
         float lidOpenness = ChestBlockEntityRenderer.getLidOpenness(retriever.get(ChestBlockEntityRenderer.LID_OPENNESS_FUNCTION_GETTER).orElse(f -> 0).get(delta));
         int brightness = retriever.get(ChestBlockEntityRenderer.BRIGHTNESS_PROPERTY).orElse(i -> i).applyAsInt(light);
         if (chestType == EsChestType.SINGLE) {
             ChestBlockEntityRenderer.renderBottom(stack, consumer, singleBottom, brightness, overlay);
             ChestBlockEntityRenderer.renderTop(stack, consumer, singleLid, brightness, overlay, lidOpenness);
-            ChestBlockEntityRenderer.renderTop(stack, consumer, singleLock, brightness, overlay, lidOpenness);
+            ChestBlockEntityRenderer.renderTop(stack, lockConsumer, isCustomlock ? customLockSingle : singleLock, brightness, overlay, lidOpenness);
         } else if (chestType == EsChestType.TOP) {
             ChestBlockEntityRenderer.renderBottom(stack, consumer, topBottom, brightness, overlay);
             ChestBlockEntityRenderer.renderTop(stack, consumer, topLid, brightness, overlay, lidOpenness);
-            ChestBlockEntityRenderer.renderTop(stack, consumer, topLock, brightness, overlay, lidOpenness);
+            ChestBlockEntityRenderer.renderTop(stack, lockConsumer, isCustomlock ? customLockTop : topLock, brightness, overlay, lidOpenness);
         } else if (chestType == EsChestType.BOTTOM) {
             ChestBlockEntityRenderer.renderBottom(stack, consumer, bottomBottom, brightness, overlay);
         } else if (chestType == EsChestType.FRONT) {
             ChestBlockEntityRenderer.renderBottom(stack, consumer, frontBottom, brightness, overlay);
             ChestBlockEntityRenderer.renderTop(stack, consumer, frontLid, brightness, overlay, lidOpenness);
-            ChestBlockEntityRenderer.renderTop(stack, consumer, frontLock, brightness, overlay, lidOpenness);
+            ChestBlockEntityRenderer.renderTop(stack, lockConsumer, isCustomlock ? customLockFront : frontLock, brightness, overlay, lidOpenness);
         } else if (chestType == EsChestType.BACK) {
             ChestBlockEntityRenderer.renderBottom(stack, consumer, backBottom, brightness, overlay);
             ChestBlockEntityRenderer.renderTop(stack, consumer, backLid, brightness, overlay, lidOpenness);
@@ -247,14 +275,12 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
             ChestBlockEntityRenderer.renderBottom(stack, consumer, leftBottom, brightness, overlay);
             //noinspection SuspiciousNameCombination
             ChestBlockEntityRenderer.renderTop(stack, consumer, leftLid, brightness, overlay, lidOpenness);
-            //noinspection SuspiciousNameCombination
-            ChestBlockEntityRenderer.renderTop(stack, consumer, leftLock, brightness, overlay, lidOpenness);
+            ChestBlockEntityRenderer.renderTop(stack, lockConsumer, isCustomlock ? customLockLeft : leftLock, brightness, overlay, lidOpenness);
         } else if (chestType == EsChestType.RIGHT) {
             ChestBlockEntityRenderer.renderBottom(stack, consumer, rightBottom, brightness, overlay);
             //noinspection SuspiciousNameCombination
             ChestBlockEntityRenderer.renderTop(stack, consumer, rightLid, brightness, overlay, lidOpenness);
-            //noinspection SuspiciousNameCombination
-            ChestBlockEntityRenderer.renderTop(stack, consumer, rightLock, brightness, overlay, lidOpenness);
+            ChestBlockEntityRenderer.renderTop(stack, lockConsumer, isCustomlock ? customLockRight : rightLock, brightness, overlay, lidOpenness);
         }
         stack.popPose();
     }

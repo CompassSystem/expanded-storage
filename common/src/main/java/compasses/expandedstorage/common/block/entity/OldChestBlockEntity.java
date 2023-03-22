@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -20,10 +21,9 @@ public class OldChestBlockEntity extends InventoryBlockEntity {
     WorldlyContainer cachedDoubleInventory = null;
 
     public OldChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
-                               Function<OpenableBlockEntity, ItemAccess> access, Supplier<Lockable> lockable) {
-        super(type, pos, state, blockId, ((OpenableBlock) state.getBlock()).getInventoryTitle(), ((OpenableBlock) state.getBlock()).getSlotCount());
+                               Function<OpenableBlockEntity, ItemAccess> access, @Nullable Supplier<Lockable> lockable) {
+        super(type, pos, state, blockId, ((OpenableBlock) state.getBlock()).getInventoryTitle(), lockable, ((OpenableBlock) state.getBlock()).getSlotCount());
         this.setItemAccess(access.apply(this));
-        this.setLockable(lockable.get());
     }
 
     public void invalidateDoubleBlockCache() {

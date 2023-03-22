@@ -9,6 +9,9 @@ import net.minecraft.world.item.Item;
 
 public final class ModItems {
     public static final Item STORAGE_MUTATOR = item(Utils.id("storage_mutator"));
+    public static final Item GOLD_KEY = item(Utils.id("gold_key"));
+    public static final Item GOLD_LOCK = item(Utils.id("gold_lock"));
+    public static final Item DIAMOND_LOCK = item(Utils.id("diamond_lock"));
 
     public static final Item WOOD_TO_COPPER_CONVERSION_KIT = item(Utils.id("wood_to_copper_conversion_kit"));
     public static final Item WOOD_TO_IRON_CONVERSION_KIT = item(Utils.id("wood_to_iron_conversion_kit"));

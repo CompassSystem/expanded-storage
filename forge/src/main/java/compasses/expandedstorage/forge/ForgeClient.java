@@ -57,6 +57,7 @@ public class ForgeClient {
             event.registerLayerDefinition(ChestBlockEntityRenderer.BOTTOM_LAYER, ChestBlockEntityRenderer::createBottomBodyLayer);
             event.registerLayerDefinition(ChestBlockEntityRenderer.FRONT_LAYER, ChestBlockEntityRenderer::createFrontBodyLayer);
             event.registerLayerDefinition(ChestBlockEntityRenderer.BACK_LAYER, ChestBlockEntityRenderer::createBackBodyLayer);
+            event.registerLayerDefinition(ChestBlockEntityRenderer.CUSTOM_LOCK_LAYER, ChestBlockEntityRenderer::createCustomLockLayer);
         });
 
         modBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {

@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -50,10 +51,9 @@ public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
     };
 
     public BarrelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
-                             Function<OpenableBlockEntity, ItemAccess> access, Supplier<Lockable> lockable) {
-        super(type, pos, state, blockId, ((OpenableBlock) state.getBlock()).getInventoryTitle(), ((OpenableBlock) state.getBlock()).getSlotCount());
+                             Function<OpenableBlockEntity, ItemAccess> access, @Nullable Supplier<Lockable> lockable) {
+        super(type, pos, state, blockId, ((OpenableBlock) state.getBlock()).getInventoryTitle(), lockable, ((OpenableBlock) state.getBlock()).getSlotCount());
         this.setItemAccess(access.apply(this));
-        this.setLockable(lockable.get());
     }
 
     private static void playSound(Level level, BlockState state, BlockPos pos, SoundEvent sound) {

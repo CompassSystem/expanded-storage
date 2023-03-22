@@ -7,6 +7,9 @@ import java.util.function.Consumer;
 
 public class ModelHelper {
     public static void registerItemModels(Consumer<Item> consumer) {
+        consumer.accept(ModItems.GOLD_KEY);
+        consumer.accept(ModItems.GOLD_LOCK);
+        consumer.accept(ModItems.DIAMOND_LOCK);
         consumer.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         consumer.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
         consumer.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);
