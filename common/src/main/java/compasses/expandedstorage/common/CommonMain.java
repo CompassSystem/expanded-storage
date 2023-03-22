@@ -22,6 +22,8 @@ import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.item.BlockMutatorBehaviour;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
 import compasses.expandedstorage.common.item.EntityInteractableItem;
+import compasses.expandedstorage.common.item.GoldKeyItem;
+import compasses.expandedstorage.common.item.LockItem;
 import compasses.expandedstorage.common.item.MutationMode;
 import compasses.expandedstorage.common.item.StorageConversionKit;
 import compasses.expandedstorage.common.item.StorageMutator;
@@ -199,9 +201,9 @@ public final class CommonMain {
         /*Base*/
         {
             baseItems.add(new NamedValue<>(Utils.id("storage_mutator"), () -> new StorageMutator(new Item.Properties().stacksTo(1))));
-            baseItems.add(new NamedValue<>(Utils.id("gold_key"), () -> new Item(new Item.Properties().stacksTo(1))));
-            baseItems.add(new NamedValue<>(Utils.id("gold_lock"), () -> new Item(new Item.Properties().stacksTo(16))));
-            baseItems.add(new NamedValue<>(Utils.id("diamond_lock"), () -> new Item(new Item.Properties().stacksTo(16))));
+            baseItems.add(new NamedValue<>(Utils.id("gold_key"), () -> new GoldKeyItem(new Item.Properties().stacksTo(1))));
+            baseItems.add(new NamedValue<>(Utils.id("gold_lock"), () -> new LockItem(new Item.Properties().stacksTo(16), false)));
+            baseItems.add(new NamedValue<>(Utils.id("diamond_lock"), () -> new LockItem(new Item.Properties().stacksTo(16), true)));
             CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, woodTier, copperTier, ironTier, goldTier, diamondTier, obsidianTier, netheriteTier);
         }
 

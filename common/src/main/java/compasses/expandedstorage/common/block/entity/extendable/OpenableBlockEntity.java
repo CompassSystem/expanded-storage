@@ -2,6 +2,7 @@ package compasses.expandedstorage.common.block.entity.extendable;
 
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
+import compasses.expandedstorage.common.item.GoldKeyItem;
 import compasses.expandedstorage.common.misc.VisualLockType;
 import ellemes.expandedstorage.api.v3.OpenableInventory;
 import net.minecraft.core.BlockPos;
@@ -14,6 +15,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.LockCode;
@@ -34,7 +36,7 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
     private final ResourceLocation blockId;
     private final Component defaultName;
     private ItemAccess itemAccess;
-    private Lockable lockable;
+    private @Nullable Lockable lockable;
     private Component customName;
     private @Nullable UUID diamondLock;
     private @Nullable Component goldLock;
@@ -61,7 +63,7 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         } else {
             ItemStack stackInHand = player.getItemInHand(player.getUsedItemHand());
             if (goldLock != null) {
-                boolean isGoldKey = !stackInHand.isEmpty() && BuiltInRegistries.ITEM.getKey(stackInHand.getItem()).toString().equals("expandedstorage:gold_key");
+                boolean isGoldKey = !stackInHand.isEmpty() && stackInHand.getItem() instanceof GoldKeyItem;
                 lockOpenable = isGoldKey && stackInHand.getHoverName().equals(goldLock);
             } else if (vanillaLock != null) {
                 lockOpenable = vanillaLock.unlocksWith(stackInHand);
@@ -109,7 +111,10 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
                 if (goldLock.isPresent()) {
                     this.goldLock = goldLock.get();
                 } else {
-                    this.vanillaLock = LockCode.fromTag(tag);
+                    LockCode vanillaLock = LockCode.fromTag(tag);
+                    if (vanillaLock != LockCode.NO_LOCK) {
+                        this.vanillaLock = vanillaLock;
+                    }
                 }
             }
         }
@@ -220,5 +225,37 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
 
     public boolean isDinnerbone() {
         return this.hasCustomName() && customName.getString().equals("Dinnerbone");
+    }
+
+    public boolean hasLock() {
+        return diamondLock != null || goldLock != null || vanillaLock != null || (lockable != null && lockable.isLockPresent());
+    }
+
+    public void setDiamondLock(UUID playerUUID) {
+        diamondLock = playerUUID;
+        this.syncBlockEntityData();
+    }
+
+    public void setGoldLock(Component lockDisplayName) {
+        goldLock = lockDisplayName;
+        this.syncBlockEntityData();
+    }
+
+    public void setVanillaLock(LockCode lockKey) {
+        if (lockKey != LockCode.NO_LOCK) {
+            vanillaLock = lockKey;
+            this.syncBlockEntityData();
+        }
+    }
+
+    public void copyLockFrom(OpenableBlockEntity other) {
+        diamondLock = other.diamondLock;
+        goldLock = other.goldLock;
+        vanillaLock = other.vanillaLock;
+        lockable = other.lockable;
+    }
+
+    private void syncBlockEntityData() {
+        ((ServerLevel) level).getChunkSource().blockChanged(this.getBlockPos());
     }
 }

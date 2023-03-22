@@ -2,6 +2,7 @@ package compasses.expandedstorage.common.block;
 
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.entity.OldChestBlockEntity;
+import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import compasses.expandedstorage.common.block.misc.Property;
 import compasses.expandedstorage.common.block.misc.PropertyRetriever;
 import ellemes.expandedstorage.api.EsChestType;
@@ -199,9 +200,27 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
                     otherState.getValue(CURSED_CHEST_TYPE) != state.getValue(CURSED_CHEST_TYPE).getOpposite() ||
                     state.getValue(BlockStateProperties.HORIZONTAL_FACING) != state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
                 return state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.SINGLE);
+            } else {
+                if (!level.isClientSide()) {
+                    EsChestType cursedChestType = state.getValue(CURSED_CHEST_TYPE);
+                    EsChestType offsetChestType = offsetState.getValue(CURSED_CHEST_TYPE);
+                    if (cursedChestType != EsChestType.SINGLE && offsetChestType != EsChestType.SINGLE && cursedChestType == offsetChestType.getOpposite()) {
+                        this.onDoubleChestFormed(level, pos, state, offsetPos, offsetState);
+                    }
+                }
             }
         }
         return super.updateShape(state, offset, offsetState, level, pos, offsetPos);
+    }
+
+    private void onDoubleChestFormed(LevelAccessor level, BlockPos pos, BlockState state, BlockPos offsetPos, BlockState offsetState) {
+        OpenableBlockEntity existingChest = (OpenableBlockEntity) level.getBlockEntity(offsetPos);
+        OpenableBlockEntity newChest = (OpenableBlockEntity) level.getBlockEntity(pos);
+        if (existingChest.hasLock() && !newChest.hasLock()) {
+            newChest.copyLockFrom(existingChest);
+        } else if (newChest.hasLock() && !existingChest.hasLock()) {
+            existingChest.copyLockFrom(newChest);
+        }
     }
 
     // todo: look into making this return not null?
