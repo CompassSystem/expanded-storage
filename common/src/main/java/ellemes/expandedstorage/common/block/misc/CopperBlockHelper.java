@@ -17,9 +17,6 @@ public class CopperBlockHelper {
                           .put(ModBlocks.COPPER_MINI_BARREL, ModBlocks.EXPOSED_COPPER_MINI_BARREL)
                           .put(ModBlocks.EXPOSED_COPPER_MINI_BARREL, ModBlocks.WEATHERED_COPPER_MINI_BARREL)
                           .put(ModBlocks.WEATHERED_COPPER_MINI_BARREL, ModBlocks.OXIDIZED_COPPER_MINI_BARREL)
-                          .put(ModBlocks.COPPER_MINI_BARREL_WITH_SPARROW, ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
-                          .put(ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW, ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
-                          .put(ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW, ModBlocks.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
                           .build();
 
     private static final BiMap<Block, Block> INVERSE_MAP = OXIDISATION_MAP.inverse();

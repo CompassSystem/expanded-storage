@@ -60,7 +60,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class ThreadMain {
     public static final ResourceLocation UPDATE_RECIPES_ID = Utils.id("update_conversion_recipes");

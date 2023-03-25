@@ -8,6 +8,9 @@
     "SpectatorBlockInventoryViewingFix",
     "SpectatorEntityInventoryViewingFix"
   ],
+  "client": [
+    "MiniStorageItemProperty"
+  ],
   "injectors": {
     "defaultRequire": 1
   },
