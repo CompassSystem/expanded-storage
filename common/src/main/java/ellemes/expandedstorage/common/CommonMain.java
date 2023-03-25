@@ -640,7 +640,9 @@ public final class CommonMain {
         Consumer<Item> sparrowWrap = item -> {
             ItemStack stack = new ItemStack(item);
             CompoundTag tag = new CompoundTag();
-            tag.putBoolean("sparrow", true);
+            CompoundTag blockStateTag = new CompoundTag();
+            blockStateTag.putString("sparrow", "true");
+            tag.put("BlockStateTag", blockStateTag);
             stack.setTag(tag);
             output.accept(stack);
         };

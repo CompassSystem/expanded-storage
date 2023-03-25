@@ -50,19 +50,22 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean placingInWater = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
-        boolean isSparrowItem = false;
-        ItemStack stack = context.getItemInHand();
-        CompoundTag tag = stack.getTag();
-        if (tag != null) {
-            Tag sparrowTag = tag.get("sparrow");
-            if (sparrowTag != null && sparrowTag.getId() == Tag.TAG_BYTE) {
-                isSparrowItem = ((NumericTag) sparrowTag).getAsByte() != 0;
-            }
-        }
+        boolean isSparrowItem = hasSparrowProperty(context.getItemInHand());
         return this.defaultBlockState()
                    .setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite())
                    .setValue(BlockStateProperties.WATERLOGGED, placingInWater)
                    .setValue(SPARROW, isSparrowItem);
+    }
+
+    public static boolean hasSparrowProperty(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            Tag blockStateTag = tag.get("BlockStateTag");
+            if (blockStateTag != null && blockStateTag.getId() == Tag.TAG_COMPOUND) {
+                return ((CompoundTag) blockStateTag).getString("sparrow").equals("true");
+            }
+        }
+        return false;
     }
 
     @SuppressWarnings("deprecation")
