@@ -34,6 +34,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -71,12 +72,12 @@ public class ThreadMain {
     }
 
     public static void constructContent(boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
-        CreativeModeTab group = FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
-                                               .displayItems((itemDisplayParameters, output) -> {
-                                                   CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
-                                                       output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                                                   });
-                                               }).build();
+        FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
+                       .displayItems((itemDisplayParameters, output) -> {
+                           CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
+                               output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                           });
+                       }).build();
 
         CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
@@ -89,6 +90,7 @@ public class ThreadMain {
         UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
             private final PreparableReloadListener base = new ConversionRecipeReloadListener();
+
             @Override
             public ResourceLocation getFabricId() {
                 return Utils.id("conversion_recipe_loader");
@@ -149,7 +151,7 @@ public class ThreadMain {
 
     public static class Client {
         public static void registerChestBlockEntityRenderer() {
-            BlockEntityRendererRegistry.register(CommonMain.getChestBlockEntityType(), ChestBlockEntityRenderer::new);
+            BlockEntityRenderers.register(CommonMain.getChestBlockEntityType(), ChestBlockEntityRenderer::new);
         }
 
         public static void registerItemRenderers(List<NamedValue<BlockItem>> items) {

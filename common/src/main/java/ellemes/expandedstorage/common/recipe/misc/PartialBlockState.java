@@ -28,6 +28,7 @@ public class PartialBlockState<T extends Block> {
     }
 
     public static PartialBlockState<?> readFromJson(JsonObject object) {
+        // todo: make it so id can be null to not change block, only state properties? // MAYBE
         ResourceLocation blockId = JsonHelper.getJsonResourceLocation(object, "id");
         if (blockId.toString().equals("minecraft:air")) {
             return null;

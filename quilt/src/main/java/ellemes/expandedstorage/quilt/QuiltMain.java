@@ -18,7 +18,6 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.content.registry.api.ReversibleBlockEntry;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
 import org.slf4j.LoggerFactory;
 
 public final class QuiltMain implements ModInitializer {
