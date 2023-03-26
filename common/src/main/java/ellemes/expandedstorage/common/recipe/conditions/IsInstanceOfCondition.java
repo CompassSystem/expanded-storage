@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class IsInstanceOfCondition implements RecipeCondition {
     private static final ResourceLocation NETWORK_ID = Utils.id("is_instance");
@@ -44,9 +45,20 @@ public class IsInstanceOfCondition implements RecipeCondition {
         }
     }
 
+    @Nullable
     @Override
-    public JsonElement toJson() {
-        JsonObject json = new JsonObject();
+    public JsonElement toJson(@Nullable JsonObject object) {
+        if (object != null) {
+            writeToJsonObject(object);
+            return null;
+        } else {
+            JsonObject jsonObject = new JsonObject();
+            writeToJsonObject(jsonObject);
+            return jsonObject;
+        }
+    }
+
+    private void writeToJsonObject(JsonObject object) {
         String conditionName = null;
         if (this == RecipeCondition.IS_WOODEN_BARREL) {
             conditionName = "expandedstorage:is_wooden_barrel";
@@ -55,12 +67,10 @@ public class IsInstanceOfCondition implements RecipeCondition {
         }
 
         if (conditionName != null) {
-            json.addProperty("condition", conditionName);
+            object.addProperty("condition", conditionName);
         } else {
             throw new IllegalStateException("Cannot serialize this instance of to json");
         }
-
-        return json;
     }
 
     static {

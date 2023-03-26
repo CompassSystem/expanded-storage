@@ -42,6 +42,7 @@ public class JsonHelper {
         return object.getAsJsonPrimitive(name).getAsString();
     }
 
+    // todo: remove?
     public static JsonArray getJsonArray(JsonObject object, String name) {
         checkHasEntry(object, name);
         if (!object.get(name).isJsonArray()) {
@@ -55,5 +56,13 @@ public class JsonHelper {
         if (value.isJsonPrimitive()) {
             return value.getAsJsonPrimitive().getAsString();
         } else throw new IllegalArgumentException("Cannot convert" + key + "'s value to a string");
+    }
+
+    public static boolean getJsonBoolean(JsonObject object, String name) {
+        checkHasEntry(object, name);
+        if (!object.get(name).isJsonPrimitive() || !object.get(name).getAsJsonPrimitive().isBoolean()) {
+            throw new JsonSyntaxException(name + " entry must be a Boolean");
+        }
+        return object.getAsJsonPrimitive(name).getAsBoolean();
     }
 }

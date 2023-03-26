@@ -5,11 +5,11 @@ import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
-import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
+import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
 import ellemes.expandedstorage.common.recipe.conditions.IsInTagCondition;
 import ellemes.expandedstorage.common.recipe.conditions.IsRegistryObject;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
-import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
+import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import ellemes.expandedstorage.common.registration.ModBlocks;
 import ellemes.expandedstorage.common.registration.ModItems;
@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.Block;
 
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -86,38 +85,38 @@ public abstract class ConversionRecipeProvider implements DataProvider {
 
     protected void simpleBlockThemeSwap(ResourceLocation id, Block from, Block to) {
         this.registerBlockRecipe(id,
-                new BlockConversionRecipe<>(UNNAMED_MUTATOR, new PartialBlockState<>(to), List.of(
+                new BlockConversionRecipe<>(UNNAMED_MUTATOR, new PartialBlockState<>(to),
                         new IsRegistryObject(BuiltInRegistries.BLOCK, from.builtInRegistryHolder().key().location())
-                ))
+                )
         );
     }
 
     protected void sparrowBlockThemeSwap(ResourceLocation id, Block from, Block to) {
         this.registerBlockRecipe(id,
-                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(to), List.of(
+                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(to),
                         new IsRegistryObject(BuiltInRegistries.BLOCK, from.builtInRegistryHolder().key().location())
-                ))
+                )
         );
     }
 
     protected void sparrowReversibleBlockThemeSwap(String blockName, Block without, Block with) {
         this.registerBlockRecipe(Utils.id("%s_to_with_sparrow".formatted(blockName)),
-                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(with), List.of(
+                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(with),
                         new IsRegistryObject(BuiltInRegistries.BLOCK, without.builtInRegistryHolder().key().location())
-                ))
+                )
         );
         this.registerBlockRecipe(Utils.id("%s_to_without_sparrow".formatted(blockName)),
-                new BlockConversionRecipe<>(UNNAMED_MUTATOR, new PartialBlockState<>(without), List.of(
+                new BlockConversionRecipe<>(UNNAMED_MUTATOR, new PartialBlockState<>(without),
                         new IsRegistryObject(BuiltInRegistries.BLOCK, with.builtInRegistryHolder().key().location())
-                ))
+                )
         );
     }
 
     protected void simpleEntityThemeSwap(ResourceLocation id, EntityType<?> from, EntityType<?> to) {
         this.registerEntityRecipe(id,
-                new EntityConversionRecipe<>(UNNAMED_MUTATOR, to, List.of(
-                    new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, from.builtInRegistryHolder().key().location())
-                ))
+                new EntityConversionRecipe<>(UNNAMED_MUTATOR, to,
+                        new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, from.builtInRegistryHolder().key().location())
+                )
         );
     }
 
@@ -130,24 +129,24 @@ public abstract class ConversionRecipeProvider implements DataProvider {
         this.registerEntityRecipes();
 
         return CompletableFuture.allOf(Stream.concat(blockRecipes.entrySet().stream(), entityRecipes.entrySet().stream())
-                .map(entry -> {
-                    JsonElement json = entry.getValue().toJson();
-                    Path path = pathProvider.json(entry.getKey());
-                    return DataProvider.saveStable(cachedOutput, json, path);
-                }).toArray(CompletableFuture[]::new));
+                                             .map(entry -> {
+                                                 JsonElement json = entry.getValue().toJson();
+                                                 Path path = pathProvider.json(entry.getKey());
+                                                 return DataProvider.saveStable(cachedOutput, json, path);
+                                             }).toArray(CompletableFuture[]::new));
     }
 
     protected abstract void registerBlockRecipes();
 
-    protected void registerBlockRecipes(List<RecipeCondition> isWoodBarrel, List<RecipeCondition> isWoodChest) {
+    protected void registerBlockRecipes(RecipeCondition isWoodBarrel, RecipeCondition isWoodChest) {
         // Chest upgrade recipes
         {
-            var isWoodTier = List.of(new IsInTagCondition(ModTags.Blocks.ES_WOODEN_CHESTS));
+            var isWoodTier = new IsInTagCondition(ModTags.Blocks.ES_WOODEN_CHESTS);
 //            var isCopperTier = List.of(new IsInTagCondition(ModTags.Blocks.COPPER_CHESTS));
-            var isIronTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.IRON_CHEST.getBlockId()));
-            var isGoldTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.GOLD_CHEST.getBlockId()));
-            var isDiamondTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.DIAMOND_CHEST.getBlockId()));
-            var isObsidianTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OBSIDIAN_CHEST.getBlockId()));
+            var isIronTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.IRON_CHEST.getBlockId());
+            var isGoldTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.GOLD_CHEST.getBlockId());
+            var isDiamondTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.DIAMOND_CHEST.getBlockId());
+            var isObsidianTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OBSIDIAN_CHEST.getBlockId());
             var ironChest = new PartialBlockState<>(ModBlocks.IRON_CHEST);
             var goldChest = new PartialBlockState<>(ModBlocks.GOLD_CHEST);
             var diamondChest = new PartialBlockState<>(ModBlocks.DIAMOND_CHEST);
@@ -220,12 +219,12 @@ public abstract class ConversionRecipeProvider implements DataProvider {
 
         // Old chest upgrade recipes
         {
-            var isWoodTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_WOOD_CHEST.getBlockId()));
+            var isWoodTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_WOOD_CHEST.getBlockId());
 //            var isCopperTier = List.of(new IsInTagCondition(ModTags.Blocks.OLD_COPPER_CHESTS));
-            var isIronTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_IRON_CHEST.getBlockId()));
-            var isGoldTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_GOLD_CHEST.getBlockId()));
-            var isDiamondTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_DIAMOND_CHEST.getBlockId()));
-            var isObsidianTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_OBSIDIAN_CHEST.getBlockId()));
+            var isIronTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_IRON_CHEST.getBlockId());
+            var isGoldTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_GOLD_CHEST.getBlockId());
+            var isDiamondTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_DIAMOND_CHEST.getBlockId());
+            var isObsidianTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OLD_OBSIDIAN_CHEST.getBlockId());
 //            var copperChest = new PartialBlockState<>(ModBlocks.OLD_COPPER_CHEST);
             var ironChest = new PartialBlockState<>(ModBlocks.OLD_IRON_CHEST);
             var goldChest = new PartialBlockState<>(ModBlocks.OLD_GOLD_CHEST);
@@ -299,11 +298,11 @@ public abstract class ConversionRecipeProvider implements DataProvider {
 
         // Barrel upgrade recipes
         {
-            var isCopperTier = List.of(new IsInTagCondition(ModTags.Blocks.COPPER_BARRELS));
-            var isIronTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.IRON_BARREL.getBlockId()));
-            var isGoldTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.GOLD_BARREL.getBlockId()));
-            var isDiamondTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.DIAMOND_BARREL.getBlockId()));
-            var isObsidianTier = List.of(new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OBSIDIAN_BARREL.getBlockId()));
+            var isCopperTier = new IsInTagCondition(ModTags.Blocks.COPPER_BARRELS);
+            var isIronTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.IRON_BARREL.getBlockId());
+            var isGoldTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.GOLD_BARREL.getBlockId());
+            var isDiamondTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.DIAMOND_BARREL.getBlockId());
+            var isObsidianTier = new IsRegistryObject(BuiltInRegistries.BLOCK, ModBlocks.OBSIDIAN_BARREL.getBlockId());
             var ironBarrel = new PartialBlockState<>(ModBlocks.IRON_BARREL);
             var goldBarrel = new PartialBlockState<>(ModBlocks.GOLD_BARREL);
             var diamondBarrel = new PartialBlockState<>(ModBlocks.DIAMOND_BARREL);
@@ -451,13 +450,13 @@ public abstract class ConversionRecipeProvider implements DataProvider {
 
     protected abstract void registerEntityRecipes();
 
-    protected void registerEntityRecipes(List<RecipeCondition> isWoodenMinecart) {
+    protected void registerEntityRecipes(RecipeCondition isWoodenMinecart) {
         {
-            var isWoodTier = List.of(new IsInTagCondition(ModTags.Entities.ES_WOODEN_CHEST_MINECARTS));
-            var isIronTier = List.of(new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.IRON_CHEST_MINECART.builtInRegistryHolder().key().location()));
-            var isGoldTier = List.of(new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.GOLD_CHEST_MINECART.builtInRegistryHolder().key().location()));
-            var isDiamondTier = List.of(new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.DIAMOND_CHEST_MINECART.builtInRegistryHolder().key().location()));
-            var isObsidianTier = List.of(new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.OBSIDIAN_CHEST_MINECART.builtInRegistryHolder().key().location()));
+            var isWoodTier = new IsInTagCondition(ModTags.Entities.ES_WOODEN_CHEST_MINECARTS);
+            var isIronTier = new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.IRON_CHEST_MINECART.builtInRegistryHolder().key().location());
+            var isGoldTier = new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.GOLD_CHEST_MINECART.builtInRegistryHolder().key().location());
+            var isDiamondTier = new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.DIAMOND_CHEST_MINECART.builtInRegistryHolder().key().location());
+            var isObsidianTier = new IsRegistryObject(BuiltInRegistries.ENTITY_TYPE, ModEntityTypes.OBSIDIAN_CHEST_MINECART.builtInRegistryHolder().key().location());
 
             registerEntityRecipe(Utils.id("wood_to_iron_chest_minecart"),
                     new EntityConversionRecipe<>(ConversionRecipeProvider.WOOD_TO_IRON_CONVERSION_KIT, ModEntityTypes.IRON_CHEST_MINECART, isWoodTier)

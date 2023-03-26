@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class IsRegistryObject implements RecipeCondition {
     private static final ResourceLocation NETWORK_ID = Utils.id("is_registry_object");
@@ -41,6 +42,10 @@ public class IsRegistryObject implements RecipeCondition {
         buffer.writeResourceLocation(objectId);
     }
 
+    public Object getValue() {
+        return value;
+    }
+
     private static IsRegistryObject readFromBuffer(FriendlyByteBuf buffer) {
         ResourceLocation registryId = buffer.readResourceLocation();
         ResourceLocation objectId = buffer.readResourceLocation();
@@ -51,11 +56,21 @@ public class IsRegistryObject implements RecipeCondition {
         return new IsRegistryObject(registry, objectId);
     }
 
+    @Nullable
     @Override
-    public JsonElement toJson() {
-        JsonObject json = new JsonObject();
-        json.addProperty("id", objectId.toString());
-        return json;
+    public JsonElement toJson(@Nullable JsonObject object) {
+        if (object != null) {
+            writeToJsonObject(object);
+            return null;
+        } else {
+            JsonObject jsonObject = new JsonObject();
+            writeToJsonObject(jsonObject);
+            return jsonObject;
+        }
+    }
+
+    public void writeToJsonObject(JsonObject object) {
+        object.addProperty("id", objectId.toString());
     }
 
     static {

@@ -12,13 +12,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.BarrelBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * This uhhhhh system is uhhhhhhhhh very uhhhhhhhhh yes...
@@ -29,6 +33,7 @@ public interface RecipeCondition {
     RecipeCondition IS_WOODEN_CHEST = new IsInstanceOfCondition(ChestBlock.class);
     RecipeCondition IS_WOODEN_BARREL = new IsInstanceOfCondition(BarrelBlock.class);
 
+    // ahhhhhh I need to rewrite this and I dislike :<
     private static <T> RecipeCondition tryReadGenericCondition(JsonElement condition, Registry<T> registry) {
         if (condition.isJsonObject()) {
             JsonObject object = condition.getAsJsonObject();
@@ -38,6 +43,7 @@ public interface RecipeCondition {
             } else if (object.has("id")) {
                 return new IsRegistryObject(registry, JsonHelper.getJsonResourceLocation(object, "id"));
             }
+            return null;
         } else if (condition.isJsonArray()) {
             JsonArray conditions = condition.getAsJsonArray();
             RecipeCondition[] recipeConditions = new RecipeCondition[conditions.size()];
@@ -45,16 +51,44 @@ public interface RecipeCondition {
             for (int i = 0; i < conditions.size(); i++) {
                 recipeConditions[i] = function.apply(conditions.get(i));
             }
-            return new AndCondition(Arrays.asList(recipeConditions));
+            return new OrCondition(recipeConditions);
         } else {
             throw new JsonSyntaxException("condition must be an Object or an Array.");
         }
-        return null;
     }
 
     static RecipeCondition readBlockCondition(JsonElement condition) {
         RecipeCondition generic = tryReadGenericCondition(condition, BuiltInRegistries.BLOCK);
         if (generic != null) {
+            if (generic instanceof IsInTagCondition) {
+                // todo: implement has string property thing
+            } else if (generic instanceof IsRegistryObject isRegistryObject) {
+                JsonObject objCondition = (JsonObject) condition;
+                if (objCondition.has("state")) {
+                    Block block = (Block) isRegistryObject.getValue();
+                    Map<String, Property<?>> propertyLookup = block.defaultBlockState().getProperties().stream()
+                                                                   .map(it -> Map.entry(it.getName(), it))
+                                                                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                    boolean optional = objCondition.has("optional") && JsonHelper.getJsonBoolean(objCondition, "optional");
+                    JsonObject properties = JsonHelper.getJsonObject(objCondition, "state");
+                    Map.Entry[] stateProperties = new Map.Entry[properties.size()];
+                    int index = 0;
+                    for (Map.Entry<String, JsonElement> propertyEntry : properties.entrySet()) {
+                        if (!propertyLookup.containsKey(propertyEntry.getKey())) {
+                            throw new IllegalArgumentException("Block does not contain property with name: " + propertyEntry.getKey());
+                        }
+                        Property<?> property = propertyLookup.get(propertyEntry.getKey());
+                        String propertyValue = JsonHelper.toString(property.getName(), propertyEntry.getValue());
+                        Optional<?> value = property.getValue(propertyValue);
+                        if (value.isEmpty()) {
+                            throw new IllegalStateException("Property " + property.getName() + " doesn't contain value " + propertyValue);
+                        }
+                        stateProperties[index] = Map.entry(property, value.get());
+                        index++;
+                    }
+                    return new AndCondition(generic, new HasPropertyCondition(block.builtInRegistryHolder().key().location(), Map.ofEntries(stateProperties), optional));
+                }
+            }
             return generic;
         }
         if (condition.isJsonObject()) {
@@ -104,6 +138,10 @@ public interface RecipeCondition {
         return RECIPE_DESERIALIZERS.get(id).apply(buffer);
     }
 
-    JsonElement toJson();
+    /**
+     * If object passed should write into that object otherwise return a new element.
+     */
+    @Nullable
+    JsonElement toJson(@Nullable JsonObject object);
 }
 

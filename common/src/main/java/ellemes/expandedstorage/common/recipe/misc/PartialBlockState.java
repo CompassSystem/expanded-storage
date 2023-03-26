@@ -3,7 +3,6 @@ package ellemes.expandedstorage.common.recipe.misc;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -37,11 +36,14 @@ public class PartialBlockState<T extends Block> {
         if (block.isEmpty()) {
             throw new IllegalArgumentException("Block id refers to unregistered block");
         }
-        Map<String, Property<?>> propertyLookup = block.get().defaultBlockState().getProperties().stream()
-                                                       .map(it -> Map.entry(it.getName(), it))
-                                                       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         if (object.has("state")) {
             JsonObject properties = object.getAsJsonObject("state");
+            if (properties.size() == 0) {
+                throw new IllegalStateException("state must contain at least one property.");
+            }
+            Map<String, Property<?>> propertyLookup = block.get().defaultBlockState().getProperties().stream()
+                                                           .map(it -> Map.entry(it.getName(), it))
+                                                           .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             Map.Entry[] stateProperties = new Map.Entry[properties.size()];
             int index = 0;
 

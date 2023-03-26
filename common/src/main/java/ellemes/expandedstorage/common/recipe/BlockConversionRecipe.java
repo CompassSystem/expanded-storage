@@ -1,6 +1,5 @@
 package ellemes.expandedstorage.common.recipe;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ellemes.expandedstorage.api.EsChestType;
@@ -28,15 +27,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.ChestType;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<BlockState> {
     private final PartialBlockState<O> output;
 
-    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<? extends RecipeCondition> inputs) {
-        super(recipeTool, inputs);
+    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, RecipeCondition input) {
+        super(recipeTool, input);
         this.output = output;
     }
 
@@ -132,16 +130,14 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
     public void writeToBuffer(FriendlyByteBuf buffer) {
         recipeTool.writeToBuffer(buffer);
         output.writeToBuffer(buffer);
-        buffer.writeCollection(inputs, (b, recipeCondition) -> {
-            b.writeResourceLocation(recipeCondition.getNetworkId());
-            recipeCondition.writeToBuffer(b);
-        });
+        buffer.writeResourceLocation(input.getNetworkId());
+        input.writeToBuffer(buffer);
     }
 
     public static BlockConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         PartialBlockState<?> output = PartialBlockState.readFromBuffer(buffer);
-        List<RecipeCondition> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
+        RecipeCondition inputs = RecipeCondition.readFromBuffer(buffer);
         return new BlockConversionRecipe<>(recipeTool, output, inputs);
     }
 
@@ -151,11 +147,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
         recipe.addProperty("type", "expandedstorage:block_conversion");
         recipe.add("tool", recipeTool.toJson());
         recipe.add("result", output.toJson());
-        JsonArray jsonInputs = new JsonArray();
-        for (RecipeCondition input : inputs) {
-            jsonInputs.add(input.toJson());
-        }
-        recipe.add("inputs", jsonInputs);
+        recipe.add("inputs", input.toJson(null));
         return recipe;
     }
 }

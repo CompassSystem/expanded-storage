@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.common.recipe.conditions;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -10,27 +11,28 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AndCondition implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("and");
+public class OrCondition implements RecipeCondition {
+
+    private static final ResourceLocation NETWORK_ID = Utils.id("or");
     private final RecipeCondition[] conditions;
 
-    public AndCondition(RecipeCondition... conditions) {
+    public OrCondition(RecipeCondition... conditions) {
         this.conditions = conditions;
     }
 
     @Override
     public boolean isExactMatch() {
-        return Arrays.stream(conditions).allMatch(RecipeCondition::isExactMatch);
+        return false;
     }
 
     @Override
     public boolean test(Object subject) {
         for (RecipeCondition condition : conditions) {
-            if (!condition.test(subject)) {
-                return false;
+            if (condition.test(subject)) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -46,30 +48,28 @@ public class AndCondition implements RecipeCondition {
         });
     }
 
-    private static AndCondition readFromBuffer(FriendlyByteBuf buffer) {
+    private static OrCondition readFromBuffer(FriendlyByteBuf buffer) {
         RecipeCondition[] conditions = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer).toArray(RecipeCondition[]::new);
-        return new AndCondition(conditions);
+        return new OrCondition(conditions);
     }
 
     @Nullable
     @Override
-    public JsonElement toJson(@Nullable JsonObject object) {
-        if (object != null) {
-            writeToJsonObject(object);
-            return null;
+    public JsonElement toJson(@Nullable JsonObject ignore) {
+        if (ignore != null) {
+            throw new IllegalStateException("JsonObject should not be passed.");
         }
-        JsonObject jsonObject = new JsonObject();
-        writeToJsonObject(jsonObject);
-        return jsonObject;
-    }
 
-    private void writeToJsonObject(JsonObject object) {
+        JsonArray array = new JsonArray();
         for (RecipeCondition condition : conditions) {
+            JsonObject object = new JsonObject();
             condition.toJson(object);
+            array.add(object);
         }
+        return array;
     }
 
     static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, AndCondition::readFromBuffer);
+        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, OrCondition::readFromBuffer);
     }
 }
