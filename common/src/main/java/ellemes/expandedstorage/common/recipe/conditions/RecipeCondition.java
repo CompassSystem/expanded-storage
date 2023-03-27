@@ -61,7 +61,10 @@ public interface RecipeCondition {
         RecipeCondition generic = tryReadGenericCondition(condition, BuiltInRegistries.BLOCK);
         if (generic != null) {
             if (generic instanceof IsInTagCondition) {
-                // todo: implement has string property thing
+                JsonObject objCondition = (JsonObject) condition;
+                if (objCondition.has("state")) {
+                    throw new IllegalStateException("Cannot combine in tag and has property checks.");
+                }
             } else if (generic instanceof IsRegistryObject isRegistryObject) {
                 JsonObject objCondition = (JsonObject) condition;
                 if (objCondition.has("state")) {
