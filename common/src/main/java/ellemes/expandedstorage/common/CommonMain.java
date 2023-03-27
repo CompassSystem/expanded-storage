@@ -36,6 +36,7 @@ import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.common.registration.ObjectConsumer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -647,12 +648,21 @@ public final class CommonMain {
             output.accept(stack);
         };
 
-        for (byte i = 0; i < MutationMode.values().length; i++) {
+        for (MutationMode mode : MutationMode.values()) {
             ItemStack stack = new ItemStack(ModItems.STORAGE_MUTATOR);
             CompoundTag tag = new CompoundTag();
-            tag.putByte("mode", i);
+            tag.putByte("mode", mode.toByte());
             stack.setTag(tag);
             output.accept(stack);
+        }
+
+        {
+            ItemStack sparrowMutator = new ItemStack(ModItems.STORAGE_MUTATOR);
+            CompoundTag tag = new CompoundTag();
+            tag.putByte("mode", MutationMode.SWAP_THEME.toByte());
+            sparrowMutator.setTag(tag);
+            sparrowMutator.setHoverName(Component.literal("Sparrow").withStyle(ChatFormatting.ITALIC));
+            output.accept(sparrowMutator);
         }
 
         // todo: add lock stuff when finished and ported.
