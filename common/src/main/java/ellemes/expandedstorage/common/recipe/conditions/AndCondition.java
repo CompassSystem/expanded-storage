@@ -20,7 +20,7 @@ public class AndCondition implements RecipeCondition {
 
     @Override
     public boolean isExactMatch() {
-        return Arrays.stream(conditions).allMatch(RecipeCondition::isExactMatch);
+        return Arrays.stream(conditions).anyMatch(RecipeCondition::isExactMatch);
     }
 
     @Override

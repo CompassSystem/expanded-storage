@@ -121,7 +121,7 @@ public class PartialBlockState<T extends Block> {
         Map<Property<?>, Object> properties = Maps.newHashMapWithExpectedSize(mapSize);
         for (int i = 0; i < mapSize; i++) {
             Property<?> key = block.getStateDefinition().getProperty(buffer.readUtf());
-            Object value = key.getValue(buffer.readUtf());
+            Object value = key.getValue(buffer.readUtf()).orElseThrow();
             properties.put(key, value);
         }
         return PartialBlockState.of(block, properties);
