@@ -1,11 +1,14 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
 import com.google.gson.JsonElement;
+import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
 import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
+import ellemes.expandedstorage.common.recipe.conditions.AndCondition;
+import ellemes.expandedstorage.common.recipe.conditions.HasPropertyCondition;
 import ellemes.expandedstorage.common.recipe.conditions.IsInTagCondition;
 import ellemes.expandedstorage.common.recipe.conditions.IsRegistryObject;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
@@ -23,6 +26,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -91,23 +95,26 @@ public abstract class ConversionRecipeProvider implements DataProvider {
         );
     }
 
-    protected void sparrowBlockThemeSwap(ResourceLocation id, Block from, Block to) {
+    protected void sparrowBlockThemeSwap(ResourceLocation id, Block from, boolean fromSparrow, Block to, boolean toSparrow) {
+        ResourceLocation fromId = from.builtInRegistryHolder().key().location();
         this.registerBlockRecipe(id,
-                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(to),
-                        new IsRegistryObject(BuiltInRegistries.BLOCK, from.builtInRegistryHolder().key().location())
+                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(to, Map.of(MiniStorageBlock.SPARROW, toSparrow)),
+                        new AndCondition(new IsRegistryObject(BuiltInRegistries.BLOCK, fromId),
+                                new HasPropertyCondition(fromId, Map.of(MiniStorageBlock.SPARROW, fromSparrow), false))
                 )
         );
     }
 
-    protected void sparrowReversibleBlockThemeSwap(String blockName, Block without, Block with) {
+    protected void sparrowReversibleBlockThemeSwap(String blockName, Block block) {
+        ResourceLocation blockId = block.builtInRegistryHolder().key().location();
         this.registerBlockRecipe(Utils.id("%s_to_with_sparrow".formatted(blockName)),
-                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(with),
-                        new IsRegistryObject(BuiltInRegistries.BLOCK, without.builtInRegistryHolder().key().location())
+                new BlockConversionRecipe<>(SPARROW_MUTATOR, new PartialBlockState<>(block, Map.of(MiniStorageBlock.SPARROW, true)),
+                        new AndCondition(new IsRegistryObject(BuiltInRegistries.BLOCK, blockId), new HasPropertyCondition(blockId, Map.of(MiniStorageBlock.SPARROW, false), false))
                 )
         );
         this.registerBlockRecipe(Utils.id("%s_to_without_sparrow".formatted(blockName)),
-                new BlockConversionRecipe<>(UNNAMED_MUTATOR, new PartialBlockState<>(without),
-                        new IsRegistryObject(BuiltInRegistries.BLOCK, with.builtInRegistryHolder().key().location())
+                new BlockConversionRecipe<>(UNNAMED_MUTATOR, new PartialBlockState<>(block, Map.of(MiniStorageBlock.SPARROW, false)),
+                        new AndCondition(new IsRegistryObject(BuiltInRegistries.BLOCK, blockId), new HasPropertyCondition(blockId, Map.of(MiniStorageBlock.SPARROW, true), false))
                 )
         );
     }
@@ -414,37 +421,36 @@ public abstract class ConversionRecipeProvider implements DataProvider {
             simpleBlockThemeSwap(Utils.id("lavender_to_pink_amethyst_mini_present"), ModBlocks.LAVENDER_MINI_PRESENT, ModBlocks.PINK_AMETHYST_MINI_PRESENT);
             simpleBlockThemeSwap(Utils.id("pink_amethyst_to_vanilla_mini_chest"), ModBlocks.PINK_AMETHYST_MINI_PRESENT, ModBlocks.VANILLA_WOOD_MINI_CHEST);
 
-            // todo: update, need to do more work on conversion recipe code.
-//            sparrowBlockThemeSwap(Utils.id("pink_amethyst_to_vanilla_mini_chest_with_sparrow"), ModBlocks.PINK_AMETHYST_MINI_PRESENT, ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("vanilla_to_wood_mini_chest_with_sparrow"), ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW, ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("wood_to_pumpkin_mini_chest_with_sparrow"), ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW, ModBlocks.PUMPKIN_MINI_CHEST_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("pumpkin_to_red_mini_present_with_sparrow"), ModBlocks.PUMPKIN_MINI_CHEST_WITH_SPARROW, ModBlocks.RED_MINI_PRESENT_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("red_to_white_mini_present_with_sparrow"), ModBlocks.RED_MINI_PRESENT_WITH_SPARROW, ModBlocks.WHITE_MINI_PRESENT_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("white_to_candy_cane_mini_present_with_sparrow"), ModBlocks.WHITE_MINI_PRESENT_WITH_SPARROW, ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("candy_cane_to_green_mini_present_with_sparrow"), ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW, ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("green_to_lavender_present_with_sparrow"), ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW, ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("lavender_to_pink_amethyst_mini_present_with_sparrow"), ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW, ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW);
-//            sparrowBlockThemeSwap(Utils.id("pink_amethyst_with_sparrow_to_vanilla_mini_chest"), ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW, ModBlocks.VANILLA_WOOD_MINI_CHEST);
+            sparrowBlockThemeSwap(Utils.id("pink_amethyst_to_vanilla_mini_chest_with_sparrow"), ModBlocks.PINK_AMETHYST_MINI_PRESENT, false, ModBlocks.VANILLA_WOOD_MINI_CHEST, true);
+            sparrowBlockThemeSwap(Utils.id("vanilla_to_wood_mini_chest_with_sparrow"), ModBlocks.VANILLA_WOOD_MINI_CHEST, true, ModBlocks.WOOD_MINI_CHEST, true);
+            sparrowBlockThemeSwap(Utils.id("wood_to_pumpkin_mini_chest_with_sparrow"), ModBlocks.WOOD_MINI_CHEST, true, ModBlocks.PUMPKIN_MINI_CHEST, true);
+            sparrowBlockThemeSwap(Utils.id("pumpkin_to_red_mini_present_with_sparrow"), ModBlocks.PUMPKIN_MINI_CHEST, true, ModBlocks.RED_MINI_PRESENT, true);
+            sparrowBlockThemeSwap(Utils.id("red_to_white_mini_present_with_sparrow"), ModBlocks.RED_MINI_PRESENT, true, ModBlocks.WHITE_MINI_PRESENT, true);
+            sparrowBlockThemeSwap(Utils.id("white_to_candy_cane_mini_present_with_sparrow"), ModBlocks.WHITE_MINI_PRESENT, true, ModBlocks.CANDY_CANE_MINI_PRESENT, true);
+            sparrowBlockThemeSwap(Utils.id("candy_cane_to_green_mini_present_with_sparrow"), ModBlocks.CANDY_CANE_MINI_PRESENT, true, ModBlocks.GREEN_MINI_PRESENT, true);
+            sparrowBlockThemeSwap(Utils.id("green_to_lavender_present_with_sparrow"), ModBlocks.GREEN_MINI_PRESENT, true, ModBlocks.LAVENDER_MINI_PRESENT, true);
+            sparrowBlockThemeSwap(Utils.id("lavender_to_pink_amethyst_mini_present_with_sparrow"), ModBlocks.LAVENDER_MINI_PRESENT, true, ModBlocks.PINK_AMETHYST_MINI_PRESENT, true);
+            sparrowBlockThemeSwap(Utils.id("pink_amethyst_with_sparrow_to_vanilla_mini_chest"), ModBlocks.PINK_AMETHYST_MINI_PRESENT, true, ModBlocks.VANILLA_WOOD_MINI_CHEST, false);
 
-//            sparrowReversibleBlockThemeSwap("iron_mini_chest", ModBlocks.IRON_MINI_CHEST, ModBlocks.IRON_MINI_CHEST_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("gold_mini_chest", ModBlocks.GOLD_MINI_CHEST, ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("diamond_mini_chest", ModBlocks.DIAMOND_MINI_CHEST, ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("obsidian_mini_chest", ModBlocks.OBSIDIAN_MINI_CHEST, ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("netherite_mini_chest", ModBlocks.NETHERITE_MINI_CHEST, ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW);
+            sparrowReversibleBlockThemeSwap("iron_mini_chest", ModBlocks.IRON_MINI_CHEST);
+            sparrowReversibleBlockThemeSwap("gold_mini_chest", ModBlocks.GOLD_MINI_CHEST);
+            sparrowReversibleBlockThemeSwap("diamond_mini_chest", ModBlocks.DIAMOND_MINI_CHEST);
+            sparrowReversibleBlockThemeSwap("obsidian_mini_chest", ModBlocks.OBSIDIAN_MINI_CHEST);
+            sparrowReversibleBlockThemeSwap("netherite_mini_chest", ModBlocks.NETHERITE_MINI_CHEST);
 
-//            sparrowReversibleBlockThemeSwap("copper_mini_barrel", ModBlocks.COPPER_MINI_BARREL, ModBlocks.COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("exposed_copper_mini_barrel", ModBlocks.EXPOSED_COPPER_MINI_BARREL, ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("weathered_copper_mini_barrel", ModBlocks.WEATHERED_COPPER_MINI_BARREL, ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("oxidized_copper_mini_barrel", ModBlocks.OXIDIZED_COPPER_MINI_BARREL, ModBlocks.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("waxed_copper_mini_barrel", ModBlocks.WAXED_COPPER_MINI_BARREL, ModBlocks.WAXED_COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("waxed_exposed_copper_mini_barrel", ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL, ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("waxed_weathered_copper_mini_barrel", ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL, ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("waxed_oxidized_copper_mini_barrel", ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL, ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("iron_mini_barrel", ModBlocks.IRON_MINI_BARREL, ModBlocks.IRON_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("gold_mini_barrel", ModBlocks.GOLD_MINI_BARREL, ModBlocks.GOLD_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("diamond_mini_barrel", ModBlocks.DIAMOND_MINI_BARREL, ModBlocks.DIAMOND_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("obsidian_mini_barrel", ModBlocks.OBSIDIAN_MINI_BARREL, ModBlocks.OBSIDIAN_MINI_BARREL_WITH_SPARROW);
-//            sparrowReversibleBlockThemeSwap("netherite_mini_barrel", ModBlocks.NETHERITE_MINI_BARREL, ModBlocks.NETHERITE_MINI_BARREL_WITH_SPARROW);
+            sparrowReversibleBlockThemeSwap("copper_mini_barrel", ModBlocks.COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("exposed_copper_mini_barrel", ModBlocks.EXPOSED_COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("weathered_copper_mini_barrel", ModBlocks.WEATHERED_COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("oxidized_copper_mini_barrel", ModBlocks.OXIDIZED_COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("waxed_copper_mini_barrel", ModBlocks.WAXED_COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("waxed_exposed_copper_mini_barrel", ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("waxed_weathered_copper_mini_barrel", ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("waxed_oxidized_copper_mini_barrel", ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("iron_mini_barrel", ModBlocks.IRON_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("gold_mini_barrel", ModBlocks.GOLD_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("diamond_mini_barrel", ModBlocks.DIAMOND_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("obsidian_mini_barrel", ModBlocks.OBSIDIAN_MINI_BARREL);
+            sparrowReversibleBlockThemeSwap("netherite_mini_barrel", ModBlocks.NETHERITE_MINI_BARREL);
         }
     }
 
