@@ -1,10 +1,8 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:gold_barrel"
-    }
-  ],
+  "inputs": {
+    "id": "expandedstorage:gold_barrel"
+  },
   "result": {
     "id": "expandedstorage:obsidian_barrel"
   },

@@ -1,10 +1,8 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:gold_chest"
-    }
-  ],
+  "inputs": {
+    "id": "expandedstorage:gold_chest"
+  },
   "result": {
     "id": "expandedstorage:obsidian_chest"
   },

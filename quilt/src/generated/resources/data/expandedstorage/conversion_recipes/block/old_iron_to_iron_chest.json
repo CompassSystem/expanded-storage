@@ -1,10 +1,8 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:old_iron_chest"
-    }
-  ],
+  "inputs": {
+    "id": "expandedstorage:old_iron_chest"
+  },
   "result": {
     "id": "expandedstorage:iron_chest"
   },

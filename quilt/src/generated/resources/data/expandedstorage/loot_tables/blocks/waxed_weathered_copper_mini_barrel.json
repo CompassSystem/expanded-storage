@@ -3,18 +3,16 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
+              "block": "expandedstorage:waxed_weathered_copper_mini_barrel",
+              "function": "minecraft:copy_state",
+              "properties": [
+                "sparrow"
+              ]
             }
           ],
           "name": "expandedstorage:waxed_weathered_copper_mini_barrel"
