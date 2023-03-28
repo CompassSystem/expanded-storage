@@ -3,18 +3,16 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
+              "block": "expandedstorage:lavender_mini_present",
+              "function": "minecraft:copy_state",
+              "properties": [
+                "sparrow"
+              ]
             }
           ],
           "name": "expandedstorage:lavender_mini_present"

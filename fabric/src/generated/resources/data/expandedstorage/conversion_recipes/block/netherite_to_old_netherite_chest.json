@@ -1,10 +1,8 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:netherite_chest"
-    }
-  ],
+  "inputs": {
+    "id": "expandedstorage:netherite_chest"
+  },
   "result": {
     "id": "expandedstorage:old_netherite_chest"
   },

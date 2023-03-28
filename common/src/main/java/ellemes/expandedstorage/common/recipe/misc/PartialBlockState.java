@@ -3,7 +3,6 @@ package ellemes.expandedstorage.common.recipe.misc;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -29,6 +28,7 @@ public class PartialBlockState<T extends Block> {
     }
 
     public static PartialBlockState<?> readFromJson(JsonObject object) {
+        // todo: make it so id can be null to not change block, only state properties? // MAYBE
         ResourceLocation blockId = JsonHelper.getJsonResourceLocation(object, "id");
         if (blockId.toString().equals("minecraft:air")) {
             return null;
@@ -37,11 +37,14 @@ public class PartialBlockState<T extends Block> {
         if (block.isEmpty()) {
             throw new IllegalArgumentException("Block id refers to unregistered block");
         }
-        Map<String, Property<?>> propertyLookup = block.get().defaultBlockState().getProperties().stream()
-                                                       .map(it -> Map.entry(it.getName(), it))
-                                                       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         if (object.has("state")) {
             JsonObject properties = object.getAsJsonObject("state");
+            if (properties.size() == 0) {
+                throw new IllegalStateException("state must contain at least one property.");
+            }
+            Map<String, Property<?>> propertyLookup = block.get().defaultBlockState().getProperties().stream()
+                                                           .map(it -> Map.entry(it.getName(), it))
+                                                           .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             Map.Entry[] stateProperties = new Map.Entry[properties.size()];
             int index = 0;
 
@@ -118,7 +121,7 @@ public class PartialBlockState<T extends Block> {
         Map<Property<?>, Object> properties = Maps.newHashMapWithExpectedSize(mapSize);
         for (int i = 0; i < mapSize; i++) {
             Property<?> key = block.getStateDefinition().getProperty(buffer.readUtf());
-            Object value = key.getValue(buffer.readUtf());
+            Object value = key.getValue(buffer.readUtf()).orElseThrow();
             properties.put(key, value);
         }
         return PartialBlockState.of(block, properties);

@@ -6,8 +6,11 @@ import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,6 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -28,10 +32,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class MiniStorageBlock extends OpenableBlock implements SimpleWaterloggedBlock {
     private static final VoxelShape OUTLINE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
+    public static final BooleanProperty SPARROW = BooleanProperty.create("sparrow");
 
     public MiniStorageBlock(Properties settings, ResourceLocation openingStat) {
         super(settings, openingStat, 1);
-        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false).setValue(SPARROW, false));
     }
 
     @Override
@@ -44,7 +49,22 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean placingInWater = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite()).setValue(BlockStateProperties.WATERLOGGED, placingInWater);
+        boolean isSparrowItem = hasSparrowProperty(context.getItemInHand());
+        return this.defaultBlockState()
+                   .setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite())
+                   .setValue(BlockStateProperties.WATERLOGGED, placingInWater)
+                   .setValue(SPARROW, isSparrowItem);
+    }
+
+    public static boolean hasSparrowProperty(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            Tag blockStateTag = tag.get("BlockStateTag");
+            if (blockStateTag != null && blockStateTag.getId() == Tag.TAG_COMPOUND) {
+                return ((CompoundTag) blockStateTag).getString("sparrow").equals("true");
+            }
+        }
+        return false;
     }
 
     @SuppressWarnings("deprecation")
@@ -65,7 +85,7 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED);
+        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED, SPARROW);
     }
 
     @Override

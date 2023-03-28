@@ -27,6 +27,7 @@ import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.StorageMutator;
 import ellemes.expandedstorage.common.item.ToolUsageResult;
+import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Tier;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
@@ -36,6 +37,7 @@ import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.common.registration.ObjectConsumer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -167,6 +169,7 @@ public final class CommonMain {
             /*Old Chest*/
             /*Barrel*/ TagKey<Block> barrelTag,
             /*Mini Storage*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
+        PlatformHelper.instance(); // Force initializer to be called
 
         final Tier woodTier = new Tier(Utils.WOOD_TIER_ID, Utils.WOOD_STACK_COUNT, UnaryOperator.identity(), UnaryOperator.identity());
         final Tier copperTier = new Tier(Utils.COPPER_TIER_ID, 45, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
@@ -496,12 +499,6 @@ public final class CommonMain {
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties())));
                 miniStorageBlocks.add(block);
                 miniStorageItems.add(item);
-
-                ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
-                NamedValue<MiniStorageBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), stat));
-                NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), tier.getItemSettings().apply(new Item.Properties())));
-                miniStorageBlocks.add(block_with_sparrow);
-                miniStorageItems.add(item_with_sparrow);
             };
 
             BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperMiniBarrelMaker = (id, weatherState) -> {
@@ -509,12 +506,6 @@ public final class CommonMain {
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties())));
                 miniStorageBlocks.add(block);
                 miniStorageItems.add(item);
-
-                ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
-                NamedValue<MiniStorageBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new CopperMiniStorageBlock(copperTier.getBlockSettings().apply(copperBarrelSettings), copperBarrelStat, weatherState));
-                NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), copperTier.getItemSettings().apply(new Item.Properties())));
-                miniStorageBlocks.add(block_with_sparrow);
-                miniStorageItems.add(item_with_sparrow);
             };
 
             miniStorageMaker.apply(Utils.id("vanilla_wood_mini_chest"), woodChestStat, woodTier, woodSettings);
@@ -649,9 +640,34 @@ public final class CommonMain {
 
     public static void generateDisplayItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, Consumer<ItemStack> output) {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
-        output.accept(ModItems.STORAGE_MUTATOR.getDefaultInstance());
+        Consumer<Item> sparrowWrap = item -> {
+            ItemStack stack = new ItemStack(item);
+            CompoundTag tag = new CompoundTag();
+            CompoundTag blockStateTag = new CompoundTag();
+            blockStateTag.putString("sparrow", "true");
+            tag.put("BlockStateTag", blockStateTag);
+            stack.setTag(tag);
+            output.accept(stack);
+        };
+
+        for (MutationMode mode : MutationMode.values()) {
+            ItemStack stack = new ItemStack(ModItems.STORAGE_MUTATOR);
+            CompoundTag tag = new CompoundTag();
+            tag.putByte("mode", mode.toByte());
+            stack.setTag(tag);
+            output.accept(stack);
+        }
+
+        {
+            ItemStack sparrowMutator = new ItemStack(ModItems.STORAGE_MUTATOR);
+            CompoundTag tag = new CompoundTag();
+            tag.putByte("mode", MutationMode.SWAP_THEME.toByte());
+            sparrowMutator.setTag(tag);
+            sparrowMutator.setHoverName(Component.literal("Sparrow").withStyle(ChatFormatting.ITALIC));
+            output.accept(sparrowMutator);
+        }
+
         // todo: add lock stuff when finished and ported.
-        // todo: add different tool modes which storage mutator has
         wrap.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);
@@ -713,60 +729,60 @@ public final class CommonMain {
         wrap.accept(ModItems.OBSIDIAN_BARREL);
         wrap.accept(ModItems.NETHERITE_BARREL);
         wrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
-        wrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
         wrap.accept(ModItems.WOOD_MINI_CHEST);
-        wrap.accept(ModItems.WOOD_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.WOOD_MINI_CHEST);
         wrap.accept(ModItems.PUMPKIN_MINI_CHEST);
-        wrap.accept(ModItems.PUMPKIN_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.PUMPKIN_MINI_CHEST);
         wrap.accept(ModItems.RED_MINI_PRESENT);
-        wrap.accept(ModItems.RED_MINI_PRESENT_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.RED_MINI_PRESENT);
         wrap.accept(ModItems.WHITE_MINI_PRESENT);
-        wrap.accept(ModItems.WHITE_MINI_PRESENT_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.WHITE_MINI_PRESENT);
         wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
-        wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
         wrap.accept(ModItems.GREEN_MINI_PRESENT);
-        wrap.accept(ModItems.GREEN_MINI_PRESENT_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.GREEN_MINI_PRESENT);
         wrap.accept(ModItems.LAVENDER_MINI_PRESENT);
-        wrap.accept(ModItems.LAVENDER_MINI_PRESENT_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.LAVENDER_MINI_PRESENT);
         wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
-        wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
         wrap.accept(ModItems.IRON_MINI_CHEST);
-        wrap.accept(ModItems.IRON_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.IRON_MINI_CHEST);
         wrap.accept(ModItems.GOLD_MINI_CHEST);
-        wrap.accept(ModItems.GOLD_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.GOLD_MINI_CHEST);
         wrap.accept(ModItems.DIAMOND_MINI_CHEST);
-        wrap.accept(ModItems.DIAMOND_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.DIAMOND_MINI_CHEST);
         wrap.accept(ModItems.OBSIDIAN_MINI_CHEST);
-        wrap.accept(ModItems.OBSIDIAN_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.OBSIDIAN_MINI_CHEST);
         wrap.accept(ModItems.NETHERITE_MINI_CHEST);
-        wrap.accept(ModItems.NETHERITE_MINI_CHEST_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.NETHERITE_MINI_CHEST);
         wrap.accept(ModItems.MINI_BARREL);
-        wrap.accept(ModItems.MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.MINI_BARREL);
         wrap.accept(ModItems.COPPER_MINI_BARREL);
-        wrap.accept(ModItems.COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.COPPER_MINI_BARREL);
         wrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL);
         wrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL);
         wrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL);
         wrap.accept(ModItems.WAXED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.WAXED_COPPER_MINI_BARREL);
         wrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL);
         wrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL);
         wrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL);
         wrap.accept(ModItems.IRON_MINI_BARREL);
-        wrap.accept(ModItems.IRON_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.IRON_MINI_BARREL);
         wrap.accept(ModItems.GOLD_MINI_BARREL);
-        wrap.accept(ModItems.GOLD_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.GOLD_MINI_BARREL);
         wrap.accept(ModItems.DIAMOND_MINI_BARREL);
-        wrap.accept(ModItems.DIAMOND_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.DIAMOND_MINI_BARREL);
         wrap.accept(ModItems.OBSIDIAN_MINI_BARREL);
-        wrap.accept(ModItems.OBSIDIAN_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.OBSIDIAN_MINI_BARREL);
         wrap.accept(ModItems.NETHERITE_MINI_BARREL);
-        wrap.accept(ModItems.NETHERITE_MINI_BARREL_WITH_SPARROW);
+        sparrowWrap.accept(ModItems.NETHERITE_MINI_BARREL);
     }
 }

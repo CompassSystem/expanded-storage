@@ -1,10 +1,8 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:obsidian_barrel"
-    }
-  ],
+  "inputs": {
+    "id": "expandedstorage:obsidian_barrel"
+  },
   "result": {
     "id": "expandedstorage:netherite_barrel"
   },

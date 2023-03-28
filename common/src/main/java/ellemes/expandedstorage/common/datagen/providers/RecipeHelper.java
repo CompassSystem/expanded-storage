@@ -5,11 +5,11 @@ import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.registration.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.LegacyUpgradeRecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.LegacyUpgradeRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -53,8 +53,8 @@ public class RecipeHelper {
     @SuppressWarnings("SpellCheckingInspection")
     private void smithingRecipe(Item output, Item base, TagKey<Item> addition, RecipeCategory category, String criterion, Consumer<FinishedRecipe> exporter) {
         LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(base), Ingredient.of(addition), category, output)
-                            .unlocks(criterion, RecipeProvider.has(base))
-                            .save(exporter, itemIdGetter.apply(output));
+                                  .unlocks(criterion, RecipeProvider.has(base))
+                                  .save(exporter, itemIdGetter.apply(output));
     }
 
     private ShapedRecipeBuilder shapedRecipe(ItemLike output, RecipeCategory category, int count, String criterion, TagKey<Item> tag) {
@@ -201,8 +201,8 @@ public class RecipeHelper {
                 .save(exporter);
         smithingRecipe(ModItems.DIAMOND_TO_NETHERITE_CONVERSION_KIT, ModItems.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT, netheriteIngots, RecipeCategory.MISC, Criterions.HAS_PREVIOUS_KIT, exporter);
         LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(obsidianBlocks), Ingredient.of(netheriteIngots), RecipeCategory.MISC, ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT)
-                            .unlocks(Criterions.HAS_ITEM, RecipeProvider.has(obsidianBlocks))
-                            .save(exporter, itemIdGetter.apply(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT));
+                                  .unlocks(Criterions.HAS_ITEM, RecipeProvider.has(obsidianBlocks))
+                                  .save(exporter, itemIdGetter.apply(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT));
     }
 
     private void offerChestRecipes(Consumer<FinishedRecipe> exporter) {

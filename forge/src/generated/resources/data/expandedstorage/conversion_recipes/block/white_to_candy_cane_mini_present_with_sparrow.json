@@ -1,12 +1,16 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:white_mini_present_with_sparrow"
+  "inputs": {
+    "id": "expandedstorage:white_mini_present",
+    "state": {
+      "sparrow": "true"
     }
-  ],
+  },
   "result": {
-    "id": "expandedstorage:candy_cane_mini_present_with_sparrow"
+    "id": "expandedstorage:candy_cane_mini_present",
+    "state": {
+      "sparrow": "true"
+    }
   },
   "tool": {
     "id": "expandedstorage:storage_mutator",

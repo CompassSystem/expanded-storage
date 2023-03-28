@@ -9,10 +9,6 @@
     "expandedstorage:obsidian_mini_chest",
     "expandedstorage:netherite_mini_chest",
     "expandedstorage:obsidian_mini_barrel",
-    "expandedstorage:netherite_mini_barrel",
-    "expandedstorage:obsidian_mini_chest_with_sparrow",
-    "expandedstorage:netherite_mini_chest_with_sparrow",
-    "expandedstorage:obsidian_mini_barrel_with_sparrow",
-    "expandedstorage:netherite_mini_barrel_with_sparrow"
+    "expandedstorage:netherite_mini_barrel"
   ]
 }

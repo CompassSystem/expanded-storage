@@ -1,12 +1,16 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:waxed_weathered_copper_mini_barrel_with_sparrow"
+  "inputs": {
+    "id": "expandedstorage:waxed_weathered_copper_mini_barrel",
+    "state": {
+      "sparrow": "true"
     }
-  ],
+  },
   "result": {
-    "id": "expandedstorage:waxed_weathered_copper_mini_barrel"
+    "id": "expandedstorage:waxed_weathered_copper_mini_barrel",
+    "state": {
+      "sparrow": "false"
+    }
   },
   "tool": {
     "id": "expandedstorage:storage_mutator"
