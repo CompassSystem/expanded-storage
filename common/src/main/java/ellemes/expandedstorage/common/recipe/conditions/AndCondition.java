@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AndCondition implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("and");
+    public static final ResourceLocation NETWORK_ID = Utils.id("and");
     private final RecipeCondition[] conditions;
 
     public AndCondition(RecipeCondition... conditions) {
@@ -46,8 +46,8 @@ public class AndCondition implements RecipeCondition {
         });
     }
 
-    private static AndCondition readFromBuffer(FriendlyByteBuf buffer) {
-        RecipeCondition[] conditions = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer).toArray(RecipeCondition[]::new);
+    public static AndCondition readFromBuffer(FriendlyByteBuf buffer) {
+        RecipeCondition[] conditions = buffer.readCollection(ArrayList::new, RecipeCondition::readFromNetworkBuffer).toArray(RecipeCondition[]::new);
         return new AndCondition(conditions);
     }
 
@@ -67,9 +67,5 @@ public class AndCondition implements RecipeCondition {
         for (RecipeCondition condition : conditions) {
             condition.toJson(object);
         }
-    }
-
-    static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, AndCondition::readFromBuffer);
     }
 }

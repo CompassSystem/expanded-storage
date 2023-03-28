@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class IsInTagCondition implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("in_tag");
+    public static final ResourceLocation NETWORK_ID = Utils.id("in_tag");
     private final TagKey<?> tagKey;
     private Set<Object> values;
 
@@ -48,7 +48,7 @@ public class IsInTagCondition implements RecipeCondition {
         buffer.writeResourceLocation(tagKey.location());
     }
 
-    private static IsInTagCondition readFromBuffer(FriendlyByteBuf buffer) {
+    public static IsInTagCondition readFromBuffer(FriendlyByteBuf buffer) {
         ResourceLocation registryId = buffer.readResourceLocation();
         ResourceLocation tag = buffer.readResourceLocation();
         Registry<?> registry = BuiltInRegistries.REGISTRY.get(registryId);
@@ -73,9 +73,5 @@ public class IsInTagCondition implements RecipeCondition {
 
     private void writeToJsonObject(JsonObject object) {
         object.addProperty("tag", tagKey.location().toString());
-    }
-
-    static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, IsInTagCondition::readFromBuffer);
     }
 }

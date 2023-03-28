@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -29,11 +29,19 @@ import java.util.stream.Collectors;
  * Is it over-engineer, probably not going to be used and eventually be removed? Yes!
  */
 public interface RecipeCondition {
-    Map<ResourceLocation, Function<FriendlyByteBuf, RecipeCondition>> RECIPE_DESERIALIZERS = new HashMap<>();
-    RecipeCondition IS_WOODEN_CHEST = new IsInstanceOfCondition(ChestBlock.class);
-    RecipeCondition IS_WOODEN_BARREL = new IsInstanceOfCondition(BarrelBlock.class);
+    Map<ResourceLocation, Function<FriendlyByteBuf, RecipeCondition>> RECIPE_DESERIALIZERS = Map.of(
+            AndCondition.NETWORK_ID, AndCondition::readFromBuffer,
+            HasPropertyCondition.NETWORK_ID, HasPropertyCondition::readFromBuffer,
+            IsInstanceOfCondition.NETWORK_ID, IsInstanceOfCondition::readFromBuffer,
+            IsInTagCondition.NETWORK_ID, IsInTagCondition::readFromBuffer,
+            IsRegistryObject.NETWORK_ID, IsRegistryObject::readFromBuffer,
+            OrCondition.NETWORK_ID, OrCondition::readFromBuffer
+    );
+    ResourceLocation IS_WOODEN_CHEST_ID = Utils.id("is_wooden_chest");
+    ResourceLocation IS_WOODEN_BARREL_ID = Utils.id("is_wooden_barrel");
+    IsInstanceOfCondition IS_WOODEN_CHEST = new IsInstanceOfCondition(ChestBlock.class);
+    IsInstanceOfCondition IS_WOODEN_BARREL = new IsInstanceOfCondition(BarrelBlock.class);
 
-    // ahhhhhh I need to rewrite this and I dislike :<
     private static <T> RecipeCondition tryReadGenericCondition(JsonElement condition, Registry<T> registry) {
         if (condition.isJsonObject()) {
             JsonObject object = condition.getAsJsonObject();
@@ -98,9 +106,9 @@ public interface RecipeCondition {
             JsonObject recipeCondition = condition.getAsJsonObject();
             if (recipeCondition.has("condition")) {
                 ResourceLocation conditionId = JsonHelper.getJsonResourceLocation(recipeCondition, "condition");
-                if (conditionId.toString().equals("expandedstorage:is_wooden_chest")) {
+                if (RecipeCondition.IS_WOODEN_CHEST_ID.equals(conditionId)) {
                     return RecipeCondition.IS_WOODEN_CHEST;
-                } else if (conditionId.toString().equals("expandedstorage:is_wooden_barrel")) {
+                } else if (RecipeCondition.IS_WOODEN_BARREL_ID.equals(conditionId)) {
                     return RecipeCondition.IS_WOODEN_BARREL;
                 } else {
                     throw new IllegalArgumentException("condition with id " + conditionId + " doesn't exist.");
@@ -136,9 +144,13 @@ public interface RecipeCondition {
 
     void writeToBuffer(FriendlyByteBuf buffer);
 
-    static <T> RecipeCondition readFromBuffer(FriendlyByteBuf buffer) {
+    static RecipeCondition readFromNetworkBuffer(FriendlyByteBuf buffer) {
         ResourceLocation id = buffer.readResourceLocation();
-        return RECIPE_DESERIALIZERS.get(id).apply(buffer);
+        if (RECIPE_DESERIALIZERS.containsKey(id)) {
+            return RECIPE_DESERIALIZERS.get(id).apply(buffer);
+        } else {
+            throw new IllegalStateException("Cannot find recipe condition with id: \"" + id + "\"");
+        }
     }
 
     /**

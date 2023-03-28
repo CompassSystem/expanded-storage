@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 public class HasPropertyCondition implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("has_property");
+    public static final ResourceLocation NETWORK_ID = Utils.id("has_property");
     private final ResourceLocation blockId;
     private final Map<Property<?>, Object> properties;
     private final boolean optional;
@@ -62,7 +62,7 @@ public class HasPropertyCondition implements RecipeCondition {
         }
     }
 
-    private static HasPropertyCondition readFromBuffer(FriendlyByteBuf buffer) {
+    public static HasPropertyCondition readFromBuffer(FriendlyByteBuf buffer) {
         ResourceLocation blockId = buffer.readResourceLocation();
         if (!BuiltInRegistries.BLOCK.containsKey(blockId)) {
             throw new IllegalStateException("Received an unknown block: " + blockId);
@@ -100,9 +100,5 @@ public class HasPropertyCondition implements RecipeCondition {
             state.addProperty(entry.getKey().getName(), entry.getValue().toString());
         }
         object.add("state", state);
-    }
-
-    static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, HasPropertyCondition::readFromBuffer);
     }
 }

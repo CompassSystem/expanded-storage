@@ -94,7 +94,7 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
     public static EntityConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         EntityType<?> output = BuiltInRegistries.ENTITY_TYPE.get(buffer.readResourceLocation());
-        RecipeCondition input = RecipeCondition.readFromBuffer(buffer);
+        RecipeCondition input = RecipeCondition.readFromNetworkBuffer(buffer);
         return new EntityConversionRecipe<>(recipeTool, output, input);
     }
 

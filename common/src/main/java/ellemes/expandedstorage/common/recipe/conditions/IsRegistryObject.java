@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 public class IsRegistryObject implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("is_registry_object");
+    public static final ResourceLocation NETWORK_ID = Utils.id("is_registry_object");
     private final Object value;
     private final ResourceLocation registry;
     private final ResourceLocation objectId;
@@ -46,7 +46,7 @@ public class IsRegistryObject implements RecipeCondition {
         return value;
     }
 
-    private static IsRegistryObject readFromBuffer(FriendlyByteBuf buffer) {
+    public static IsRegistryObject readFromBuffer(FriendlyByteBuf buffer) {
         ResourceLocation registryId = buffer.readResourceLocation();
         ResourceLocation objectId = buffer.readResourceLocation();
         Registry<?> registry = BuiltInRegistries.REGISTRY.get(registryId);
@@ -71,9 +71,5 @@ public class IsRegistryObject implements RecipeCondition {
 
     public void writeToJsonObject(JsonObject object) {
         object.addProperty("id", objectId.toString());
-    }
-
-    static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, IsRegistryObject::readFromBuffer);
     }
 }

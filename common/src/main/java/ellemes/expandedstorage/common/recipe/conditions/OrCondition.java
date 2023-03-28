@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class OrCondition implements RecipeCondition {
-
-    private static final ResourceLocation NETWORK_ID = Utils.id("or");
+    public static final ResourceLocation NETWORK_ID = Utils.id("or");
     private final RecipeCondition[] conditions;
 
     public OrCondition(RecipeCondition... conditions) {
@@ -48,8 +47,8 @@ public class OrCondition implements RecipeCondition {
         });
     }
 
-    private static OrCondition readFromBuffer(FriendlyByteBuf buffer) {
-        RecipeCondition[] conditions = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer).toArray(RecipeCondition[]::new);
+    public static OrCondition readFromBuffer(FriendlyByteBuf buffer) {
+        RecipeCondition[] conditions = buffer.readCollection(ArrayList::new, RecipeCondition::readFromNetworkBuffer).toArray(RecipeCondition[]::new);
         return new OrCondition(conditions);
     }
 
@@ -67,9 +66,5 @@ public class OrCondition implements RecipeCondition {
             array.add(object);
         }
         return array;
-    }
-
-    static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, OrCondition::readFromBuffer);
     }
 }

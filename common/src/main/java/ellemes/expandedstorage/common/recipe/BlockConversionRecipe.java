@@ -137,7 +137,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
     public static BlockConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         PartialBlockState<?> output = PartialBlockState.readFromBuffer(buffer);
-        RecipeCondition inputs = RecipeCondition.readFromBuffer(buffer);
+        RecipeCondition inputs = RecipeCondition.readFromNetworkBuffer(buffer);
         return new BlockConversionRecipe<>(recipeTool, output, inputs);
     }
 
