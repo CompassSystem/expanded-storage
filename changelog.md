@@ -1,4 +1,6 @@
 **Note: Both server and client will need to be updated!!!**
+
+**Oh, and as always, please backup you worlds before updating**
 - Add each Storage mutator mode to the creative menu.
 - Add the Sparrow named Storage mutator to the creative menu.
 - Changed "_with_sparrow" blocks to use a block state property instead.
