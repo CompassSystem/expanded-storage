@@ -19,3 +19,5 @@ extendable method net/minecraft/data/recipes/RecipeProvider getName ()Ljava/lang
 extendable method net/minecraft/data/tags/TagsProvider getName ()Ljava/lang/String;
 extendable method net/minecraft/data/models/ModelProvider getName ()Ljava/lang/String;
 extendable method net/minecraft/data/loot/LootTableProvider getName ()Ljava/lang/String;
+
+accessible method net/minecraft/world/item/ItemStack <init> (Lnet/minecraft/nbt/CompoundTag;)V
