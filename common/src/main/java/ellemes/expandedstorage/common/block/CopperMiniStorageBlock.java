@@ -14,7 +14,7 @@ public final class CopperMiniStorageBlock extends MiniStorageBlock implements We
     private final WeatheringCopper.WeatherState weatherState;
 
     public CopperMiniStorageBlock(Properties settings, ResourceLocation openingStat, WeatheringCopper.WeatherState weatherState) {
-        super(settings, openingStat);
+        super(settings, openingStat, false);
         this.weatherState = weatherState;
     }
 
