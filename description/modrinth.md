@@ -4,7 +4,7 @@ This mod adds new storage containers. Namely: chests, old chests, barrels and mi
 
 All but the mini chests are like vanilla containers but can store more items.
 
-For recipes please use a recipe viewing mod like [EMI](https://modrinth.com/mod/emi) or [REI](https://modrinth.com/mod/roughly-enough-items).
+For recipes please use a recipe viewing mod like [EMI](https://modrinth.com/mod/emi) or [REI](https://modrinth.com/mod/rei).
 
 Below is more detailed information regarding the mod however please note not all tiers / themes are available for all storage types.
 
@@ -17,7 +17,9 @@ Below is more detailed information regarding the mod however please note not all
 	<li>Pumpkin - made out of pumpkin.</li>
 	<li>Present - has different gift wrap textures depending on variant.</li>
 	<li>Bamboo - made out of bamboo.</li>
+	<li>Moss - made out of moss, can be bone-mealed to spread.</li>
   </ul>
+  <li><img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/copper_bullet_point.png" /> Copper: can store 45 items. (just under 2 chests worth)</li>
   <li><img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/iron_bullet_point.png" /> Iron: can store 54 items. (2 chests worth)</li>
   <li><img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/gold_bullet_point.png" /> Golden: is liked by piglins, can store 81 items. (3 chests worth)</li>
   <li><img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/diamond_bullet_point.png" /> Diamond: can store 108 items. (4 chests worth)</li>
@@ -52,14 +54,16 @@ Barrels like full cube chests don't have a block entity renderer, so they will r
 </details>
 
 <details>
-<summary>Mini chests</summary>
+<summary>Mini storage blocks</summary>
 <img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/Mini%20chests_512.png" alt="Picture of mini chests" />
+<img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/Iron%20Mini%20chests_512.png" alt="Picture of iron mini chests" />
+<img src="https://gitlab.com/Ellemes/expanded-storage/-/raw/documentation/art/descriptions/png/Mini%20barrels_512.png" alt="Picture of mini barrels" />
 <hr/>
-Mini chests are chest but mini, they all can only hold 1 item and are ideal for gifting things to other players :D
+Mini storage blocks are like chest and barrels but mini, they all can only hold 1 item and are ideal for gifting things to other players :D
 <br/>
 <br/>
 
-Note: not all styles are craft-able and will need a Storage Mutator renamed to `Sunrise` or `Sparrow` to unlock.
+Note: not all styles are craft-able and will need a Storage Mutator renamed to `Sparrow` to unlock.
 </details>
 
 <details>
@@ -73,7 +77,7 @@ It currently consists of 4 modes, note not all modes are applicable to all stora
 - Merge: Allows merging of two adjacent chests or old chests into a double chest.
 - Split: Allows splitting a double chest into two single chests.
 - Rotate: Allows rotating any storage container, note chests are limited to horizontal rotations.
-- Swap theme: Allows changing the theme of the storage container, this only works for themes in the same tier and only on Expanded Storage containers.
+- Swap theme: Allows changing the theme of the storage container, this only works for themes in the same tier.
 
 </details>
 
@@ -92,12 +96,16 @@ Current Version:
 <ul>
   <li>Mod code and texture assets - Ellemes</li>
   <li>Mod icon and other item / block renders - <a href="https://modrinth.com/mod/isometric-renders">Isometric Renderer mod</a></li>
-  <li>Bamboo chest textures - Yoghurt4C</li>
   <li>Pumpkin chest textures - Yoghurt4C, these textures, for the modelled chest only, are public domain.</li>
   <li>Christmas chest textures - Yoghurt4C, these textures, for the modelled chest only, are public domain.</li>
+  <li>Bamboo chest textures - Yoghurt4C</li>
+  <li>Moss chest textures - ClockworkVulpine</li>
   <li>Previous mod icon - Hambaka</li>
   <li>Russian translations - Romz24</li>
   <li>French translations - Wombhy</li>
+  <li>Dutch translations - ClockworkVulpine</li>
+  <li>Italian translations - <a href="https://gitlab.com/maicol07">Maicol</a></li>
+  <li>Brazilian translations - <a href="https://github.com/seriousfreezing">SeriousFreezing</a></li>
 </ul>
 Older versions:
 <ul>
