@@ -419,7 +419,7 @@ public final class CommonMain {
             };
 
             BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperBarrelMaker = (id, weatherState) -> {
-                NamedValue<BarrelBlock> block = new NamedValue<>(id, () -> new CopperBarrelBlock(copperTier.getBlockSettings().apply(copperSettings), copperStat, copperTier.getSlotCount(), weatherState));
+                NamedValue<BarrelBlock> block = new NamedValue<>(id, () -> new CopperBarrelBlock(copperTier.getBlockSettings().apply(copperBarrelSettings), copperStat, copperTier.getSlotCount(), weatherState));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties())));
                 barrelBlocks.add(block);
                 barrelItems.add(item);
@@ -641,6 +641,8 @@ public final class CommonMain {
     public static void generateDisplayItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, Consumer<ItemStack> output) {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
         Consumer<Item> sparrowWrap = item -> {
+            wrap.accept(item);
+
             ItemStack stack = new ItemStack(item);
             CompoundTag tag = new CompoundTag();
             CompoundTag blockStateTag = new CompoundTag();
@@ -728,61 +730,33 @@ public final class CommonMain {
         wrap.accept(ModItems.DIAMOND_BARREL);
         wrap.accept(ModItems.OBSIDIAN_BARREL);
         wrap.accept(ModItems.NETHERITE_BARREL);
-        wrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
         sparrowWrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
-        wrap.accept(ModItems.WOOD_MINI_CHEST);
         sparrowWrap.accept(ModItems.WOOD_MINI_CHEST);
-        wrap.accept(ModItems.PUMPKIN_MINI_CHEST);
         sparrowWrap.accept(ModItems.PUMPKIN_MINI_CHEST);
-        wrap.accept(ModItems.RED_MINI_PRESENT);
         sparrowWrap.accept(ModItems.RED_MINI_PRESENT);
-        wrap.accept(ModItems.WHITE_MINI_PRESENT);
         sparrowWrap.accept(ModItems.WHITE_MINI_PRESENT);
-        wrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
         sparrowWrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
-        wrap.accept(ModItems.GREEN_MINI_PRESENT);
         sparrowWrap.accept(ModItems.GREEN_MINI_PRESENT);
-        wrap.accept(ModItems.LAVENDER_MINI_PRESENT);
         sparrowWrap.accept(ModItems.LAVENDER_MINI_PRESENT);
-        wrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
         sparrowWrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
-        wrap.accept(ModItems.IRON_MINI_CHEST);
         sparrowWrap.accept(ModItems.IRON_MINI_CHEST);
-        wrap.accept(ModItems.GOLD_MINI_CHEST);
         sparrowWrap.accept(ModItems.GOLD_MINI_CHEST);
-        wrap.accept(ModItems.DIAMOND_MINI_CHEST);
         sparrowWrap.accept(ModItems.DIAMOND_MINI_CHEST);
-        wrap.accept(ModItems.OBSIDIAN_MINI_CHEST);
         sparrowWrap.accept(ModItems.OBSIDIAN_MINI_CHEST);
-        wrap.accept(ModItems.NETHERITE_MINI_CHEST);
         sparrowWrap.accept(ModItems.NETHERITE_MINI_CHEST);
-        wrap.accept(ModItems.MINI_BARREL);
         sparrowWrap.accept(ModItems.MINI_BARREL);
-        wrap.accept(ModItems.COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.COPPER_MINI_BARREL);
-        wrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.WAXED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL);
         sparrowWrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL);
-        wrap.accept(ModItems.IRON_MINI_BARREL);
         sparrowWrap.accept(ModItems.IRON_MINI_BARREL);
-        wrap.accept(ModItems.GOLD_MINI_BARREL);
         sparrowWrap.accept(ModItems.GOLD_MINI_BARREL);
-        wrap.accept(ModItems.DIAMOND_MINI_BARREL);
         sparrowWrap.accept(ModItems.DIAMOND_MINI_BARREL);
-        wrap.accept(ModItems.OBSIDIAN_MINI_BARREL);
         sparrowWrap.accept(ModItems.OBSIDIAN_MINI_BARREL);
-        wrap.accept(ModItems.NETHERITE_MINI_BARREL);
         sparrowWrap.accept(ModItems.NETHERITE_MINI_BARREL);
     }
 }
