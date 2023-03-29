@@ -27,31 +27,16 @@ import java.util.List;
 
 public class ForgePlatformHelper implements PlatformHelper {
     private final SimpleChannel channel;
-    private MenuType<AbstractHandler> menuType;
-    private ForgeClientHelper clientPlatformHelper;
-
-    public static ForgePlatformHelper instance() {
-        return (ForgePlatformHelper) PlatformHelper.instance();
-    }
+    private final MenuType<AbstractHandler> menuType;
 
     {
         channel = NetworkRegistry.newSimpleChannel(Utils.id("channel"), () -> "1.0", "1.0"::equals, "1.0"::equals);
         channel.registerMessage(0, ClientboundUpdateRecipesMessage.class, ClientboundUpdateRecipesMessage::encode, ClientboundUpdateRecipesMessage::decode, ClientboundUpdateRecipesMessage::handle);
-    }
-
-    @Override
-    public ForgeClientHelper clientHelper() {
-        if (clientPlatformHelper == null) {
-            clientPlatformHelper = new ForgeClientHelper();
-        }
-        return clientPlatformHelper;
+        menuType = new MenuType<>((IContainerFactory<AbstractHandler>) AbstractHandler::createClientMenu, FeatureFlags.VANILLA_SET);
     }
 
     @Override
     public MenuType<AbstractHandler> getScreenHandlerType() {
-        if (menuType == null) {
-            menuType = new MenuType<>((IContainerFactory<AbstractHandler>) AbstractHandler::createClientMenu, FeatureFlags.VANILLA_SET);
-        }
         return menuType;
     }
 

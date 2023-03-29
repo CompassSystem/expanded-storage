@@ -101,6 +101,7 @@ public final class CommonMain {
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
     private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
     private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
+    private static PlatformHelper platformHelper;
 
     public static BlockEntityType<ChestBlockEntity> getChestBlockEntityType() {
         return chestBlockEntityType.getValue();
@@ -161,7 +162,7 @@ public final class CommonMain {
         return null;
     }
 
-    public static void constructContent(Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
+    public static void constructContent(PlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
                                         boolean isClient, ContentConsumer contentRegistrationConsumer,
             /*Base*/ boolean manuallyWrapTooltips,
             /*Chest*/ BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker, Function<OpenableBlockEntity, ItemAccess> chestAccessMaker,
@@ -169,8 +170,7 @@ public final class CommonMain {
             /*Old Chest*/
             /*Barrel*/ TagKey<Block> barrelTag,
             /*Mini Storage*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
-        PlatformHelper.instance(); // Force initializer to be called
-
+        platformHelper = helper;
         final Tier woodTier = new Tier(Utils.WOOD_TIER_ID, Utils.WOOD_STACK_COUNT, UnaryOperator.identity(), UnaryOperator.identity());
         final Tier copperTier = new Tier(Utils.COPPER_TIER_ID, 45, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier ironTier = new Tier(Utils.id("iron"), 54, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
@@ -758,5 +758,9 @@ public final class CommonMain {
         sparrowWrap.accept(ModItems.DIAMOND_MINI_BARREL);
         sparrowWrap.accept(ModItems.OBSIDIAN_MINI_BARREL);
         sparrowWrap.accept(ModItems.NETHERITE_MINI_BARREL);
+    }
+
+    public static PlatformHelper platformHelper() {
+        return platformHelper;
     }
 }

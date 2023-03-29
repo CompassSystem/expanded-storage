@@ -5,7 +5,7 @@ import ellemes.expandedstorage.common.client.gui.FakePickScreen;
 import ellemes.expandedstorage.common.client.gui.PageScreen;
 import ellemes.expandedstorage.common.client.gui.ScrollScreen;
 import ellemes.expandedstorage.common.client.gui.SingleScreen;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.misc.ClientPlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -13,7 +13,10 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public class CommonClient {
-    public static void initialize() {
+    private static ClientPlatformHelper platformHelper;
+
+    public static void initialize(ClientPlatformHelper helper) {
+        platformHelper = helper;
         ScreenTypeApi.registerScreenButton(Utils.PAGE_SCREEN_TYPE,
                 Utils.id("textures/gui/page_button.png"),
                 Component.translatable("screen.ellemes_container_lib.page_screen"));
@@ -42,7 +45,9 @@ public class CommonClient {
 
         ScreenTypeApi.setPrefersSingleScreen(Utils.PAGE_SCREEN_TYPE);
         ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLL_SCREEN_TYPE);
+    }
 
-        PlatformHelper.instance().clientHelper(); // Force initializer to be called.
+    public static ClientPlatformHelper platformHelper() {
+        return platformHelper;
     }
 }

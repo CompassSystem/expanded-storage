@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread.mixin;
 
-import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.thread.ThreadPlatformHelper;
 import net.minecraft.core.LayeredRegistryAccess;
@@ -21,7 +21,7 @@ public class SyncRecipesMixin {
             at = @At("TAIL")
     )
     private void setServerInstance(MinecraftServer minecraftServer, LayeredRegistryAccess registryAccess, PlayerDataStorage storage, int maxPlayers, CallbackInfo ci) {
-        ThreadPlatformHelper.instance().setServerInstance(minecraftServer);
+        ((ThreadPlatformHelper) CommonMain.platformHelper()).setServerInstance(minecraftServer);
     }
 
     @Inject(
@@ -33,7 +33,7 @@ public class SyncRecipesMixin {
     )
 
     private void sendResourcesToNewPlayer(Connection connection, ServerPlayer player, CallbackInfo ci) {
-        PlatformHelper.instance().sendConversionRecipesToClient(player, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
+        CommonMain.platformHelper().sendConversionRecipesToClient(player, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
     }
 
     @Inject(
@@ -41,6 +41,6 @@ public class SyncRecipesMixin {
             at = @At("TAIL")
     )
     private void sendResourcesToConnectedPlayers(CallbackInfo ci) {
-        PlatformHelper.instance().sendConversionRecipesToClient(null, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
+        CommonMain.platformHelper().sendConversionRecipesToClient(null, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
     }
 }
