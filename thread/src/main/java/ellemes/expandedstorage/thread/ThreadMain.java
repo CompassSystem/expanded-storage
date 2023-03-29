@@ -20,7 +20,6 @@ import ellemes.expandedstorage.thread.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.thread.compat.carrier.CarrierCompat;
 import ellemes.expandedstorage.thread.compat.htm.HTMLockable;
 import ellemes.expandedstorage.thread.compat.inventory_tabs.InventoryTabCompat;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
