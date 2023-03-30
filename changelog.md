@@ -4,3 +4,4 @@
 - Update Mini storage collision boxes to be more accurate
 - Added custom textures for storage mutator modes
 - Fixed bamboo lock texture and some issue with moss chest textures.
+- Fixed mixin priorities. 
