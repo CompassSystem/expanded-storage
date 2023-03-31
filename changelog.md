@@ -5,3 +5,6 @@
 - Added custom textures for storage mutator modes
 - Fixed bamboo lock texture and some issue with moss chest textures.
 - Fixed mixin priorities. 
+- Slightly improve feedback when using upgrades, and you are missing 1.
+- Make bamboo chests mineable with a sword.
+- Implement an easter egg :D
