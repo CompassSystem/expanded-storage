@@ -20,7 +20,6 @@ import ellemes.expandedstorage.thread.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.thread.compat.carrier.CarrierCompat;
 import ellemes.expandedstorage.thread.compat.htm.HTMLockable;
 import ellemes.expandedstorage.thread.compat.inventory_tabs.InventoryTabCompat;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -71,7 +70,7 @@ public class ThreadMain {
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static void constructContent(boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
+    public static void constructContent(ThreadPlatformHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
         FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
                        .displayItems((itemDisplayParameters, output) -> {
                            CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
@@ -79,7 +78,7 @@ public class ThreadMain {
                            });
                        }).build();
 
-        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
+        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
@@ -157,8 +156,10 @@ public class ThreadMain {
         public static void registerItemRenderers(List<NamedValue<BlockItem>> items) {
             for (NamedValue<BlockItem> item : items) {
                 ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getValue().getBlock().defaultBlockState());
-                BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, context, stack, source, light, overlay) ->
-                        Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay));
+                BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, context, stack, source, light, overlay) -> {
+                    renderEntity.setCustomName(itemStack.getHoverName());
+                    Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay);
+                });
             }
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.SINGLE_LAYER, ChestBlockEntityRenderer::createSingleBodyLayer);
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.LEFT_LAYER, ChestBlockEntityRenderer::createLeftBodyLayer);

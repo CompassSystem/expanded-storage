@@ -81,8 +81,6 @@
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_1":        "%s点击黑曜石箱子",
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_2":        "来把它升级成下界合金箱子。",
 
-  "tooltip.expandedstorage.conversion_kit.need_x_upgrades":             "无法升级%s，你还需要%s个升级工具。",
-
   "block.expandedstorage.iron_barrel":                                  "铁桶",
   "block.expandedstorage.gold_barrel":                                  "金桶",
   "block.expandedstorage.diamond_barrel":                               "钻石桶",

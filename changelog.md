@@ -1,9 +1,10 @@
-**Note: Both server and client will need to be updated!!!**
-
-**Oh, and as always, please backup you worlds before updating**
-- Add each Storage mutator mode to the creative menu.
-- Add the Sparrow named Storage mutator to the creative menu.
-- Changed "_with_sparrow" blocks to use a block state property instead.
-- Conversion recipe format should now be somewhat stable, this will be documented soon™️
-- Fixed data fixers not working
-- Fixed an issue when trying to join a development server with a production client
+- Fixed a mixin causing warnings
+- Fix copper barrels having metallic sounds
+- Fixed storing reference to server when it has been shutdown
+- Update Mini storage collision boxes to be more accurate
+- Added custom textures for storage mutator modes
+- Fixed bamboo lock texture and some issue with moss chest textures.
+- Fixed mixin priorities. 
+- Slightly improve feedback when using upgrades, and you are missing 1.
+- Make bamboo chests mineable with a sword.
+- Implement an easter egg :D

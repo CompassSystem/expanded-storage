@@ -6,6 +6,7 @@ import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.api.ExpandedStorageAccessors;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.ToolUsageResult;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
@@ -55,7 +56,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
         }
 
         if (tool.getCount() < convertPositions.size() && !player.isCreative()) {
-            return ToolUsageResult.fail();
+            return StorageConversionKit.NOT_ENOUGH_UPGRADES;
         }
 
         HashMap<BlockPos, InputState> originalStates = new HashMap<>();

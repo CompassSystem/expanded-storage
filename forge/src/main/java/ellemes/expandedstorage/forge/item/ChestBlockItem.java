@@ -33,6 +33,7 @@ public final class ChestBlockItem extends BlockItem {
                 return new BlockEntityWithoutLevelRenderer(minecraft.getBlockEntityRenderDispatcher(), minecraft.getEntityModels()) {
                     @Override
                     public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poses, MultiBufferSource source, int light, int overlay) {
+                        renderEntity.setCustomName(stack.getHoverName());
                         Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, poses, source, light, overlay);
                     }
                 };

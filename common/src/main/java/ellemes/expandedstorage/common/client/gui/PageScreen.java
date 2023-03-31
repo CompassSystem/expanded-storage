@@ -7,8 +7,8 @@ import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.widget.PageButton;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -91,7 +91,7 @@ public final class PageScreen extends AbstractScreen {
                 ScreenSize iterDim = option.getFirst();
                 if (pickedMeta.getHeight() == iterMeta.getHeight() && iterMeta.getWidth() < pickedMeta.getWidth()) {
                     picked = option;
-                } else if (PlatformHelper.instance().clientHelper().configWrapper().preferSmallerScreens() && pickedMeta.getWidth() == iterMeta.getWidth() + 1 && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
+                } else if (CommonClient.platformHelper().configWrapper().preferSmallerScreens() && pickedMeta.getWidth() == iterMeta.getWidth() + 1 && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
 
                 } else if (iterMeta.getWidth() < pickedMeta.getWidth() && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
                     picked = option;
@@ -247,7 +247,7 @@ public final class PageScreen extends AbstractScreen {
         }
         page = 1;
         // Honestly this is dumb.
-        if (x == originalX && PlatformHelper.instance().clientHelper().isModLoaded("inventoryprofiles")) {
+        if (x == originalX && CommonClient.platformHelper().isModLoaded("inventoryprofiles")) {
             x -= 14;
         }
         leftPageButton = new PageButton(x, y, 0,

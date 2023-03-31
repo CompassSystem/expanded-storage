@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 
 public class ModelHelper {
     public static void registerItemModels(Consumer<Item> consumer) {
-        consumer.accept(ModItems.STORAGE_MUTATOR);
         consumer.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         consumer.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
         consumer.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);

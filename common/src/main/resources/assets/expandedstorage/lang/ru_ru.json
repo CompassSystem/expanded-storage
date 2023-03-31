@@ -74,8 +74,6 @@
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_1": "Нажмите %s по обсидиановому сундуку,",
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_2": " чтобы превратить его в незеритовый.",
 
-  "tooltip.expandedstorage.conversion_kit.need_x_upgrades":      "Невозможно улучшить %ss, вам нужно %s улучшений.",
-
   "block.expandedstorage.iron_barrel":                           "Железная бочка",
   "block.expandedstorage.gold_barrel":                           "Золотая бочка",
   "block.expandedstorage.diamond_barrel":                        "Алмазная бочка",

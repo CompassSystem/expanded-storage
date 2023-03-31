@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.fabric;
 
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -7,9 +8,11 @@ import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.thread.ThreadMain;
+import ellemes.expandedstorage.thread.ThreadPlatformHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.SemanticVersion;
@@ -37,7 +40,7 @@ public final class FabricMain implements ModInitializer {
         }
 
         boolean isClient = fabricLoader.getEnvironmentType() == EnvType.CLIENT;
-        ThreadMain.constructContent(
+        ThreadMain.constructContent(new FabricPlatformHelper(),
                 fabricLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
@@ -45,6 +48,10 @@ public final class FabricMain implements ModInitializer {
                         .andThenIf(isClient, this::registerBarrelRenderLayers)
                         .andThen(this::registerOxidisableAndWaxableBlocks)
         );
+
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            ((ThreadPlatformHelper) CommonMain.platformHelper()).setServerInstance(null);
+        });
     }
 
     private void registerOxidisableAndWaxableBlocks(Content content) {

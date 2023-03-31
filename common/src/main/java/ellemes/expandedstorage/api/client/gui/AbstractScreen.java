@@ -5,8 +5,8 @@ import ellemes.expandedstorage.api.client.ScreenConstructor;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.function.ScreenSizeRetriever;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.PickScreen;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -40,7 +40,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
     public static AbstractScreen createScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
         ResourceLocation forcedScreenType = handler.getForcedScreenType();
-        ResourceLocation preference = forcedScreenType != null ? forcedScreenType : PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = forcedScreenType != null ? forcedScreenType : CommonClient.platformHelper().configWrapper().getPreferredScreenType();
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
         int slots = handler.getInventory().getContainerSize();
@@ -120,8 +120,8 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     public final boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.handleKeyPress(keyCode, scanCode, modifiers)) {
             return true;
-        } else if (PlatformHelper.instance().clientHelper().isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
-                && !PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType().equals(Utils.UNSET_SCREEN_TYPE)) {
+        } else if (CommonClient.platformHelper().isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
+                && !CommonClient.platformHelper().configWrapper().getPreferredScreenType().equals(Utils.UNSET_SCREEN_TYPE)) {
             minecraft.setScreen(new PickScreen(this));
             return true;
         }

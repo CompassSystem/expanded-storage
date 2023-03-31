@@ -3,12 +3,13 @@ package ellemes.expandedstorage.forge;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.v3.client.ScreenOpeningApi;
 import ellemes.expandedstorage.common.CommonClient;
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.client.gui.PageScreen;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.NamedValue;
-import ellemes.expandedstorage.forge.misc.ForgePlatformHelper;
+import ellemes.expandedstorage.forge.misc.ForgeClientHelper;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
@@ -24,7 +25,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ForgeClient {
     public static void initialize(IEventBus modBus, Content content) {
-        CommonClient.initialize();
+        CommonClient.initialize(new ForgeClientHelper(modBus));
         ModLoadingContext.get().getActiveContainer().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory((client, screen) -> ScreenOpeningApi.createTypeSelectScreen(() -> screen))
         );
@@ -35,9 +36,7 @@ public class ForgeClient {
             }
         });
 
-        ForgePlatformHelper.instance().clientHelper().init(modBus);
-
-        modBus.addListener((FMLClientSetupEvent event) -> MenuScreens.register(ForgePlatformHelper.instance().getScreenHandlerType(), AbstractScreen::createScreen));
+        modBus.addListener((FMLClientSetupEvent event) -> MenuScreens.register(CommonMain.platformHelper().getScreenHandlerType(), AbstractScreen::createScreen));
 
         modBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
             event.registerBlockEntityRenderer(content.getChestBlockEntityType().getValue(), ChestBlockEntityRenderer::new);

@@ -101,8 +101,6 @@
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_1":           "%s em um Bloco de Armazenamento Obsidiana",
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_2":           " converta para um Bloco de Armazenamento Netherita.",
 
-  "tooltip.expandedstorage.conversion_kit.need_x_upgrades":                "Não pode atualizar %ss, você precisa de %s mais atualização(ções).",
-
   "block.expandedstorage.copper_barrel":                                   "Barrel de Cobre",
   "block.expandedstorage.exposed_copper_barrel":                           "Barrel de Cobre Exposto",
   "block.expandedstorage.weathered_copper_barrel":                         "Barrel de Cobre Desgastado",

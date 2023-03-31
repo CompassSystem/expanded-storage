@@ -22,13 +22,13 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ChunkSerializer.class)
 public class SparrowBlockFix {
-
     @Inject(
             method = "read(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/ai/village/poi/PoiManager;Lnet/minecraft/world/level/ChunkPos;Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/world/level/chunk/ProtoChunk;",
             at = @At(
                     value = "INVOKE",
                     target = "Lcom/mojang/serialization/Codec;parse(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;",
-                    ordinal = 0
+                    ordinal = 0,
+                    remap = false
             ),
             locals = LocalCapture.CAPTURE_FAILHARD
     )

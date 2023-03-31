@@ -16,6 +16,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.NetworkRegistry;
@@ -27,31 +29,16 @@ import java.util.List;
 
 public class ForgePlatformHelper implements PlatformHelper {
     private final SimpleChannel channel;
-    private MenuType<AbstractHandler> menuType;
-    private ForgeClientHelper clientPlatformHelper;
-
-    public static ForgePlatformHelper instance() {
-        return (ForgePlatformHelper) PlatformHelper.instance();
-    }
+    private final MenuType<AbstractHandler> menuType;
 
     {
         channel = NetworkRegistry.newSimpleChannel(Utils.id("channel"), () -> "1.0", "1.0"::equals, "1.0"::equals);
         channel.registerMessage(0, ClientboundUpdateRecipesMessage.class, ClientboundUpdateRecipesMessage::encode, ClientboundUpdateRecipesMessage::decode, ClientboundUpdateRecipesMessage::handle);
-    }
-
-    @Override
-    public ForgeClientHelper clientHelper() {
-        if (clientPlatformHelper == null) {
-            clientPlatformHelper = new ForgeClientHelper();
-        }
-        return clientPlatformHelper;
+        menuType = new MenuType<>((IContainerFactory<AbstractHandler>) AbstractHandler::createClientMenu, FeatureFlags.VANILLA_SET);
     }
 
     @Override
     public MenuType<AbstractHandler> getScreenHandlerType() {
-        if (menuType == null) {
-            menuType = new MenuType<>((IContainerFactory<AbstractHandler>) AbstractHandler::createClientMenu, FeatureFlags.VANILLA_SET);
-        }
         return menuType;
     }
 
@@ -88,5 +75,10 @@ public class ForgePlatformHelper implements PlatformHelper {
                 channel.send(PacketDistributor.PLAYER.with(() -> target), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
             }
         }
+    }
+
+    @Override
+    public boolean canDestroyBamboo(ItemStack stack) {
+        return stack.canPerformAction(ToolActions.SWORD_DIG);
     }
 }

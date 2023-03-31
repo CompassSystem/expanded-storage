@@ -29,7 +29,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         super(settings);
     }
 
-    private static MutationMode getMode(ItemStack stack) {
+    public static MutationMode getMode(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.contains("mode", Tag.TAG_BYTE))
             tag.putByte("mode", (byte) 0);

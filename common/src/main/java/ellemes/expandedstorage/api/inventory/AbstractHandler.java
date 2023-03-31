@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.api.inventory;
 
-import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +21,7 @@ public final class AbstractHandler extends AbstractContainerMenu {
     private final ResourceLocation forcedScreenType;
 
     public AbstractHandler(int syncId, Container inventory, Inventory playerInventory, ResourceLocation forcedScreenType) {
-        super(PlatformHelper.instance().getScreenHandlerType(), syncId);
+        super(CommonMain.platformHelper().getScreenHandlerType(), syncId);
         this.inventory = inventory;
         this.forcedScreenType = forcedScreenType;
         inventory.startOpen(playerInventory.player);
