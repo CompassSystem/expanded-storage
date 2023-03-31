@@ -17,6 +17,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -54,6 +56,11 @@ public abstract class ThreadPlatformHelper implements PlatformHelper {
     }
 
     protected abstract void sendPacket(ServerPlayer player, ResourceLocation packetId, FriendlyByteBuf buffer);
+
+    @Override
+    public boolean canDestroyBamboo(ItemStack stack) {
+        return stack.getItem() instanceof SwordItem;
+    }
 
     public void setServerInstance(MinecraftServer server) {
         this.minecraftServer = server;

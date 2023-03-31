@@ -16,6 +16,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.NetworkRegistry;
@@ -73,5 +75,10 @@ public class ForgePlatformHelper implements PlatformHelper {
                 channel.send(PacketDistributor.PLAYER.with(() -> target), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
             }
         }
+    }
+
+    @Override
+    public boolean canDestroyBamboo(ItemStack stack) {
+        return stack.canPerformAction(ToolActions.SWORD_DIG);
     }
 }
