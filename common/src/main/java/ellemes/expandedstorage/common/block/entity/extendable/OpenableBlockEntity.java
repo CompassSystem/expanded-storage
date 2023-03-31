@@ -10,14 +10,16 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory {
+public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory, Nameable {
     private final ResourceLocation blockId;
     private final Component defaultName;
     private ItemAccess itemAccess;
@@ -84,8 +86,10 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         if (this.lockable == null) this.lockable = lockable;
     }
 
-    public final boolean hasCustomName() {
-        return customName != null;
+    @Nullable
+    @Override
+    public Component getCustomName() {
+        return customName;
     }
 
     public final void setCustomName(Component name) {
