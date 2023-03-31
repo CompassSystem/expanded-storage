@@ -1,4 +1,4 @@
-// 1.19.4	2023-03-29T17:54:41.6384211	Expanded Storage/Expanded Storage - Loot Tables
+// 1.19.4	2023-03-31T19:50:35.4083721	Expanded Storage/Expanded Storage - Loot Tables
 97b9fbdb7af301fc87730c3de81a4efa4d63c59b data\expandedstorage\loot_tables\blocks\obsidian_barrel.json
 a5d712f613b5280b2fcda438aece96031f0398a6 data\expandedstorage\loot_tables\blocks\old_diamond_chest.json
 fb8bb1effdb395c56c5a759aba6094a626856c43 data\expandedstorage\loot_tables\blocks\old_netherite_chest.json
@@ -45,8 +45,8 @@ ace940f6c4f01aefdaf1884aafb63d71fe4000d2 data\expandedstorage\loot_tables\blocks
 f82044fe7488d8f8c5c5410903647ffc5379d549 data\expandedstorage\loot_tables\blocks\netherite_chest.json
 4a511ca759b2d829b2d52d24d3584de158835488 data\expandedstorage\loot_tables\blocks\moss_chest.json
 fd9f7b2b2215fe12691e42fd2c6d75eb2fb4dc63 data\expandedstorage\loot_tables\blocks\diamond_chest.json
-c4176ed0f138099354412768e80336d3878de745 data\expandedstorage\loot_tables\blocks\bamboo_chest.json
 c68324a1b9e36dbebda96aa7973b462991f0999b data\expandedstorage\loot_tables\blocks\weathered_copper_barrel.json
+c4176ed0f138099354412768e80336d3878de745 data\expandedstorage\loot_tables\blocks\bamboo_chest.json
 a214520a88a355aba9415fa58d7ccd2145312a43 data\expandedstorage\loot_tables\blocks\oxidized_copper_barrel.json
 0a4c73b4350b9cee372c09689f0794aefc122a5d data\expandedstorage\loot_tables\blocks\pumpkin_chest.json
 4542162a5c0825d03e024ce2cd0256a240bf872e data\expandedstorage\loot_tables\blocks\waxed_oxidized_copper_mini_barrel.json
