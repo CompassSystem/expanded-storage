@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -57,6 +58,7 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, BlockGetter blockLevel, BlockPos pos, CollisionContext context) {
@@ -118,6 +120,7 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
         return super.updateShape(state, direction, otherState, level, pos, otherPos);
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public RenderShape getRenderShape(BlockState state) {
@@ -161,5 +164,13 @@ public class ChestBlock extends AbstractChestBlock implements SimpleWaterloggedB
             }
         }
         return net.minecraft.world.level.block.ChestBlock.isChestBlockedAt(level, pos);
+    }
+
+    @Override
+    protected boolean areChestsCompatible(Level level, ItemStack itemInHand, BlockPos firstPos, BlockPos secondPos) {
+        boolean firstIsDinnerbone = itemInHand.getHoverName().getString().equals("Dinnerbone");
+        boolean secondIsDinnerbone = level.getBlockEntity(secondPos) instanceof OpenableBlockEntity second && second.isDinnerbone();
+
+        return firstIsDinnerbone == secondIsDinnerbone;
     }
 }
