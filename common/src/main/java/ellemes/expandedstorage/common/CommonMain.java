@@ -326,15 +326,20 @@ public final class CommonMain {
                             if (state.getBlock() == otherState.getBlock()) {
                                 if (otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
                                     if (state.getValue(BlockStateProperties.HORIZONTAL_FACING) == otherState.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-                                        if (!level.isClientSide()) {
-                                            EsChestType chestType = AbstractChestBlock.getChestType(state.getValue(BlockStateProperties.HORIZONTAL_FACING), direction);
-                                            level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
-                                            // note: other state is updated via neighbour update
-                                            tag.remove("pos");
-                                            //noinspection ConstantConditions
-                                            player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_end"), true);
+                                        boolean firstIsDinnerbone = level.getBlockEntity(pos) instanceof OpenableBlockEntity blockEntity && blockEntity.isDinnerbone();
+                                        boolean secondIsDinnerbone = level.getBlockEntity(otherPos) instanceof OpenableBlockEntity blockEntity && blockEntity.isDinnerbone();
+                                        if (firstIsDinnerbone == secondIsDinnerbone) {
+                                            if (!level.isClientSide()) {
+                                                EsChestType chestType = AbstractChestBlock.getChestType(state.getValue(BlockStateProperties.HORIZONTAL_FACING), direction);
+                                                level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
+                                                // note: other state is updated via neighbour update
+                                                tag.remove("pos");
+                                                //noinspection ConstantConditions
+                                                player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_end"), true);
+                                            }
+                                            return ToolUsageResult.slowSuccess();
                                         }
-                                        return ToolUsageResult.slowSuccess();
+                                        player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_block"), true);
                                     } else {
                                         //noinspection ConstantConditions
                                         player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_facing"), true);
@@ -345,12 +350,13 @@ public final class CommonMain {
                                 }
                             } else {
                                 //noinspection ConstantConditions
-                                player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_block", state.getBlock().getName()), true);
+                                player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_block"), true);
                             }
                         } else {
                             //noinspection ConstantConditions
                             player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_not_adjacent"), true);
                         }
+                        tag.remove("pos");
                     } else {
                         if (!level.isClientSide()) {
                             tag.put("pos", NbtUtils.writeBlockPos(pos));

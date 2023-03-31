@@ -6,6 +6,7 @@ import ellemes.expandedstorage.api.v3.context.BlockContext;
 import ellemes.expandedstorage.api.v3.helpers.OpenableInventories;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
+import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.block.misc.Property;
 import ellemes.expandedstorage.common.block.misc.PropertyRetriever;
 import net.minecraft.core.BlockPos;
@@ -156,7 +157,12 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
             Direction offsetDir = clickedFace.getOpposite();
             BlockState offsetState = level.getBlockState(pos.relative(offsetDir));
             if (offsetState.is(this) && offsetState.getValue(BlockStateProperties.HORIZONTAL_FACING) == chestForwardDir && offsetState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
-                chestType = AbstractChestBlock.getChestType(chestForwardDir, offsetDir);
+                boolean firstIsDinnerbone = context.getItemInHand().getHoverName().getString().equals("Dinnerbone");
+                boolean secondIsDinnerbone = level.getBlockEntity(pos.relative(offsetDir)) instanceof OpenableBlockEntity second && second.isDinnerbone();
+
+                if (firstIsDinnerbone == secondIsDinnerbone) {
+                    chestType = AbstractChestBlock.getChestType(chestForwardDir, offsetDir);
+                }
             }
         } else {
             for (Direction dir : Direction.values()) {
@@ -164,8 +170,13 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
                 if (offsetState.is(this) && offsetState.getValue(BlockStateProperties.HORIZONTAL_FACING) == chestForwardDir && offsetState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
                     EsChestType type = AbstractChestBlock.getChestType(chestForwardDir, dir);
                     if (type != EsChestType.SINGLE) {
-                        chestType = type;
-                        break;
+                        boolean firstIsDinnerbone = context.getItemInHand().getHoverName().getString().equals("Dinnerbone");
+                        boolean secondIsDinnerbone = level.getBlockEntity(pos.relative(dir)) instanceof OpenableBlockEntity second && second.isDinnerbone();
+
+                        if (firstIsDinnerbone == secondIsDinnerbone) {
+                            chestType = type;
+                            break;
+                        }
                     }
                 }
             }
@@ -173,6 +184,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, chestForwardDir).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType);
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState updateShape(BlockState state, Direction offset, BlockState offsetState, LevelAccessor level,
@@ -203,12 +215,14 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return AbstractChestBlock.createPropertyRetriever(this, state, level, pos, true).get(AbstractChestBlock.INVENTORY_GETTER).orElse(null);
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, Rotation rotation) {

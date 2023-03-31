@@ -95,4 +95,17 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
     public final Component getName() {
         return this.hasCustomName() ? customName : defaultName;
     }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag updateTag = super.getUpdateTag();
+        if (customName != null) {
+            updateTag.putString("CustomName", Component.Serializer.toJson(customName));
+        }
+        return updateTag;
+    }
+
+    public boolean isDinnerbone() {
+        return this.hasCustomName() && customName.getString().equals("Dinnerbone");
+    }
 }
