@@ -101,8 +101,6 @@
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_1":           "%s op een Obsidianen Opslag Blok",
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_2":           " om het naar een Netherieten Opslag Blok te veranderen.",
 
-  "tooltip.expandedstorage.conversion_kit.need_x_upgrades":                "Kan %sen niet verbeteren, je hebt %s meer verbeteraar(s) nodig.",
-
   "block.expandedstorage.copper_barrel":                                   "Koperen Vat",
   "block.expandedstorage.exposed_copper_barrel":                           "Blootgesteld Koperen Vat",
   "block.expandedstorage.weathered_copper_barrel":                         "Verweerd Koperen Vat",

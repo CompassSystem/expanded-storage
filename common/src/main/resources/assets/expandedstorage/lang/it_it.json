@@ -81,8 +81,6 @@
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_1":        "%s su un blocco di stoccaggio di ossidiana",
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_2":        " per convertirlo in un blocco di stoccaggio di netherite.",
 
-  "tooltip.expandedstorage.conversion_kit.need_x_upgrades":             "Impossibile aggiornare %ss, hai bisogno di altri %s aggiornamenti.",
-
   "block.expandedstorage.iron_barrel":                                  "Barile di ferro",
   "block.expandedstorage.gold_barrel":                                  "Barile d'oro",
   "block.expandedstorage.diamond_barrel":                               "Barile di diamante",
