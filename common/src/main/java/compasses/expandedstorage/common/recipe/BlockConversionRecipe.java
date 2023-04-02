@@ -114,7 +114,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
                         if (input.entity() instanceof OpenableBlockEntity original) {
                             entity.copyLockFrom(original);
                         } else if (input.entity() instanceof RandomizableContainerBlockEntity original) {
-                            entity.setVanillaLock(original.lockKey);
+                            entity.getLockHolder().setVanillaLock(original.lockKey);
                         }
                     }
                     toolsUsed++;

@@ -130,14 +130,9 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     }
 
     @Override
-    protected final void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AbstractChestBlock.CURSED_CHEST_TYPE);
-        builder.add(BlockStateProperties.HORIZONTAL_FACING);
-        this.appendAdditionalStateDefinitions(builder);
-    }
-
-    protected void appendAdditionalStateDefinitions(StateDefinition.Builder<Block, BlockState> builder) {
-
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(AbstractChestBlock.CURSED_CHEST_TYPE, BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Nullable
@@ -216,9 +211,9 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     private void onDoubleChestFormed(LevelAccessor level, BlockPos pos, BlockState state, BlockPos offsetPos, BlockState offsetState) {
         OpenableBlockEntity existingChest = (OpenableBlockEntity) level.getBlockEntity(offsetPos);
         OpenableBlockEntity newChest = (OpenableBlockEntity) level.getBlockEntity(pos);
-        if (existingChest.hasLock() && !newChest.hasLock()) {
+        if (existingChest.getLockHolder().hasLock() && !newChest.getLockHolder().hasLock()) {
             newChest.copyLockFrom(existingChest);
-        } else if (newChest.hasLock() && !existingChest.hasLock()) {
+        } else if (newChest.getLockHolder().hasLock() && !existingChest.getLockHolder().hasLock()) {
             existingChest.copyLockFrom(newChest);
         }
     }

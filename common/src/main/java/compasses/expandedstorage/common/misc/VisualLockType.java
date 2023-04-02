@@ -1,7 +1,20 @@
 package compasses.expandedstorage.common.misc;
 
-public enum VisualLockType {
-    DEFAULT,
+import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
+
+public enum VisualLockType implements StringRepresentable {
+    NONE,
     GOLD,
-    DIAMOND
+    DIAMOND;
+
+    @NotNull
+    @Override
+    public String getSerializedName() {
+        return switch (this) {
+            case NONE -> "none";
+            case GOLD -> "gold";
+            case DIAMOND -> "diamond";
+        };
+    }
 }

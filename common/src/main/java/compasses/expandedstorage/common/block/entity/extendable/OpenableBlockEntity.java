@@ -1,13 +1,13 @@
 package compasses.expandedstorage.common.block.entity.extendable;
 
+import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
-import compasses.expandedstorage.common.item.GoldKeyItem;
+import compasses.expandedstorage.common.misc.LockHolder;
 import compasses.expandedstorage.common.misc.VisualLockType;
 import ellemes.expandedstorage.api.v3.OpenableInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -15,12 +15,11 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Nameable;
-import net.minecraft.world.LockCode;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,48 +27,29 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory, Nameable {
     private final ResourceLocation blockId;
     private final Component defaultName;
     private ItemAccess itemAccess;
-    private @Nullable Lockable lockable;
     private Component customName;
-    private @Nullable UUID diamondLock;
-    private @Nullable Component goldLock;
-    private @Nullable LockCode vanillaLock;
     // Client only
-    private VisualLockType visualLockType = VisualLockType.DEFAULT;
+    private VisualLockType visualLockType = VisualLockType.NONE;
+    private LockHolder lockHolder = new LockHolder(this::syncBlockEntityData);
 
     public OpenableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, @Nullable Supplier<Lockable> lockable) {
         super(type, pos, state);
         this.blockId = blockId;
         this.defaultName = defaultName;
         if (lockable != null) {
-            this.setLockable(lockable.get());
+            lockHolder.setLockable(lockable.get());
         }
     }
 
     @Override
     public boolean canBeUsedBy(ServerPlayer player) {
-        boolean lockOpenable = true;
-        if (this.getLockable() != null && this.getLockable().isLockPresent()) {
-            lockOpenable = this.getLockable().canPlayerOpenLock(player);
-        } else if (diamondLock != null) {
-            lockOpenable = diamondLock.equals(player.getUUID());
-        } else {
-            ItemStack stackInHand = player.getItemInHand(player.getUsedItemHand());
-            if (goldLock != null) {
-                boolean isGoldKey = !stackInHand.isEmpty() && stackInHand.getItem() instanceof GoldKeyItem;
-                lockOpenable = isGoldKey && stackInHand.getHoverName().equals(goldLock);
-            } else if (vanillaLock != null) {
-                lockOpenable = vanillaLock.unlocksWith(stackInHand);
-            }
-        }
-        return this.isValidAndPlayerInRange(player) && lockOpenable;
+        return this.isValidAndPlayerInRange(player) && lockHolder.canOpen(player);
     }
 
     protected final boolean isValidAndPlayerInRange(Player player) {
@@ -97,46 +77,12 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
             }
             visualLockType = VisualLockType.values()[value];
         }
-        boolean readValidLock = false;
-        if (lockable != null) {
-            readValidLock = lockable.readLock(tag);
-        }
-        if (!readValidLock) {
-            // Read base lock
-            Optional<UUID> diamondLock = OpenableBlockEntity.diamondLockFromTag(tag);
-            if (diamondLock.isPresent()) {
-                this.diamondLock = diamondLock.get();
-            } else {
-                Optional<Component> goldLock = OpenableBlockEntity.goldLockFromTag(tag);
-                if (goldLock.isPresent()) {
-                    this.goldLock = goldLock.get();
-                } else {
-                    LockCode vanillaLock = LockCode.fromTag(tag);
-                    if (vanillaLock != LockCode.NO_LOCK) {
-                        this.vanillaLock = vanillaLock;
-                    }
-                }
-            }
-        }
+        lockHolder.readLockFromTag(tag);
     }
 
     // Client Only
     public final VisualLockType getVisualLock() {
         return visualLockType;
-    }
-
-    private static Optional<Component> goldLockFromTag(CompoundTag tag) {
-        if (tag.contains("Gold_Lock", Tag.TAG_STRING)) {
-            return Optional.ofNullable(Component.Serializer.fromJson(tag.getString("Gold_Lock")));
-        }
-        return Optional.empty();
-    }
-
-    private static Optional<UUID> diamondLockFromTag(CompoundTag tag) {
-        if (tag.hasUUID("Diamond_Lock")) {
-            return Optional.of(tag.getUUID("Diamond_Lock"));
-        }
-        return Optional.empty();
     }
 
     @Override
@@ -145,27 +91,14 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         if (this.hasCustomName()) {
             tag.putString("CustomName", Component.Serializer.toJson(customName));
         }
-        if (lockable != null && lockable.isLockPresent()) {
-            lockable.writeLock(tag);
-        } else {
-            // Write base lock
-            if (diamondLock != null) {
-                tag.putUUID("Diamond_Lock", diamondLock);
-            }
-            else if (goldLock != null) {
-                tag.putString("Gold_Lock", Component.Serializer.toJson(goldLock));
-            }
-            else if (vanillaLock != null) {
-                vanillaLock.addToTag(tag);
-            }
-        }
+        getLockHolder().saveLockToTag(tag);
     }
 
+    @NotNull
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag updateTag = super.getUpdateTag();
-        VisualLockType value = diamondLock != null ? VisualLockType.DIAMOND : goldLock != null ? VisualLockType.GOLD : VisualLockType.DEFAULT;
-        updateTag.putInt("VisualLock", value.ordinal());
+        updateTag.putInt("VisualLock", lockHolder.getVisualStyle().ordinal());
         if (customName != null) {
             updateTag.putString("CustomName", Component.Serializer.toJson(customName));
         }
@@ -190,12 +123,9 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         if (this.itemAccess == null) this.itemAccess = itemAccess;
     }
 
+    @Nullable
     public Lockable getLockable() {
-        return lockable;
-    }
-
-    protected void setLockable(Lockable lockable) {
-        if (this.lockable == null) this.lockable = lockable;
+        return lockHolder.getLockable();
     }
 
     @Nullable
@@ -227,35 +157,15 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         return this.hasCustomName() && customName.getString().equals("Dinnerbone");
     }
 
-    public boolean hasLock() {
-        return diamondLock != null || goldLock != null || vanillaLock != null || (lockable != null && lockable.isLockPresent());
-    }
-
-    public void setDiamondLock(UUID playerUUID) {
-        diamondLock = playerUUID;
-        this.syncBlockEntityData();
-    }
-
-    public void setGoldLock(Component lockDisplayName) {
-        goldLock = lockDisplayName;
-        this.syncBlockEntityData();
-    }
-
-    public void setVanillaLock(LockCode lockKey) {
-        if (lockKey != LockCode.NO_LOCK) {
-            vanillaLock = lockKey;
-            this.syncBlockEntityData();
-        }
-    }
-
     public void copyLockFrom(OpenableBlockEntity other) {
-        diamondLock = other.diamondLock;
-        goldLock = other.goldLock;
-        vanillaLock = other.vanillaLock;
-        lockable = other.lockable;
+        lockHolder.copyFrom(other.getLockHolder());
     }
 
-    private void syncBlockEntityData() {
-        ((ServerLevel) level).getChunkSource().blockChanged(this.getBlockPos());
+    private void syncBlockEntityData(VisualLockType type) {
+        level.setBlock(worldPosition, getBlockState().setValue(OpenableBlock.LOCK_TYPE, type), Block.UPDATE_ALL);
+    }
+
+    public LockHolder getLockHolder() {
+        return lockHolder;
     }
 }

@@ -2,6 +2,7 @@ package compasses.expandedstorage.common.entity;
 
 import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.inventory.ExposedInventory;
+import compasses.expandedstorage.common.misc.LockHolder;
 import ellemes.expandedstorage.api.v3.OpenableInventory;
 import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
 import ellemes.expandedstorage.api.v3.context.BaseContext;
@@ -37,6 +38,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     private final BlockState renderBlockState;
     private final Component title;
     private final Item chestItem;
+    private LockHolder lockHolder;
 
     public ChestMinecart(EntityType<?> entityType, Level level, Item dropItem, ChestBlock block) {
         super(entityType, level);
@@ -45,6 +47,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
         title = dropItem.getDescription();
         inventory = NonNullList.withSize(block.getSlotCount(), ItemStack.EMPTY);
         chestItem = block.asItem();
+        lockHolder = new LockHolder((type) -> {});
     }
 
     @NotNull
@@ -164,7 +167,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     @Override
     public boolean canBeUsedBy(ServerPlayer player) {
-        return this.stillValid(player);
+        return this.stillValid(player) && lockHolder.canOpen(player);
     }
 
     @Override
@@ -180,5 +183,9 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     @Override
     public int getDefaultDisplayOffset() {
         return 8;
+    }
+
+    public LockHolder getLockHolder() {
+        return lockHolder;
     }
 }
