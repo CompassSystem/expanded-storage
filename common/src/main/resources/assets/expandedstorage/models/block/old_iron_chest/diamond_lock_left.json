@@ -1,0 +1,8 @@
+{
+  "parent": "expandedstorage:block/parent/old_chest_left",
+  "textures": {
+    "atlas": "expandedstorage:block/old_iron_chest",
+    "lock": "expandedstorage:block/old_chest_diamond_lock",
+    "particle": "minecraft:block/iron_block"
+  }
+}

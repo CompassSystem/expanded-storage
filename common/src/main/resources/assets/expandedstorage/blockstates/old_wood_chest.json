@@ -1,109 +1,266 @@
 {
   "variants": {
-    "facing=north,type=top": {
-      "model": "expandedstorage:block/old_wood_chest/top"
-    },
-    "facing=east,type=top": {
-      "model": "expandedstorage:block/old_wood_chest/top",
-      "y": 90
-    },
-    "facing=south,type=top": {
-      "model": "expandedstorage:block/old_wood_chest/top",
-      "y": 180
-    },
-    "facing=west,type=top": {
-      "model": "expandedstorage:block/old_wood_chest/top",
-      "y": 270
-    },
     "facing=north,type=bottom": {
       "model": "expandedstorage:block/old_wood_chest/bottom"
     },
-    "facing=east,type=bottom": {
+    "facing=east,type=bottom":  {
       "model": "expandedstorage:block/old_wood_chest/bottom",
-      "y": 90
+      "y":     90
     },
     "facing=south,type=bottom": {
       "model": "expandedstorage:block/old_wood_chest/bottom",
-      "y": 180
+      "y":     180
     },
-    "facing=west,type=bottom": {
+    "facing=west,type=bottom":  {
       "model": "expandedstorage:block/old_wood_chest/bottom",
-      "y": 270
+      "y":     270
     },
-    "facing=north,type=front": {
-      "model": "expandedstorage:block/old_wood_chest/front"
-    },
-    "facing=east,type=front": {
-      "model": "expandedstorage:block/old_wood_chest/front",
-      "y": 90
-    },
-    "facing=south,type=front": {
-      "model": "expandedstorage:block/old_wood_chest/front",
-      "y": 180
-    },
-    "facing=west,type=front": {
-      "model": "expandedstorage:block/old_wood_chest/front",
-      "y": 270
-    },
-    "facing=north,type=back": {
+    "facing=north,type=back":   {
       "model": "expandedstorage:block/old_wood_chest/back"
     },
-    "facing=east,type=back": {
+    "facing=east,type=back":    {
       "model": "expandedstorage:block/old_wood_chest/back",
-      "y": 90
+      "y":     90
     },
-    "facing=south,type=back": {
+    "facing=south,type=back":   {
       "model": "expandedstorage:block/old_wood_chest/back",
-      "y": 180
+      "y":     180
     },
-    "facing=west,type=back": {
+    "facing=west,type=back":    {
       "model": "expandedstorage:block/old_wood_chest/back",
-      "y": 270
+      "y":     270
     },
-    "facing=north,type=left": {
-      "model": "expandedstorage:block/old_wood_chest/left"
+
+    "facing=north,type=top,lock_type=none":    {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_top"
     },
-    "facing=east,type=left": {
-      "model": "expandedstorage:block/old_wood_chest/left",
-      "y": 90
+    "facing=east,type=top,lock_type=none":     {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_top",
+      "y":     90
     },
-    "facing=south,type=left": {
-      "model": "expandedstorage:block/old_wood_chest/left",
-      "y": 180
+    "facing=south,type=top,lock_type=none":    {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_top",
+      "y":     180
     },
-    "facing=west,type=left": {
-      "model": "expandedstorage:block/old_wood_chest/left",
-      "y": 270
+    "facing=west,type=top,lock_type=none":     {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_top",
+      "y":     270
     },
-    "facing=north,type=right": {
-      "model": "expandedstorage:block/old_wood_chest/right"
+    "facing=north,type=front,lock_type=none":  {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_front"
     },
-    "facing=east,type=right": {
-      "model": "expandedstorage:block/old_wood_chest/right",
-      "y": 90
+    "facing=east,type=front,lock_type=none":   {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_front",
+      "y":     90
     },
-    "facing=south,type=right": {
-      "model": "expandedstorage:block/old_wood_chest/right",
-      "y": 180
+    "facing=south,type=front,lock_type=none":  {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_front",
+      "y":     180
     },
-    "facing=west,type=right": {
-      "model": "expandedstorage:block/old_wood_chest/right",
-      "y": 270
+    "facing=west,type=front,lock_type=none":   {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_front",
+      "y":     270
     },
-    "facing=north,type=single": {
-      "model": "expandedstorage:block/old_wood_chest/single"
+    "facing=north,type=left,lock_type=none":   {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_left"
     },
-    "facing=east,type=single": {
-      "model": "expandedstorage:block/old_wood_chest/single",
-      "y": 90
+    "facing=east,type=left,lock_type=none":    {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_left",
+      "y":     90
     },
-    "facing=south,type=single": {
-      "model": "expandedstorage:block/old_wood_chest/single",
-      "y": 180
+    "facing=south,type=left,lock_type=none":   {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_left",
+      "y":     180
     },
-    "facing=west,type=single": {
-      "model": "expandedstorage:block/old_wood_chest/single",
-      "y": 270
+    "facing=west,type=left,lock_type=none":    {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_left",
+      "y":     270
+    },
+    "facing=north,type=right,lock_type=none":  {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_right"
+    },
+    "facing=east,type=right,lock_type=none":   {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_right",
+      "y":     90
+    },
+    "facing=south,type=right,lock_type=none":  {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_right",
+      "y":     180
+    },
+    "facing=west,type=right,lock_type=none":   {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_right",
+      "y":     270
+    },
+    "facing=north,type=single,lock_type=none": {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_single"
+    },
+    "facing=east,type=single,lock_type=none":  {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_single",
+      "y":     90
+    },
+    "facing=south,type=single,lock_type=none": {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_single",
+      "y":     180
+    },
+    "facing=west,type=single,lock_type=none":  {
+      "model": "expandedstorage:block/old_wood_chest/no_lock_single",
+      "y":     270
+    },
+
+
+
+    "facing=north,type=top,lock_type=gold":    {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_top"
+    },
+    "facing=east,type=top,lock_type=gold":     {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_top",
+      "y":     90
+    },
+    "facing=south,type=top,lock_type=gold":    {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_top",
+      "y":     180
+    },
+    "facing=west,type=top,lock_type=gold":     {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_top",
+      "y":     270
+    },
+    "facing=north,type=front,lock_type=gold":  {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_front"
+    },
+    "facing=east,type=front,lock_type=gold":   {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_front",
+      "y":     90
+    },
+    "facing=south,type=front,lock_type=gold":  {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_front",
+      "y":     180
+    },
+    "facing=west,type=front,lock_type=gold":   {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_front",
+      "y":     270
+    },
+    "facing=north,type=left,lock_type=gold":   {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_left"
+    },
+    "facing=east,type=left,lock_type=gold":    {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_left",
+      "y":     90
+    },
+    "facing=south,type=left,lock_type=gold":   {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_left",
+      "y":     180
+    },
+    "facing=west,type=left,lock_type=gold":    {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_left",
+      "y":     270
+    },
+    "facing=north,type=right,lock_type=gold":  {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_right"
+    },
+    "facing=east,type=right,lock_type=gold":   {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_right",
+      "y":     90
+    },
+    "facing=south,type=right,lock_type=gold":  {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_right",
+      "y":     180
+    },
+    "facing=west,type=right,lock_type=gold":   {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_right",
+      "y":     270
+    },
+    "facing=north,type=single,lock_type=gold": {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_single"
+    },
+    "facing=east,type=single,lock_type=gold":  {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_single",
+      "y":     90
+    },
+    "facing=south,type=single,lock_type=gold": {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_single",
+      "y":     180
+    },
+    "facing=west,type=single,lock_type=gold":  {
+      "model": "expandedstorage:block/old_wood_chest/gold_lock_single",
+      "y":     270
+    },
+
+
+
+    "facing=north,type=top,lock_type=diamond":    {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_top"
+    },
+    "facing=east,type=top,lock_type=diamond":     {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_top",
+      "y":     90
+    },
+    "facing=south,type=top,lock_type=diamond":    {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_top",
+      "y":     180
+    },
+    "facing=west,type=top,lock_type=diamond":     {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_top",
+      "y":     270
+    },
+    "facing=north,type=front,lock_type=diamond":  {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_front"
+    },
+    "facing=east,type=front,lock_type=diamond":   {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_front",
+      "y":     90
+    },
+    "facing=south,type=front,lock_type=diamond":  {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_front",
+      "y":     180
+    },
+    "facing=west,type=front,lock_type=diamond":   {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_front",
+      "y":     270
+    },
+    "facing=north,type=left,lock_type=diamond":   {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_left"
+    },
+    "facing=east,type=left,lock_type=diamond":    {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_left",
+      "y":     90
+    },
+    "facing=south,type=left,lock_type=diamond":   {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_left",
+      "y":     180
+    },
+    "facing=west,type=left,lock_type=diamond":    {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_left",
+      "y":     270
+    },
+    "facing=north,type=right,lock_type=diamond":  {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_right"
+    },
+    "facing=east,type=right,lock_type=diamond":   {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_right",
+      "y":     90
+    },
+    "facing=south,type=right,lock_type=diamond":  {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_right",
+      "y":     180
+    },
+    "facing=west,type=right,lock_type=diamond":   {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_right",
+      "y":     270
+    },
+    "facing=north,type=single,lock_type=diamond": {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_single"
+    },
+    "facing=east,type=single,lock_type=diamond":  {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_single",
+      "y":     90
+    },
+    "facing=south,type=single,lock_type=diamond": {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_single",
+      "y":     180
+    },
+    "facing=west,type=single,lock_type=diamond":  {
+      "model": "expandedstorage:block/old_wood_chest/diamond_lock_single",
+      "y":     270
     }
   }
 }

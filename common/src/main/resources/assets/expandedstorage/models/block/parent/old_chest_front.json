@@ -2,38 +2,48 @@
   "parent": "minecraft:block/block",
   "elements": [
     {
-      "from": [ 0, 0, 0 ],
-      "to": [ 16, 16, 16 ],
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
       "faces": {
         "down": {
-          "uv": [ 8, 4, 4, 8 ],
-          "texture": "#all",
+          "uv": [8, 4, 4, 8],
+          "texture": "#atlas",
           "cullface": "down"
         },
         "up": {
-          "uv": [ 8, 8, 4, 4 ],
-          "texture": "#all",
+          "uv": [8, 8, 4, 4],
+          "texture": "#atlas",
           "cullface": "up"
         },
         "north": {
-          "uv": [ 0, 8, 4, 12 ],
-          "texture": "#all",
+          "uv": [0, 8, 4, 12],
+          "texture": "#atlas",
           "cullface": "north"
         },
         "west": {
-          "uv": [ 8, 4, 12, 8 ],
-          "texture": "#all",
+          "uv": [8, 4, 12, 8],
+          "texture": "#atlas",
           "cullface": "west"
         },
         "east": {
-          "uv": [ 12, 4, 16, 8 ],
-          "texture": "#all",
+          "uv": [12, 4, 16, 8],
+          "texture": "#atlas",
           "cullface": "east"
+        }
+      }
+    },
+    {
+      "from": [7, 9, -0.001],
+      "to": [9, 13, -0.001],
+      "faces": {
+        "north": {
+          "texture": "#lock",
+          "cullface": "north"
         }
       }
     }
   ],
   "textures": {
-    "all": "#atlas"
+    "lock": "expandedstorage:block/old_chest_no_lock"
   }
 }

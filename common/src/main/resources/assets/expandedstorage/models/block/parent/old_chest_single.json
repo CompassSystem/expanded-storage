@@ -2,53 +2,63 @@
   "parent": "minecraft:block/block",
   "display": {
     "gui": {
-      "rotation": [ 30, 135, 0 ],
-      "scale": [ 0.625, 0.625, 0.625 ]
+      "rotation": [30, 135, 0],
+      "scale": [0.625, 0.625, 0.625]
     },
     "firstperson_righthand": {
-      "rotation": [ 0, 135, 0 ],
-      "scale": [ 0.40, 0.40, 0.40 ]
+      "rotation": [0, 135, 0],
+      "scale": [0.40, 0.40, 0.40]
     }
   },
   "elements": [
     {
-      "from": [ 0, 0, 0 ],
-      "to": [ 16, 16, 16 ],
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
       "faces": {
         "down": {
-          "uv": [ 4, 0, 0, 4 ],
-          "texture": "#all",
+          "uv": [4, 0, 0, 4],
+          "texture": "#atlas",
           "cullface": "down"
         },
         "up": {
-          "uv": [ 4, 4, 0, 0 ],
-          "texture": "#all",
+          "uv": [4, 4, 0, 0],
+          "texture": "#atlas",
           "cullface": "up"
         },
         "north": {
-          "uv": [ 0, 8, 4, 12 ],
-          "texture": "#all",
+          "uv": [0, 8, 4, 12],
+          "texture": "#atlas",
           "cullface": "north"
         },
         "south": {
-          "uv": [ 0, 4, 4, 8 ],
-          "texture": "#all",
+          "uv": [0, 4, 4, 8],
+          "texture": "#atlas",
           "cullface": "south"
         },
         "west": {
-          "uv": [ 0, 4, 4, 8 ],
-          "texture": "#all",
+          "uv": [0, 4, 4, 8],
+          "texture": "#atlas",
           "cullface": "west"
         },
         "east": {
-          "uv": [ 0, 4, 4, 8 ],
-          "texture": "#all",
+          "uv": [0, 4, 4, 8],
+          "texture": "#atlas",
           "cullface": "east"
+        }
+      }
+    },
+    {
+      "from": [7, 9, -0.001],
+      "to": [9, 13, -0.001],
+      "faces": {
+        "north": {
+          "texture": "#lock",
+          "cullface": "north"
         }
       }
     }
   ],
   "textures": {
-    "all": "#atlas"
+    "lock": "expandedstorage:block/old_chest_no_lock"
   }
 }
