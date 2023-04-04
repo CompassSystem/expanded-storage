@@ -212,9 +212,9 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         OpenableBlockEntity existingChest = (OpenableBlockEntity) level.getBlockEntity(offsetPos);
         OpenableBlockEntity newChest = (OpenableBlockEntity) level.getBlockEntity(pos);
         if (existingChest.getLockHolder().hasLock() && !newChest.getLockHolder().hasLock()) {
-            newChest.copyLockFrom(existingChest);
+            newChest.copyLockFrom(existingChest.getLockHolder());
         } else if (newChest.getLockHolder().hasLock() && !existingChest.getLockHolder().hasLock()) {
-            existingChest.copyLockFrom(newChest);
+            existingChest.copyLockFrom(newChest.getLockHolder());
         }
     }
 

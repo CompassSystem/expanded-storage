@@ -61,6 +61,7 @@ public class LockHolder {
         diamondLock = other.diamondLock;
         goldLock = other.goldLock;
         vanillaLock = other.vanillaLock;
+        this.onLockChanged.accept(this.getVisualStyle());
     }
 
     public boolean canOpen(ServerPlayer player) {

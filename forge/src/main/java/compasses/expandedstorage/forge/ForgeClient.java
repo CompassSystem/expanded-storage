@@ -3,6 +3,7 @@ package compasses.expandedstorage.forge;
 import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.client.ChestBlockEntityRenderer;
+import compasses.expandedstorage.common.client.ChestMinecartRenderer;
 import compasses.expandedstorage.common.client.gui.PageScreen;
 import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.misc.Utils;
@@ -62,7 +63,7 @@ public class ForgeClient {
 
         modBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
             for (NamedValue<EntityType<ChestMinecart>> type : content.getChestMinecartEntityTypes()) {
-                event.registerEntityRenderer(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
+                event.registerEntityRenderer(type.getValue(), context -> new ChestMinecartRenderer(context, ModelLayers.CHEST_MINECART));
             }
         });
     }

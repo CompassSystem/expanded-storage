@@ -30,7 +30,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory, Nameable {
-    private final ResourceLocation blockId;
     private final Component defaultName;
     private ItemAccess itemAccess;
     private Component customName;
@@ -38,9 +37,8 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
     private VisualLockType visualLockType = VisualLockType.NONE;
     private LockHolder lockHolder = new LockHolder(this::syncBlockEntityData);
 
-    public OpenableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, @Nullable Supplier<Lockable> lockable) {
+    public OpenableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Component defaultName, @Nullable Supplier<Lockable> lockable) {
         super(type, pos, state);
-        this.blockId = blockId;
         this.defaultName = defaultName;
         if (lockable != null) {
             lockHolder.setLockable(lockable.get());
@@ -111,10 +109,6 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public final ResourceLocation getBlockId() {
-        return blockId;
-    }
-
     public ItemAccess getItemAccess() {
         return itemAccess;
     }
@@ -157,8 +151,8 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         return this.hasCustomName() && customName.getString().equals("Dinnerbone");
     }
 
-    public void copyLockFrom(OpenableBlockEntity other) {
-        lockHolder.copyFrom(other.getLockHolder());
+    public void copyLockFrom(LockHolder other) {
+        lockHolder.copyFrom(other);
     }
 
     private void syncBlockEntityData(VisualLockType type) {
@@ -167,5 +161,9 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
 
     public LockHolder getLockHolder() {
         return lockHolder;
+    }
+
+    public void setVisualLockStyle(VisualLockType visualStyle) {
+        visualLockType = visualStyle;
     }
 }

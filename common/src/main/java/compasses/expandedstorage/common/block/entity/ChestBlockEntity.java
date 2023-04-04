@@ -56,9 +56,9 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
     };
     private final ChestLidController lidController;
 
-    public ChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
+    public ChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
                             Function<OpenableBlockEntity, ItemAccess> access, @Nullable Supplier<Lockable> lockable) {
-        super(type, pos, state, blockId, access, lockable);
+        super(type, pos, state, access, lockable);
         this.setObservable(new Observable() {
             @Override
             public void playerStartViewing(Player player) {

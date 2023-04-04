@@ -114,8 +114,8 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
         }
     };
 
-    public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, @Nullable Supplier<Lockable> lockable, int inventorySize) {
-        super(type, pos, state, blockId, defaultName, lockable);
+    public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Component defaultName, @Nullable Supplier<Lockable> lockable, int inventorySize) {
+        super(type, pos, state, defaultName, lockable);
         items = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
     }
 

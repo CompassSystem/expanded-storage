@@ -29,9 +29,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -45,7 +43,6 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
     public static final ModelLayerLocation FRONT_LAYER = new ModelLayerLocation(Utils.id("front_chest"), "main");
     public static final ModelLayerLocation BACK_LAYER = new ModelLayerLocation(Utils.id("back_chest"), "main");
     public static final ModelLayerLocation CUSTOM_LOCK_LAYER = new ModelLayerLocation(Utils.id("custom_lock"), "main");
-    private static final BlockState DEFAULT_STATE = BuiltInRegistries.BLOCK.get(Utils.id("wood_chest")).defaultBlockState();
 
     private static final Property<ChestBlockEntity, Float2FloatFunction> LID_OPENNESS_FUNCTION_GETTER = new Property<>() {
         @Override
@@ -213,9 +210,8 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
 
     @Override
     public void render(ChestBlockEntity entity, float delta, PoseStack stack, MultiBufferSource provider, int light, int overlay) {
-        ResourceLocation blockId = entity.getBlockId();
-        BlockState state = entity.hasLevel() ? entity.getBlockState() : ChestBlockEntityRenderer.DEFAULT_STATE.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH);
-        if (blockId == null || !(state.getBlock() instanceof ChestBlock block)) {
+        BlockState state = entity.getBlockState();
+        if (!(state.getBlock() instanceof ChestBlock block)) {
             return;
         }
         EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
@@ -243,7 +239,7 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         } else {
             retriever = PropertyRetriever.createDirect(entity);
         }
-        VertexConsumer consumer = new Material(Sheets.CHEST_SHEET, CommonMain.getChestTexture(blockId, chestType)).buffer(provider, RenderType::entityCutout);
+        VertexConsumer consumer = new Material(Sheets.CHEST_SHEET, CommonMain.getChestTexture(state.getBlock().builtInRegistryHolder().key().location(), chestType)).buffer(provider, RenderType::entityCutout);
         VisualLockType lockType = entity.getVisualLock();
         VertexConsumer lockConsumer = consumer;
         if (lockType == VisualLockType.GOLD) {

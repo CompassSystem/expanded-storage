@@ -18,8 +18,8 @@ import java.util.function.Supplier;
 public abstract class ExposedInventoryBlockEntity extends OpenableBlockEntity implements ExposedInventory {
     private final NonNullList<ItemStack> items;
 
-    public ExposedInventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, int inventorySize) {
-        super(type, pos, state, blockId, defaultName);
+    public ExposedInventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Component defaultName, @Nullable Supplier<Lockable> lockable, int inventorySize) {
+        super(type, pos, state, defaultName, lockable);
         items = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
     }
 

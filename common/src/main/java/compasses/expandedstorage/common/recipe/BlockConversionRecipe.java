@@ -112,7 +112,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
                         entity.setCustomName(customName);
 
                         if (input.entity() instanceof OpenableBlockEntity original) {
-                            entity.copyLockFrom(original);
+                            entity.copyLockFrom(original.getLockHolder());
                         } else if (input.entity() instanceof RandomizableContainerBlockEntity original) {
                             entity.getLockHolder().setVanillaLock(original.lockKey);
                         }

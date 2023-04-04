@@ -50,9 +50,9 @@ public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
         }
     };
 
-    public BarrelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
+    public BarrelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
                              Function<OpenableBlockEntity, ItemAccess> access, @Nullable Supplier<Lockable> lockable) {
-        super(type, pos, state, blockId, ((OpenableBlock) state.getBlock()).getInventoryTitle(), lockable, ((OpenableBlock) state.getBlock()).getSlotCount());
+        super(type, pos, state, ((OpenableBlock) state.getBlock()).getInventoryTitle(), lockable, ((OpenableBlock) state.getBlock()).getSlotCount());
         this.setItemAccess(access.apply(this));
     }
 
