@@ -1,36 +1,106 @@
 {
   "variants": {
-    "facing=north,sparrow=false": {
-      "y": 0,
-      "model": "expandedstorage:block/diamond_mini_chest"
+    "facing=north,sparrow=false,lock_type=none": {
+      "y":     0,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest"
     },
-    "facing=east,sparrow=false": {
-      "y": 90,
-      "model": "expandedstorage:block/diamond_mini_chest"
+    "facing=east,sparrow=false,lock_type=none":  {
+      "y":     90,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest"
     },
-    "facing=south,sparrow=false": {
-      "y": 180,
-      "model": "expandedstorage:block/diamond_mini_chest"
+    "facing=south,sparrow=false,lock_type=none": {
+      "y":     180,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest"
     },
-    "facing=west,sparrow=false": {
-      "y": 270,
-      "model": "expandedstorage:block/diamond_mini_chest"
+    "facing=west,sparrow=false,lock_type=none":  {
+      "y":     270,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest"
     },
-    "facing=north,sparrow=true": {
-      "y": 0,
-      "model": "expandedstorage:block/diamond_mini_chest_with_sparrow"
+    "facing=north,sparrow=true,lock_type=none":  {
+      "y":     0,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest_with_sparrow"
     },
-    "facing=east,sparrow=true": {
-      "y": 90,
-      "model": "expandedstorage:block/diamond_mini_chest_with_sparrow"
+    "facing=east,sparrow=true,lock_type=none":   {
+      "y":     90,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest_with_sparrow"
     },
-    "facing=south,sparrow=true": {
-      "y": 180,
-      "model": "expandedstorage:block/diamond_mini_chest_with_sparrow"
+    "facing=south,sparrow=true,lock_type=none":  {
+      "y":     180,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest_with_sparrow"
     },
-    "facing=west,sparrow=true": {
-      "y": 270,
-      "model": "expandedstorage:block/diamond_mini_chest_with_sparrow"
+    "facing=west,sparrow=true,lock_type=none":   {
+      "y":     270,
+      "model": "expandedstorage:block/no_lock/diamond_mini_chest_with_sparrow"
+    },
+
+
+
+    "facing=north,sparrow=false,lock_type=gold": {
+      "y":     0,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest"
+    },
+    "facing=east,sparrow=false,lock_type=gold":  {
+      "y":     90,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest"
+    },
+    "facing=south,sparrow=false,lock_type=gold": {
+      "y":     180,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest"
+    },
+    "facing=west,sparrow=false,lock_type=gold":  {
+      "y":     270,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest"
+    },
+    "facing=north,sparrow=true,lock_type=gold":  {
+      "y":     0,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest_with_sparrow"
+    },
+    "facing=east,sparrow=true,lock_type=gold":   {
+      "y":     90,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest_with_sparrow"
+    },
+    "facing=south,sparrow=true,lock_type=gold":  {
+      "y":     180,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest_with_sparrow"
+    },
+    "facing=west,sparrow=true,lock_type=gold":   {
+      "y":     270,
+      "model": "expandedstorage:block/gold_lock/diamond_mini_chest_with_sparrow"
+    },
+
+
+
+    "facing=north,sparrow=false,lock_type=diamond": {
+      "y":     0,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest"
+    },
+    "facing=east,sparrow=false,lock_type=diamond":  {
+      "y":     90,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest"
+    },
+    "facing=south,sparrow=false,lock_type=diamond": {
+      "y":     180,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest"
+    },
+    "facing=west,sparrow=false,lock_type=diamond":  {
+      "y":     270,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest"
+    },
+    "facing=north,sparrow=true,lock_type=diamond":  {
+      "y":     0,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest_with_sparrow"
+    },
+    "facing=east,sparrow=true,lock_type=diamond":   {
+      "y":     90,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest_with_sparrow"
+    },
+    "facing=south,sparrow=true,lock_type=diamond":  {
+      "y":     180,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest_with_sparrow"
+    },
+    "facing=west,sparrow=true,lock_type=diamond":   {
+      "y":     270,
+      "model": "expandedstorage:block/diamond_lock/diamond_mini_chest_with_sparrow"
     }
   }
 }

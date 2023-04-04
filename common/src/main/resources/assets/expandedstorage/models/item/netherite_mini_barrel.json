@@ -1,9 +1,9 @@
 {
-  "parent": "expandedstorage:block/netherite_mini_barrel",
+  "parent":    "expandedstorage:block/no_lock/netherite_mini_barrel",
   "overrides": [
     {
-      "predicate": { "expandedstorage:sparrow": 1.0 },
-      "model": "expandedstorage:block/netherite_mini_barrel_with_sparrow"
+      "predicate": {"expandedstorage:sparrow": 1.0},
+      "model":     "expandedstorage:block/no_lock/netherite_mini_barrel_with_sparrow"
     }
   ]
 }
