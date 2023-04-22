@@ -71,6 +71,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import org.jetbrains.annotations.Nullable;
@@ -178,16 +179,42 @@ public final class CommonMain {
         final Tier diamondTier = new Tier(Utils.id("diamond"), 108, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier obsidianTier = new Tier(Utils.id("obsidian"), 108, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier netheriteTier = new Tier(Utils.id("netherite"), 135, Properties::requiresCorrectToolForDrops, Item.Properties::fireResistant);
-        final Properties woodSettings = Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.5f).sound(SoundType.WOOD);
-        final Properties pumpkinSettings = Properties.of(Material.VEGETABLE, MaterialColor.COLOR_ORANGE).strength(1).sound(SoundType.WOOD);
-        final Properties bambooSettings = Properties.of(Material.BAMBOO, MaterialColor.PLANT).strength(1).sound(SoundType.BAMBOO);
-        final Properties mossSettings = Properties.of(Material.MOSS, MaterialColor.COLOR_GREEN).strength(0.1F).sound(SoundType.MOSS);
-        final Properties copperSettings = Properties.of(Material.METAL, MaterialColor.COLOR_ORANGE).strength(3.0F, 6.0F).sound(SoundType.COPPER);
-        final Properties ironSettings = Properties.of(Material.METAL, MaterialColor.METAL).strength(5, 6).sound(SoundType.METAL);
-        final Properties goldSettings = Properties.of(Material.METAL, MaterialColor.GOLD).strength(3, 6).sound(SoundType.METAL);
-        final Properties diamondSettings = Properties.of(Material.METAL, MaterialColor.DIAMOND).strength(5, 6).sound(SoundType.METAL);
-        final Properties obsidianSettings = Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(50, 1200);
-        final Properties netheriteSettings = Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).strength(50, 1200).sound(SoundType.NETHERITE_BLOCK);
+        final Properties woodSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD)
+                                                  .instrument(NoteBlockInstrument.BASS)
+                                                  .strength(2.5f)
+                                                  .sound(SoundType.WOOD)
+                                                  .ignitedByLava();
+        final Properties pumpkinSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_ORANGE)
+                                                     .instrument(NoteBlockInstrument.DIDGERIDOO)
+                                                     .strength(1.0F)
+                                                     .sound(SoundType.WOOD);
+        final Properties bambooSettings = Properties.of(Material.DEPRECATED, MaterialColor.PLANT)
+                                                    .strength(1)
+                                                    .sound(SoundType.BAMBOO)
+                                                    .ignitedByLava();
+        final Properties mossSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_GREEN)
+                                                  .strength(0.1F)
+                                                  .sound(SoundType.MOSS);
+        final Properties copperSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_ORANGE)
+                                                    .strength(3.0F, 6.0F)
+                                                    .sound(SoundType.COPPER);
+        final Properties ironSettings = Properties.of(Material.DEPRECATED, MaterialColor.METAL)
+                                                  .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                                                  .strength(5, 6)
+                                                  .sound(SoundType.METAL);
+        final Properties goldSettings = Properties.of(Material.DEPRECATED, MaterialColor.GOLD)
+                                                  .instrument(NoteBlockInstrument.BELL)
+                                                  .strength(3, 6)
+                                                  .sound(SoundType.METAL);
+        final Properties diamondSettings = Properties.of(Material.DEPRECATED, MaterialColor.DIAMOND)
+                                                     .strength(5, 6)
+                                                     .sound(SoundType.METAL);
+        final Properties obsidianSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_BLACK)
+                                                      .instrument(NoteBlockInstrument.BASEDRUM)
+                                                      .strength(50, 1200);
+        final Properties netheriteSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_BLACK)
+                                                       .strength(50, 1200)
+                                                       .sound(SoundType.NETHERITE_BLOCK);
         List<ResourceLocation> stats = new ArrayList<>();
         Function<String, ResourceLocation> statMaker = (id) -> {
             ResourceLocation statId = Utils.id(id);
@@ -219,7 +246,7 @@ public final class CommonMain {
             final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_chest");
             final ResourceLocation netheriteStat = statMaker.apply("open_netherite_chest");
 
-            final Properties presentSettings = Properties.of(Material.WOOD, state -> {
+            final Properties presentSettings = Properties.of(Material.DEPRECATED, state -> {
                 EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
                 if (type == EsChestType.SINGLE) return MaterialColor.COLOR_RED;
                 else if (type == EsChestType.FRONT || type == EsChestType.BACK) return MaterialColor.PLANT;
@@ -321,7 +348,8 @@ public final class CommonMain {
                     if (tag.contains("pos")) {
                         BlockPos otherPos = NbtUtils.readBlockPos(tag.getCompound("pos"));
                         BlockState otherState = level.getBlockState(otherPos);
-                        Direction direction = Direction.fromNormal(otherPos.subtract(pos));
+                        BlockPos delta = otherPos.subtract(pos);
+                        Direction direction = Direction.fromDelta(delta.getX(), delta.getY(), delta.getZ());
                         if (direction != null) {
                             if (state.getBlock() == otherState.getBlock()) {
                                 if (otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
@@ -409,13 +437,35 @@ public final class CommonMain {
             final ResourceLocation diamondStat = statMaker.apply("open_diamond_barrel");
             final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_barrel");
             final ResourceLocation netheriteStat = statMaker.apply("open_netherite_barrel");
-
-            final Properties copperBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
-            final Properties ironBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
-            final Properties goldBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
-            final Properties diamondBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
-            final Properties obsidianBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
-            final Properties netheriteBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
+            final Properties copperBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD)
+                                                              .instrument(NoteBlockInstrument.BASS)
+                                                              .strength(3, 6)
+                                                              .sound(SoundType.WOOD)
+                                                              .ignitedByLava();
+            final Properties ironBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD)
+                                                            .instrument(NoteBlockInstrument.BASS)
+                                                            .strength(5, 6)
+                                                            .sound(SoundType.WOOD)
+                                                            .ignitedByLava();
+            final Properties goldBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD)
+                                                            .instrument(NoteBlockInstrument.BASS)
+                                                            .strength(3, 6)
+                                                            .sound(SoundType.WOOD)
+                                                            .ignitedByLava();
+            final Properties diamondBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD)
+                                                               .instrument(NoteBlockInstrument.BASS)
+                                                               .strength(5, 6)
+                                                               .sound(SoundType.WOOD)
+                                                               .ignitedByLava();
+            final Properties obsidianBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD)
+                                                                .instrument(NoteBlockInstrument.BASS)
+                                                                .strength(50, 1200)
+                                                                .sound(SoundType.WOOD)
+                                                                .ignitedByLava();
+            final Properties netheriteBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD)
+                                                                 .instrument(NoteBlockInstrument.BASS)
+                                                                 .strength(50, 1200)
+                                                                 .sound(SoundType.WOOD);
 
             ObjectConsumer barrelMaker = (id, stat, tier, settings) -> {
                 NamedValue<BarrelBlock> block = new NamedValue<>(id, () -> new BarrelBlock(tier.getBlockSettings().apply(settings), stat, tier.getSlotCount()));
@@ -486,19 +536,19 @@ public final class CommonMain {
             final ResourceLocation netheriteBarrelStat = statMaker.apply("open_netherite_mini_barrel");
 
             // Init block settings
-            final Properties redPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5f).sound(SoundType.WOOD);
-            final Properties whitePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
-            final Properties candyCanePresentSettings = Properties.of(Material.WOOD, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
-            final Properties greenPresentSettings = Properties.of(Material.WOOD, MaterialColor.PLANT).strength(2.5f).sound(SoundType.WOOD);
-            final Properties lavenderPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
-            final Properties pinkAmethystPresentSettings = Properties.of(Material.WOOD, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
-            final Properties woodBarrelSettings = Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD);
-            final Properties copperBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
-            final Properties ironBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
-            final Properties goldBarrelSettings = Properties.of(Material.WOOD).strength(3, 6).sound(SoundType.WOOD);
-            final Properties diamondBarrelSettings = Properties.of(Material.WOOD).strength(5, 6).sound(SoundType.WOOD);
-            final Properties obsidianBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
-            final Properties netheriteBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
+            final Properties redPresentSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_RED).strength(2.5f).sound(SoundType.WOOD);
+            final Properties whitePresentSettings = Properties.of(Material.DEPRECATED, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
+            final Properties candyCanePresentSettings = Properties.of(Material.DEPRECATED, MaterialColor.SNOW).strength(2.5f).sound(SoundType.WOOD);
+            final Properties greenPresentSettings = Properties.of(Material.DEPRECATED, MaterialColor.PLANT).strength(2.5f).sound(SoundType.WOOD);
+            final Properties lavenderPresentSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
+            final Properties pinkAmethystPresentSettings = Properties.of(Material.DEPRECATED, MaterialColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
+            final Properties woodBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD).strength(2.5F).sound(SoundType.WOOD);
+            final Properties copperBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD).strength(3, 6).sound(SoundType.WOOD);
+            final Properties ironBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD).strength(5, 6).sound(SoundType.WOOD);
+            final Properties goldBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD).strength(3, 6).sound(SoundType.WOOD);
+            final Properties diamondBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD).strength(5, 6).sound(SoundType.WOOD);
+            final Properties obsidianBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD).strength(50, 1200).sound(SoundType.WOOD);
+            final Properties netheriteBarrelSettings = Properties.of(Material.DEPRECATED, MaterialColor.WOOD).strength(50, 1200).sound(SoundType.WOOD);
 
             Function<Boolean, ObjectConsumer> miniStorageMaker = (hasRibbon) -> (id, stat, tier, settings) -> {
                 NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), stat, hasRibbon));

@@ -42,7 +42,7 @@ enum class ModSupport(
         "maven.modrinth:libipn:fabric-${ModVersions.IPN_MINECRAFT}-1.0.5",
         "net.fabricmc:fabric-language-kotlin:1.7.4+kotlin.1.6.21"
     ),
-    INVENTORY_TABS("com.github.Andrew6rant:InventoryTabs:inventorytabs-0.8.1-1.19.x"),
+//    INVENTORY_TABS("com.github.Andrew6rant:InventoryTabs:inventorytabs-0.8.1-1.19.x"),
     JEI("curse.maven:jei-238222:4371828"),
     MOD_MENU("com.terraformersmc:modmenu:${ModVersions.MODMENU}"),
     // todo: crashes game at runtime due to obfuscated mixins in jijs?

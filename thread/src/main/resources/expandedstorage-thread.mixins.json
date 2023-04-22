@@ -11,8 +11,6 @@
     "SyncRecipesMixin"
   ],
   "client": [
-    "InventoryTabsBottomRowFix",
-    "InventoryTabsFix",
     "LastAfterInitCallbackMixin"
   ],
   "injectors": {

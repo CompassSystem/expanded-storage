@@ -1,9 +1,8 @@
 package ellemes.expandedstorage.common.client.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
@@ -28,15 +27,13 @@ public final class ScreenPickButton extends Button {
     }
 
     @Override
-    public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
-        RenderSystem.setShaderTexture(0, texture);
+    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
         RenderSystem.enableBlend();
         RenderSystem.enableDepthTest();
-        GuiComponent.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, this.getTextureY(), this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight() * 3);
+        graphics.blit(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, this.getTextureY(), this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight() * 3);
         if (showWarningSymbol) {
-            RenderSystem.setShaderTexture(0, WARNING_TEXTURE);
-            GuiComponent.blit(stack, this.getX() + width - 28, this.getY() + 9, 0, 0, 16, 32, 16, 32);
+            graphics.blit(WARNING_TEXTURE, this.getX() + width - 28, this.getY() + 9, 0, 0, 16, 32, 16, 32);
         }
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }

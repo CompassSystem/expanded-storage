@@ -1,6 +1,5 @@
 package ellemes.expandedstorage.api.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.api.client.ScreenConstructor;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.function.ScreenSizeRetriever;
@@ -9,6 +8,7 @@ import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.PickScreen;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
@@ -109,10 +109,10 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     }
 
     @Override
-    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
-        this.renderBackground(stack);
-        super.render(stack, mouseX, mouseY, delta);
-        this.renderTooltip(stack, mouseX, mouseY);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, delta);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package ellemes.expandedstorage.common.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
-import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
@@ -11,7 +10,7 @@ import ellemes.expandedstorage.common.client.gui.widget.ScreenPickButton;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
@@ -43,8 +42,8 @@ public final class FakePickScreen extends AbstractScreen {
     }
 
     @Override
-    protected void renderBg(PoseStack stack, float f, int i, int j) {
-        this.renderBackground(stack);
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
+        this.renderBackground(graphics);
     }
 
     @Override
@@ -101,12 +100,12 @@ public final class FakePickScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
-        this.renderBackground(stack);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(graphics);
         for (Renderable widget : this.renderables) {
-            widget.render(stack, mouseX, mouseY, delta);
+            widget.render(graphics, mouseX, mouseY, delta);
         }
-        GuiComponent.drawCenteredString(stack, font, TITLE, width / 2, Math.max(topPadding / 2, 0), 0xFFFFFFFF);
+        graphics.drawCenteredString(font, TITLE, width / 2, Math.max(topPadding / 2, 0), 0xFFFFFFFF);
     }
 
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {

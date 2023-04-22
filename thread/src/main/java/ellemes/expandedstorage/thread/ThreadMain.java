@@ -19,7 +19,6 @@ import ellemes.expandedstorage.thread.block.misc.ChestItemAccess;
 import ellemes.expandedstorage.thread.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.thread.compat.carrier.CarrierCompat;
 import ellemes.expandedstorage.thread.compat.htm.HTMLockable;
-import ellemes.expandedstorage.thread.compat.inventory_tabs.InventoryTabCompat;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -40,6 +39,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -49,6 +49,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -71,12 +72,15 @@ public class ThreadMain {
     }
 
     public static void constructContent(ThreadPlatformHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
-        FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
-                       .displayItems((itemDisplayParameters, output) -> {
-                           CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
-                               output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                           });
-                       }).build();
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Utils.id("tab"),
+                FabricItemGroup.builder()
+                               .icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
+                               .displayItems((itemDisplayParameters, output) -> {
+                                   CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
+                                       output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                                   });
+                               })
+                        .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
 
         CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
@@ -186,7 +190,7 @@ public class ThreadMain {
 
         public static void registerInventoryTabsCompat() {
             if (FabricLoader.getInstance().isModLoaded("inventorytabs")) {
-                InventoryTabCompat.register();
+//                InventoryTabCompat.register();
             }
         }
     }

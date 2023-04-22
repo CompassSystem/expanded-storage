@@ -1,9 +1,8 @@
 package ellemes.expandedstorage.common.client.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
@@ -36,12 +35,11 @@ public final class PageButton extends Button {
     }
 
     @Override
-    public void renderWidget(PoseStack stack, int i, int j, float f) {
-        RenderSystem.setShaderTexture(0, PageButton.TEXTURE);
+    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
         RenderSystem.enableBlend();
         RenderSystem.enableDepthTest();
-        GuiComponent.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), textureOffset * 12, this.getTextureY(), this.getWidth(), this.getHeight(), 32, 48);
+        graphics.blit(TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), textureOffset * 12, this.getTextureY(), this.getWidth(), this.getHeight(), 32, 48);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

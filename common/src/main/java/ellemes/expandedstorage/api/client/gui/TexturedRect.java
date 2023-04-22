@@ -1,12 +1,14 @@
 package ellemes.expandedstorage.api.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 
 public final class TexturedRect {
+    private final ResourceLocation texture;
     private final int x, y, width, height, textureX, textureY, textureWidth, textureHeight;
 
-    public TexturedRect(int x, int y, int width, int height, int textureX, int textureY, int textureWidth, int textureHeight) {
+    public TexturedRect(ResourceLocation texture, int x, int y, int width, int height, int textureX, int textureY, int textureWidth, int textureHeight) {
+        this.texture = texture;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -17,7 +19,7 @@ public final class TexturedRect {
         this.textureHeight = textureHeight;
     }
 
-    public void render(PoseStack stack) {
-        GuiComponent.blit(stack, x, y, textureX, textureY, width, height, textureWidth, textureHeight);
+    public void render(GuiGraphics graphics) {
+        graphics.blit(texture, x, y, textureX, textureY, width, height, textureWidth, textureHeight);
     }
 }

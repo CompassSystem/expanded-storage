@@ -9,10 +9,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Nameable;
@@ -77,11 +77,10 @@ public class ExpandedBlockTab<T extends OpenableBlock> extends SimpleBlockTab {
 
     @Override
     public void renderTabIcon(PoseStack stack, TabRenderInfo tabRenderInfo, AbstractContainerScreen<?> screen) {
-        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         Font font = Minecraft.getInstance().font;
-        // todo: verify
-        itemRenderer.renderAndDecorateItem(stack, itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        itemRenderer.renderGuiItemDecorations(stack, font, itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        GuiGraphics graphics = null; // todo: context from updated method params
+        graphics.renderFakeItem(itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        graphics.renderItemDecorations(font, itemFrameStackOrDefault, tabRenderInfo.itemX, tabRenderInfo.itemY);
     }
 
     public void update() {
