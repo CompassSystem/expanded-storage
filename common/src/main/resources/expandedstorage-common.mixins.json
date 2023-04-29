@@ -1,13 +1,17 @@
 {
-  "required":           true,
-  "package":            "ellemes.expandedstorage.common.mixin",
+  "required": true,
+  "package": "ellemes.expandedstorage.common.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins":             ["BlockEntityIdFix", "DataFixerEntrypoint", "SparrowBlockFix", "SparrowItemIdFix", "SpectatorBlockInventoryViewingFix", "SpectatorEntityInventoryViewingFix"],
-  "client":             [
-    "ExpandedStorageItemProperties"
+  "mixins": [
+    "BlockEntityIdFix",
+    "DataFixerEntrypoint",
+    "SparrowBlockFix",
+    "SparrowItemIdFix",
+    "SpectatorBlockInventoryViewingFix",
+    "SpectatorEntityInventoryViewingFix"
   ],
-  "injectors":          {
+  "injectors": {
     "defaultRequire": 1
   },
-  "minVersion":         "0.8"
+  "minVersion": "0.8"
 }
