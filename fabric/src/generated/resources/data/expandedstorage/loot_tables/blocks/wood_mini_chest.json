@@ -3,18 +3,16 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
+              "block": "expandedstorage:wood_mini_chest",
+              "function": "minecraft:copy_state",
+              "properties": [
+                "sparrow"
+              ]
             }
           ],
           "name": "expandedstorage:wood_mini_chest"

@@ -1,12 +1,16 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:gold_mini_chest"
+  "inputs": {
+    "id": "expandedstorage:gold_mini_chest",
+    "state": {
+      "sparrow": "false"
     }
-  ],
+  },
   "result": {
-    "id": "expandedstorage:gold_mini_chest_with_sparrow"
+    "id": "expandedstorage:gold_mini_chest",
+    "state": {
+      "sparrow": "true"
+    }
   },
   "tool": {
     "id": "expandedstorage:storage_mutator",

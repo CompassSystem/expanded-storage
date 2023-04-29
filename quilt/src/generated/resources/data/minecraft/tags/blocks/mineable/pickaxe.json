@@ -15,11 +15,6 @@
     "expandedstorage:gold_mini_chest",
     "expandedstorage:diamond_mini_chest",
     "expandedstorage:obsidian_mini_chest",
-    "expandedstorage:netherite_mini_chest",
-    "expandedstorage:iron_mini_chest_with_sparrow",
-    "expandedstorage:gold_mini_chest_with_sparrow",
-    "expandedstorage:diamond_mini_chest_with_sparrow",
-    "expandedstorage:obsidian_mini_chest_with_sparrow",
-    "expandedstorage:netherite_mini_chest_with_sparrow"
+    "expandedstorage:netherite_mini_chest"
   ]
 }

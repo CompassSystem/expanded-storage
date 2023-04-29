@@ -12,7 +12,6 @@
     "expandedstorage:iron_chest",
     "expandedstorage:old_iron_chest",
     "expandedstorage:iron_mini_chest",
-    "expandedstorage:iron_mini_chest_with_sparrow",
     "expandedstorage:copper_mini_barrel",
     "expandedstorage:exposed_copper_mini_barrel",
     "expandedstorage:weathered_copper_mini_barrel",
@@ -21,15 +20,6 @@
     "expandedstorage:waxed_exposed_copper_mini_barrel",
     "expandedstorage:waxed_weathered_copper_mini_barrel",
     "expandedstorage:waxed_oxidized_copper_mini_barrel",
-    "expandedstorage:iron_mini_barrel",
-    "expandedstorage:copper_mini_barrel_with_sparrow",
-    "expandedstorage:exposed_copper_mini_barrel_with_sparrow",
-    "expandedstorage:weathered_copper_mini_barrel_with_sparrow",
-    "expandedstorage:oxidized_copper_mini_barrel_with_sparrow",
-    "expandedstorage:waxed_copper_mini_barrel_with_sparrow",
-    "expandedstorage:waxed_exposed_copper_mini_barrel_with_sparrow",
-    "expandedstorage:waxed_weathered_copper_mini_barrel_with_sparrow",
-    "expandedstorage:waxed_oxidized_copper_mini_barrel_with_sparrow",
-    "expandedstorage:iron_mini_barrel_with_sparrow"
+    "expandedstorage:iron_mini_barrel"
   ]
 }

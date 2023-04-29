@@ -1,12 +1,16 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:iron_mini_barrel_with_sparrow"
+  "inputs": {
+    "id": "expandedstorage:iron_mini_barrel",
+    "state": {
+      "sparrow": "true"
     }
-  ],
+  },
   "result": {
-    "id": "expandedstorage:iron_mini_barrel"
+    "id": "expandedstorage:iron_mini_barrel",
+    "state": {
+      "sparrow": "false"
+    }
   },
   "tool": {
     "id": "expandedstorage:storage_mutator"

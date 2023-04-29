@@ -1,7 +1,7 @@
-// 1.19.2	2023-03-03T19:37:32.2495209	Expanded Storage - Item Tags
+// 1.19.2	2023-04-29T17:30:52.2057575	Expanded Storage - Item Tags
 3c51fa2acfb5400ab1b142008f974fb8e55669c4 data\c\tags\items\wooden_barrels.json
 989b799a247e595b14e76a145d6ff3566337b58f data\c\tags\items\iron_nuggets.json
-f4f836b3fe5a8084163288cab8d85b738108d54d data\minecraft\tags\items\piglin_loved.json
+57eeddef4b6816f683fea2de80ba2a1a52841be9 data\minecraft\tags\items\piglin_loved.json
 e21225b848494580aaf5fc6ce45b6e9c1f440be0 data\c\tags\items\iron_ingots.json
 a2306be4be3fce48840c4976924fe52a106a5c3e data\c\tags\items\netherite_ingots.json
 204c20e23f4b41548367455cdd7ffbaf90bdd9fb data\c\tags\items\obsidian.json

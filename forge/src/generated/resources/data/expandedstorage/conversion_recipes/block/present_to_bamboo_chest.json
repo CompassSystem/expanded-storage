@@ -1,10 +1,8 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:present"
-    }
-  ],
+  "inputs": {
+    "id": "expandedstorage:present"
+  },
   "result": {
     "id": "expandedstorage:bamboo_chest"
   },

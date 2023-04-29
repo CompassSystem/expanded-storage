@@ -1,12 +1,16 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:vanilla_wood_mini_chest_with_sparrow"
+  "inputs": {
+    "id": "expandedstorage:vanilla_wood_mini_chest",
+    "state": {
+      "sparrow": "true"
     }
-  ],
+  },
   "result": {
-    "id": "expandedstorage:wood_mini_chest_with_sparrow"
+    "id": "expandedstorage:wood_mini_chest",
+    "state": {
+      "sparrow": "true"
+    }
   },
   "tool": {
     "id": "expandedstorage:storage_mutator",

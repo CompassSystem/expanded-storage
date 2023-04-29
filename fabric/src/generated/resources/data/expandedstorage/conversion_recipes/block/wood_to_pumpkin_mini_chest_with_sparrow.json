@@ -1,12 +1,16 @@
 {
   "type": "expandedstorage:block_conversion",
-  "inputs": [
-    {
-      "id": "expandedstorage:wood_mini_chest_with_sparrow"
+  "inputs": {
+    "id": "expandedstorage:wood_mini_chest",
+    "state": {
+      "sparrow": "true"
     }
-  ],
+  },
   "result": {
-    "id": "expandedstorage:pumpkin_mini_chest_with_sparrow"
+    "id": "expandedstorage:pumpkin_mini_chest",
+    "state": {
+      "sparrow": "true"
+    }
   },
   "tool": {
     "id": "expandedstorage:storage_mutator",
