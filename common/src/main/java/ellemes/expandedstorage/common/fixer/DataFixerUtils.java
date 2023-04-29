@@ -11,7 +11,6 @@ import net.minecraft.util.datafix.fixes.StatsRenameFix;
 import java.util.Map;
 
 public class DataFixerUtils {
-
     public static void register1_17DataFixer(DataFixerBuilder builder, int version, int subVersion) {
         Schema es1_17_1Schema = builder.addSchema(version, subVersion, ES1_17_1Schema2707v1::new);
         builder.addFixer(new AddNewChoices(es1_17_1Schema, "Add Expanded Storage BE", References.BLOCK_ENTITY));

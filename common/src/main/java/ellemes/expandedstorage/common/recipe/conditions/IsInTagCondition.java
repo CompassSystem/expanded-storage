@@ -9,12 +9,13 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class IsInTagCondition implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("in_tag");
+    public static final ResourceLocation NETWORK_ID = Utils.id("in_tag");
     private final TagKey<?> tagKey;
     private Set<Object> values;
 
@@ -46,7 +47,7 @@ public class IsInTagCondition implements RecipeCondition {
         buffer.writeResourceLocation(tagKey.location());
     }
 
-    private static IsInTagCondition readFromBuffer(FriendlyByteBuf buffer) {
+    public static IsInTagCondition readFromBuffer(FriendlyByteBuf buffer) {
         ResourceLocation registryId = buffer.readResourceLocation();
         ResourceLocation tag = buffer.readResourceLocation();
         Registry<?> registry = Registry.REGISTRY.get(registryId);
@@ -56,14 +57,20 @@ public class IsInTagCondition implements RecipeCondition {
         return new IsInTagCondition(TagKey.create(registry.key(), tag));
     }
 
+    @Nullable
     @Override
-    public JsonElement toJson() {
-        JsonObject json = new JsonObject();
-        json.addProperty("tag", tagKey.location().toString());
-        return json;
+    public JsonElement toJson(@Nullable JsonObject object) {
+        if (object != null) {
+            writeToJsonObject(object);
+            return null;
+        } else {
+            JsonObject jsonObject = new JsonObject();
+            writeToJsonObject(jsonObject);
+            return jsonObject;
+        }
     }
 
-    static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, IsInTagCondition::readFromBuffer);
+    private void writeToJsonObject(JsonObject object) {
+        object.addProperty("tag", tagKey.location().toString());
     }
 }

@@ -1,24 +1,26 @@
 package ellemes.expandedstorage.common.recipe.conditions;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AndCondition implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("and");
-    private final Collection<RecipeCondition> conditions;
+    public static final ResourceLocation NETWORK_ID = Utils.id("and");
+    private final RecipeCondition[] conditions;
 
-    public AndCondition(Collection<RecipeCondition> conditions) {
+    public AndCondition(RecipeCondition... conditions) {
         this.conditions = conditions;
     }
 
     @Override
     public boolean isExactMatch() {
-        return conditions.stream().allMatch(RecipeCondition::isExactMatch);
+        return Arrays.stream(conditions).anyMatch(RecipeCondition::isExactMatch);
     }
 
     @Override
@@ -38,18 +40,32 @@ public class AndCondition implements RecipeCondition {
 
     @Override
     public void writeToBuffer(FriendlyByteBuf buffer) {
-        buffer.writeCollection(conditions, (b, condition) -> {
+        buffer.writeCollection(Arrays.asList(conditions), (b, condition) -> {
             buffer.writeResourceLocation(condition.getNetworkId());
             condition.writeToBuffer(b);
         });
     }
 
+    public static AndCondition readFromBuffer(FriendlyByteBuf buffer) {
+        RecipeCondition[] conditions = buffer.readCollection(ArrayList::new, RecipeCondition::readFromNetworkBuffer).toArray(RecipeCondition[]::new);
+        return new AndCondition(conditions);
+    }
+
+    @Nullable
     @Override
-    public JsonElement toJson() {
-        JsonArray jsonConditions = new JsonArray();
-        for (RecipeCondition condition : conditions) {
-            jsonConditions.add(condition.toJson());
+    public JsonElement toJson(@Nullable JsonObject object) {
+        if (object != null) {
+            writeToJsonObject(object);
+            return null;
         }
-        return jsonConditions;
+        JsonObject jsonObject = new JsonObject();
+        writeToJsonObject(jsonObject);
+        return jsonObject;
+    }
+
+    private void writeToJsonObject(JsonObject object) {
+        for (RecipeCondition condition : conditions) {
+            condition.toJson(object);
+        }
     }
 }

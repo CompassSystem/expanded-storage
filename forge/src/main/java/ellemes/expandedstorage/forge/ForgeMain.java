@@ -19,6 +19,7 @@ import ellemes.expandedstorage.forge.block.misc.GenericItemAccess;
 import ellemes.expandedstorage.forge.item.ChestBlockItem;
 import ellemes.expandedstorage.forge.item.ChestMinecartItem;
 import ellemes.expandedstorage.forge.item.MiniStorageBlockItem;
+import ellemes.expandedstorage.forge.misc.ForgePlatformHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -54,7 +55,7 @@ import java.util.function.Supplier;
 @Mod("expandedstorage")
 public final class ForgeMain {
     public ForgeMain() {
-        CommonMain.constructContent(GenericItemAccess::new, BasicLockable::new,
+        CommonMain.constructContent(new ForgePlatformHelper(), GenericItemAccess::new, BasicLockable::new,
                 new CreativeModeTab(Utils.MOD_ID + ".tab") {
                     @NotNull
                     @Override
@@ -69,7 +70,7 @@ public final class ForgeMain {
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", "barrels/wooden")),
                 /*Mini Storage*/ MiniStorageBlockItem::new);
         MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent event) -> event.addListener(new ConversionRecipeReloadListener()));
-        MinecraftForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> PlatformHelper.instance().sendConversionRecipesToClient(event.getPlayer(), ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes()));
+        MinecraftForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> CommonMain.platformHelper().sendConversionRecipesToClient(event.getPlayer(), ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes()));
 
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, (AttachCapabilitiesEvent<BlockEntity> event) -> {
             if (event.getObject() instanceof OpenableBlockEntity entity) {
@@ -99,7 +100,7 @@ public final class ForgeMain {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener((RegisterEvent event) -> {
             event.register(Registry.MENU_REGISTRY, helper -> {
-                helper.register(Utils.HANDLER_TYPE_ID, PlatformHelper.instance().getScreenHandlerType());
+                helper.register(Utils.HANDLER_TYPE_ID, CommonMain.platformHelper().getScreenHandlerType());
             });
         });
     }

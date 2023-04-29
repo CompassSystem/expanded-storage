@@ -74,8 +74,6 @@
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_1": "%s sur un bloc de stockage en Obsidienne",
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_2": " pour le convertir en un bloc de stockage en Netherite.",
 
-  "tooltip.expandedstorage.conversion_kit.need_x_upgrades":      "%ss ne peut pas être améliorer, vous avez besoin de %s amélioration(s) en plus.",
-
   "block.expandedstorage.iron_barrel":                           "Tonneau de Fer",
   "block.expandedstorage.gold_barrel":                           "Tonneau en Or",
   "block.expandedstorage.diamond_barrel":                        "Tonneau en Diamant",

@@ -81,8 +81,6 @@
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_1":        "%s su un blocco di stoccaggio di ossidiana",
   "tooltip.expandedstorage.conversion_kit_obsidian_netherite_2":        " per convertirlo in un blocco di stoccaggio di netherite.",
 
-  "tooltip.expandedstorage.conversion_kit.need_x_upgrades":             "Impossibile aggiornare %ss, hai bisogno di altri %s aggiornamenti.",
-
   "block.expandedstorage.iron_barrel":                                  "Barile di ferro",
   "block.expandedstorage.gold_barrel":                                  "Barile d'oro",
   "block.expandedstorage.diamond_barrel":                               "Barile di diamante",
@@ -136,16 +134,6 @@
   "block.expandedstorage.green_mini_present":                           "Mini regalo verde",
   "block.expandedstorage.lavender_mini_present":                        "Mini regalo alla lavanda",
   "block.expandedstorage.pink_amethyst_mini_present":                   "Mini regalo di ametista rosa",
-
-  "block.expandedstorage.vanilla_wood_mini_chest_with_sparrow":         "Mini baule",
-  "block.expandedstorage.wood_mini_chest_with_sparrow":                 "Mini baule",
-  "block.expandedstorage.pumpkin_mini_chest_with_sparrow":              "Mini baule di zucca",
-  "block.expandedstorage.red_mini_present_with_sparrow":                "Mini regalo rosso",
-  "block.expandedstorage.white_mini_present_with_sparrow":              "Mini regalo bianco",
-  "block.expandedstorage.candy_cane_mini_present_with_sparrow":         "Mini regalo di bastoncino di zucchero",
-  "block.expandedstorage.green_mini_present_with_sparrow":              "Mini regalo verde",
-  "block.expandedstorage.lavender_mini_present_with_sparrow":           "Mini regalo alla lavanda",
-  "block.expandedstorage.pink_amethyst_mini_present_with_sparrow":      "Mini regalo di ametista rosa",
 
   "stat.expandedstorage.open_vanilla_wood_mini_chest":                  "[ES] Mini bauli (tema vanilla) aperti",
   "stat.expandedstorage.open_wood_mini_chest":                          "[ES] Mini bauli aperti",

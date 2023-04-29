@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
 import ellemes.expandedstorage.common.datagen.content.ModEntityTypes;
-import ellemes.expandedstorage.common.datagen.content.ModItems;
+import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.registration.ModBlocks;
 import net.minecraft.data.tags.TagsProvider;
@@ -57,30 +57,7 @@ public class TagHelper {
                 .add(ModBlocks.GOLD_MINI_BARREL)
                 .add(ModBlocks.DIAMOND_MINI_BARREL)
                 .add(ModBlocks.OBSIDIAN_MINI_BARREL)
-                .add(ModBlocks.NETHERITE_MINI_BARREL)
-                .add(ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.PUMPKIN_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.RED_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.WHITE_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.IRON_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.GOLD_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.DIAMOND_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.OBSIDIAN_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.NETHERITE_MINI_BARREL_WITH_SPARROW);
+                .add(ModBlocks.NETHERITE_MINI_BARREL);
         tagMaker.apply(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.IRON_CHEST)
                 .add(ModBlocks.GOLD_CHEST)
@@ -96,12 +73,7 @@ public class TagHelper {
                 .add(ModBlocks.GOLD_MINI_CHEST)
                 .add(ModBlocks.DIAMOND_MINI_CHEST)
                 .add(ModBlocks.OBSIDIAN_MINI_CHEST)
-                .add(ModBlocks.NETHERITE_MINI_CHEST)
-                .add(ModBlocks.IRON_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW);
+                .add(ModBlocks.NETHERITE_MINI_CHEST);
         tagMaker.apply(BlockTags.MINEABLE_WITH_HOE)
                 .add(ModBlocks.MOSS_CHEST);
         tagMaker.apply(BlockTags.GUARDED_BY_PIGLINS)
@@ -161,35 +133,7 @@ public class TagHelper {
                 .add(ModBlocks.GOLD_MINI_BARREL)
                 .add(ModBlocks.DIAMOND_MINI_BARREL)
                 .add(ModBlocks.OBSIDIAN_MINI_BARREL)
-                .add(ModBlocks.NETHERITE_MINI_BARREL)
-                .add(ModBlocks.VANILLA_WOOD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.WOOD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.PUMPKIN_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.RED_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.WHITE_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.CANDY_CANE_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.GREEN_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.LAVENDER_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.PINK_AMETHYST_MINI_PRESENT_WITH_SPARROW)
-                .add(ModBlocks.IRON_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.IRON_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.GOLD_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.DIAMOND_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.OBSIDIAN_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.NETHERITE_MINI_BARREL_WITH_SPARROW);
+                .add(ModBlocks.NETHERITE_MINI_BARREL);
         tagMaker.apply(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.OBSIDIAN_BARREL)
                 .add(ModBlocks.NETHERITE_BARREL)
@@ -200,11 +144,7 @@ public class TagHelper {
                 .add(ModBlocks.OBSIDIAN_MINI_CHEST)
                 .add(ModBlocks.NETHERITE_MINI_CHEST)
                 .add(ModBlocks.OBSIDIAN_MINI_BARREL)
-                .add(ModBlocks.NETHERITE_MINI_BARREL)
-                .add(ModBlocks.OBSIDIAN_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.NETHERITE_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.OBSIDIAN_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.NETHERITE_MINI_BARREL_WITH_SPARROW);
+                .add(ModBlocks.NETHERITE_MINI_BARREL);
         tagMaker.apply(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.GOLD_BARREL)
                 .add(ModBlocks.DIAMOND_BARREL)
@@ -215,11 +155,7 @@ public class TagHelper {
                 .add(ModBlocks.GOLD_MINI_CHEST)
                 .add(ModBlocks.DIAMOND_MINI_CHEST)
                 .add(ModBlocks.GOLD_MINI_BARREL)
-                .add(ModBlocks.DIAMOND_MINI_BARREL)
-                .add(ModBlocks.GOLD_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.DIAMOND_MINI_CHEST_WITH_SPARROW)
-                .add(ModBlocks.GOLD_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.DIAMOND_MINI_BARREL_WITH_SPARROW);
+                .add(ModBlocks.DIAMOND_MINI_BARREL);
         tagMaker.apply(BlockTags.NEEDS_STONE_TOOL)
                 .add(ModBlocks.COPPER_BARREL)
                 .add(ModBlocks.EXPOSED_COPPER_BARREL)
@@ -233,7 +169,6 @@ public class TagHelper {
                 .add(ModBlocks.IRON_CHEST)
                 .add(ModBlocks.OLD_IRON_CHEST)
                 .add(ModBlocks.IRON_MINI_CHEST)
-                .add(ModBlocks.IRON_MINI_CHEST_WITH_SPARROW)
                 .add(ModBlocks.COPPER_MINI_BARREL)
                 .add(ModBlocks.EXPOSED_COPPER_MINI_BARREL)
                 .add(ModBlocks.WEATHERED_COPPER_MINI_BARREL)
@@ -242,16 +177,7 @@ public class TagHelper {
                 .add(ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL)
                 .add(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL)
                 .add(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL)
-                .add(ModBlocks.IRON_MINI_BARREL)
-                .add(ModBlocks.COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_EXPOSED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_WEATHERED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.WAXED_OXIDIZED_COPPER_MINI_BARREL_WITH_SPARROW)
-                .add(ModBlocks.IRON_MINI_BARREL_WITH_SPARROW);
+                .add(ModBlocks.IRON_MINI_BARREL);
         tagMaker.apply(ModTags.Blocks.COPPER_BARRELS)
                 .add(ModBlocks.COPPER_BARREL)
                 .add(ModBlocks.EXPOSED_COPPER_BARREL)
@@ -304,9 +230,7 @@ public class TagHelper {
                 .add(ModItems.GOLD_CHEST_MINECART)
                 .add(ModItems.OLD_GOLD_CHEST)
                 .add(ModItems.GOLD_MINI_CHEST)
-                .add(ModItems.GOLD_MINI_BARREL)
-                .add(ModItems.GOLD_MINI_CHEST_WITH_SPARROW)
-                .add(ModItems.GOLD_MINI_BARREL_WITH_SPARROW);
+                .add(ModItems.GOLD_MINI_BARREL);
     }
 
     public static void registerEntityTypeTags(Function<TagKey<EntityType<?>>, TagsProvider.TagAppender<EntityType<?>>> tagMaker) {

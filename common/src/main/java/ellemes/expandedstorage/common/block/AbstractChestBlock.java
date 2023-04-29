@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.WorldlyContainerHolder;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -156,7 +157,9 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
             Direction offsetDir = clickedFace.getOpposite();
             BlockState offsetState = level.getBlockState(pos.relative(offsetDir));
             if (offsetState.is(this) && offsetState.getValue(BlockStateProperties.HORIZONTAL_FACING) == chestForwardDir && offsetState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
-                chestType = AbstractChestBlock.getChestType(chestForwardDir, offsetDir);
+                if (areChestsCompatible(level, context.getItemInHand(), pos, pos.relative(offsetDir))) {
+                    chestType = AbstractChestBlock.getChestType(chestForwardDir, offsetDir);
+                }
             }
         } else {
             for (Direction dir : Direction.values()) {
@@ -164,8 +167,10 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
                 if (offsetState.is(this) && offsetState.getValue(BlockStateProperties.HORIZONTAL_FACING) == chestForwardDir && offsetState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
                     EsChestType type = AbstractChestBlock.getChestType(chestForwardDir, dir);
                     if (type != EsChestType.SINGLE) {
-                        chestType = type;
-                        break;
+                        if (areChestsCompatible(level, context.getItemInHand(), pos, pos.relative(dir))) {
+                            chestType = type;
+                            break;
+                        }
                     }
                 }
             }
@@ -173,6 +178,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, chestForwardDir).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType);
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState updateShape(BlockState state, Direction offset, BlockState offsetState, LevelAccessor level,
@@ -203,12 +209,14 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return AbstractChestBlock.createPropertyRetriever(this, state, level, pos, true).get(AbstractChestBlock.INVENTORY_GETTER).orElse(null);
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, Rotation rotation) {
@@ -269,5 +277,9 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
             }
         }
         super.onRemove(state, level, pos, newState, bl);
+    }
+
+    protected boolean areChestsCompatible(Level level, ItemStack itemInHand, BlockPos firstPos, BlockPos secondPos) {
+        return true;
     }
 }

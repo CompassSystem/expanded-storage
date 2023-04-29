@@ -4,6 +4,7 @@ import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
+import ellemes.expandedstorage.common.registration.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -31,7 +32,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         super(settings);
     }
 
-    private static MutationMode getMode(ItemStack stack) {
+    public static MutationMode getMode(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.contains("mode", Tag.TAG_BYTE))
             tag.putByte("mode", (byte) 0);
@@ -92,7 +93,20 @@ public final class StorageMutator extends Item implements EntityInteractableItem
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> stacks) {
         if (this.allowedIn(group)) {
-            stacks.add(this.getDefaultInstance());
+            for (MutationMode mode : MutationMode.values()) {
+                ItemStack stack = new ItemStack(ModItems.STORAGE_MUTATOR);
+                CompoundTag tag = new CompoundTag();
+                tag.putByte("mode", mode.toByte());
+                stack.setTag(tag);
+                stacks.add(stack);
+            }
+
+            ItemStack sparrowMutator = new ItemStack(ModItems.STORAGE_MUTATOR);
+            CompoundTag tag = new CompoundTag();
+            tag.putByte("mode", MutationMode.SWAP_THEME.toByte());
+            sparrowMutator.setTag(tag);
+            sparrowMutator.setHoverName(Component.literal("Sparrow").withStyle(ChatFormatting.ITALIC));
+            stacks.add(sparrowMutator);
         }
     }
 

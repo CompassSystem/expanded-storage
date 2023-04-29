@@ -6,8 +6,11 @@ import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,31 +23,72 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class MiniStorageBlock extends OpenableBlock implements SimpleWaterloggedBlock {
-    private static final VoxelShape OUTLINE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
+    private static final VoxelShape NO_RIBBON_NO_SPARROW;
+    private static final VoxelShape RIBBON_NO_SPARROW;
 
-    public MiniStorageBlock(Properties settings, ResourceLocation openingStat) {
+    private static final VoxelShape NO_RIBBON_SPARROW;
+    private static final VoxelShape RIBBON_SPARROW;
+
+    static {
+        NO_RIBBON_NO_SPARROW = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
+        RIBBON_NO_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 6.0D, 10.0D ,9.0D, 10.0D));
+        NO_RIBBON_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 13.0D, 10.0D));
+        RIBBON_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 14.0D, 10.0D));
+    }
+
+    public static final BooleanProperty SPARROW = BooleanProperty.create("sparrow");
+    private final boolean hasRibbon;
+
+    public MiniStorageBlock(Properties settings, ResourceLocation openingStat, boolean hasRibbon) {
         super(settings, openingStat, 1);
-        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false).setValue(SPARROW, false));
+        this.hasRibbon = hasRibbon;
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, BlockGetter blockLevel, BlockPos pos, CollisionContext context) {
-        return OUTLINE;
+        boolean hasSparrow = state.hasProperty(SPARROW) && state.getValue(SPARROW);
+        if (hasRibbon) {
+            if (hasSparrow) {
+                return RIBBON_SPARROW;
+            }
+            return RIBBON_NO_SPARROW;
+        } else if (hasSparrow) {
+            return NO_RIBBON_SPARROW;
+        }
+        return NO_RIBBON_NO_SPARROW;
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         boolean placingInWater = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite()).setValue(BlockStateProperties.WATERLOGGED, placingInWater);
+        boolean isSparrowItem = hasSparrowProperty(context.getItemInHand());
+        return this.defaultBlockState()
+                   .setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite())
+                   .setValue(BlockStateProperties.WATERLOGGED, placingInWater)
+                   .setValue(SPARROW, isSparrowItem);
+    }
+
+    public static boolean hasSparrowProperty(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            Tag blockStateTag = tag.get("BlockStateTag");
+            if (blockStateTag != null && blockStateTag.getId() == Tag.TAG_COMPOUND) {
+                return ((CompoundTag) blockStateTag).getString("sparrow").equals("true");
+            }
+        }
+        return false;
     }
 
     @SuppressWarnings("deprecation")
@@ -65,7 +109,7 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED);
+        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED, SPARROW);
     }
 
     @Override

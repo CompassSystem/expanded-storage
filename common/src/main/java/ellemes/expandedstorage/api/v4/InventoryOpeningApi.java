@@ -5,7 +5,7 @@ import ellemes.expandedstorage.api.v3.OpenableInventory;
 import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
 import ellemes.expandedstorage.api.v3.context.BaseContext;
 import ellemes.expandedstorage.api.v3.context.BlockContext;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.CommonMain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +38,6 @@ public class InventoryOpeningApi {
         if (!player.isSpectator()) {
             onInitialOpen.accept(player);
         }
-        PlatformHelper.instance().openScreenHandler(player, inventory.getInventory(), (syncId, inv, playerInv) -> new AbstractHandler(syncId, inv, playerInv, null), title, forcedScreenType);
+        CommonMain.platformHelper().openScreenHandler(player, inventory.getInventory(), (syncId, inv, playerInv) -> new AbstractHandler(syncId, inv, playerInv, null), title, forcedScreenType);
     }
 }

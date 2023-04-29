@@ -10,7 +10,6 @@ import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
@@ -89,7 +88,7 @@ public final class SingleScreen extends AbstractScreen {
         super.init();
         if (blankSlots > 0) {
             blankArea.clear();
-            int rows = Mth.intFloorDiv(blankSlots, inventoryWidth);
+            int rows = Math.floorDiv(blankSlots, inventoryWidth);
             int remainder = (blankSlots - inventoryWidth * rows);
             int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
             int xLeft = leftPos + Utils.CONTAINER_PADDING_LDR;

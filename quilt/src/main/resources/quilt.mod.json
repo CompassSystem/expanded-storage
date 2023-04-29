@@ -12,7 +12,7 @@
       "rei_client": "ellemes.expandedstorage.thread.client.ReiCompat",
       "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
       "emi": "ellemes.expandedstorage.thread.client.EmiCompat",
-      "jei_mod_plugin": "ellemes.expandedstorage.common.client.JeiCompat"
+      "jei_mod_plugin": "ellemes.expandedstorage.client.JeiCompat"
     },
     "depends": [
       {

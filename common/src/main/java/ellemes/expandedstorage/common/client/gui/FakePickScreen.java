@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.PickButton;
 import ellemes.expandedstorage.common.client.gui.widget.ScreenPickButton;
 import ellemes.expandedstorage.common.misc.PlatformHelper;
@@ -56,7 +57,7 @@ public final class FakePickScreen extends AbstractScreen {
     @Override
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
-        ResourceLocation preference = PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
         if (preference.equals(Utils.UNSET_SCREEN_TYPE)) {
             minecraft.player.closeContainer();
         } else {
@@ -74,9 +75,9 @@ public final class FakePickScreen extends AbstractScreen {
     @Override
     protected void init() {
         super.init();
-        ResourceLocation preference = PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
         int choices = options.size();
-        int columns = Math.min(Mth.intFloorDiv(width, 96), choices);
+        int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is smallest gap for any screen.
         int outerPadding = (width - (((columns - 1) * innerPadding) + (columns * 96))) / 2;
         int x = 0;
@@ -124,7 +125,7 @@ public final class FakePickScreen extends AbstractScreen {
     }
 
     private void updatePlayerPreference(ResourceLocation selection) {
-        PlatformHelper.instance().clientHelper().configWrapper().setPreferredScreenType(selection);
+        CommonClient.platformHelper().configWrapper().setPreferredScreenType(selection);
         this.onClose();
     }
 

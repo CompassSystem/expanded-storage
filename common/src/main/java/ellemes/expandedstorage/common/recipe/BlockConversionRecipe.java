@@ -1,12 +1,12 @@
 package ellemes.expandedstorage.common.recipe;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ellemes.expandedstorage.api.EsChestType;
 import ellemes.expandedstorage.api.ExpandedStorageAccessors;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.ToolUsageResult;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
@@ -28,15 +28,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.ChestType;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<BlockState> {
     private final PartialBlockState<O> output;
 
-    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, Collection<? extends RecipeCondition> inputs) {
-        super(recipeTool, inputs);
+    public BlockConversionRecipe(RecipeTool recipeTool, PartialBlockState<O> output, RecipeCondition input) {
+        super(recipeTool, input);
         this.output = output;
     }
 
@@ -57,7 +56,7 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
         }
 
         if (tool.getCount() < convertPositions.size() && !player.isCreative()) {
-            return ToolUsageResult.fail();
+            return StorageConversionKit.NOT_ENOUGH_UPGRADES;
         }
 
         HashMap<BlockPos, InputState> originalStates = new HashMap<>();
@@ -132,29 +131,24 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
     public void writeToBuffer(FriendlyByteBuf buffer) {
         recipeTool.writeToBuffer(buffer);
         output.writeToBuffer(buffer);
-        buffer.writeCollection(inputs, (b, recipeCondition) -> {
-            b.writeResourceLocation(recipeCondition.getNetworkId());
-            recipeCondition.writeToBuffer(b);
-        });
+        buffer.writeResourceLocation(input.getNetworkId());
+        input.writeToBuffer(buffer);
     }
 
     public static BlockConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         PartialBlockState<?> output = PartialBlockState.readFromBuffer(buffer);
-        List<RecipeCondition> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
+        RecipeCondition inputs = RecipeCondition.readFromNetworkBuffer(buffer);
         return new BlockConversionRecipe<>(recipeTool, output, inputs);
     }
 
+    @Override
     public JsonElement toJson() {
         JsonObject recipe = new JsonObject();
         recipe.addProperty("type", "expandedstorage:block_conversion");
         recipe.add("tool", recipeTool.toJson());
         recipe.add("result", output.toJson());
-        JsonArray jsonInputs = new JsonArray();
-        for (RecipeCondition input : inputs) {
-            jsonInputs.add(input.toJson());
-        }
-        recipe.add("inputs", jsonInputs);
+        recipe.add("inputs", input.toJson(null));
         return recipe;
     }
 }

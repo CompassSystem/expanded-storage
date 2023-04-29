@@ -23,14 +23,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<Entity> {
     private final EntityType<O> output;
 
-    public EntityConversionRecipe(RecipeTool recipeTool, EntityType<O> output, Collection<? extends RecipeCondition> inputs) {
-        super(recipeTool, inputs);
+    public EntityConversionRecipe(RecipeTool recipeTool, EntityType<O> output, RecipeCondition input) {
+        super(recipeTool, input);
         this.output = output;
     }
 
@@ -92,29 +91,24 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
     public void writeToBuffer(FriendlyByteBuf buffer) {
         recipeTool.writeToBuffer(buffer);
         buffer.writeResourceLocation(Registry.ENTITY_TYPE.getKey(output));
-        buffer.writeCollection(inputs, (b, condition) -> {
-            b.writeResourceLocation(condition.getNetworkId());
-            condition.writeToBuffer(buffer);
-        });
+        buffer.writeResourceLocation(input.getNetworkId());
+        input.writeToBuffer(buffer);
     }
 
     public static EntityConversionRecipe<?> readFromBuffer(FriendlyByteBuf buffer) {
         RecipeTool recipeTool = RecipeTool.fromNetworkBuffer(buffer);
         EntityType<?> output = Registry.ENTITY_TYPE.get(buffer.readResourceLocation());
-        List<RecipeCondition> inputs = buffer.readCollection(ArrayList::new, RecipeCondition::readFromBuffer);
-        return new EntityConversionRecipe<>(recipeTool, output, inputs);
+        RecipeCondition input = RecipeCondition.readFromNetworkBuffer(buffer);
+        return new EntityConversionRecipe<>(recipeTool, output, input);
     }
 
+    @Override
     public JsonElement toJson() {
         JsonObject recipe = new JsonObject();
         recipe.addProperty("type", "expandedstorage:entity_conversion");
         recipe.add("tool", recipeTool.toJson());
         recipe.addProperty("result", output.builtInRegistryHolder().key().location().toString());
-        JsonArray jsonInputs = new JsonArray();
-        for (RecipeCondition input : inputs) {
-            jsonInputs.add(input.toJson());
-        }
-        recipe.add("inputs", jsonInputs);
+        recipe.add("inputs", input.toJson(null));
         return recipe;
     }
 }
