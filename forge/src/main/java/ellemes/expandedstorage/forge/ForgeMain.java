@@ -8,7 +8,6 @@ import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntit
 import ellemes.expandedstorage.common.block.misc.BasicLockable;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
