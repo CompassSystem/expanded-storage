@@ -2,10 +2,8 @@ package ellemes.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Pair;
-import ellemes.expandedstorage.api.client.function.ScreenSize;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
-import ellemes.expandedstorage.api.client.gui.TexturedRect;
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.client.function.ScreenSize;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.widget.PageButton;
 import ellemes.expandedstorage.common.misc.Utils;

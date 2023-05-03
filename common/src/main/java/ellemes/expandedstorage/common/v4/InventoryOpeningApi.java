@@ -1,10 +1,10 @@
-package ellemes.expandedstorage.api.v4;
+package ellemes.expandedstorage.common.v4;
 
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
-import ellemes.expandedstorage.api.v3.OpenableInventory;
-import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
-import ellemes.expandedstorage.api.v3.context.BaseContext;
-import ellemes.expandedstorage.api.v3.context.BlockContext;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.v3.OpenableInventory;
+import ellemes.expandedstorage.common.v3.OpenableInventoryProvider;
+import ellemes.expandedstorage.common.v3.context.BaseContext;
+import ellemes.expandedstorage.common.v3.context.BlockContext;
 import ellemes.expandedstorage.common.CommonMain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

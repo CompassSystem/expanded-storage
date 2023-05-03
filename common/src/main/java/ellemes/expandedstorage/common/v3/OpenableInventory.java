@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.api.v3;
+package ellemes.expandedstorage.common.v3;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

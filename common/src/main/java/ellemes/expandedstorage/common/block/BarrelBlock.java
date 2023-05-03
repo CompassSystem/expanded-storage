@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.common.block;
 
-import ellemes.expandedstorage.api.v3.OpenableInventory;
-import ellemes.expandedstorage.api.v3.context.BlockContext;
+import ellemes.expandedstorage.common.v3.OpenableInventory;
+import ellemes.expandedstorage.common.v3.context.BlockContext;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.BarrelBlockEntity;
 import net.minecraft.core.BlockPos;

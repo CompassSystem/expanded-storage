@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.client;
 
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import ellemes.expandedstorage.common.client.gui.FakePickScreen;
 import ellemes.expandedstorage.common.misc.Utils;
 import mezz.jei.api.IModPlugin;

@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.common.block.entity;
 
-import ellemes.expandedstorage.api.helpers.VariableInventory;
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.helpers.VariableInventory;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;

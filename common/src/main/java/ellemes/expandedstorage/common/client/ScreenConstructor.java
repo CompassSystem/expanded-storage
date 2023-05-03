@@ -1,8 +1,8 @@
-package ellemes.expandedstorage.api.client;
+package ellemes.expandedstorage.common.client;
 
-import ellemes.expandedstorage.api.client.function.ScreenSize;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.client.function.ScreenSize;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;

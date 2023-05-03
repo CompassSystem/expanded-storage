@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.api.helpers;
+package ellemes.expandedstorage.common.helpers;
 
 import ellemes.expandedstorage.common.inventory.InventorySlotFunction;
 import net.minecraft.world.Container;

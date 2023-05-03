@@ -1,7 +1,7 @@
-package ellemes.expandedstorage.api.v3.helpers;
+package ellemes.expandedstorage.common.v3.helpers;
 
-import ellemes.expandedstorage.api.helpers.VariableInventory;
-import ellemes.expandedstorage.api.v3.OpenableInventory;
+import ellemes.expandedstorage.common.helpers.VariableInventory;
+import ellemes.expandedstorage.common.v3.OpenableInventory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;

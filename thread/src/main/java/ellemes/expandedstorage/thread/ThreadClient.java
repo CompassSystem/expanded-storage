@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread;
 
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.ClientPlatformHelper;

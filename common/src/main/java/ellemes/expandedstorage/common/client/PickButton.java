@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.client;
 
-import ellemes.expandedstorage.api.client.function.ScreenSizePredicate;
+import ellemes.expandedstorage.common.client.function.ScreenSizePredicate;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 

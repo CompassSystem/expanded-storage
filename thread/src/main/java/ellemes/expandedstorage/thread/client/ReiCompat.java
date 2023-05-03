@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread.client;
 
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import ellemes.expandedstorage.common.client.gui.FakePickScreen;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;

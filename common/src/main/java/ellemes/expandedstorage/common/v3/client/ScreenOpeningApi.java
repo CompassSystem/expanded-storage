@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.api.v3.client;
+package ellemes.expandedstorage.common.v3.client;
 
 import ellemes.expandedstorage.common.client.gui.PickScreen;
 import net.minecraft.client.gui.screens.Screen;

@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.api.inventory;
+package ellemes.expandedstorage.common.inventory;
 
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;

@@ -1,9 +1,9 @@
-package ellemes.expandedstorage.api.v3.client;
+package ellemes.expandedstorage.common.v3.client;
 
-import ellemes.expandedstorage.api.client.ScreenConstructor;
-import ellemes.expandedstorage.api.client.function.ScreenSizePredicate;
-import ellemes.expandedstorage.api.client.function.ScreenSizeRetriever;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.client.ScreenConstructor;
+import ellemes.expandedstorage.common.client.function.ScreenSizePredicate;
+import ellemes.expandedstorage.common.client.function.ScreenSizeRetriever;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import ellemes.expandedstorage.common.client.gui.PickScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

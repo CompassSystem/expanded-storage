@@ -1,8 +1,8 @@
 package ellemes.expandedstorage.common.block;
 
-import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
-import ellemes.expandedstorage.api.v3.context.BlockContext;
-import ellemes.expandedstorage.api.v4.InventoryOpeningApi;
+import ellemes.expandedstorage.common.v3.OpenableInventoryProvider;
+import ellemes.expandedstorage.common.v3.context.BlockContext;
+import ellemes.expandedstorage.common.v4.InventoryOpeningApi;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.registration.ModBlocks;

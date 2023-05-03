@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.thread;
 
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.inventory.ServerScreenHandlerFactory;
 import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;

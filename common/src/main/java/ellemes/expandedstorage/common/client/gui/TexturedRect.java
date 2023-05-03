@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.api.client.gui;
+package ellemes.expandedstorage.common.client.gui;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;

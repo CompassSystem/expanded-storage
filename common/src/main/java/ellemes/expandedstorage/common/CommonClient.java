@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common;
 
-import ellemes.expandedstorage.api.v3.client.ScreenTypeApi;
+import ellemes.expandedstorage.common.v3.client.ScreenTypeApi;
 import ellemes.expandedstorage.common.client.gui.FakePickScreen;
 import ellemes.expandedstorage.common.client.gui.PageScreen;
 import ellemes.expandedstorage.common.client.gui.ScrollScreen;

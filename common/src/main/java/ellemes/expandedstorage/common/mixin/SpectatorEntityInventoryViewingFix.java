@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.common.mixin;
 
-import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
+import ellemes.expandedstorage.common.v3.OpenableInventoryProvider;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;

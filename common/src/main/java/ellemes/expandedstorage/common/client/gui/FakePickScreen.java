@@ -1,9 +1,8 @@
 package ellemes.expandedstorage.common.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
-import ellemes.expandedstorage.api.client.function.ScreenSize;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.client.function.ScreenSize;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.PickButton;
 import ellemes.expandedstorage.common.client.gui.widget.ScreenPickButton;

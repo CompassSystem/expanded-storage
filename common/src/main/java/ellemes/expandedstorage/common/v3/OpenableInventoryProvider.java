@@ -1,7 +1,7 @@
-package ellemes.expandedstorage.api.v3;
+package ellemes.expandedstorage.common.v3;
 
-import ellemes.expandedstorage.api.v3.context.BaseContext;
-import ellemes.expandedstorage.api.v3.helpers.OpenableInventories;
+import ellemes.expandedstorage.common.v3.context.BaseContext;
+import ellemes.expandedstorage.common.v3.helpers.OpenableInventories;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 

@@ -1,10 +1,10 @@
 package ellemes.expandedstorage.common.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import ellemes.expandedstorage.api.client.function.ScreenSize;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
-import ellemes.expandedstorage.api.v3.client.ScreenTypeApi;
+import ellemes.expandedstorage.common.client.function.ScreenSize;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.v3.client.ScreenTypeApi;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

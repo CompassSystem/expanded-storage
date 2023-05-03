@@ -1,7 +1,7 @@
 package ellemes.expandedstorage.common.misc;
 
 import com.google.gson.JsonParseException;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import ellemes.expandedstorage.common.config.Config;
 import ellemes.expandedstorage.common.config.ConfigV0;
 import ellemes.expandedstorage.common.config.Converter;

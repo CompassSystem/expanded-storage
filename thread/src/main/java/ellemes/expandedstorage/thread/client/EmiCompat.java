@@ -3,7 +3,7 @@ package ellemes.expandedstorage.thread.client;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.widget.Bounds;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import net.minecraft.client.renderer.Rect2i;
 
 public final class EmiCompat implements EmiPlugin {

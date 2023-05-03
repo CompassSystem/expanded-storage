@@ -1,4 +1,4 @@
-package ellemes.expandedstorage.api.client.function;
+package ellemes.expandedstorage.common.client.function;
 
 public interface ScreenSizePredicate {
     @SuppressWarnings("unused")
