@@ -63,7 +63,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        boolean isClient = level.isClientSide();
+        boolean isClient = level().isClientSide();
         if (!isClient) {
             InventoryOpeningApi.openEntityInventory((ServerPlayer) player, this);
         }
@@ -72,22 +72,22 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     @Override
     public void remove(Entity.RemovalReason reason) {
-        if (!level.isClientSide() && reason.shouldDestroy()) {
-            Containers.dropContents(level, this, this);
+        if (!level().isClientSide() && reason.shouldDestroy()) {
+            Containers.dropContents(level(), this, this);
         }
         super.remove(reason);
     }
 
     @Override
     public void onInitialOpen(ServerPlayer player) {
-        if (!player.getLevel().isClientSide()) {
+        if (!player.level().isClientSide()) {
             PiglinAi.angerNearbyPiglins(player, true);
         }
     }
 
     public void destroy(DamageSource source) {
         this.kill();
-        if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+        if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
             Entity breaker = source.getDirectEntity();
             if (breaker != null && breaker.isShiftKeyDown()) {
                 ItemStack stack = new ItemStack(chestItem);
@@ -103,7 +103,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
                 }
                 this.spawnAtLocation(stack);
             }
-            if (!level.isClientSide) {
+            if (!level().isClientSide) {
                 if (breaker != null && breaker.getType() == EntityType.PLAYER) {
                     PiglinAi.angerNearbyPiglins((Player) breaker, true);
                 }

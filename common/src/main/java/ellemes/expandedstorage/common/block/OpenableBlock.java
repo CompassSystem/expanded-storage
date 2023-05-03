@@ -87,7 +87,7 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     @Override
     public void onInitialOpen(ServerPlayer player) {
         player.awardStat(openingStat);
-        if (!player.getLevel().isClientSide()) {
+        if (!player.level().isClientSide()) {
             PiglinAi.angerNearbyPiglins(player, true);
         }
     }
