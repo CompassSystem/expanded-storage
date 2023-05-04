@@ -7,6 +7,7 @@ import ellemes.expandedstorage.api.client.function.ScreenSizeRetriever;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.PickScreen;
+import ellemes.expandedstorage.common.misc.ErrorlessTextureGetter;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -30,12 +31,26 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     private static final Set<ResourceLocation> PREFERS_SINGLE_SCREEN = new HashSet<>();
 
     protected final int inventoryWidth, inventoryHeight, totalSlots;
+    protected final ResourceLocation textureLocation;
+    protected final boolean resourcePackRendering;
+    protected final int textureHeight;
 
     protected AbstractScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
         super(handler, playerInventory, title);
         totalSlots = handler.getInventory().getContainerSize();
         inventoryWidth = screenSize.getWidth();
         inventoryHeight = screenSize.getHeight();
+        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
+        resourcePackRendering = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
+
+        textureHeight = switch (inventoryHeight) {
+            case 3 -> 192;
+            case 5, 6 -> 240;
+            case 9 -> 304;
+            case 12 -> 352;
+            case 15 -> 416;
+            default -> throw new IllegalStateException("Unexpected value: " + inventoryHeight);
+        };
     }
 
     public static AbstractScreen createScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
