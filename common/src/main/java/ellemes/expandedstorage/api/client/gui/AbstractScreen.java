@@ -32,7 +32,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
     protected final int inventoryWidth, inventoryHeight, totalSlots;
     protected final ResourceLocation textureLocation;
-    protected final boolean resourcePackRendering;
+    protected final boolean textureGenerationEnabled;
     protected final int textureHeight;
 
     protected AbstractScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
@@ -41,7 +41,10 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         inventoryWidth = screenSize.getWidth();
         inventoryHeight = screenSize.getHeight();
         textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
-        resourcePackRendering = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
+        // todo: add precheck to disallow: texturegen = false, texture present = false
+        boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
+
+        textureGenerationEnabled = Utils.generatedGuiTexturesEnabled && !isTexturePresent;
 
         textureHeight = switch (inventoryHeight) {
             case 3 -> 192;
