@@ -10,8 +10,6 @@
     "SpectatorBlockInventoryViewingFix",
     "SpectatorEntityInventoryViewingFix"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  },
+  "injectors": { "defaultRequire": 1 },
   "minVersion": "0.8"
 }
