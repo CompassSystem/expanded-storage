@@ -28,10 +28,10 @@ public class QuiltClient implements ClientModInitializer {
             });
         });
 
-        var resourcesRoot = QuiltLoader.getGameDir().resolve("expandedstorage");
+        Path resourcesRoot = QuiltLoader.getGameDir().resolve("expandedstorage");
         Utils.generatedGuiTexturesEnabled = createGuiResourcesFolders(resourcesRoot);
         if (Utils.generatedGuiTexturesEnabled) {
-            var loader = ResourceLoader.get(PackType.CLIENT_RESOURCES);
+            ResourceLoader loader = ResourceLoader.get(PackType.CLIENT_RESOURCES);
             loader.getRegisterDefaultResourcePackEvent().register(context -> {
                 context.addResourcePack(loader.newFileSystemResourcePack(Utils.id("gui_textures"), mod, resourcesRoot.resolve("resources"), ResourcePackActivationType.ALWAYS_ENABLED));
             });
