@@ -81,23 +81,32 @@ public final class PageScreen extends AbstractScreen {
         if (scaledHeight >= 276 && slots > 54) {
             PageScreen.addEntry(options, slots, 9, 9);
         }
-        Pair<ScreenSize, ScreenSize> picked = null;
-        for (Pair<ScreenSize, ScreenSize> option : options) {
-            if (picked == null) {
-                picked = option;
-            } else {
-                ScreenSize pickedMeta = picked.getSecond();
-                ScreenSize iterMeta = option.getSecond();
-                ScreenSize iterDim = option.getFirst();
-                if (pickedMeta.getHeight() == iterMeta.getHeight() && iterMeta.getWidth() < pickedMeta.getWidth()) {
-                    picked = option;
-                } else if (CommonClient.platformHelper().configWrapper().preferSmallerScreens() && pickedMeta.getWidth() == iterMeta.getWidth() + 1 && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
+        if (slots > 90) {
+            PageScreen.addEntry(options, slots, 15, 6);
+        }
 
-                } else if (iterMeta.getWidth() < pickedMeta.getWidth() && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
-                    picked = option;
-                }
+        Pair<ScreenSize, ScreenSize> picked = options.get(0);
+
+        for (int i = 1; i < options.size(); i++) {
+            Pair<ScreenSize, ScreenSize> option = options.get(i);
+
+            int currentPages = picked.getSecond().getWidth();
+            int currentBlankSlots = picked.getSecond().getHeight();
+            int currentWidth = picked.getFirst().getWidth();
+
+            int newPages = option.getSecond().getWidth();
+            int newBlankSlots = option.getSecond().getHeight();
+            int newWidth = option.getFirst().getWidth();
+            int newHeight = option.getFirst().getHeight();
+
+            if (newBlankSlots <= currentBlankSlots && newPages < currentPages && currentWidth == newWidth) {
+                picked = option;
+            } else if (CommonClient.platformHelper().configWrapper().preferSmallerScreens() && currentPages == newPages + 1 && newBlankSlots < newWidth * newHeight / 2.0) {
+            } else if (newPages < currentPages && newBlankSlots < newWidth * newHeight / 2.0) {
+                picked = option;
             }
         }
+
         return picked.getFirst();
     }
 
