@@ -44,6 +44,9 @@ public final class Utils {
     public static final ResourceLocation SINGLE_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "single");
     public static final ResourceLocation SCROLL_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "scroll");
     public static final ResourceLocation UNSET_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "auto");
+    /**
+     * When enabled allows for far more customizable screen sizes.
+     */
     public static boolean generatedGuiTexturesEnabled = false;
 
     private Utils() {

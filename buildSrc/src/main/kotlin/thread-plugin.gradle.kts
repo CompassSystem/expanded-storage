@@ -55,7 +55,7 @@ repositories {
     }
 }
 // Note: when changing this you will likely need to stop any gradle deamons and delete the root .gradle folder.
-val enabledMods = setOf<ModSupport>()
+val enabledMods = setOf<ModSupport>(ModSupport.MOD_MENU)
 
 fun DependencyHandlerScope.optionalDependency(enumValue: ModSupport) {
     val configuration = if (enabledMods.contains(enumValue)) "modImplementation" else "modCompileOnly"
