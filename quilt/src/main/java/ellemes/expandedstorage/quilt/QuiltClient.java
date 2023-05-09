@@ -1,21 +1,13 @@
 package ellemes.expandedstorage.quilt;
 
-import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.thread.ThreadClient;
 import ellemes.expandedstorage.thread.ThreadMain;
-import net.minecraft.server.packs.PackType;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.networking.api.client.ClientPlayConnectionEvents;
 import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-import org.quiltmc.qsl.resource.loader.api.ResourcePackActivationType;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class QuiltClient implements ClientModInitializer {
     @Override
@@ -28,28 +20,6 @@ public class QuiltClient implements ClientModInitializer {
             });
         });
 
-        Path resourcesRoot = QuiltLoader.getGameDir().resolve("expandedstorage");
-        Utils.generatedGuiTexturesEnabled = createGuiResourcesFolders(resourcesRoot);
-        if (Utils.generatedGuiTexturesEnabled) {
-            ResourceLoader loader = ResourceLoader.get(PackType.CLIENT_RESOURCES);
-            loader.getRegisterDefaultResourcePackEvent().register(context -> {
-                context.addResourcePack(loader.newFileSystemResourcePack(Utils.id("gui_textures"), mod, resourcesRoot.resolve("resources"), ResourcePackActivationType.ALWAYS_ENABLED));
-            });
-        }
-    }
-
-    private boolean createGuiResourcesFolders(Path root) {
-        try {
-            Files.createDirectories(root.resolve("resources/assets/expandedstorage/textures/gui/container/"));
-            Path mcmeta = root.resolve("resources/pack.mcmeta");
-            if (!Files.exists(mcmeta)) {
-                try (BufferedWriter writer = Files.newBufferedWriter(root.resolve("resources/pack.mcmeta"))) {
-                    writer.write("{ \"pack\": { \"description\": \"Expanded Storage gui resources\", \"pack_format\": 9 } }");
-                }
-            }
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+        AbstractScreen.savePath = QuiltLoader.getGameDir().resolve("genned_image.png");
     }
 }

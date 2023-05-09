@@ -9,7 +9,6 @@ import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
@@ -18,20 +17,12 @@ import java.util.Set;
 
 public final class SingleScreen extends AbstractScreen {
     private final Set<TexturedRect> blankArea = new HashSet<>();
-    private final int textureWidth, blankSlots;
+    private final int blankSlots;
 
     public SingleScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
         super(handler, playerInventory, title, screenSize);
 
         this.initializeSlots(playerInventory);
-
-        textureWidth = switch (inventoryWidth) {
-            case 9 -> inventoryHeight == 3 ? 176 : 208;
-            case 12 -> 256;
-            case 15 -> 320;
-            case 18 -> 368;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryWidth);
-        };
 
         blankSlots = (inventoryWidth * inventoryHeight) - totalSlots;
 

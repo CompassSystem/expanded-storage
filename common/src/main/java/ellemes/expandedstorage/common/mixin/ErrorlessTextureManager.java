@@ -1,9 +1,8 @@
 package ellemes.expandedstorage.common.mixin;
 
+import ellemes.expandedstorage.common.client.SizedSimpleTexture;
 import ellemes.expandedstorage.common.misc.ErrorlessTextureGetter;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
-import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -28,15 +27,15 @@ public abstract class ErrorlessTextureManager implements ErrorlessTextureGetter 
     public boolean isTexturePresent(ResourceLocation location) {
         AbstractTexture texture = byPath.get(location);
         if (texture == null) {
-            texture = new SimpleTexture(location);
+            texture = new SizedSimpleTexture(location);
             try {
                 texture.load(resourceManager);
-            } catch (IOException e) {
-                texture = MissingTextureAtlasSprite.getTexture();
+                byPath.put(location, texture);
+            } catch (IOException ignored) {
+
             }
-            byPath.put(location, texture);
         }
 
-        return texture != MissingTextureAtlasSprite.getTexture();
+        return byPath.get(location) != null;
     }
 }

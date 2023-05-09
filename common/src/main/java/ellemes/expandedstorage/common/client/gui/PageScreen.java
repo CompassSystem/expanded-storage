@@ -15,7 +15,6 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -31,7 +30,6 @@ import java.util.Set;
 
 @IPNGuiHint(button = IPNButton.MOVE_TO_CONTAINER, horizontalOffset = 58)
 public final class PageScreen extends AbstractScreen {
-    private final int textureWidth;
     private final Set<TexturedRect> blankArea = new LinkedHashSet<>();
     private final int blankSlots, pages;
     private PageButton leftPageButton, rightPageButton;
@@ -43,14 +41,6 @@ public final class PageScreen extends AbstractScreen {
         super(handler, playerInventory, title, screenSize);
 
         this.initializeSlots(playerInventory);
-
-        textureWidth = switch (inventoryWidth) {
-            case 9 -> inventoryHeight == 3 ? 176 : 208;
-            case 12 -> 256;
-            case 15 -> 320;
-            case 18 -> 368;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryWidth);
-        };
 
         int slotsPerPage = inventoryWidth * inventoryHeight;
         pages = Mth.ceil((double) totalSlots / slotsPerPage);

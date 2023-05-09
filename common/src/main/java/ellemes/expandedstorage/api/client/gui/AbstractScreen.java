@@ -1,19 +1,23 @@
 package ellemes.expandedstorage.api.client.gui;
 
-import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
+import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.api.client.ScreenConstructor;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.function.ScreenSizeRetriever;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
+import ellemes.expandedstorage.common.client.SizedSimpleTexture;
 import ellemes.expandedstorage.common.client.gui.PickScreen;
 import ellemes.expandedstorage.common.misc.ErrorlessTextureGetter;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,6 +25,8 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,8 +40,9 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
     protected final int inventoryWidth, inventoryHeight, totalSlots;
     protected final ResourceLocation textureLocation;
-    protected final boolean textureGenerationEnabled;
-    protected final int textureHeight;
+    protected final int textureWidth, textureHeight;
+    //todo:temp
+    public static Path savePath = Path.of("genned_image.png");
 
     protected AbstractScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
         super(handler, playerInventory, title);
@@ -43,20 +50,62 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         inventoryWidth = screenSize.getWidth();
         inventoryHeight = screenSize.getHeight();
         textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
-        // todo: add precheck to disallow: texturegen = false, texture present = false
-        // todo: move this check earlier and add parameter to ctor for if texture is present.
         boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
 
-        textureGenerationEnabled = Utils.generatedGuiTexturesEnabled && !isTexturePresent;
+        // todo: not rendering correctly...
+        if (!isTexturePresent) {
+            int guiWidth = 36 + Utils.SLOT_SIZE * inventoryWidth;
+            int guiHeight = 132 + Utils.SLOT_SIZE * inventoryHeight;
+            int textureWidth = (int) (Math.ceil(guiWidth / 16.0f) * 16);
+            int textureHeight = (int) (Math.ceil(guiHeight / 16.0f) * 16);
+            TextureTarget target = new TextureTarget(textureWidth, textureHeight, true, Minecraft.ON_OSX);
+            target.bindWrite(false);
 
-        textureHeight = switch (inventoryHeight) {
-            case 3 -> 192;
-            case 5, 6 -> 240;
-            case 9 -> 304;
-            case 12 -> 352;
-            case 15 -> 416;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryHeight);
-        };
+            PoseStack poseStack = RenderSystem.getModelViewStack();
+            poseStack.pushPose();
+            poseStack.setIdentity();
+            poseStack.translate(0.0F, 0.0F, -2000.0F);
+            RenderSystem.applyModelViewMatrix();
+            PoseStack stack = new PoseStack();
+
+            RenderSystem.setShaderTexture(0, Utils.id("textures/gui/container/atlas_gen.png"));
+//            // int x, int y, int width, int height, float uOffset, float vOffset, int uWidth, int vHeight, int textureWidth, int textureHeight
+
+            // top left corner
+            blit(stack, 0, 0, 7, 17, 1, 1, 7, 17, 64, 96);
+
+            stack.popPose();
+            RenderSystem.applyModelViewMatrix();
+
+            NativeImage image = new NativeImage(target.width, target.height, false);
+            target.bindRead();
+            image.downloadTexture(0, false);
+            image.flipY();
+            // todo: temp
+            try {
+                image.writeToFile(savePath);
+            } catch (IOException e) {
+                System.out.println("Failed to save genned image.");
+            }
+            // end-todo
+            DynamicTexture texture = new DynamicTexture(image);
+            Minecraft.getInstance().getTextureManager().register(textureLocation, texture);
+
+
+            target.destroyBuffers();
+            Minecraft.getInstance().getMainRenderTarget().bindWrite(true);
+        }
+        AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(textureLocation);
+
+        if (texture instanceof DynamicTexture dynamicTexture) {
+            textureWidth = dynamicTexture.getPixels().getWidth();
+            textureHeight = dynamicTexture.getPixels().getHeight();
+        } else if (texture instanceof SizedSimpleTexture simpleTexture) {
+            textureWidth = simpleTexture.getWidth();
+            textureHeight = simpleTexture.getHeight();
+        } else {
+            throw new IllegalStateException();
+        }
     }
 
     public static AbstractScreen createScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
