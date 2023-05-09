@@ -7,6 +7,7 @@ import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
+import ellemes.expandedstorage.common.misc.ToggleableSlot;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
@@ -96,7 +97,7 @@ public final class ScrollScreen extends AbstractScreen {
             int slotXPos = i % inventoryWidth;
             int slotYPos = Mth.ceil((((double) (i - slotXPos)) / inventoryWidth));
             int realYPos = slotYPos >= inventoryHeight ? -2000 : slotYPos * Utils.SLOT_SIZE + Utils.SLOT_SIZE;
-            menu.addClientSlot(new Slot(menu.getInventory(), i, slotXPos * Utils.SLOT_SIZE + 8, realYPos));
+            menu.addClientSlot(new ToggleableSlot(menu.getInventory(), i, slotXPos * Utils.SLOT_SIZE + 8, realYPos, realYPos != -2000));
         }
         int left = (inventoryWidth * Utils.SLOT_SIZE + 14) / 2 - 80;
         int top = Utils.SLOT_SIZE + 14 + (inventoryHeight * Utils.SLOT_SIZE);
