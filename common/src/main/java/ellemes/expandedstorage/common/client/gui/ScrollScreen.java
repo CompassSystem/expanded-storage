@@ -7,8 +7,8 @@ import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
+import ellemes.expandedstorage.common.misc.ToggleableSlot;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
@@ -65,6 +65,9 @@ public final class ScrollScreen extends AbstractScreen {
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {
         ArrayList<ScreenSize> options = new ArrayList<>();
         options.add(ScreenSize.of(9, 6));
+        if (slots > 90) {
+            options.add(ScreenSize.of(15, 6));
+        }
         if (scaledHeight >= 276) {
             if (slots > 54) {
                 options.add(ScreenSize.of(9, 9));
@@ -94,7 +97,7 @@ public final class ScrollScreen extends AbstractScreen {
             int slotXPos = i % inventoryWidth;
             int slotYPos = Mth.ceil((((double) (i - slotXPos)) / inventoryWidth));
             int realYPos = slotYPos >= inventoryHeight ? -2000 : slotYPos * Utils.SLOT_SIZE + Utils.SLOT_SIZE;
-            menu.addClientSlot(new Slot(menu.getInventory(), i, slotXPos * Utils.SLOT_SIZE + 8, realYPos));
+            menu.addClientSlot(new ToggleableSlot(menu.getInventory(), i, slotXPos * Utils.SLOT_SIZE + 8, realYPos, realYPos != -2000));
         }
         int left = (inventoryWidth * Utils.SLOT_SIZE + 14) / 2 - 80;
         int top = Utils.SLOT_SIZE + 14 + (inventoryHeight * Utils.SLOT_SIZE);
@@ -113,7 +116,6 @@ public final class ScrollScreen extends AbstractScreen {
         super.init();
         leftPos = (width - (imageWidth + 22 - 4)) / 2;
         isDragging = false;
-        topRow = 0;
 
         int remainderSlots = (totalSlots % inventoryWidth);
         if (remainderSlots > 0) {
@@ -122,7 +124,7 @@ public final class ScrollScreen extends AbstractScreen {
             int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
             int width = blankSlots * Utils.SLOT_SIZE;
             blankArea = new TexturedRect(xRight - width, yTop, width, Utils.SLOT_SIZE, Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight);
-            blankAreaVisible = false;
+            blankAreaVisible = topRow == (totalRows - inventoryHeight);
         }
     }
 
@@ -300,13 +302,6 @@ public final class ScrollScreen extends AbstractScreen {
             menu.setSlotRange(newMin, newMin + inventoryWidth * inventoryHeight - (blankAreaVisible ? blankSlots : 0),
                     index -> 18 + 18 * Math.floorDiv(index - newMin, inventoryWidth));
         }
-    }
-
-    @Override
-    public void resize(Minecraft client, int width, int height) {
-        int row = topRow;
-        super.resize(client, width, height);
-        this.setTopRowAndMoveThumb(topRow, row);
     }
 
     @NotNull
