@@ -10,7 +10,6 @@ import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.widget.PageButton;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
@@ -37,7 +36,7 @@ public final class PageScreen extends AbstractScreen {
     private final Set<TexturedRect> blankArea = new LinkedHashSet<>();
     private final int blankSlots, pages;
     private PageButton leftPageButton, rightPageButton;
-    private int page;
+    private int page = 1;
     private MutableComponent currentPageText;
     private float pageTextX;
 
@@ -68,6 +67,12 @@ public final class PageScreen extends AbstractScreen {
 
         imageWidth = Utils.CONTAINER_PADDING_LDR + Utils.SLOT_SIZE * inventoryWidth + Utils.CONTAINER_PADDING_LDR;
         imageHeight = Utils.CONTAINER_HEADER_HEIGHT + Utils.SLOT_SIZE * inventoryHeight + 14 + Utils.SLOT_SIZE * 3 + 4 + Utils.SLOT_SIZE + Utils.CONTAINER_PADDING_LDR;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.recalculateBlankArea();
     }
 
     private static boolean regionIntersects(AbstractWidget widget, int x, int y, int width, int height) {
@@ -121,7 +126,9 @@ public final class PageScreen extends AbstractScreen {
         RenderSystem.setShaderTexture(0, textureLocation);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         GuiComponent.blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight, textureWidth, textureHeight);
-        blankArea.forEach(image -> image.render(stack));
+        if (page == pages) {
+            blankArea.forEach(image -> image.render(stack));
+        }
     }
 
     private void initializeSlots(Inventory playerInventory) {
@@ -157,24 +164,6 @@ public final class PageScreen extends AbstractScreen {
         if (newPage > oldPage) {
             if (page == pages) {
                 rightPageButton.setActive(false);
-                // todo: calculate blankArea once & add boolean field
-                if (blankSlots > 0) {
-                    int rows = Math.floorDiv(blankSlots, inventoryWidth);
-                    int remainder = (blankSlots - inventoryWidth * rows);
-                    int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
-                    int xLeft = leftPos + Utils.CONTAINER_PADDING_LDR;
-                    for (int i = 0; i < rows; i++) {
-                        blankArea.add(new TexturedRect(xLeft, yTop, inventoryWidth * Utils.SLOT_SIZE, Utils.SLOT_SIZE,
-                                Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
-                        yTop -= Utils.SLOT_SIZE;
-                    }
-                    if (remainder > 0) {
-                        int xRight = leftPos + Utils.CONTAINER_PADDING_LDR + inventoryWidth * Utils.SLOT_SIZE;
-                        int width = remainder * Utils.SLOT_SIZE;
-                        blankArea.add(new TexturedRect(xRight - width, yTop, width, Utils.SLOT_SIZE,
-                                Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
-                    }
-                }
             }
             if (!leftPageButton.active) {
                 leftPageButton.setActive(true);
@@ -183,7 +172,6 @@ public final class PageScreen extends AbstractScreen {
             if (page == 1) {
                 leftPageButton.setActive(false);
             }
-            blankArea.clear();
             if (!rightPageButton.active) {
                 rightPageButton.setActive(true);
             }
@@ -203,17 +191,25 @@ public final class PageScreen extends AbstractScreen {
         pageTextX = (leftPageButton.getX() + leftPageButton.getWidth() + rightPageButton.getX()) / 2.0f - font.width(currentPageText) / 2.0f + 0.5f;
     }
 
-    @Override
-    public void resize(Minecraft client, int width, int height) {
-        int currentPage = page;
-        if (currentPage != 1) {
-            menu.resetSlotPositions(false, inventoryWidth, inventoryHeight);
-            super.resize(client, width, height);
+    private void recalculateBlankArea() {
+        if (blankSlots > 0) {
             blankArea.clear();
-            this.setPage(1, currentPage);
-            return;
+            int rows = Math.floorDiv(blankSlots, inventoryWidth);
+            int remainder = (blankSlots - inventoryWidth * rows);
+            int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
+            int xLeft = leftPos + Utils.CONTAINER_PADDING_LDR;
+            for (int i = 0; i < rows; i++) {
+                blankArea.add(new TexturedRect(xLeft, yTop, inventoryWidth * Utils.SLOT_SIZE, Utils.SLOT_SIZE,
+                        Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
+                yTop -= Utils.SLOT_SIZE;
+            }
+            if (remainder > 0) {
+                int xRight = leftPos + Utils.CONTAINER_PADDING_LDR + inventoryWidth * Utils.SLOT_SIZE;
+                int width = remainder * Utils.SLOT_SIZE;
+                blankArea.add(new TexturedRect(xRight - width, yTop, width, Utils.SLOT_SIZE,
+                        Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
+            }
         }
-        super.resize(client, width, height);
     }
 
     @Override
@@ -254,17 +250,17 @@ public final class PageScreen extends AbstractScreen {
                 x = widget.getX() - width - 2;
             }
         }
-        page = 1;
         // Honestly this is dumb.
         if (x == originalX && CommonClient.platformHelper().isModLoaded("inventoryprofiles")) {
             x -= 14;
         }
         leftPageButton = new PageButton(x, y, 0,
                 Component.translatable("screen.ellemes_container_lib.prev_page"), button -> this.setPage(page, page - 1));
-        leftPageButton.active = false;
+        leftPageButton.active = page != 1;
         this.addRenderableWidget(leftPageButton);
         rightPageButton = new PageButton(x + 42, y, 1,
                 Component.translatable("screen.ellemes_container_lib.next_page"), button -> this.setPage(page, page + 1));
+        rightPageButton.active = page != pages;
         this.addRenderableWidget(rightPageButton);
         this.setPageText();
     }
