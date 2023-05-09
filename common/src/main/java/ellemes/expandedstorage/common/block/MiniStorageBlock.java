@@ -29,20 +29,23 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MiniStorageBlock extends OpenableBlock implements SimpleWaterloggedBlock {
     private static final VoxelShape NO_RIBBON_NO_SPARROW;
     private static final VoxelShape RIBBON_NO_SPARROW;
 
-    private static final VoxelShape NO_RIBBON_SPARROW;
-    private static final VoxelShape RIBBON_SPARROW;
+    private static final VoxelShape NO_RIBBON_SPARROW_NS, NO_RIBBON_SPARROW_EW;
+    private static final VoxelShape RIBBON_SPARROW_NS, RIBBON_SPARROW_EW;
 
     static {
         NO_RIBBON_NO_SPARROW = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
         RIBBON_NO_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 6.0D, 10.0D ,9.0D, 10.0D));
-        NO_RIBBON_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 13.0D, 10.0D));
-        RIBBON_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 14.0D, 10.0D));
+        NO_RIBBON_SPARROW_NS = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 5.0D, 10.0D, 13.0D, 11.0D));
+        NO_RIBBON_SPARROW_EW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 13.0D, 10.0D));
+        RIBBON_SPARROW_NS = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 5.0D, 10.0D, 14.0D, 11.0D));
+        RIBBON_SPARROW_EW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 14.0D, 10.0D));
     }
 
     public static final BooleanProperty SPARROW = BooleanProperty.create("sparrow");
@@ -54,17 +57,18 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
         this.hasRibbon = hasRibbon;
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, BlockGetter blockLevel, BlockPos pos, CollisionContext context) {
         boolean hasSparrow = state.hasProperty(SPARROW) && state.getValue(SPARROW);
         if (hasRibbon) {
             if (hasSparrow) {
-                return RIBBON_SPARROW;
+                return state.getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() % 2 == 0 ? RIBBON_SPARROW_NS : RIBBON_SPARROW_EW;
             }
             return RIBBON_NO_SPARROW;
         } else if (hasSparrow) {
-            return NO_RIBBON_SPARROW;
+            return state.getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() % 2 == 0 ? NO_RIBBON_SPARROW_NS : NO_RIBBON_SPARROW_EW;
         }
         return NO_RIBBON_NO_SPARROW;
     }
