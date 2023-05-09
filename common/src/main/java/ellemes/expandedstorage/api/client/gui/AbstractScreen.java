@@ -1,5 +1,7 @@
 package ellemes.expandedstorage.api.client.gui;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.api.client.ScreenConstructor;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
@@ -42,6 +44,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         inventoryHeight = screenSize.getHeight();
         textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
         // todo: add precheck to disallow: texturegen = false, texture present = false
+        // todo: move this check earlier and add parameter to ctor for if texture is present.
         boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
 
         textureGenerationEnabled = Utils.generatedGuiTexturesEnabled && !isTexturePresent;
