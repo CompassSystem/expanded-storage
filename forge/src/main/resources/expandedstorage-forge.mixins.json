@@ -3,9 +3,7 @@
   "plugin": "ellemes.expandedstorage.forge.ForgeMixinPlugin",
   "package": "ellemes.expandedstorage.forge.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins": [
-    "OxidizableBlockMixin"
-  ],
+  "mixins": [ "OxidizableBlockMixin" ],
   "client": [
     "QuarkButtonAllowedMixin",
     "QuarkRepositionButtonsMixin"
