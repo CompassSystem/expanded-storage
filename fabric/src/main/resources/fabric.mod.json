@@ -15,7 +15,7 @@
     "jei_mod_plugin": [ "ellemes.expandedstorage.common.client.JeiCompat" ]
   },
   "environment": "*",
-  "authors": [ "Bucket of Compasses" ],
+  "authors": [ "Compasses" ],
   "mixins": [
     "expandedstorage-common.mixins.json",
     "expandedstorage-thread.mixins.json"

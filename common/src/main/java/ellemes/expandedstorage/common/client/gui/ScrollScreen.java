@@ -10,7 +10,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -24,8 +23,7 @@ import java.util.List;
 
 public final class ScrollScreen extends AbstractScreen {
     private static final int THUMB_WIDTH = 12, THUMB_HEIGHT = 15;
-    private final ResourceLocation textureLocation;
-    private final int textureWidth, textureHeight, totalRows;
+    private final int totalRows;
     private final boolean scrollingUnrestricted;
     private boolean isDragging, blankAreaVisible;
     private int topRow, scrollYOffset, thumbY, blankSlots;
@@ -35,23 +33,6 @@ public final class ScrollScreen extends AbstractScreen {
         super(handler, playerInventory, title, screenSize);
 
         this.initializeSlots(playerInventory);
-
-        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
-        textureWidth = switch (inventoryWidth) {
-            case 9 -> 208;
-            case 12 -> 256;
-            case 15 -> 320;
-            case 18 -> 368;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryWidth);
-        };
-        textureHeight = switch (inventoryHeight) {
-            case 3 -> 192;
-            case 6 -> 240;
-            case 9 -> 304;
-            case 12 -> 352;
-            case 15 -> 416;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryHeight);
-        };
 
         totalRows = Mth.ceil(((double) totalSlots) / inventoryWidth);
         imageWidth = Utils.CONTAINER_PADDING_LDR + Utils.SLOT_SIZE * inventoryWidth + Utils.CONTAINER_PADDING_LDR; // 22 - 4 is scrollbar width - overlap

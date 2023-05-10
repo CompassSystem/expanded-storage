@@ -31,7 +31,7 @@
     "metadata": {
       "name": "Expanded Storage",
       "description": "Adds new storage blocks with higher capacities.",
-      "contributors": { "Bucket of Compasses": "Owners" },
+      "contributors": { "Compasses": "Owners" },
       "contact": {
         "homepage": "https://modrinth.com/mod/expanded-storage",
         "issues": "https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues",

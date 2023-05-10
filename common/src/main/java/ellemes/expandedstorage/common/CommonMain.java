@@ -178,6 +178,7 @@ public final class CommonMain {
         final Tier diamondTier = new Tier(Utils.id("diamond"), 108, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier obsidianTier = new Tier(Utils.id("obsidian"), 108, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier netheriteTier = new Tier(Utils.id("netherite"), 135, Properties::requiresCorrectToolForDrops, Item.Properties::fireResistant);
+
         final Properties woodSettings = Properties.of()
                                                   .mapColor(MapColor.WOOD)
                                                   .instrument(NoteBlockInstrument.BASS)

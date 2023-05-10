@@ -9,7 +9,7 @@ object ModVersions {
     val EMI = "0.4.3+1.19"
     val IPN = "1.8.5"
     val IPN_MINECRAFT = "1.19.2"
-    val MODMENU = "4.1.1"
+    val MODMENU = "6.2.2"
     val REI = "9.1.587"
 }
 
