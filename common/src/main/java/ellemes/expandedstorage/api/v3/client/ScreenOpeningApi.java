@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.api.v3.client;
 
-import ellemes.expandedstorage.common.client.gui.ScreenConfigurationScreen;
+import ellemes.expandedstorage.common.client.gui.PickScreen;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +17,6 @@ public class ScreenOpeningApi {
      */
     public static Screen createTypeSelectScreen(@NotNull Supplier<Screen> returnToScreen) {
         Objects.requireNonNull(returnToScreen, "returnToScreen must not be null, pass () -> null instead.");
-        return new ScreenConfigurationScreen(returnToScreen);
+        return new PickScreen(returnToScreen);
     }
 }

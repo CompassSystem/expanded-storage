@@ -286,14 +286,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         this.renderBackground(stack);
         super.render(stack, mouseX, mouseY, delta);
         this.renderTooltip(stack, mouseX, mouseY);
-
-//        Render gui test code
-//        RenderSystem.disableDepthTest();
-//        RenderSystem.enableBlend();
-//        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.25f);
-//        renderGui(stack);
-//        RenderSystem.enableDepthTest();
-//        RenderSystem.disableBlend();
     }
 
     @Override
