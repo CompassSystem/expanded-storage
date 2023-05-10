@@ -446,6 +446,7 @@ public final class CommonMain {
             final ResourceLocation diamondStat = statMaker.apply("open_diamond_barrel");
             final ResourceLocation obsidianStat = statMaker.apply("open_obsidian_barrel");
             final ResourceLocation netheriteStat = statMaker.apply("open_netherite_barrel");
+
             final Properties copperBarrelSettings = Properties.of()
                                                               .mapColor(MapColor.WOOD)
                                                               .instrument(NoteBlockInstrument.BASS)

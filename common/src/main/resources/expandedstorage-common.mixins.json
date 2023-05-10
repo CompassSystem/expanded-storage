@@ -5,11 +5,11 @@
   "mixins": [
     "BlockEntityIdFix",
     "DataFixerEntrypoint",
-    "SparrowBlockFix", "SparrowItemIdFix",
+    "SparrowBlockFix",
+    "SparrowItemIdFix",
     "SpectatorBlockInventoryViewingFix",
     "SpectatorEntityInventoryViewingFix"
   ],
-  "client": [ "ExpandedStorageItemProperties" ],
   "injectors": { "defaultRequire": 1 },
   "minVersion": "0.8"
 }
