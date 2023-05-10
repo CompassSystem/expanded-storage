@@ -59,28 +59,21 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
             int textureWidth = (int) (Math.ceil(guiWidth / 16.0f) * 16);
             int textureHeight = (int) (Math.ceil(guiHeight / 16.0f) * 16);
             TextureTarget target = new TextureTarget(textureWidth, textureHeight, true, Minecraft.ON_OSX);
-            target.bindWrite(false);
+            target.bindWrite(true);
 
-            PoseStack poseStack = RenderSystem.getModelViewStack();
-            poseStack.pushPose();
-            poseStack.setIdentity();
-            poseStack.translate(0.0F, 0.0F, -2000.0F);
-            RenderSystem.applyModelViewMatrix();
-            PoseStack stack = new PoseStack();
-
-            RenderSystem.setShaderTexture(0, Utils.id("textures/gui/container/atlas_gen.png"));
-//            // int x, int y, int width, int height, float uOffset, float vOffset, int uWidth, int vHeight, int textureWidth, int textureHeight
-
-            // top left corner
-            blit(stack, 0, 0, 7, 17, 1, 1, 7, 17, 64, 96);
-
-            stack.popPose();
+            PoseStack modelViewStack = RenderSystem.getModelViewStack();
+            modelViewStack.pushPose();
+            modelViewStack.setIdentity();
+            modelViewStack.translate(0.0F, 0.0F, -2000.0F);
             RenderSystem.applyModelViewMatrix();
 
-            NativeImage image = new NativeImage(target.width, target.height, false);
+            this.renderGui(new PoseStack());
+
+            NativeImage image = new NativeImage(textureWidth, textureHeight, false);
             target.bindRead();
             image.downloadTexture(0, false);
             image.flipY();
+
             // todo: temp
             try {
                 image.writeToFile(savePath);
@@ -88,12 +81,16 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
                 System.out.println("Failed to save genned image.");
             }
             // end-todo
+
             DynamicTexture texture = new DynamicTexture(image);
             Minecraft.getInstance().getTextureManager().register(textureLocation, texture);
 
 
             target.destroyBuffers();
             Minecraft.getInstance().getMainRenderTarget().bindWrite(true);
+
+            modelViewStack.popPose();
+            RenderSystem.applyModelViewMatrix();
         }
         AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(textureLocation);
 
@@ -106,6 +103,127 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         } else {
             throw new IllegalStateException();
         }
+    }
+
+    private void rect(PoseStack stack, int x, int y, int width, int height, float uOffset, float vOffset) {
+        blit(stack, x, y, width, height, uOffset, vOffset, width, height, 96, 96);
+    }
+
+    private void renderGui(PoseStack stack) {
+        RenderSystem.setShaderTexture(0, Utils.id("textures/gui/container/atlas_gen.png"));
+//            // int x, int y, int width, int height, float uOffset, float vOffset, int uWidth, int vHeight, int textureWidth, int textureHeight
+
+        // top
+        {
+            // left
+            rect(stack, 0, 0, 7, 17, 1, 1);
+            // middle
+            for (int x = 0; x < inventoryWidth; x++) {
+                rect(stack, 7 + x * Utils.SLOT_SIZE, 0, 18, 17, 9, 1);
+            }
+            // right
+            rect(stack, 7 + inventoryWidth * Utils.SLOT_SIZE, 0, 7, 17, 28, 1);
+            // scrollbar
+            rect(stack, 7 + inventoryWidth * Utils.SLOT_SIZE + 7, 0, 22, 17, 36, 1);
+        }
+
+        // main container
+        {
+            for (int y = 0; y < inventoryHeight; y++) {
+                int scollbarYOffset = y == 0 ? 19 : y == inventoryHeight - 1 ? 57 : 38;
+                // left
+                rect(stack, 0, 17 + Utils.SLOT_SIZE * y, 7, 18, 1, 19);
+                // middle
+                for (int x = 0; x < inventoryWidth; x++) {
+                    rect(stack, 7 + Utils.SLOT_SIZE * x, 17 + Utils.SLOT_SIZE * y, Utils.SLOT_SIZE, Utils.SLOT_SIZE, 9, 19);
+                }
+                // right
+                rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth, 17 + Utils.SLOT_SIZE * y, 7, 18, 28, 19);
+                // scrollbar
+                rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth + 7, 17 + Utils.SLOT_SIZE * y, 22, 18, 36, scollbarYOffset);
+            }
+        }
+
+        // divider below main container
+        {
+            // left
+            rect(stack, 0, 17 + Utils.SLOT_SIZE * inventoryHeight, 7, 14, 1, 38);
+
+            //middle
+            for (int x = 0; x < inventoryWidth; x++) {
+                rect(stack, 7 + Utils.SLOT_SIZE * x, 17 + Utils.SLOT_SIZE * inventoryHeight, Utils.SLOT_SIZE, 14, 9, 38);
+            }
+
+            //right
+            rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth, 17 + Utils.SLOT_SIZE * inventoryHeight, 7, 14, 28, 38);
+
+            if (inventoryWidth > 9) {
+                // scrollbar
+                rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth + 7, 17 + Utils.SLOT_SIZE * inventoryHeight, 22, 17, 59, 76);
+                rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth + 7, 17 + Utils.SLOT_SIZE * inventoryHeight + 17, 12, 15, 59, 1);
+            } else {
+                // scrollbar
+                rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth + 7, 17 + Utils.SLOT_SIZE * inventoryHeight, 22, 7, 36, 76);
+                rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth + 7, 17 + Utils.SLOT_SIZE * inventoryHeight + 7, 12, 15, 59, 1);
+            }
+        }
+
+        // bottom of main container
+        {
+            if (inventoryWidth > 9) {
+                // left
+                rect(stack, 0, 17 + Utils.SLOT_SIZE * inventoryHeight + 7 + 3, 7, 7, 1, 58);
+                // middle
+                int sideParts = (int) Math.ceil((inventoryWidth - 9) / 2.0f);
+                for (int i = 0; i < sideParts; i++) {
+                    rect(stack, 7 + Utils.SLOT_SIZE * i, 17 + Utils.SLOT_SIZE * inventoryHeight + 7 + 3, 18, 7, 9, 58);
+                    rect(stack, 7 + Utils.SLOT_SIZE * (inventoryWidth - i - 1), 17 + Utils.SLOT_SIZE * inventoryHeight + 7 + 3, 18, 7, 9, 58);
+                }
+                // right
+                rect(stack, 7 + Utils.SLOT_SIZE * inventoryWidth, 17 + Utils.SLOT_SIZE * inventoryHeight + 7 + 3, 7, 7, 28, 58);
+            }
+        }
+        int startX = (int) ((inventoryWidth - 9) / 2.0f * Utils.SLOT_SIZE);
+        // player inventory
+        {
+            for (int y = 0; y < 3; y++) {
+                // left
+                rect(stack, startX, 17 + Utils.SLOT_SIZE * (inventoryHeight + y) + 14, 7, 18, 1, 19);
+                //middle
+                for (int x = 0; x < 9; x++) {
+                    rect(stack, startX + 7 + Utils.SLOT_SIZE * x, 17 + Utils.SLOT_SIZE * (inventoryHeight + y) + 14, 18, 18, 9, 19);
+                }
+                //right
+                rect(stack, startX + 7 + 9 * Utils.SLOT_SIZE, 17 + Utils.SLOT_SIZE * (inventoryHeight + y) + 14, 7, 18, 28, 19);
+            }
+            // left
+            rect(stack, startX, 17 + Utils.SLOT_SIZE * (inventoryHeight + 3) + 14, 7, 4, 1, 53);
+            rect(stack, startX, 17 + Utils.SLOT_SIZE * (inventoryHeight + 3) + 14 + 4, 7, 18, 1, 19);
+            rect(stack, startX, 17 + Utils.SLOT_SIZE * (inventoryHeight + 4) + 14 + 4, 7, 7, 1, 58);
+            //middle
+            for (int x = 0; x < 9; x++) {
+                rect(stack, startX + 7 + Utils.SLOT_SIZE * x, 17 + Utils.SLOT_SIZE * (inventoryHeight + 3) + 14, 18, 4, 9, 53);
+                rect(stack, startX + 7 + Utils.SLOT_SIZE * x, 17 + Utils.SLOT_SIZE * (inventoryHeight + 3) + 14 + 4, 18, 18, 9, 19);
+                rect(stack, startX + 7 + Utils.SLOT_SIZE * x, 17 + Utils.SLOT_SIZE * (inventoryHeight + 4) + 14 + 4, 18, 7, 9, 58);
+            }
+            //right
+            rect(stack, startX + 7 + 9 * Utils.SLOT_SIZE, 17 + Utils.SLOT_SIZE * (inventoryHeight + 3) + 14, 7, 4, 28, 53);
+            rect(stack, startX + 7 + 9 * Utils.SLOT_SIZE, 17 + Utils.SLOT_SIZE * (inventoryHeight + 3) + 14 + 4, 7, 18, 28, 19);
+            rect(stack, startX + 7 + 9 * Utils.SLOT_SIZE, 17 + Utils.SLOT_SIZE * (inventoryHeight + 4) + 14 + 4, 7, 7, 28, 58);
+        }
+
+        if (inventoryWidth > 9) {
+            rect(stack, startX, 17 + Utils.SLOT_SIZE * (inventoryHeight) + 14, 3, 3, 20, 66);
+            rect(stack, startX + Utils.SLOT_SIZE * 9 + 11, 17 + Utils.SLOT_SIZE * (inventoryHeight) + 14, 3, 3, 24, 66);
+        }
+
+        // blank slots
+        {
+            for (int x = 0; x < inventoryWidth; x++) {
+                rect(stack, 7 + Utils.SLOT_SIZE * x, 17 + Utils.SLOT_SIZE * (inventoryHeight + 4) + 14 + 4 + 7, Utils.SLOT_SIZE, Utils.SLOT_SIZE, 1, 66);
+            }
+        }
+
     }
 
     public static AbstractScreen createScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
@@ -183,6 +301,14 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         this.renderBackground(stack);
         super.render(stack, mouseX, mouseY, delta);
         this.renderTooltip(stack, mouseX, mouseY);
+
+//        Render gui test code
+//        RenderSystem.disableDepthTest();
+//        RenderSystem.enableBlend();
+//        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.25f);
+//        renderGui(stack);
+//        RenderSystem.enableDepthTest();
+//        RenderSystem.disableBlend();
     }
 
     @Override
