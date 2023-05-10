@@ -25,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,8 +39,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     protected final int inventoryWidth, inventoryHeight, totalSlots;
     protected final ResourceLocation textureLocation;
     protected final int textureWidth, textureHeight;
-    //todo:temp
-    public static Path savePath = Path.of("genned_image.png");
 
     protected AbstractScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
         super(handler, playerInventory, title);
@@ -59,29 +56,27 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
             RenderSystem.setShaderTexture(0, Utils.id("textures/gui/container/atlas_gen.png"));
             RenderSystem.bindTexture(RenderSystem.getShaderTexture(0));
-            NativeImage atlas = new NativeImage(96, 96, false);
-            atlas.downloadTexture(0, false);
-            NativeImage image = new NativeImage(textureWidth, textureHeight, false);
-            image.fillRect(0, 0, textureWidth, textureHeight, 0x00FFFFFF);
+            try (NativeImage atlas = new NativeImage(96, 96, false)) {
+                atlas.downloadTexture(0, false);
+                try (NativeImage image = new NativeImage(textureWidth, textureHeight, false)) {
+                    image.fillRect(0, 0, textureWidth, textureHeight, 0x00FFFFFF);
 
-            AbstractScreen.renderGui(inventoryWidth, inventoryHeight, (destX, destY, w, h, srcX, srcY) -> {
-                atlas.copyRect(image, srcX, srcY, destX, destY, w, h, false, false);
-            });
+                    AbstractScreen.renderGui(inventoryWidth, inventoryHeight, (destX, destY, w, h, srcX, srcY) -> {
+                        atlas.copyRect(image, srcX, srcY, destX, destY, w, h, false, false);
+                    });
 
-            // todo: repurpose to save into a resource pack for quilt.
-            try {
-                image.writeToFile(savePath);
-            } catch (IOException e) {
-                System.out.println("Failed to save genned image.");
+                    if (Utils.textureSaveRoot != null) {
+                        try {
+                            image.writeToFile(Utils.textureSaveRoot.resolve("shared_" + inventoryWidth + "_" + inventoryHeight + ".png"));
+                        } catch (IOException e) {
+                            System.out.println("Failed to save genned image.");
+                        }
+                    }
+
+                    DynamicTexture texture = new DynamicTexture(image);
+                    Minecraft.getInstance().getTextureManager().register(textureLocation, texture);
+                }
             }
-            // end-todo
-
-            DynamicTexture texture = new DynamicTexture(image);
-            Minecraft.getInstance().getTextureManager().register(textureLocation, texture);
-
-            // todo: try with resources?
-            atlas.close();
-            image.close();
         }
         AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(textureLocation);
 
