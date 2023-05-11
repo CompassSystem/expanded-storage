@@ -7,8 +7,8 @@
     "HTMChestCompat",
     "HTMLockableBlockEntityCompat",
     "MiniStorageHeadEquipment",
-    "ToweletteCompat",
-    "SyncRecipesMixin"
+    "SyncRecipesMixin",
+    "ToweletteCompat"
   ],
   "client": [
     "InventoryTabsBottomRowFix",

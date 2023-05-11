@@ -1,6 +1,5 @@
 package ellemes.expandedstorage.common.recipe;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
@@ -21,9 +20,6 @@ import net.minecraft.world.entity.vehicle.AbstractMinecartContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<Entity> {
     private final EntityType<O> output;

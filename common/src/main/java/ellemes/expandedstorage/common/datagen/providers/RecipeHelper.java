@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
-import ellemes.expandedstorage.common.registration.ModItems;
 import ellemes.expandedstorage.common.datagen.content.ModTags;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.registration.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
