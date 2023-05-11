@@ -6,13 +6,13 @@
     "version": "${version}",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": ["ellemes.expandedstorage.quilt.QuiltMain"],
-      "client_init": ["ellemes.expandedstorage.quilt.QuiltClient"],
+      "init": "ellemes.expandedstorage.quilt.QuiltMain",
+      "client_init": "ellemes.expandedstorage.quilt.QuiltClient",
       "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
       "rei_client": "ellemes.expandedstorage.thread.client.ReiCompat",
       "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
       "emi": "ellemes.expandedstorage.thread.client.EmiCompat",
-      "jei_mod_plugin": "ellemes.expandedstorage.client.JeiCompat"
+      "jei_mod_plugin": "ellemes.expandedstorage.common.client.JeiCompat"
     },
     "depends": [
       {
@@ -38,16 +38,13 @@
     "metadata": {
       "name": "Expanded Storage",
       "description": "Adds new storage blocks with higher capacities.",
-      "contributors": {
-        "Bucket of Compasses": "Owner"
-      },
+      "contributors": { "Compasses": "Owners" },
       "contact": {
         "homepage": "https://modrinth.com/mod/expanded-storage",
         "issues": "https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues",
         "sources": "https://gitlab.com/BucketOfCompasses/expanded-storage"
       },
-      "license": [
-      ],
+      "license": [ ],
       "icon": "icon.png"
     }
   },

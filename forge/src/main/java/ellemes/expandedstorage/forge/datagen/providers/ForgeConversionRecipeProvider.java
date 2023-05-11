@@ -8,8 +8,6 @@ import ellemes.expandedstorage.forge.datagen.content.ForgeTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.Tags;
 
-import java.util.List;
-
 public class ForgeConversionRecipeProvider extends ConversionRecipeProvider {
     public ForgeConversionRecipeProvider(DataGenerator generator) {
         super(generator);

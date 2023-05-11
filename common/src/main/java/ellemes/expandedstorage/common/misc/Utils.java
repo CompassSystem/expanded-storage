@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 
 import java.lang.reflect.Type;
+import java.nio.file.Path;
 import java.util.Map;
 
 public final class Utils {
@@ -44,6 +45,7 @@ public final class Utils {
     public static final ResourceLocation SINGLE_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "single");
     public static final ResourceLocation SCROLL_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "scroll");
     public static final ResourceLocation UNSET_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "auto");
+    public static Path textureSaveRoot;
 
     private Utils() {
         throw new IllegalStateException("Should not instantiate this class.");

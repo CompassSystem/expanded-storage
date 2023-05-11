@@ -33,7 +33,6 @@ public class TagHelper {
                 .add(ModBlocks.WOOD_CHEST)
                 .add(ModBlocks.PUMPKIN_CHEST)
                 .add(ModBlocks.PRESENT)
-                .add(ModBlocks.BAMBOO_CHEST)
                 .add(ModBlocks.OLD_WOOD_CHEST)
                 .add(ModBlocks.VANILLA_WOOD_MINI_CHEST)
                 .add(ModBlocks.WOOD_MINI_CHEST)

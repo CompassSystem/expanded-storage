@@ -9,16 +9,13 @@ import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.widget.PageButton;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -34,12 +31,10 @@ import java.util.Set;
 
 @IPNGuiHint(button = IPNButton.MOVE_TO_CONTAINER, horizontalOffset = 58)
 public final class PageScreen extends AbstractScreen {
-    private final ResourceLocation textureLocation;
-    private final int textureWidth, textureHeight;
     private final Set<TexturedRect> blankArea = new LinkedHashSet<>();
     private final int blankSlots, pages;
     private PageButton leftPageButton, rightPageButton;
-    private int page;
+    private int page = 1;
     private MutableComponent currentPageText;
     private float pageTextX;
 
@@ -48,21 +43,6 @@ public final class PageScreen extends AbstractScreen {
 
         this.initializeSlots(playerInventory);
 
-        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
-        textureWidth = switch (inventoryWidth) {
-            case 9 -> inventoryHeight == 3 ? 176 : 208;
-            case 12 -> 256;
-            case 15 -> 320;
-            case 18 -> 368;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryWidth);
-        };
-        textureHeight = switch (inventoryHeight) {
-            case 3 -> 192;
-            case 6 -> 240;
-            case 9 -> 304;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryHeight);
-        };
-
         int slotsPerPage = inventoryWidth * inventoryHeight;
         pages = Mth.ceil((double) totalSlots / slotsPerPage);
         int lastPageSlots = totalSlots - (pages - 1) * slotsPerPage;
@@ -70,6 +50,12 @@ public final class PageScreen extends AbstractScreen {
 
         imageWidth = Utils.CONTAINER_PADDING_LDR + Utils.SLOT_SIZE * inventoryWidth + Utils.CONTAINER_PADDING_LDR;
         imageHeight = Utils.CONTAINER_HEADER_HEIGHT + Utils.SLOT_SIZE * inventoryHeight + 14 + Utils.SLOT_SIZE * 3 + 4 + Utils.SLOT_SIZE + Utils.CONTAINER_PADDING_LDR;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.recalculateBlankArea();
     }
 
     private static boolean regionIntersects(AbstractWidget widget, int x, int y, int width, int height) {
@@ -83,23 +69,32 @@ public final class PageScreen extends AbstractScreen {
         if (scaledHeight >= 276 && slots > 54) {
             PageScreen.addEntry(options, slots, 9, 9);
         }
-        Pair<ScreenSize, ScreenSize> picked = null;
-        for (Pair<ScreenSize, ScreenSize> option : options) {
-            if (picked == null) {
-                picked = option;
-            } else {
-                ScreenSize pickedMeta = picked.getSecond();
-                ScreenSize iterMeta = option.getSecond();
-                ScreenSize iterDim = option.getFirst();
-                if (pickedMeta.getHeight() == iterMeta.getHeight() && iterMeta.getWidth() < pickedMeta.getWidth()) {
-                    picked = option;
-                } else if (CommonClient.platformHelper().configWrapper().preferSmallerScreens() && pickedMeta.getWidth() == iterMeta.getWidth() + 1 && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
+        if (slots > 90) {
+            PageScreen.addEntry(options, slots, 15, 6);
+        }
 
-                } else if (iterMeta.getWidth() < pickedMeta.getWidth() && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
-                    picked = option;
-                }
+        Pair<ScreenSize, ScreenSize> picked = options.get(0);
+
+        for (int i = 1; i < options.size(); i++) {
+            Pair<ScreenSize, ScreenSize> option = options.get(i);
+
+            int currentPages = picked.getSecond().getWidth();
+            int currentBlankSlots = picked.getSecond().getHeight();
+            int currentWidth = picked.getFirst().getWidth();
+
+            int newPages = option.getSecond().getWidth();
+            int newBlankSlots = option.getSecond().getHeight();
+            int newWidth = option.getFirst().getWidth();
+            int newHeight = option.getFirst().getHeight();
+
+            if (newBlankSlots <= currentBlankSlots && newPages < currentPages && currentWidth == newWidth) {
+                picked = option;
+            } else if (CommonClient.platformHelper().configWrapper().preferSmallerScreens() && currentPages == newPages + 1 && newBlankSlots < newWidth * newHeight / 2.0) {
+            } else if (newPages < currentPages && newBlankSlots < newWidth * newHeight / 2.0) {
+                picked = option;
             }
         }
+
         return picked.getFirst();
     }
 
@@ -114,7 +109,9 @@ public final class PageScreen extends AbstractScreen {
         RenderSystem.setShaderTexture(0, textureLocation);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         GuiComponent.blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight, textureWidth, textureHeight);
-        blankArea.forEach(image -> image.render(stack));
+        if (page == pages) {
+            blankArea.forEach(image -> image.render(stack));
+        }
     }
 
     private void initializeSlots(Inventory playerInventory) {
@@ -150,24 +147,6 @@ public final class PageScreen extends AbstractScreen {
         if (newPage > oldPage) {
             if (page == pages) {
                 rightPageButton.setActive(false);
-                // todo: calculate blankArea once & add boolean field
-                if (blankSlots > 0) {
-                    int rows = Math.floorDiv(blankSlots, inventoryWidth);
-                    int remainder = (blankSlots - inventoryWidth * rows);
-                    int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
-                    int xLeft = leftPos + Utils.CONTAINER_PADDING_LDR;
-                    for (int i = 0; i < rows; i++) {
-                        blankArea.add(new TexturedRect(xLeft, yTop, inventoryWidth * Utils.SLOT_SIZE, Utils.SLOT_SIZE,
-                                Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
-                        yTop -= Utils.SLOT_SIZE;
-                    }
-                    if (remainder > 0) {
-                        int xRight = leftPos + Utils.CONTAINER_PADDING_LDR + inventoryWidth * Utils.SLOT_SIZE;
-                        int width = remainder * Utils.SLOT_SIZE;
-                        blankArea.add(new TexturedRect(xRight - width, yTop, width, Utils.SLOT_SIZE,
-                                Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
-                    }
-                }
             }
             if (!leftPageButton.active) {
                 leftPageButton.setActive(true);
@@ -176,7 +155,6 @@ public final class PageScreen extends AbstractScreen {
             if (page == 1) {
                 leftPageButton.setActive(false);
             }
-            blankArea.clear();
             if (!rightPageButton.active) {
                 rightPageButton.setActive(true);
             }
@@ -196,24 +174,32 @@ public final class PageScreen extends AbstractScreen {
         pageTextX = (leftPageButton.x + leftPageButton.getWidth() + rightPageButton.x) / 2.0f - font.width(currentPageText) / 2.0f + 0.5f;
     }
 
+    private void recalculateBlankArea() {
+        if (blankSlots > 0) {
+            blankArea.clear();
+            int rows = Math.floorDiv(blankSlots, inventoryWidth);
+            int remainder = (blankSlots - inventoryWidth * rows);
+            int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
+            int xLeft = leftPos + Utils.CONTAINER_PADDING_LDR;
+            for (int i = 0; i < rows; i++) {
+                blankArea.add(new TexturedRect(xLeft, yTop, inventoryWidth * Utils.SLOT_SIZE, Utils.SLOT_SIZE,
+                        Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
+                yTop -= Utils.SLOT_SIZE;
+            }
+            if (remainder > 0) {
+                int xRight = leftPos + Utils.CONTAINER_PADDING_LDR + inventoryWidth * Utils.SLOT_SIZE;
+                int width = remainder * Utils.SLOT_SIZE;
+                blankArea.add(new TexturedRect(xRight - width, yTop, width, Utils.SLOT_SIZE,
+                        Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight));
+            }
+        }
+    }
+
     @Override
     protected void renderTooltip(PoseStack stack, int mouseX, int mouseY) {
         super.renderTooltip(stack, mouseX, mouseY);
         leftPageButton.renderButtonTooltip(stack, mouseX, mouseY);
         rightPageButton.renderButtonTooltip(stack, mouseX, mouseY);
-    }
-
-    @Override
-    public void resize(Minecraft client, int width, int height) {
-        int currentPage = page;
-        if (currentPage != 1) {
-            menu.resetSlotPositions(false, inventoryWidth, inventoryHeight);
-            super.resize(client, width, height);
-            blankArea.clear();
-            this.setPage(1, currentPage);
-            return;
-        }
-        super.resize(client, width, height);
     }
 
     @Override
@@ -254,7 +240,6 @@ public final class PageScreen extends AbstractScreen {
                 x = widget.x - width - 2;
             }
         }
-        page = 1;
         // Honestly this is dumb.
         if (x == originalX && CommonClient.platformHelper().isModLoaded("inventoryprofiles")) {
             x -= 14;

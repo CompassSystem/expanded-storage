@@ -7,13 +7,12 @@ import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
+import ellemes.expandedstorage.common.misc.ToggleableSlot;
 import ellemes.expandedstorage.common.misc.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -27,8 +26,7 @@ import java.util.List;
 
 public final class ScrollScreen extends AbstractScreen {
     private static final int THUMB_WIDTH = 12, THUMB_HEIGHT = 15;
-    private final ResourceLocation textureLocation;
-    private final int textureWidth, textureHeight, totalRows;
+    private final int totalRows;
     private final boolean scrollingUnrestricted;
     private boolean isDragging, blankAreaVisible;
     private int topRow, scrollYOffset, thumbY, blankSlots;
@@ -39,23 +37,6 @@ public final class ScrollScreen extends AbstractScreen {
 
         this.initializeSlots(playerInventory);
 
-        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
-        textureWidth = switch (inventoryWidth) {
-            case 9 -> 208;
-            case 12 -> 256;
-            case 15 -> 320;
-            case 18 -> 368;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryWidth);
-        };
-        textureHeight = switch (inventoryHeight) {
-            case 3 -> 192;
-            case 6 -> 240;
-            case 9 -> 304;
-            case 12 -> 352;
-            case 15 -> 416;
-            default -> throw new IllegalStateException("Unexpected value: " + inventoryHeight);
-        };
-
         totalRows = Mth.ceil(((double) totalSlots) / inventoryWidth);
         imageWidth = Utils.CONTAINER_PADDING_LDR + Utils.SLOT_SIZE * inventoryWidth + Utils.CONTAINER_PADDING_LDR; // 22 - 4 is scrollbar width - overlap
         imageHeight = Utils.CONTAINER_HEADER_HEIGHT + Utils.SLOT_SIZE * inventoryHeight + 14 + Utils.SLOT_SIZE * 3 + 4 + Utils.SLOT_SIZE + Utils.CONTAINER_PADDING_LDR;
@@ -65,6 +46,9 @@ public final class ScrollScreen extends AbstractScreen {
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {
         ArrayList<ScreenSize> options = new ArrayList<>();
         options.add(ScreenSize.of(9, 6));
+        if (slots > 90) {
+            options.add(ScreenSize.of(15, 6));
+        }
         if (scaledHeight >= 276) {
             if (slots > 54) {
                 options.add(ScreenSize.of(9, 9));
@@ -94,7 +78,7 @@ public final class ScrollScreen extends AbstractScreen {
             int slotXPos = i % inventoryWidth;
             int slotYPos = Mth.ceil((((double) (i - slotXPos)) / inventoryWidth));
             int realYPos = slotYPos >= inventoryHeight ? -2000 : slotYPos * Utils.SLOT_SIZE + Utils.SLOT_SIZE;
-            menu.addClientSlot(new Slot(menu.getInventory(), i, slotXPos * Utils.SLOT_SIZE + 8, realYPos));
+            menu.addClientSlot(new ToggleableSlot(menu.getInventory(), i, slotXPos * Utils.SLOT_SIZE + 8, realYPos, realYPos != -2000));
         }
         int left = (inventoryWidth * Utils.SLOT_SIZE + 14) / 2 - 80;
         int top = Utils.SLOT_SIZE + 14 + (inventoryHeight * Utils.SLOT_SIZE);
@@ -113,7 +97,6 @@ public final class ScrollScreen extends AbstractScreen {
         super.init();
         leftPos = (width - (imageWidth + 22 - 4)) / 2;
         isDragging = false;
-        topRow = 0;
 
         int remainderSlots = (totalSlots % inventoryWidth);
         if (remainderSlots > 0) {
@@ -122,7 +105,7 @@ public final class ScrollScreen extends AbstractScreen {
             int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
             int width = blankSlots * Utils.SLOT_SIZE;
             blankArea = new TexturedRect(xRight - width, yTop, width, Utils.SLOT_SIZE, Utils.CONTAINER_PADDING_LDR, imageHeight, textureWidth, textureHeight);
-            blankAreaVisible = false;
+            blankAreaVisible = topRow == (totalRows - inventoryHeight);
         }
     }
 
@@ -283,13 +266,13 @@ public final class ScrollScreen extends AbstractScreen {
                 menu.setSlotRange(setOutBegin, setOutBegin + setAmount, index -> -2000);
                 menu.moveSlotRange(movableBegin, setInBegin, -18 * rows);
                 menu.setSlotRange(setInBegin, Math.min(setInBegin + setAmount, totalSlots),
-                        index -> 18 * Mth.intFloorDiv(index - movableBegin + inventoryWidth, inventoryWidth));
+                        index -> 18 * Math.floorDiv(index - movableBegin + inventoryWidth, inventoryWidth));
             } else {
                 int setInBegin = newTopRow * inventoryWidth;
                 int movableBegin = oldTopRow * inventoryWidth;
                 int setOutBegin = movableBegin + movableAmount;
                 menu.setSlotRange(setInBegin, setInBegin + setAmount,
-                        index -> 18 * Mth.intFloorDiv(index - setInBegin + inventoryWidth, inventoryWidth));
+                        index -> 18 * Math.floorDiv(index - setInBegin + inventoryWidth, inventoryWidth));
                 menu.moveSlotRange(movableBegin, setOutBegin, 18 * rows);
                 menu.setSlotRange(setOutBegin, Math.min(setOutBegin + setAmount, totalSlots), index -> -2000);
             }
@@ -298,15 +281,8 @@ public final class ScrollScreen extends AbstractScreen {
             menu.setSlotRange(oldMin, Math.min(oldMin + inventoryWidth * inventoryHeight, totalSlots), index -> -2000);
             int newMin = newTopRow * inventoryWidth;
             menu.setSlotRange(newMin, newMin + inventoryWidth * inventoryHeight - (blankAreaVisible ? blankSlots : 0),
-                    index -> 18 + 18 * Mth.intFloorDiv(index - newMin, inventoryWidth));
+                    index -> 18 + 18 * Math.floorDiv(index - newMin, inventoryWidth));
         }
-    }
-
-    @Override
-    public void resize(Minecraft client, int width, int height) {
-        int row = topRow;
-        super.resize(client, width, height);
-        this.setTopRowAndMoveThumb(topRow, row);
     }
 
     @NotNull
