@@ -2,6 +2,7 @@ package ellemes.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
+import ellemes.expandedstorage.common.client.MiniStorageScreen;
 import ellemes.expandedstorage.common.client.ScreenConstructor;
 import ellemes.expandedstorage.common.client.SizedSimpleTexture;
 import ellemes.expandedstorage.common.client.function.ScreenSize;
@@ -44,7 +45,9 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         totalSlots = handler.getInventory().getContainerSize();
         inventoryWidth = screenSize.getWidth();
         inventoryHeight = screenSize.getHeight();
-        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
+        textureLocation = this instanceof MiniStorageScreen ?
+                Utils.id("textures/gui/container/mini_chest_screen.png") :
+                Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
         boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
 
         if (!isTexturePresent) {
