@@ -7,7 +7,6 @@ import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;
 import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -16,6 +15,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.NetworkRegistry;
@@ -27,32 +28,17 @@ import java.util.List;
 
 public class ForgePlatformHelper implements PlatformHelper {
     private final SimpleChannel channel;
-    private MenuType<AbstractHandler> menuType;
-    private ForgeClientHelper clientPlatformHelper;
-
-    public static ForgePlatformHelper instance() {
-        return (ForgePlatformHelper) PlatformHelper.instance();
-    }
+    private final MenuType<AbstractHandler> menuType;
 
     {
         channel = NetworkRegistry.newSimpleChannel(Utils.id("channel"), () -> "1.0", "1.0"::equals, "1.0"::equals);
         channel.registerMessage(0, ClientboundUpdateRecipesMessage.class, ClientboundUpdateRecipesMessage::encode, ClientboundUpdateRecipesMessage::decode, ClientboundUpdateRecipesMessage::handle);
-    }
-
-    @Override
-    public ForgeClientHelper clientHelper() {
-        if (clientPlatformHelper == null) {
-            clientPlatformHelper = new ForgeClientHelper();
-        }
-        return clientPlatformHelper;
+        menuType = new MenuType<>((IContainerFactory<AbstractHandler>) AbstractHandler::createClientMenu);
+        menuType.setRegistryName(Utils.HANDLER_TYPE_ID);
     }
 
     @Override
     public MenuType<AbstractHandler> getScreenHandlerType() {
-        if (menuType == null) {
-            menuType = new MenuType<>((IContainerFactory<AbstractHandler>) AbstractHandler::createClientMenu);
-            menuType.setRegistryName(Utils.HANDLER_TYPE_ID);
-        }
         return menuType;
     }
 
@@ -84,10 +70,15 @@ public class ForgePlatformHelper implements PlatformHelper {
             channel.send(PacketDistributor.ALL.noArg(), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
         } else {
             if (!channel.isRemotePresent(target.connection.connection)) {
-                target.connection.disconnect(new TranslatableComponent("text.expandedstorage.disconnect.old_version"));
+                target.connection.disconnect(Utils.translation("text.expandedstorage.disconnect.old_version"));
             } else {
                 channel.send(PacketDistributor.PLAYER.with(() -> target), new ClientboundUpdateRecipesMessage(blockRecipes, entityRecipes));
             }
         }
+    }
+
+    @Override
+    public boolean canDestroyBamboo(ItemStack stack) {
+        return stack.canPerformAction(ToolActions.SWORD_DIG);
     }
 }

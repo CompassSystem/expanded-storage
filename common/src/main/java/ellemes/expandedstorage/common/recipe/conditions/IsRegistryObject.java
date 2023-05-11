@@ -6,9 +6,10 @@ import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class IsRegistryObject implements RecipeCondition {
-    private static final ResourceLocation NETWORK_ID = Utils.id("is_registry_object");
+    public static final ResourceLocation NETWORK_ID = Utils.id("is_registry_object");
     private final Object value;
     private final ResourceLocation registry;
     private final ResourceLocation objectId;
@@ -40,7 +41,11 @@ public class IsRegistryObject implements RecipeCondition {
         buffer.writeResourceLocation(objectId);
     }
 
-    private static IsRegistryObject readFromBuffer(FriendlyByteBuf buffer) {
+    public Object getValue() {
+        return value;
+    }
+
+    public static IsRegistryObject readFromBuffer(FriendlyByteBuf buffer) {
         ResourceLocation registryId = buffer.readResourceLocation();
         ResourceLocation objectId = buffer.readResourceLocation();
         Registry<?> registry = Registry.REGISTRY.get(registryId);
@@ -50,14 +55,20 @@ public class IsRegistryObject implements RecipeCondition {
         return new IsRegistryObject(registry, objectId);
     }
 
+    @Nullable
     @Override
-    public JsonElement toJson() {
-        JsonObject json = new JsonObject();
-        json.addProperty("id", objectId.toString());
-        return json;
+    public JsonElement toJson(@Nullable JsonObject object) {
+        if (object != null) {
+            writeToJsonObject(object);
+            return null;
+        } else {
+            JsonObject jsonObject = new JsonObject();
+            writeToJsonObject(jsonObject);
+            return jsonObject;
+        }
     }
 
-    static {
-        RecipeCondition.RECIPE_DESERIALIZERS.put(NETWORK_ID, IsRegistryObject::readFromBuffer);
+    public void writeToJsonObject(JsonObject object) {
+        object.addProperty("id", objectId.toString());
     }
 }

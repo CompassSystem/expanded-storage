@@ -7,6 +7,7 @@ import com.kqp.inventorytabs.tabs.tab.SimpleBlockTab;
 import com.kqp.inventorytabs.util.BlockUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.common.block.OpenableBlock;
+import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -39,7 +40,7 @@ public class ExpandedBlockTab<T extends OpenableBlock> extends SimpleBlockTab {
         super(block.getBlockId(), selfPos);
         this.block = block;
         itemFrameStackOrDefault = defaultStack = new ItemStack(block);
-        blockCustomNameOrDefault = defaultHoverText = new TranslatableComponent(block.getDescriptionId());
+        blockCustomNameOrDefault = defaultHoverText = Utils.translation(block.getDescriptionId());
     }
 
     protected boolean singleShouldBeRemoved() {

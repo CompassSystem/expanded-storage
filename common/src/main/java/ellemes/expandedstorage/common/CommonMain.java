@@ -25,6 +25,7 @@ import ellemes.expandedstorage.common.item.MutationMode;
 import ellemes.expandedstorage.common.item.StorageConversionKit;
 import ellemes.expandedstorage.common.item.StorageMutator;
 import ellemes.expandedstorage.common.item.ToolUsageResult;
+import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Tier;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
@@ -95,6 +96,7 @@ public final class CommonMain {
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
     private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
     private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
+    private static PlatformHelper platformHelper;
 
     public static BlockEntityType<ChestBlockEntity> getChestBlockEntityType() {
         return chestBlockEntityType.getValue();
@@ -166,7 +168,7 @@ public final class CommonMain {
         return null;
     }
 
-    public static void constructContent(Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
+    public static void constructContent(PlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
                                         CreativeModeTab group, boolean isClient, ContentConsumer contentRegistrationConsumer,
             /*Base*/ boolean manuallyWrapTooltips,
             /*Chest*/ BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker, Function<OpenableBlockEntity, ItemAccess> chestAccessMaker,
@@ -174,7 +176,7 @@ public final class CommonMain {
             /*Old Chest*/
             /*Barrel*/ TagKey<Block> barrelTag,
             /*Mini Storage*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
-
+        platformHelper = helper;
         final Tier woodTier = new Tier(Utils.WOOD_TIER_ID, Utils.WOOD_STACK_COUNT, UnaryOperator.identity(), UnaryOperator.identity());
         final Tier copperTier = new Tier(Utils.COPPER_TIER_ID, 45, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier ironTier = new Tier(Utils.id("iron"), 54, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
@@ -330,15 +332,20 @@ public final class CommonMain {
                             if (state.getBlock() == otherState.getBlock()) {
                                 if (otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == CursedChestType.SINGLE) {
                                     if (state.getValue(BlockStateProperties.HORIZONTAL_FACING) == otherState.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-                                        if (!level.isClientSide()) {
-                                            CursedChestType chestType = AbstractChestBlock.getChestType(state.getValue(BlockStateProperties.HORIZONTAL_FACING), direction);
-                                            level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
-                                            // note: other state is updated via neighbour update
-                                            tag.remove("pos");
-                                            //noinspection ConstantConditions
-                                            player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_end"), true);
+                                        boolean firstIsDinnerbone = level.getBlockEntity(pos) instanceof OpenableBlockEntity blockEntity && blockEntity.isDinnerbone();
+                                        boolean secondIsDinnerbone = level.getBlockEntity(otherPos) instanceof OpenableBlockEntity blockEntity && blockEntity.isDinnerbone();
+                                        if (firstIsDinnerbone == secondIsDinnerbone) {
+                                            if (!level.isClientSide()) {
+                                                CursedChestType chestType = AbstractChestBlock.getChestType(state.getValue(BlockStateProperties.HORIZONTAL_FACING), direction);
+                                                level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
+                                                // note: other state is updated via neighbour update
+                                                tag.remove("pos");
+                                                //noinspection ConstantConditions
+                                                player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_end"), true);
+                                            }
+                                            return ToolUsageResult.slowSuccess();
                                         }
-                                        return ToolUsageResult.slowSuccess();
+                                        player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_wrong_block"), true);
                                     } else {
                                         //noinspection ConstantConditions
                                         player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_wrong_facing"), true);
@@ -355,6 +362,7 @@ public final class CommonMain {
                             //noinspection ConstantConditions
                             player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.merge_not_adjacent"), true);
                         }
+                        tag.remove("pos");
                     } else {
                         if (!level.isClientSide()) {
                             tag.put("pos", NbtUtils.writeBlockPos(pos));
@@ -498,61 +506,52 @@ public final class CommonMain {
             final Properties obsidianBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
             final Properties netheriteBarrelSettings = Properties.of(Material.WOOD).strength(50, 1200).sound(SoundType.WOOD);
 
-            ObjectConsumer miniStorageMaker = (id, stat, tier, settings) -> {
-                NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), stat));
+            Function<Boolean, ObjectConsumer> miniStorageMaker = (hasRibbon) -> (id, stat, tier, settings) -> {
+                NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), stat, hasRibbon));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
                 miniStorageBlocks.add(block);
                 miniStorageItems.add(item);
-
-                ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
-                NamedValue<MiniStorageBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), stat));
-                NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), tier.getItemSettings().apply(new Item.Properties().tab(group))));
-                miniStorageBlocks.add(block_with_sparrow);
-                miniStorageItems.add(item_with_sparrow);
             };
+
+            ObjectConsumer miniStorageMakerNoRibbon = miniStorageMaker.apply(false);
+            ObjectConsumer miniStorageMakerRibbon = miniStorageMaker.apply(true);
 
             BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperMiniBarrelMaker = (id, weatherState) -> {
                 NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new CopperMiniStorageBlock(copperTier.getBlockSettings().apply(copperBarrelSettings), copperBarrelStat, weatherState));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
                 miniStorageBlocks.add(block);
                 miniStorageItems.add(item);
-
-                ResourceLocation sparrowId = new ResourceLocation(id.getNamespace(), id.getPath() + "_with_sparrow");
-                NamedValue<MiniStorageBlock> block_with_sparrow = new NamedValue<>(sparrowId, () -> new CopperMiniStorageBlock(copperTier.getBlockSettings().apply(copperBarrelSettings), copperBarrelStat, weatherState));
-                NamedValue<BlockItem> item_with_sparrow = new NamedValue<>(sparrowId, () -> miniChestItemMaker.apply(block_with_sparrow.getValue(), copperTier.getItemSettings().apply(new Item.Properties().tab(group))));
-                miniStorageBlocks.add(block_with_sparrow);
-                miniStorageItems.add(item_with_sparrow);
             };
 
-            miniStorageMaker.apply(Utils.id("vanilla_wood_mini_chest"), woodChestStat, woodTier, woodSettings);
-            miniStorageMaker.apply(Utils.id("wood_mini_chest"), woodChestStat, woodTier, woodSettings);
-            miniStorageMaker.apply(Utils.id("pumpkin_mini_chest"), pumpkinChestStat, woodTier, pumpkinSettings);
-            miniStorageMaker.apply(Utils.id("red_mini_present"), redPresentStat, woodTier, redPresentSettings);
-            miniStorageMaker.apply(Utils.id("white_mini_present"), whitePresentStat, woodTier, whitePresentSettings);
-            miniStorageMaker.apply(Utils.id("candy_cane_mini_present"), candyCanePresentStat, woodTier, candyCanePresentSettings);
-            miniStorageMaker.apply(Utils.id("green_mini_present"), greenPresentStat, woodTier, greenPresentSettings);
-            miniStorageMaker.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, woodTier, lavenderPresentSettings);
-            miniStorageMaker.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
-            miniStorageMaker.apply(Utils.id("iron_mini_chest"), ironChestStat, ironTier, ironSettings);
-            miniStorageMaker.apply(Utils.id("gold_mini_chest"), goldChestStat, goldTier, goldSettings);
-            miniStorageMaker.apply(Utils.id("diamond_mini_chest"), diamondChestStat, diamondTier, diamondSettings);
-            miniStorageMaker.apply(Utils.id("obsidian_mini_chest"), obsidianChestStat, obsidianTier, obsidianSettings);
-            miniStorageMaker.apply(Utils.id("netherite_mini_chest"), netheriteChestStat, netheriteTier, netheriteSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("vanilla_wood_mini_chest"), woodChestStat, woodTier, woodSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("wood_mini_chest"), woodChestStat, woodTier, woodSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("pumpkin_mini_chest"), pumpkinChestStat, woodTier, pumpkinSettings);
+            miniStorageMakerRibbon.apply(Utils.id("red_mini_present"), redPresentStat, woodTier, redPresentSettings);
+            miniStorageMakerRibbon.apply(Utils.id("white_mini_present"), whitePresentStat, woodTier, whitePresentSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("candy_cane_mini_present"), candyCanePresentStat, woodTier, candyCanePresentSettings);
+            miniStorageMakerRibbon.apply(Utils.id("green_mini_present"), greenPresentStat, woodTier, greenPresentSettings);
+            miniStorageMakerRibbon.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, woodTier, lavenderPresentSettings);
+            miniStorageMakerRibbon.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, woodTier, pinkAmethystPresentSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("iron_mini_chest"), ironChestStat, ironTier, ironSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("gold_mini_chest"), goldChestStat, goldTier, goldSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("diamond_mini_chest"), diamondChestStat, diamondTier, diamondSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("obsidian_mini_chest"), obsidianChestStat, obsidianTier, obsidianSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("netherite_mini_chest"), netheriteChestStat, netheriteTier, netheriteSettings);
 
-            miniStorageMaker.apply(Utils.id("mini_barrel"), barrelStat, woodTier, woodBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("mini_barrel"), barrelStat, woodTier, woodBarrelSettings);
             copperMiniBarrelMaker.accept(Utils.id("copper_mini_barrel"), WeatheringCopper.WeatherState.UNAFFECTED);
             copperMiniBarrelMaker.accept(Utils.id("exposed_copper_mini_barrel"), WeatheringCopper.WeatherState.EXPOSED);
             copperMiniBarrelMaker.accept(Utils.id("weathered_copper_mini_barrel"), WeatheringCopper.WeatherState.WEATHERED);
             copperMiniBarrelMaker.accept(Utils.id("oxidized_copper_mini_barrel"), WeatheringCopper.WeatherState.OXIDIZED);
-            miniStorageMaker.apply(Utils.id("waxed_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
-            miniStorageMaker.apply(Utils.id("waxed_exposed_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
-            miniStorageMaker.apply(Utils.id("waxed_weathered_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
-            miniStorageMaker.apply(Utils.id("waxed_oxidized_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
-            miniStorageMaker.apply(Utils.id("iron_mini_barrel"), ironBarrelStat, ironTier, ironBarrelSettings);
-            miniStorageMaker.apply(Utils.id("gold_mini_barrel"), goldBarrelStat, goldTier, goldBarrelSettings);
-            miniStorageMaker.apply(Utils.id("diamond_mini_barrel"), diamondBarrelStat, diamondTier, diamondBarrelSettings);
-            miniStorageMaker.apply(Utils.id("obsidian_mini_barrel"), obsidianBarrelStat, obsidianTier, obsidianBarrelSettings);
-            miniStorageMaker.apply(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, netheriteTier, netheriteBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("waxed_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("waxed_exposed_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("waxed_weathered_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("waxed_oxidized_copper_mini_barrel"), copperBarrelStat, copperTier, copperBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("iron_mini_barrel"), ironBarrelStat, ironTier, ironBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("gold_mini_barrel"), goldBarrelStat, goldTier, goldBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("diamond_mini_barrel"), diamondBarrelStat, diamondTier, diamondBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("obsidian_mini_barrel"), obsidianBarrelStat, obsidianTier, obsidianBarrelSettings);
+            miniStorageMakerNoRibbon.apply(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, netheriteTier, netheriteBarrelSettings);
 
             CommonMain.miniStorageBlockEntityType = new NamedValue<>(CommonMain.MINI_STORAGE_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
 
@@ -652,5 +651,9 @@ public final class CommonMain {
             return result;
         }
         return InteractionResult.PASS;
+    }
+
+    public static PlatformHelper platformHelper() {
+        return platformHelper;
     }
 }

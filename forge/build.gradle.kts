@@ -58,9 +58,9 @@ u.configureCurseForge {
 
 u.configureModrinth {
     dependencies {
-        optional.project("jei") // u6dRKJwZ
-        optional.project("quark") // qnQsVE2z
-        optional.project("inventory-profiles-next") // O7RBXm3n
-        optional.project("roughly-enough-items") // nfn13YXA
+        optional.project("u6dRKJwZ") // jei
+        optional.project("qnQsVE2z") // quark
+        optional.project("O7RBXm3n") // inventory profiles next
+        optional.project("nfn13YXA") // rei
     }
 }

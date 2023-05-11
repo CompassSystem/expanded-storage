@@ -1,3 +1,1 @@
-- Backport 8.2.0-beta.1 from 1.19.2
-- Remove some dead code.
-- Added swap theme recipe for modelled -> old chest and back.
+- Backport 8.3.0 from 1.19.2

@@ -10,7 +10,7 @@ import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 public class QuiltClient implements ClientModInitializer {
     @Override
     public void onInitializeClient(ModContainer mod) {
-        ThreadClient.initialize();
+        ThreadClient.initialize(new QuiltClientHelper());
 
         ClientPlayConnectionEvents.INIT.register((_unused_1, _unused_2) -> {
             ClientPlayNetworking.registerReceiver(ThreadMain.UPDATE_RECIPES_ID, (client, handler, buffer, responseSender) -> {

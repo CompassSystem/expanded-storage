@@ -7,8 +7,8 @@ import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.gui.widget.PageButton;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -17,7 +17,6 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -93,7 +92,7 @@ public final class PageScreen extends AbstractScreen {
                 ScreenSize iterDim = option.getFirst();
                 if (pickedMeta.getHeight() == iterMeta.getHeight() && iterMeta.getWidth() < pickedMeta.getWidth()) {
                     picked = option;
-                } else if (PlatformHelper.instance().clientHelper().configWrapper().preferSmallerScreens() && pickedMeta.getWidth() == iterMeta.getWidth() + 1 && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
+                } else if (CommonClient.platformHelper().configWrapper().preferSmallerScreens() && pickedMeta.getWidth() == iterMeta.getWidth() + 1 && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
 
                 } else if (iterMeta.getWidth() < pickedMeta.getWidth() && iterMeta.getHeight() <= iterDim.getWidth() * iterDim.getHeight() / 2.0) {
                     picked = option;
@@ -152,7 +151,7 @@ public final class PageScreen extends AbstractScreen {
                 rightPageButton.setActive(false);
                 // todo: calculate blankArea once & add boolean field
                 if (blankSlots > 0) {
-                    int rows = Mth.intFloorDiv(blankSlots, inventoryWidth);
+                    int rows = Math.floorDiv(blankSlots, inventoryWidth);
                     int remainder = (blankSlots - inventoryWidth * rows);
                     int yTop = topPos + Utils.CONTAINER_HEADER_HEIGHT + (inventoryHeight - 1) * Utils.SLOT_SIZE;
                     int xLeft = leftPos + Utils.CONTAINER_PADDING_LDR;
@@ -192,7 +191,7 @@ public final class PageScreen extends AbstractScreen {
     }
 
     private void setPageText() {
-        currentPageText = new TranslatableComponent("screen.ellemes_container_lib.page_x_y", page, pages);
+        currentPageText = Utils.translation("screen.ellemes_container_lib.page_x_y", page, pages);
         pageTextX = (leftPageButton.x + leftPageButton.getWidth() + rightPageButton.x) / 2.0f - font.width(currentPageText) / 2.0f + 0.5f;
     }
 
@@ -256,16 +255,16 @@ public final class PageScreen extends AbstractScreen {
         }
         page = 1;
         // Honestly this is dumb.
-        if (x == originalX && PlatformHelper.instance().clientHelper().isModLoaded("inventoryprofiles")) {
+        if (x == originalX && CommonClient.platformHelper().isModLoaded("inventoryprofiles")) {
             x -= 14;
         }
         leftPageButton = new PageButton(x, y, 0,
-                new TranslatableComponent("screen.ellemes_container_lib.prev_page"), button -> this.setPage(page, page - 1),
+                Utils.translation("screen.ellemes_container_lib.prev_page"), button -> this.setPage(page, page - 1),
                 this::renderButtonTooltip);
         leftPageButton.active = false;
         this.addRenderableWidget(leftPageButton);
         rightPageButton = new PageButton(x + 42, y, 1,
-                new TranslatableComponent("screen.ellemes_container_lib.next_page"), button -> this.setPage(page, page + 1),
+                Utils.translation("screen.ellemes_container_lib.next_page"), button -> this.setPage(page, page + 1),
                 this::renderButtonTooltip);
         this.addRenderableWidget(rightPageButton);
         this.setPageText();

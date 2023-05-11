@@ -5,9 +5,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.api.client.function.ScreenSizePredicate;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.PickButton;
 import ellemes.expandedstorage.common.client.gui.widget.ScreenPickButton;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -16,9 +17,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +49,7 @@ public final class PickScreen extends Screen {
     }
 
     private PickScreen(@Nullable AbstractHandler handler, Supplier<Screen> returnToScreen) {
-        super(new TranslatableComponent("screen.ellemes_container_lib.screen_picker_title"));
+        super(Utils.translation("screen.ellemes_container_lib.screen_picker_title"));
         this.handler = handler;
         this.returnToScreen = returnToScreen;
     }
@@ -66,10 +65,10 @@ public final class PickScreen extends Screen {
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
         if (handler != null) {
-            ResourceLocation preference = PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType();
+            ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
             int invSize = handler.getInventory().getContainerSize();
             if (AbstractScreen.getScreenSize(preference, invSize, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
-                minecraft.player.displayClientMessage(new TranslatableComponent("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(new TranslatableComponent("chat.ellemes_container_lib.cannot_display_screen", new TranslatableComponent("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
+                minecraft.player.displayClientMessage(Utils.translation("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(Utils.translation("chat.ellemes_container_lib.cannot_display_screen", Utils.translation("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
                 minecraft.player.closeContainer();
                 return;
             }
@@ -87,9 +86,9 @@ public final class PickScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        ResourceLocation preference = PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
         int choices = options.size();
-        int columns = Math.min(Mth.intFloorDiv(width, 96), choices);
+        int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is the smallest gap for any screen.
         int outerPadding = (width - (((columns - 1) * innerPadding) + (columns * 96))) / 2;
         int x = 0;
@@ -101,7 +100,7 @@ public final class PickScreen extends Screen {
             boolean isWarn = settings.getWarningTest().test(width, height);
             boolean isCurrent = option.equals(preference);
             Button.OnTooltip tooltip = new Button.OnTooltip() {
-                private static final Component CURRENT_OPTION_TEXT = new TranslatableComponent("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
+                private static final Component CURRENT_OPTION_TEXT = Utils.translation("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
 
                 @Override
                 public void onTooltip(Button button, PoseStack stack, int x, int y) {
@@ -137,7 +136,7 @@ public final class PickScreen extends Screen {
     }
 
     private void updatePlayerPreference(ResourceLocation selection) {
-        PlatformHelper.instance().clientHelper().configWrapper().setPreferredScreenType(selection);
+        CommonClient.platformHelper().configWrapper().setPreferredScreenType(selection);
         this.onClose();
     }
 

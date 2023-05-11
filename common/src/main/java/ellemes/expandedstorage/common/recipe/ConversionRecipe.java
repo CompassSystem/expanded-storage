@@ -1,36 +1,25 @@
 package ellemes.expandedstorage.common.recipe;
 
+import com.google.gson.JsonElement;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.Collection;
-
 public abstract class ConversionRecipe<T> {
     protected final RecipeTool recipeTool;
-    protected final Collection<? extends RecipeCondition> inputs;
+    protected final RecipeCondition input;
 
-    public ConversionRecipe(RecipeTool recipeTool, Collection<? extends RecipeCondition> inputs) {
+    public ConversionRecipe(RecipeTool recipeTool, RecipeCondition input) {
         this.recipeTool = recipeTool;
-        this.inputs = inputs;
+        this.input = input;
     }
 
     public boolean inputMatches(T thing) {
-        for (RecipeCondition input : inputs) {
-            if (input.test(thing)) {
-                return true;
-            }
-        }
-        return false;
+        return input.test(thing);
     }
 
     public boolean isPreferredRecipe(T thing) {
-        for (RecipeCondition input : inputs) {
-            if (input.test(thing) && input.isExactMatch()) {
-                return true;
-            }
-        }
-        return false;
+        return input.test(thing) && input.isExactMatch();
     }
 
     public int getRecipeWeight(T thing, ItemStack tool) {
@@ -38,7 +27,7 @@ public abstract class ConversionRecipe<T> {
 
         if (recipeTool.isMatchFor(tool) && inputMatches(thing)) {
             if (recipeTool instanceof RecipeTool.MutatorTool mutatorTool && mutatorTool.getRequiredName() != null) {
-                    weight += 10;
+                weight += 10;
             }
         } else {
             return 0;
@@ -50,4 +39,6 @@ public abstract class ConversionRecipe<T> {
 
         return weight;
     }
+
+    public abstract JsonElement toJson();
 }

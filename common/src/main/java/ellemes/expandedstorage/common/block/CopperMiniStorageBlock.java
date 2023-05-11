@@ -1,7 +1,6 @@
 package ellemes.expandedstorage.common.block;
 
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
-import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +14,7 @@ public final class CopperMiniStorageBlock extends MiniStorageBlock implements We
     private final WeatheringCopper.WeatherState weatherState;
 
     public CopperMiniStorageBlock(Properties settings, ResourceLocation openingStat, WeatheringCopper.WeatherState weatherState) {
-        super(settings, openingStat);
+        super(settings, openingStat, false);
         this.weatherState = weatherState;
     }
 

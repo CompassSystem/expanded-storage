@@ -199,7 +199,22 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         CursedChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
         stack.pushPose();
         stack.translate(0.5D, 0.5D, 0.5D);
+        int yOffset = entity.isDinnerbone() ? 180 : 0;
+
         stack.mulPose(Vector3f.YP.rotationDegrees(-state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
+
+        if (yOffset == 180) {
+            stack.mulPose(Vector3f.ZP.rotationDegrees(yOffset));
+            if (chestType == CursedChestType.LEFT) {
+                chestType = CursedChestType.RIGHT;
+            } else if (chestType == CursedChestType.RIGHT) {
+                chestType = CursedChestType.LEFT;
+            } else if (chestType == CursedChestType.TOP) {
+                chestType = CursedChestType.BOTTOM;
+            } else if (chestType == CursedChestType.BOTTOM) {
+                chestType = CursedChestType.TOP;
+            }
+        }
         stack.translate(-0.5D, -0.5D, -0.5D);
         PropertyRetriever<ChestBlockEntity> retriever;
         if (entity.hasLevel()) {

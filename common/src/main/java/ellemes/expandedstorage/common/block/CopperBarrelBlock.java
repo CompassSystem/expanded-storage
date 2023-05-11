@@ -1,7 +1,6 @@
 package ellemes.expandedstorage.common.block;
 
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
-import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;

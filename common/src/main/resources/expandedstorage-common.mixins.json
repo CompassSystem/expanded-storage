@@ -5,6 +5,8 @@
   "mixins": [
     "BlockEntityIdFix",
     "DataFixerEntrypoint",
+    "SparrowBlockFix",
+    "SparrowItemIdFix",
     "SpectatorBlockInventoryViewingFix",
     "SpectatorEntityInventoryViewingFix"
   ],

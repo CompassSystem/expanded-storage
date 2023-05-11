@@ -4,13 +4,14 @@ import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.common.recipe.EntityConversionRecipe;
+import ellemes.expandedstorage.common.registration.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -32,7 +33,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         super(settings);
     }
 
-    private static MutationMode getMode(ItemStack stack) {
+    public static MutationMode getMode(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.contains("mode", Tag.TAG_BYTE))
             tag.putByte("mode", (byte) 0);
@@ -69,7 +70,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
                 tag.remove("pos");
 
             if (!level.isClientSide())
-                player.displayClientMessage(new TranslatableComponent("tooltip.expandedstorage.storage_mutator.description_" + nextMode, Utils.ALT_USE), true);
+                player.displayClientMessage(Utils.translation("tooltip.expandedstorage.storage_mutator.description_" + nextMode, Utils.ALT_USE), true);
 
             player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_QUICK_DELAY);
             return InteractionResultHolder.success(stack);
@@ -93,7 +94,20 @@ public final class StorageMutator extends Item implements EntityInteractableItem
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> stacks) {
         if (this.allowdedIn(group)) {
-            stacks.add(this.getDefaultInstance());
+            for (MutationMode mode : MutationMode.values()) {
+                ItemStack stack = new ItemStack(ModItems.STORAGE_MUTATOR);
+                CompoundTag tag = new CompoundTag();
+                tag.putByte("mode", mode.toByte());
+                stack.setTag(tag);
+                stacks.add(stack);
+            }
+
+            ItemStack sparrowMutator = new ItemStack(ModItems.STORAGE_MUTATOR);
+            CompoundTag tag = new CompoundTag();
+            tag.putByte("mode", MutationMode.SWAP_THEME.toByte());
+            sparrowMutator.setTag(tag);
+            sparrowMutator.setHoverName(new TextComponent("Sparrow").withStyle(ChatFormatting.ITALIC));
+            stacks.add(sparrowMutator);
         }
     }
 

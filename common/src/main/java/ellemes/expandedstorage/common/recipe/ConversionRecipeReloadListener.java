@@ -1,6 +1,10 @@
 package ellemes.expandedstorage.common.recipe;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import ellemes.expandedstorage.common.recipe.conditions.RecipeCondition;
 import ellemes.expandedstorage.common.recipe.misc.JsonHelper;
 import ellemes.expandedstorage.common.recipe.misc.PartialBlockState;
@@ -15,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -67,13 +70,8 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
         if (output == null) {
             return;
         }
-        JsonArray inputs = JsonHelper.getJsonArray(root, "inputs");
-        RecipeCondition[] recipeInputs = new RecipeCondition[inputs.size()];
-        for (int i = 0; i < inputs.size(); i++) {
-            JsonElement input = inputs.get(i);
-            recipeInputs[i] = RecipeCondition.readBlockCondition(input);
-        }
-        blockRecipes.add(new BlockConversionRecipe<>(recipeTool, output, Arrays.asList(recipeInputs)));
+        JsonHelper.checkHasEntry(root, "inputs");
+        blockRecipes.add(new BlockConversionRecipe<>(recipeTool, output, RecipeCondition.readBlockCondition(root.get("inputs"))));
     }
 
     private void parseEntityRecipe(JsonObject root, RecipeTool recipeTool) {
@@ -82,12 +80,7 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
             return;
         }
         EntityType<?> output = Registry.ENTITY_TYPE.getOptional(resultId).orElseThrow();
-        JsonArray inputs = JsonHelper.getJsonArray(root, "inputs");
-        RecipeCondition[] recipeInputs = new RecipeCondition[inputs.size()];
-        for (int i = 0; i < inputs.size(); i++) {
-            JsonElement input = inputs.get(i);
-            recipeInputs[i] = RecipeCondition.readEntityCondition(input);
-        }
-        entityRecipes.add(new EntityConversionRecipe<>(recipeTool, output, Arrays.asList(recipeInputs)));
+        JsonHelper.checkHasEntry(root, "inputs");
+        entityRecipes.add(new EntityConversionRecipe<>(recipeTool, output, RecipeCondition.readEntityCondition(root.get("inputs"))));
     }
 }

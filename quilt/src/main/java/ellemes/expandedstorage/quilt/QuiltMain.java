@@ -1,5 +1,6 @@
 package ellemes.expandedstorage.quilt;
 
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.BarrelBlock;
 import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
 import ellemes.expandedstorage.common.misc.Utils;
@@ -7,6 +8,7 @@ import ellemes.expandedstorage.common.registration.Content;
 import ellemes.expandedstorage.common.registration.ContentConsumer;
 import ellemes.expandedstorage.common.registration.NamedValue;
 import ellemes.expandedstorage.thread.ThreadMain;
+import ellemes.expandedstorage.thread.ThreadPlatformHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.client.renderer.RenderType;
@@ -21,6 +23,7 @@ import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.item.group.api.QuiltItemGroup;
+import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
 import org.slf4j.LoggerFactory;
 
 public final class QuiltMain implements ModInitializer {
@@ -43,13 +46,17 @@ public final class QuiltMain implements ModInitializer {
 
         CreativeModeTab group = QuiltItemGroup.builder(Utils.id("tab")).icon(() -> new ItemStack(Registry.ITEM.get(Utils.id("netherite_chest")))).build();
         boolean isClient = MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
-        ThreadMain.constructContent(QuiltLoader.isModLoaded("htm"), group, isClient,
+        ThreadMain.constructContent(new QuiltPlatformHelper(), QuiltLoader.isModLoaded("htm"), group, isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)
                         .andThenIf(isClient, this::registerBarrelRenderLayers)
                         .andThen(this::registerWaxedContent)
         );
+
+        ServerLifecycleEvents.STOPPED.register(server -> {
+            ((ThreadPlatformHelper) CommonMain.platformHelper()).setServerInstance(null);
+        });
     }
 
     private void registerWaxedContent(Content content) {

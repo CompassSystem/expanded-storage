@@ -1,13 +1,12 @@
 package ellemes.expandedstorage.common.datagen.providers;
 
-import ellemes.expandedstorage.common.datagen.content.ModItems;
+import ellemes.expandedstorage.common.registration.ModItems;
 import net.minecraft.world.item.Item;
 
 import java.util.function.Consumer;
 
 public class ModelHelper {
     public static void registerItemModels(Consumer<Item> consumer) {
-        consumer.accept(ModItems.STORAGE_MUTATOR);
         consumer.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         consumer.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
         consumer.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);

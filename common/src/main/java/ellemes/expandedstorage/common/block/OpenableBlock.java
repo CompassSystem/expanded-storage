@@ -3,7 +3,9 @@ package ellemes.expandedstorage.common.block;
 import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
 import ellemes.expandedstorage.api.v3.context.BlockContext;
 import ellemes.expandedstorage.api.v4.InventoryOpeningApi;
+import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import ellemes.expandedstorage.common.registration.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -45,6 +48,14 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
 
     public final int getSlotCount() {
         return slotCount;
+    }
+
+    @Override
+    public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
+        if (this == ModBlocks.BAMBOO_CHEST && CommonMain.platformHelper().canDestroyBamboo(player.getMainHandItem())) {
+            return 1.0F;
+        }
+        return super.getDestroyProgress(state, player, level, pos);
     }
 
     @Override

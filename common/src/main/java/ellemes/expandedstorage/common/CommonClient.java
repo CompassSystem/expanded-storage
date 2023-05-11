@@ -1,32 +1,41 @@
 package ellemes.expandedstorage.common;
 
 import ellemes.expandedstorage.api.v3.client.ScreenTypeApi;
+import ellemes.expandedstorage.common.block.MiniStorageBlock;
 import ellemes.expandedstorage.common.client.gui.FakePickScreen;
 import ellemes.expandedstorage.common.client.gui.PageScreen;
 import ellemes.expandedstorage.common.client.gui.ScrollScreen;
 import ellemes.expandedstorage.common.client.gui.SingleScreen;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.item.MutationMode;
+import ellemes.expandedstorage.common.item.StorageMutator;
+import ellemes.expandedstorage.common.misc.ClientPlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class CommonClient {
-    public static void initialize() {
+    private static ClientPlatformHelper platformHelper;
+
+    public static void initialize(ClientPlatformHelper helper) {
+        platformHelper = helper;
         ScreenTypeApi.registerScreenButton(Utils.PAGE_SCREEN_TYPE,
                 Utils.id("textures/gui/page_button.png"),
-                new TranslatableComponent("screen.ellemes_container_lib.page_screen"));
+                Utils.translation("screen.ellemes_container_lib.page_screen"));
         ScreenTypeApi.registerScreenButton(Utils.SCROLL_SCREEN_TYPE,
                 Utils.id("textures/gui/scroll_button.png"),
-                new TranslatableComponent("screen.ellemes_container_lib.scroll_screen"));
+                Utils.translation("screen.ellemes_container_lib.scroll_screen"));
         ScreenTypeApi.registerScreenButton(Utils.SINGLE_SCREEN_TYPE,
                 Utils.id("textures/gui/single_button.png"),
-                new TranslatableComponent("screen.ellemes_container_lib.single_screen"),
+                Utils.translation("screen.ellemes_container_lib.single_screen"),
                 (scaledWidth, scaledHeight) -> scaledWidth < 370 || scaledHeight < 386, // Smallest possible resolution a double netherite chest fits on.
                 List.of(
-                        new TranslatableComponent("screen.ellemes_container_lib.off_screen_warning_1").withStyle(ChatFormatting.GRAY),
-                        new TranslatableComponent("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
+                        Utils.translation("screen.ellemes_container_lib.off_screen_warning_1").withStyle(ChatFormatting.GRAY),
+                        Utils.translation("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
                 ));
 
         ScreenTypeApi.registerScreenType(Utils.UNSET_SCREEN_TYPE, FakePickScreen::new);
@@ -42,7 +51,31 @@ public class CommonClient {
 
         ScreenTypeApi.setPrefersSingleScreen(Utils.PAGE_SCREEN_TYPE);
         ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLL_SCREEN_TYPE);
+    }
 
-        PlatformHelper.instance().clientHelper(); // Force initializer to be called.
+    public static float hasSparrowProperty(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int i) {
+        return MiniStorageBlock.hasSparrowProperty(stack) ? 1.0f : 0.0f;
+    }
+
+    public static float currentMutatorToolMode(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int i) {
+        MutationMode mode = StorageMutator.getMode(stack);
+        boolean isSparrow = stack.hasCustomHoverName() && stack.getHoverName().getString().equalsIgnoreCase("sparrow");
+        if (mode == MutationMode.SWAP_THEME) {
+            if (isSparrow) {
+                return 1.0F;
+            }
+            return 0.8F;
+        } else if (mode == MutationMode.ROTATE) {
+            return 0.6F;
+        } else if (mode == MutationMode.SPLIT) {
+            return 0.4F;
+        } else if (mode == MutationMode.MERGE) {
+            return 0.2F;
+        }
+        return 0.0F;
+    }
+
+    public static ClientPlatformHelper platformHelper() {
+        return platformHelper;
     }
 }

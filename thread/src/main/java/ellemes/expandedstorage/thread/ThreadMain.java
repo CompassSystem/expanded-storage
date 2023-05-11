@@ -10,6 +10,7 @@ import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.client.ChestBlockEntityRenderer;
 import ellemes.expandedstorage.common.entity.ChestMinecart;
 import ellemes.expandedstorage.common.item.ChestMinecartItem;
+import ellemes.expandedstorage.common.item.CommonMiniStorageBlockItem;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeReloadListener;
 import ellemes.expandedstorage.common.registration.Content;
@@ -70,18 +71,19 @@ public class ThreadMain {
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static void constructContent(boolean htmPresent, CreativeModeTab group, boolean isClient, ContentConsumer contentRegistrationConsumer) {
-        CommonMain.constructContent(GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, group, isClient, contentRegistrationConsumer,
+    public static void constructContent(ThreadPlatformHelper helper, boolean htmPresent, CreativeModeTab group, boolean isClient, ContentConsumer contentRegistrationConsumer) {
+        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, group, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
                 /*Old Chest*/
                 /*Barrel*/ TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", "wooden_barrels")),
-                /*Mini Storage*/ BlockItem::new);
+                /*Mini Storage*/ CommonMiniStorageBlockItem::new);
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
             private final PreparableReloadListener base = new ConversionRecipeReloadListener();
+
             @Override
             public ResourceLocation getFabricId() {
                 return Utils.id("conversion_recipe_loader");
@@ -151,8 +153,10 @@ public class ThreadMain {
         public static void registerItemRenderers(List<NamedValue<BlockItem>> items) {
             for (NamedValue<BlockItem> item : items) {
                 ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getValue().getBlock().defaultBlockState());
-                BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, transform, stack, source, light, overlay) ->
-                        Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay));
+                BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, transform, stack, source, light, overlay) -> {
+                    renderEntity.setCustomName(itemStack.getHoverName());
+                    Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay);
+                });
             }
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.SINGLE_LAYER, ChestBlockEntityRenderer::createSingleBodyLayer);
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.LEFT_LAYER, ChestBlockEntityRenderer::createLeftBodyLayer);

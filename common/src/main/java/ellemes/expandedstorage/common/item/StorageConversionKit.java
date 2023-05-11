@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public final class StorageConversionKit extends Item implements EntityInteractableItem {
+    public static final ToolUsageResult NOT_ENOUGH_UPGRADES = ToolUsageResult.fail();
     private final Component instructionsFirst;
     private final Component instructionsSecond;
 
@@ -51,7 +52,11 @@ public final class StorageConversionKit extends Item implements EntityInteractab
                 if (recipe != null) {
                     if (level.isClientSide()) {
                         return InteractionResult.CONSUME;
-                    } else if (recipe.process(level, player, tool, state, pos).getResult().shouldSwing()) {
+                    }
+                    ToolUsageResult result = recipe.process(level, player, tool, state, pos);
+                    if (result == NOT_ENOUGH_UPGRADES) {
+                        player.displayClientMessage(Utils.translation("tooltip.expandedstorage.conversion_kit.need_x_upgrades", 1), true);
+                    } else if (result.getResult().shouldSwing()) {
                         player.getCooldowns().addCooldown(this, Utils.TOOL_USAGE_DELAY);
                         return InteractionResult.SUCCESS;
                     }

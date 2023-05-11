@@ -19,13 +19,11 @@ public class ForgeClientHelper implements ClientPlatformHelper {
     private final ConfigWrapperImpl configWrapper;
     private final KeyMapping binding = new KeyMapping("key.ellemes_container_lib.config", KeyConflictContext.GUI, KeyModifier.SHIFT, InputConstants.Type.KEYSYM, Utils.KEY_BIND_KEY, "key.categories.inventory");
 
-    {
+    public ForgeClientHelper(IEventBus modBus) {
+        modBus.addListener((FMLClientSetupEvent event) -> ClientRegistry.registerKeyBinding(binding));
+
         Path configDir = FMLPaths.CONFIGDIR.get();
         configWrapper = new ConfigWrapperImpl(configDir.resolve(Utils.CONFIG_PATH), configDir.resolve("expandedstorage-client.toml"));
-    }
-
-    public void init(IEventBus modBus) {
-        modBus.addListener((FMLClientSetupEvent event) -> ClientRegistry.registerKeyBinding(binding));
     }
 
     @Override

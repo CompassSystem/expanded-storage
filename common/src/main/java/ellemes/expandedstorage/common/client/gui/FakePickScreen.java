@@ -5,9 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.PickButton;
 import ellemes.expandedstorage.common.client.gui.widget.ScreenPickButton;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -17,9 +17,7 @@ import net.minecraft.client.gui.components.Widget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
@@ -30,7 +28,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public final class FakePickScreen extends AbstractScreen {
-    private static final Component TITLE = new TranslatableComponent("screen.ellemes_container_lib.screen_picker_title");
+    private static final Component TITLE = Utils.translation("screen.ellemes_container_lib.screen_picker_title");
     private final Set<ResourceLocation> options = ImmutableSortedSet.copyOf(PickScreen.BUTTON_SETTINGS.keySet());
     private final List<ScreenPickButton> optionButtons = new ArrayList<>(options.size());
     private int topPadding;
@@ -58,13 +56,13 @@ public final class FakePickScreen extends AbstractScreen {
     @Override
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
-        ResourceLocation preference = PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
         if (preference.equals(Utils.UNSET_SCREEN_TYPE)) {
             minecraft.player.closeContainer();
         } else {
             int invSize = menu.getInventory().getContainerSize();
             if (AbstractScreen.getScreenSize(preference, invSize, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
-                minecraft.player.displayClientMessage(new TranslatableComponent("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(new TranslatableComponent("chat.ellemes_container_lib.cannot_display_screen", new TranslatableComponent("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
+                minecraft.player.displayClientMessage(Utils.translation("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(Utils.translation("chat.ellemes_container_lib.cannot_display_screen", Utils.translation("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
                 minecraft.player.closeContainer();
                 return;
             }
@@ -76,9 +74,9 @@ public final class FakePickScreen extends AbstractScreen {
     @Override
     protected void init() {
         super.init();
-        ResourceLocation preference = PlatformHelper.instance().clientHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
         int choices = options.size();
-        int columns = Math.min(Mth.intFloorDiv(width, 96), choices);
+        int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is smallest gap for any screen.
         int outerPadding = (width - (((columns - 1) * innerPadding) + (columns * 96))) / 2;
         int x = 0;
@@ -90,7 +88,7 @@ public final class FakePickScreen extends AbstractScreen {
             boolean isWarn = settings.getWarningTest().test(width, height);
             boolean isCurrent = option.equals(preference);
             Button.OnTooltip tooltip = new Button.OnTooltip() {
-                private static final Component CURRENT_OPTION_TEXT = new TranslatableComponent("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
+                private static final Component CURRENT_OPTION_TEXT = Utils.translation("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
 
                 @Override
                 public void onTooltip(Button button, PoseStack stack, int x, int y) {
@@ -126,7 +124,7 @@ public final class FakePickScreen extends AbstractScreen {
     }
 
     private void updatePlayerPreference(ResourceLocation selection) {
-        PlatformHelper.instance().clientHelper().configWrapper().setPreferredScreenType(selection);
+        CommonClient.platformHelper().configWrapper().setPreferredScreenType(selection);
         this.onClose();
     }
 

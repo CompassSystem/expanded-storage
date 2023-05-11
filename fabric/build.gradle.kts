@@ -27,16 +27,16 @@ u.configureCurseForge {
 
 u.configureModrinth {
     dependencies {
-        required.project("fabric-api") // P7dR8mSH
-        optional.project("htm") // IEPAK5x6
+        required.project("P7dR8mSH") // fabric-api
+        optional.project("IEPAK5x6") // htm
 //         optional.project("carrier") // carrier (not on Modrinth)
-        optional.project("towelette") // bnesqDoc
-        optional.project("roughly-enough-items") // nfn13YXA
-        optional.project("modmenu") // mOgUt4GM
-        optional.project("amecs") // rcLriA4v
-        optional.project("inventory-profiles-next") // O7RBXm3n
-        optional.project("emi") // fRiHVvU7
-        optional.project("inventory-tabs-updated") // F1AqcMCK
-        optional.project("jei") // u6dRKJwZ
+        optional.project("bnesqDoc") // towelette
+        optional.project("nfn13YXA") // rei
+        optional.project("mOgUt4GM") // modmenu
+        optional.project("rcLriA4v") // amecs
+        optional.project("O7RBXm3n") // inventory-profiles-next
+        optional.project("fRiHVvU7") // emi
+        optional.project("F1AqcMCK") // inventory-tabs-updated
+        optional.project("u6dRKJwZ") // jei
     }
 }

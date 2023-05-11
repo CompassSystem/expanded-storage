@@ -6,7 +6,7 @@ import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -59,7 +59,7 @@ public final class ScrollScreen extends AbstractScreen {
         totalRows = Mth.ceil(((double) totalSlots) / inventoryWidth);
         imageWidth = Utils.CONTAINER_PADDING_LDR + Utils.SLOT_SIZE * inventoryWidth + Utils.CONTAINER_PADDING_LDR; // 22 - 4 is scrollbar width - overlap
         imageHeight = Utils.CONTAINER_HEADER_HEIGHT + Utils.SLOT_SIZE * inventoryHeight + 14 + Utils.SLOT_SIZE * 3 + 4 + Utils.SLOT_SIZE + Utils.CONTAINER_PADDING_LDR;
-        scrollingUnrestricted = PlatformHelper.instance().clientHelper().configWrapper().isScrollingUnrestricted();
+        scrollingUnrestricted = CommonClient.platformHelper().configWrapper().isScrollingUnrestricted();
     }
 
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {

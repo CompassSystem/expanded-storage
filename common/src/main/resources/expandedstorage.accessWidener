@@ -11,3 +11,5 @@ accessible field net/minecraft/world/entity/vehicle/AbstractMinecartContainer it
 accessible method net/minecraft/client/Minecraft startUseItem ()V
 accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;
 accessible method net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity getItems ()Lnet/minecraft/core/NonNullList;
+
+accessible method net/minecraft/world/item/ItemStack <init> (Lnet/minecraft/nbt/CompoundTag;)V
