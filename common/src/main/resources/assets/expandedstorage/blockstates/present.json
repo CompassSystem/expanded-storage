@@ -3,22 +3,22 @@
     "type=single": {
       "model": "expandedstorage:block/red_present"
     },
-    "type=left":   {
+    "type=left": {
       "model": "expandedstorage:block/white_present"
     },
-    "type=right":  {
+    "type=right": {
       "model": "expandedstorage:block/white_present"
     },
-    "type=top":    {
+    "type=top": {
       "model": "expandedstorage:block/candy_cane_present"
     },
     "type=bottom": {
       "model": "expandedstorage:block/candy_cane_present"
     },
-    "type=front":  {
+    "type=front": {
       "model": "expandedstorage:block/green_present"
     },
-    "type=back":   {
+    "type=back": {
       "model": "expandedstorage:block/green_present"
     }
   }

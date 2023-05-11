@@ -7,7 +7,7 @@ license = "See LICENSE file"
 modId = "expandedstorage"
 version = "${version}"
 displayName = "Expanded Storage"
-authors = "Bucket of Compasses"
+authors = "Compasses"
 logoFile = "icon.png"
 
 [[dependencies.expandedstorage]]

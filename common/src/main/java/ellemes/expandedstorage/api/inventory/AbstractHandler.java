@@ -1,6 +1,7 @@
 package ellemes.expandedstorage.api.inventory;
 
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.misc.ToggleableSlot;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -96,7 +97,7 @@ public final class AbstractHandler extends AbstractContainerMenu {
             int slotYPos = Mth.ceil((((double) (i - slotXPos)) / menuWidth));
             int realYPos = slotYPos >= menuHeight ? (Utils.SLOT_SIZE * (slotYPos % menuHeight)) - 2000 : slotYPos * Utils.SLOT_SIZE;
             if (createSlots) {
-                this.addSlot(new Slot(inventory, i, slotXPos * Utils.SLOT_SIZE + 8, realYPos + Utils.SLOT_SIZE));
+                this.addSlot(new ToggleableSlot(inventory, i, slotXPos * Utils.SLOT_SIZE + 8, realYPos + Utils.SLOT_SIZE, slotYPos < menuHeight));
             } else {
                 slots.get(i).y = realYPos + Utils.SLOT_SIZE;
             }
@@ -105,13 +106,22 @@ public final class AbstractHandler extends AbstractContainerMenu {
 
     public void moveSlotRange(int minSlotIndex, int maxSlotIndex, int yDifference) {
         for (int i = minSlotIndex; i < maxSlotIndex; i++) {
-            slots.get(i).y += yDifference;
+            ToggleableSlot slot = (ToggleableSlot) slots.get(i);
+            slot.y += yDifference;
+            if (yDifference == -2000 || yDifference == 2000) {
+                slot.toggleActive();
+            }
         }
     }
 
     public void setSlotRange(int minSlotIndex, int maxSlotIndex, IntUnaryOperator yMutator) {
         for (int i = minSlotIndex; i < maxSlotIndex; i++) {
-            slots.get(i).y = yMutator.applyAsInt(i);
+            ToggleableSlot slot = (ToggleableSlot) slots.get(i);
+            int newY = yMutator.applyAsInt(i);
+            if (newY - slot.y > 1000 || slot.y - newY > 1000) {
+                ((ToggleableSlot) slots.get(i)).toggleActive();
+            }
+            slot.y = newY;
         }
     }
 

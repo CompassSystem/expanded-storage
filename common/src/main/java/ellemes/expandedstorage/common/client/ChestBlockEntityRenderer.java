@@ -202,7 +202,6 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         int yOffset = entity.isDinnerbone() ? 180 : 0;
 
         stack.mulPose(Vector3f.YP.rotationDegrees(-state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
-
         if (yOffset == 180) {
             stack.mulPose(Vector3f.ZP.rotationDegrees(yOffset));
             if (chestType == CursedChestType.LEFT) {

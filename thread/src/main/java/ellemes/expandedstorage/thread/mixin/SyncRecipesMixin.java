@@ -1,7 +1,6 @@
 package ellemes.expandedstorage.thread.mixin;
 
 import ellemes.expandedstorage.common.CommonMain;
-import ellemes.expandedstorage.common.misc.PlatformHelper;
 import ellemes.expandedstorage.common.recipe.ConversionRecipeManager;
 import ellemes.expandedstorage.thread.ThreadPlatformHelper;
 import net.minecraft.core.RegistryAccess;
