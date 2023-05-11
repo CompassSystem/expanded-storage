@@ -1,5 +1,2 @@
-- Fix resizing issues on paged and scrollable screen types.
-- Fix sparrow hitbox not rotating.
-- Fix some mixin issues pertaining to Forge.
-- Add a 15x6 screen option.
-- Make off screen slots not render.
+- Fix JEI entry point on Quilt
+- Merge in some screen texture generation code which isn't used under normal circumstances right now.
