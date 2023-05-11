@@ -9,15 +9,10 @@ import ellemes.expandedstorage.api.v3.client.ScreenTypeApi;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
 public final class MiniStorageScreen extends AbstractScreen {
-    private static final ResourceLocation TEXTURE = Utils.id("textures/gui/container/mini_chest_screen.png");
-    private static final int TEXTURE_WIDTH = 176;
-    private static final int TEXTURE_HEIGHT = 176;
-
     public MiniStorageScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
         super(handler, playerInventory, title, screenSize);
         this.initializeSlots(playerInventory);
@@ -46,8 +41,8 @@ public final class MiniStorageScreen extends AbstractScreen {
 
     @Override
     protected void renderBg(PoseStack stack, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        RenderSystem.setShaderTexture(0, textureLocation);
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        GuiComponent.blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight, MiniStorageScreen.TEXTURE_WIDTH, MiniStorageScreen.TEXTURE_HEIGHT);
+        GuiComponent.blit(stack, leftPos, topPos, 0, 0, imageWidth, imageHeight, textureWidth, textureHeight);
     }
 }

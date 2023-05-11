@@ -8,6 +8,7 @@ import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.function.ScreenSizeRetriever;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
+import ellemes.expandedstorage.common.client.MiniStorageScreen;
 import ellemes.expandedstorage.common.client.SizedSimpleTexture;
 import ellemes.expandedstorage.common.client.gui.PickScreen;
 import ellemes.expandedstorage.common.misc.ErrorlessTextureGetter;
@@ -45,7 +46,9 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         totalSlots = handler.getInventory().getContainerSize();
         inventoryWidth = screenSize.getWidth();
         inventoryHeight = screenSize.getHeight();
-        textureLocation = Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
+        textureLocation = this instanceof MiniStorageScreen ?
+                Utils.id("textures/gui/container/mini_chest_screen.png") :
+                Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
         boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
 
         if (!isTexturePresent) {
