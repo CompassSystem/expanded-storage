@@ -9,16 +9,14 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
+              "function": "minecraft:copy_state",
+              "block": "expandedstorage:netherite_mini_chest",
+              "properties": [
+                "sparrow"
+              ]
             }
           ],
           "name": "expandedstorage:netherite_mini_chest"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
         }
       ]
     }

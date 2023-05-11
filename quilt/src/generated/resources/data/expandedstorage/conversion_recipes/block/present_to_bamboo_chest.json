@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:bamboo_chest"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:present"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:present"
+  }
 }

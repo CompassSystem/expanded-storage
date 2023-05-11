@@ -4,9 +4,7 @@
     "id": "expandedstorage:iron_to_gold_conversion_kit"
   },
   "result": "expandedstorage:gold_chest_minecart",
-  "inputs": [
-    {
-      "id": "expandedstorage:iron_chest_minecart"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:iron_chest_minecart"
+  }
 }

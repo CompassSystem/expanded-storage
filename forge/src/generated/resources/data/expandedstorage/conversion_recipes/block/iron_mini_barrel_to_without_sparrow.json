@@ -4,11 +4,15 @@
     "id": "expandedstorage:storage_mutator"
   },
   "result": {
-    "id": "expandedstorage:iron_mini_barrel"
-  },
-  "inputs": [
-    {
-      "id": "expandedstorage:iron_mini_barrel_with_sparrow"
+    "id": "expandedstorage:iron_mini_barrel",
+    "state": {
+      "sparrow": "false"
     }
-  ]
+  },
+  "inputs": {
+    "id": "expandedstorage:iron_mini_barrel",
+    "state": {
+      "sparrow": "true"
+    }
+  }
 }

@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:obsidian_barrel"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:iron_barrel"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:iron_barrel"
+  }
 }

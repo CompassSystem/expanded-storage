@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:netherite_barrel"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:diamond_barrel"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:diamond_barrel"
+  }
 }

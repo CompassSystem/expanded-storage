@@ -5,11 +5,15 @@
     "name": "sparrow"
   },
   "result": {
-    "id": "expandedstorage:obsidian_mini_chest_with_sparrow"
-  },
-  "inputs": [
-    {
-      "id": "expandedstorage:obsidian_mini_chest"
+    "id": "expandedstorage:obsidian_mini_chest",
+    "state": {
+      "sparrow": "true"
     }
-  ]
+  },
+  "inputs": {
+    "id": "expandedstorage:obsidian_mini_chest",
+    "state": {
+      "sparrow": "false"
+    }
+  }
 }

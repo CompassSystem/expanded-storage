@@ -5,11 +5,15 @@
     "name": "sparrow"
   },
   "result": {
-    "id": "expandedstorage:diamond_mini_barrel_with_sparrow"
-  },
-  "inputs": [
-    {
-      "id": "expandedstorage:diamond_mini_barrel"
+    "id": "expandedstorage:diamond_mini_barrel",
+    "state": {
+      "sparrow": "true"
     }
-  ]
+  },
+  "inputs": {
+    "id": "expandedstorage:diamond_mini_barrel",
+    "state": {
+      "sparrow": "false"
+    }
+  }
 }

@@ -4,11 +4,15 @@
     "id": "expandedstorage:storage_mutator"
   },
   "result": {
-    "id": "expandedstorage:iron_mini_chest"
-  },
-  "inputs": [
-    {
-      "id": "expandedstorage:iron_mini_chest_with_sparrow"
+    "id": "expandedstorage:iron_mini_chest",
+    "state": {
+      "sparrow": "false"
     }
-  ]
+  },
+  "inputs": {
+    "id": "expandedstorage:iron_mini_chest",
+    "state": {
+      "sparrow": "true"
+    }
+  }
 }

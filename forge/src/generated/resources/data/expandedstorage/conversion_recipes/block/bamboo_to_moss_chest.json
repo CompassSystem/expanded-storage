@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:moss_chest"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:bamboo_chest"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:bamboo_chest"
+  }
 }

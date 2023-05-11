@@ -4,9 +4,7 @@
     "id": "expandedstorage:storage_mutator"
   },
   "result": "expandedstorage:wood_chest_minecart",
-  "inputs": [
-    {
-      "tag": "forge:chest_minecarts/wooden"
-    }
-  ]
+  "inputs": {
+    "tag": "forge:chest_minecarts/wooden"
+  }
 }

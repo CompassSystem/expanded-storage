@@ -4,9 +4,7 @@
     "id": "expandedstorage:storage_mutator"
   },
   "result": "expandedstorage:present_minecart",
-  "inputs": [
-    {
-      "id": "expandedstorage:pumpkin_chest_minecart"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:pumpkin_chest_minecart"
+  }
 }

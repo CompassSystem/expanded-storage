@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:netherite_chest"
   },
-  "inputs": [
-    {
-      "tag": "expandedstorage:wooden_chests"
-    }
-  ]
+  "inputs": {
+    "tag": "expandedstorage:wooden_chests"
+  }
 }

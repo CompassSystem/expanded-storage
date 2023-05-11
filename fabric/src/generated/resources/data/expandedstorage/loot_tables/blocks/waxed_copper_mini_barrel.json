@@ -9,16 +9,14 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
+              "function": "minecraft:copy_state",
+              "block": "expandedstorage:waxed_copper_mini_barrel",
+              "properties": [
+                "sparrow"
+              ]
             }
           ],
           "name": "expandedstorage:waxed_copper_mini_barrel"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
         }
       ]
     }

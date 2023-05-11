@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:obsidian_chest"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:old_obsidian_chest"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:old_obsidian_chest"
+  }
 }

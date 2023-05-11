@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:vanilla_wood_mini_chest"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:pink_amethyst_mini_present"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:pink_amethyst_mini_present"
+  }
 }

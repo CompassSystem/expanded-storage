@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:white_mini_present"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:red_mini_present"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:red_mini_present"
+  }
 }

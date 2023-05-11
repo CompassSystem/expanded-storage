@@ -5,11 +5,15 @@
     "name": "sparrow"
   },
   "result": {
-    "id": "expandedstorage:vanilla_wood_mini_chest_with_sparrow"
-  },
-  "inputs": [
-    {
-      "id": "expandedstorage:pink_amethyst_mini_present"
+    "id": "expandedstorage:vanilla_wood_mini_chest",
+    "state": {
+      "sparrow": "true"
     }
-  ]
+  },
+  "inputs": {
+    "id": "expandedstorage:pink_amethyst_mini_present",
+    "state": {
+      "sparrow": "false"
+    }
+  }
 }

@@ -4,9 +4,7 @@
     "id": "expandedstorage:storage_mutator"
   },
   "result": "expandedstorage:bamboo_chest_minecart",
-  "inputs": [
-    {
-      "id": "expandedstorage:present_minecart"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:present_minecart"
+  }
 }

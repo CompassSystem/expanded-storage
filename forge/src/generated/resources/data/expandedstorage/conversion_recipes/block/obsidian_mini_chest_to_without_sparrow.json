@@ -4,11 +4,15 @@
     "id": "expandedstorage:storage_mutator"
   },
   "result": {
-    "id": "expandedstorage:obsidian_mini_chest"
-  },
-  "inputs": [
-    {
-      "id": "expandedstorage:obsidian_mini_chest_with_sparrow"
+    "id": "expandedstorage:obsidian_mini_chest",
+    "state": {
+      "sparrow": "false"
     }
-  ]
+  },
+  "inputs": {
+    "id": "expandedstorage:obsidian_mini_chest",
+    "state": {
+      "sparrow": "true"
+    }
+  }
 }

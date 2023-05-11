@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:present"
   },
-  "inputs": [
-    {
-      "id": "expandedstorage:pumpkin_chest"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:pumpkin_chest"
+  }
 }

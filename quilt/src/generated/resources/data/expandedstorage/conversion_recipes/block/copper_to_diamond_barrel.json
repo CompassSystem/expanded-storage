@@ -6,9 +6,7 @@
   "result": {
     "id": "expandedstorage:diamond_barrel"
   },
-  "inputs": [
-    {
-      "tag": "expandedstorage:copper_barrels"
-    }
-  ]
+  "inputs": {
+    "tag": "expandedstorage:copper_barrels"
+  }
 }

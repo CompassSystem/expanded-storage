@@ -9,16 +9,14 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
+              "function": "minecraft:copy_state",
+              "block": "expandedstorage:red_mini_present",
+              "properties": [
+                "sparrow"
+              ]
             }
           ],
           "name": "expandedstorage:red_mini_present"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
         }
       ]
     }

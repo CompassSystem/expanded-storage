@@ -4,9 +4,7 @@
     "id": "expandedstorage:iron_to_obsidian_conversion_kit"
   },
   "result": "expandedstorage:obsidian_chest_minecart",
-  "inputs": [
-    {
-      "id": "expandedstorage:iron_chest_minecart"
-    }
-  ]
+  "inputs": {
+    "id": "expandedstorage:iron_chest_minecart"
+  }
 }
