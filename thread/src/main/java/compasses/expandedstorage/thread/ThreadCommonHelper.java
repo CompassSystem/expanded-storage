@@ -6,7 +6,6 @@ import compasses.expandedstorage.common.misc.CommonPlatformHelper;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.common.recipe.EntityConversionRecipe;
-import compasses.expandedstorage.thread.ThreadMain;
 import compasses.expandedstorage.thread.misc.ScreenHandlerFactoryAdapter;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
@@ -25,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class ThreadCommonPlatformHelper implements CommonPlatformHelper {
+public abstract class ThreadCommonHelper implements CommonPlatformHelper {
     private final ExtendedScreenHandlerType<AbstractHandler> menuType;
     private MinecraftServer minecraftServer;
 

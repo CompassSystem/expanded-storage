@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
   "quilt_loader": {
-    "group": "ellemes",
+    "group": "compasses",
     "id": "expandedstorage",
     "version": "${version}",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": "ellemes.expandedstorage.quilt.QuiltMain",
-      "client_init": "ellemes.expandedstorage.quilt.QuiltClient",
-      "fabric-datagen": "ellemes.expandedstorage.thread.datagen.Main",
-      "rei_client": "ellemes.expandedstorage.thread.client.ReiCompat",
-      "modmenu": "ellemes.expandedstorage.thread.client.ModMenuCompat",
-      "emi": "ellemes.expandedstorage.thread.client.EmiCompat",
-      "jei_mod_plugin": "ellemes.expandedstorage.common.client.JeiCompat"
+      "init": "compasses.expandedstorage.quilt.QuiltMain",
+      "client_init": "compasses.expandedstorage.quilt.QuiltClient",
+      "fabric-datagen": "compasses.expandedstorage.thread.datagen.Main",
+      "emi": "compasses.expandedstorage.thread.client.EmiCompat",
+      "jei_mod_plugin": "compasses.expandedstorage.common.client.JeiCompat",
+      "modmenu": "compasses.expandedstorage.thread.client.ModMenuCompat",
+      "rei_client": "compasses.expandedstorage.thread.client.ReiCompat"
     },
     "depends": [
       {

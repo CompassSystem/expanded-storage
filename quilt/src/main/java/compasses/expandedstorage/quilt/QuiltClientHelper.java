@@ -1,6 +1,6 @@
-package ellemes.expandedstorage.quilt;
+package compasses.expandedstorage.quilt;
 
-import ellemes.expandedstorage.thread.ThreadClientHelper;
+import compasses.expandedstorage.thread.ThreadClientHelper;
 import org.quiltmc.loader.api.QuiltLoader;
 
 public class QuiltClientHelper extends ThreadClientHelper {

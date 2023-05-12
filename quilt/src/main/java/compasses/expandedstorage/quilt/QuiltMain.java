@@ -1,14 +1,14 @@
-package ellemes.expandedstorage.quilt;
+package compasses.expandedstorage.quilt;
 
-import ellemes.expandedstorage.common.CommonMain;
-import ellemes.expandedstorage.common.block.BarrelBlock;
-import ellemes.expandedstorage.common.block.misc.CopperBlockHelper;
-import ellemes.expandedstorage.common.misc.Utils;
-import ellemes.expandedstorage.common.registration.Content;
-import ellemes.expandedstorage.common.registration.ContentConsumer;
-import ellemes.expandedstorage.common.registration.NamedValue;
-import ellemes.expandedstorage.thread.ThreadMain;
-import ellemes.expandedstorage.thread.ThreadPlatformHelper;
+import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.block.BarrelBlock;
+import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
+import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.registration.Content;
+import compasses.expandedstorage.common.registration.ContentConsumer;
+import compasses.expandedstorage.common.registration.NamedValue;
+import compasses.expandedstorage.thread.ThreadCommonHelper;
+import compasses.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.renderer.RenderType;
 import org.quiltmc.loader.api.ModContainer;
@@ -42,7 +42,7 @@ public final class QuiltMain implements ModInitializer {
         }).orElse(false);
 
         boolean isClient = MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
-        ThreadMain.constructContent(new QuiltPlatformHelper(), QuiltLoader.isModLoaded("htm"), isClient,
+        ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
                         .andThenIf(isClient, ThreadMain::registerClientStuff)
@@ -51,7 +51,7 @@ public final class QuiltMain implements ModInitializer {
         );
 
         ServerLifecycleEvents.STOPPED.register(server -> {
-            ((ThreadPlatformHelper) CommonMain.platformHelper()).setServerInstance(null);
+            ((ThreadCommonHelper) CommonMain.platformHelper()).setServerInstance(null);
         });
     }
 

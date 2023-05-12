@@ -1,8 +1,8 @@
-package ellemes.expandedstorage.quilt;
+package compasses.expandedstorage.quilt;
 
-import ellemes.expandedstorage.common.misc.Utils;
-import ellemes.expandedstorage.thread.ThreadClient;
-import ellemes.expandedstorage.thread.ThreadMain;
+import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.thread.ThreadClient;
+import compasses.expandedstorage.thread.ThreadMain;
 import net.minecraft.server.packs.PackType;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;

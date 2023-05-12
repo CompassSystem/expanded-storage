@@ -2,7 +2,7 @@ package compasses.expandedstorage.thread.mixin;
 
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.recipe.ConversionRecipeManager;
-import compasses.expandedstorage.thread.ThreadCommonPlatformHelper;
+import compasses.expandedstorage.thread.ThreadCommonHelper;
 import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.network.Connection;
 import net.minecraft.server.MinecraftServer;
@@ -21,7 +21,7 @@ public class SyncRecipesMixin {
             at = @At("TAIL")
     )
     private void expandedstorage$setServerInstance(MinecraftServer minecraftServer, LayeredRegistryAccess<?> registryAccess, PlayerDataStorage storage, int maxPlayers, CallbackInfo ci) {
-        ((ThreadCommonPlatformHelper) CommonMain.platformHelper()).setServerInstance(minecraftServer);
+        ((ThreadCommonHelper) CommonMain.platformHelper()).setServerInstance(minecraftServer);
     }
 
     @Inject(
