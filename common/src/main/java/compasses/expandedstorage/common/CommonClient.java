@@ -1,15 +1,15 @@
 package compasses.expandedstorage.common;
 
-import compasses.expandedstorage.common.client.gui.FakePickScreen;
-import compasses.expandedstorage.common.misc.ClientPlatformHelper;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
+import compasses.expandedstorage.common.client.gui.FakePickScreen;
 import compasses.expandedstorage.common.client.gui.PageScreen;
 import compasses.expandedstorage.common.client.gui.ScrollScreen;
 import compasses.expandedstorage.common.client.gui.SingleScreen;
+import compasses.expandedstorage.common.helpers.client.ScreenTypeApi;
 import compasses.expandedstorage.common.item.MutationMode;
 import compasses.expandedstorage.common.item.StorageMutator;
+import compasses.expandedstorage.common.misc.ClientPlatformHelper;
 import compasses.expandedstorage.common.misc.Utils;
-import compasses.expandedstorage.common.helpers.client.ScreenTypeApi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;

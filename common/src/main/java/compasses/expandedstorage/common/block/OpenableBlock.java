@@ -1,11 +1,11 @@
 package compasses.expandedstorage.common.block;
 
-import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import compasses.expandedstorage.common.CommonMain;
-import compasses.expandedstorage.common.registration.ModBlocks;
+import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import compasses.expandedstorage.common.helpers.InventoryOpeningApi;
 import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
 import compasses.expandedstorage.common.inventory.context.BlockContext;
-import compasses.expandedstorage.common.helpers.InventoryOpeningApi;
+import compasses.expandedstorage.common.registration.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

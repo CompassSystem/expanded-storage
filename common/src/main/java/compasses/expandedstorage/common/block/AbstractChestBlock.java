@@ -1,13 +1,13 @@
 package compasses.expandedstorage.common.block;
 
 import compasses.expandedstorage.api.EsChestType;
+import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.entity.OldChestBlockEntity;
 import compasses.expandedstorage.common.block.misc.Property;
 import compasses.expandedstorage.common.block.misc.PropertyRetriever;
-import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.inventory.OpenableInventories;
 import compasses.expandedstorage.common.inventory.OpenableInventory;
 import compasses.expandedstorage.common.inventory.context.BlockContext;
-import compasses.expandedstorage.common.inventory.OpenableInventories;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

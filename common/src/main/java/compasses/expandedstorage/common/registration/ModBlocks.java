@@ -1,6 +1,5 @@
 package compasses.expandedstorage.common.registration;
 
-import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.block.AbstractChestBlock;
 import compasses.expandedstorage.common.block.BarrelBlock;
 import compasses.expandedstorage.common.block.ChestBlock;
@@ -8,6 +7,7 @@ import compasses.expandedstorage.common.block.CopperBarrelBlock;
 import compasses.expandedstorage.common.block.CopperMiniStorageBlock;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
 import compasses.expandedstorage.common.block.OpenableBlock;
+import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;

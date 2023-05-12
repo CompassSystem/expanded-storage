@@ -3,9 +3,9 @@ package compasses.expandedstorage.thread;
 import compasses.expandedstorage.common.misc.ClientPlatformHelper;
 import compasses.expandedstorage.common.misc.ConfigWrapper;
 import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.thread.client.Keybinding;
 import compasses.expandedstorage.thread.client.WrappedAmecsKeybind;
 import compasses.expandedstorage.thread.client.WrappedVanillaKeybind;
-import compasses.expandedstorage.thread.client.Keybinding;
 import compasses.expandedstorage.thread.misc.ConfigWrapperImpl;
 
 import java.nio.file.Path;

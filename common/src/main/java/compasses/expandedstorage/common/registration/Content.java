@@ -1,16 +1,16 @@
 package compasses.expandedstorage.common.registration;
 
+import compasses.expandedstorage.common.block.AbstractChestBlock;
+import compasses.expandedstorage.common.block.BarrelBlock;
+import compasses.expandedstorage.common.block.ChestBlock;
+import compasses.expandedstorage.common.block.MiniStorageBlock;
+import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.entity.BarrelBlockEntity;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.entity.MiniStorageBlockEntity;
 import compasses.expandedstorage.common.block.entity.OldChestBlockEntity;
 import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
-import compasses.expandedstorage.common.block.AbstractChestBlock;
-import compasses.expandedstorage.common.block.BarrelBlock;
-import compasses.expandedstorage.common.block.ChestBlock;
-import compasses.expandedstorage.common.block.MiniStorageBlock;
-import compasses.expandedstorage.common.block.OpenableBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

@@ -1,9 +1,9 @@
 package compasses.expandedstorage.thread.client;
 
+import compasses.expandedstorage.common.client.gui.AbstractScreen;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.widget.Bounds;
-import compasses.expandedstorage.common.client.gui.AbstractScreen;
 import net.minecraft.client.renderer.Rect2i;
 
 public final class EmiCompat implements EmiPlugin {

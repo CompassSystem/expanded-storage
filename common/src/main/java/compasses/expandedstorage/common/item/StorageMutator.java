@@ -1,7 +1,7 @@
 package compasses.expandedstorage.common.item;
 
-import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.common.recipe.EntityConversionRecipe;
 import net.minecraft.ChatFormatting;

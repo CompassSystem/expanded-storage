@@ -1,7 +1,7 @@
 package compasses.expandedstorage.common.block;
 
-import compasses.expandedstorage.common.block.entity.BarrelBlockEntity;
 import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.block.entity.BarrelBlockEntity;
 import compasses.expandedstorage.common.inventory.OpenableInventory;
 import compasses.expandedstorage.common.inventory.context.BlockContext;
 import net.minecraft.core.BlockPos;
