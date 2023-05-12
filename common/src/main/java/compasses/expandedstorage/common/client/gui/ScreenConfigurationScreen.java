@@ -21,9 +21,9 @@ public class ScreenConfigurationScreen extends Screen {
         super.init();
         CollapsiblePanelWidget screenBoundariesPanel = new CollapsiblePanelWidget(0, 0, 100, height, Component.literal(""));
         Button openScreenBoundariesPanelButton = Button.builder(Component.literal("Open screen boundaries selection panel"), button1 -> screenBoundariesPanel.toggleHidden())
-                .pos(10, 10)
-                .size(20, 20)
-                .build();
+                                                       .pos(10, 10)
+                                                       .size(20, 20)
+                                                       .build();
         screenBoundariesPanel.setPanelOpenButton(openScreenBoundariesPanelButton);
         addRenderableWidget(screenBoundariesPanel);
         addRenderableWidget(openScreenBoundariesPanelButton);
@@ -31,9 +31,9 @@ public class ScreenConfigurationScreen extends Screen {
         System.out.println(width);
         CollapsiblePanelWidget screenConfigurationPanel = new CollapsiblePanelWidget(width - 100, 0, 100, height, Component.literal(""));
         Button openScreenConfigurationPanelButton = Button.builder(Component.literal("Open screen configuration panel"), button1 -> screenConfigurationPanel.toggleHidden())
-                              .pos(width - 30, 10)
-                              .size(20, 20)
-                              .build();
+                                                          .pos(width - 30, 10)
+                                                          .size(20, 20)
+                                                          .build();
         screenConfigurationPanel.setPanelOpenButton(openScreenConfigurationPanelButton);
         addRenderableWidget(screenConfigurationPanel);
         addRenderableWidget(openScreenConfigurationPanelButton);

@@ -80,7 +80,7 @@ public class ThreadMain {
                                        output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                                    });
                                })
-                        .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
+                               .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
 
         CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
                 /*Base*/ true,

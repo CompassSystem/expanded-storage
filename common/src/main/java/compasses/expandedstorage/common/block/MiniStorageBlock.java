@@ -41,7 +41,7 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
 
     static {
         NO_RIBBON_NO_SPARROW = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
-        RIBBON_NO_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 6.0D, 10.0D ,9.0D, 10.0D));
+        RIBBON_NO_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 6.0D, 10.0D, 9.0D, 10.0D));
         NO_RIBBON_SPARROW_NS = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 5.0D, 10.0D, 13.0D, 11.0D));
         NO_RIBBON_SPARROW_EW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 13.0D, 10.0D));
         RIBBON_SPARROW_NS = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 5.0D, 10.0D, 14.0D, 11.0D));
