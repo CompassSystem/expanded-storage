@@ -19,7 +19,7 @@ public abstract class MiniStorageHeadEquipment {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void expandedstorage_makeMiniChestEquipable(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
+    private static void expandedstorage$makeMiniChestEquipable(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
         if (stack.getItem() instanceof BlockItem item && item.getBlock() instanceof MiniStorageBlock) {
             cir.setReturnValue(EquipmentSlot.HEAD);
         }

@@ -48,7 +48,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         textureLocation = this instanceof MiniStorageScreen ?
                 Utils.id("textures/gui/container/mini_chest_screen.png") :
                 Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
-        boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
+        boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).expandedstorage$isTexturePresent(textureLocation);
 
         if (!isTexturePresent) {
             int guiWidth = 36 + Utils.SLOT_SIZE * inventoryWidth;

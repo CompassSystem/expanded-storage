@@ -106,6 +106,7 @@ public class Content {
         return stats;
     }
 
+    // todo: unused?
     public List<NamedValue<ChestBlock>> getChestBlocks() {
         return chestBlocks;
     }
@@ -122,6 +123,7 @@ public class Content {
         return chestBlockEntityType;
     }
 
+    // todo: unused?
     public List<NamedValue<AbstractChestBlock>> getOldChestBlocks() {
         return oldChestBlocks;
     }

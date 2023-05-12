@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 public final class FabricMain implements ModInitializer {
     @Override
     public void onInitialize() {
+        // todo: we should replace this with a nice warning screen before the main menu
         FabricLoader fabricLoader = FabricLoader.getInstance();
         if (fabricLoader.isModLoaded("quilt_loader")) {
             LoggerFactory.getLogger(Utils.MOD_ID).warn("Please use Expanded Storage for Quilt instead.");

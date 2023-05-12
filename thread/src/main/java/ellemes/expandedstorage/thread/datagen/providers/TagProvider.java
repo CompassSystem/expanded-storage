@@ -11,6 +11,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -33,6 +34,7 @@ public final class TagProvider {
                 .add(Blocks.BARREL);
         }
 
+        @NotNull
         @Override
         public String getName() {
             return "Expanded Storage - Block Tags";
@@ -96,6 +98,7 @@ public final class TagProvider {
                 .add(Items.BAMBOO);
         }
 
+        @NotNull
         @Override
         public String getName() {
             return "Expanded Storage - Item Tags";
@@ -115,6 +118,7 @@ public final class TagProvider {
                 .add(EntityType.CHEST_MINECART);
         }
 
+        @NotNull
         @Override
         public String getName() {
             return "Expanded Storage - Entity Type Tags";

@@ -5,6 +5,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -23,16 +24,19 @@ public interface WrappedInventory extends WorldlyContainer {
         return getInventory().isEmpty();
     }
 
+    @NotNull
     @Override
     default ItemStack getItem(int slot) {
         return getInventory().getItem(slot);
     }
 
+    @NotNull
     @Override
     default ItemStack removeItem(int slot, int count) {
         return getInventory().removeItem(slot, count);
     }
 
+    @NotNull
     @Override
     default ItemStack removeItemNoUpdate(int slot) {
         return getInventory().removeItemNoUpdate(slot);
@@ -94,7 +98,7 @@ public interface WrappedInventory extends WorldlyContainer {
     }
 
     @Override
-    default int[] getSlotsForFace(Direction face) {
+    default int @NotNull [] getSlotsForFace(Direction face) {
         return getInventory().getSlotsForFace(face);
     }
 

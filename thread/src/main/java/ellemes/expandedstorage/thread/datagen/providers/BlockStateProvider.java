@@ -7,6 +7,7 @@ import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -25,6 +26,7 @@ public class BlockStateProvider extends FabricModelProvider {
         ModelHelper.registerItemModels(generateFlatItemModel);
     }
 
+    @NotNull
     @Override
     public String getName() {
         return "Expanded Storage - BlockStates / Models";

@@ -32,6 +32,7 @@ public class IsInTagCondition implements RecipeCondition {
     @Override
     public boolean test(Object subject) {
         if (values == null) {
+            //noinspection unchecked
             values = ((HolderSet.Named<Object>) BuiltInRegistries.REGISTRY.get(tagKey.registry().location()).getTag((TagKey) tagKey).orElseThrow()).stream().map(Holder::value).collect(Collectors.toUnmodifiableSet());
         }
         return values.contains(RecipeCondition.unwrap(subject));

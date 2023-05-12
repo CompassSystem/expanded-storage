@@ -21,6 +21,7 @@ public final class ModEntityTypes {
     public static final EntityType<ChestMinecart> NETHERITE_CHEST_MINECART = entityType(Utils.id("netherite_chest_minecart"));
 
     private static <T extends Entity> EntityType<T> entityType(ResourceLocation id) {
+        //noinspection unchecked
         return (EntityType<T>) BuiltInRegistries.ENTITY_TYPE.get(id);
     }
 }

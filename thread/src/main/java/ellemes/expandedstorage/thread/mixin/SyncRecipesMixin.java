@@ -20,7 +20,7 @@ public class SyncRecipesMixin {
             method = "<init>",
             at = @At("TAIL")
     )
-    private void setServerInstance(MinecraftServer minecraftServer, LayeredRegistryAccess registryAccess, PlayerDataStorage storage, int maxPlayers, CallbackInfo ci) {
+    private void expandedstorage$setServerInstance(MinecraftServer minecraftServer, LayeredRegistryAccess<?> registryAccess, PlayerDataStorage storage, int maxPlayers, CallbackInfo ci) {
         ((ThreadPlatformHelper) CommonMain.platformHelper()).setServerInstance(minecraftServer);
     }
 
@@ -32,7 +32,7 @@ public class SyncRecipesMixin {
             )
     )
 
-    private void sendResourcesToNewPlayer(Connection connection, ServerPlayer player, CallbackInfo ci) {
+    private void expandedstorage$sendResourcesToNewPlayer(Connection connection, ServerPlayer player, CallbackInfo ci) {
         CommonMain.platformHelper().sendConversionRecipesToClient(player, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
     }
 
@@ -40,7 +40,7 @@ public class SyncRecipesMixin {
             method = "reloadResources()V",
             at = @At("TAIL")
     )
-    private void sendResourcesToConnectedPlayers(CallbackInfo ci) {
+    private void expandedstorage$sendResourcesToConnectedPlayers(CallbackInfo ci) {
         CommonMain.platformHelper().sendConversionRecipesToClient(null, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
     }
 }

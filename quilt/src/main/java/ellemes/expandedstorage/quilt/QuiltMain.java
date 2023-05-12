@@ -34,7 +34,7 @@ public final class QuiltMain implements ModInitializer {
         boolean isCarrierCompatEnabled = QuiltLoader.getModContainer("carrier").map(it -> {
             try {
                 Version.Semantic version = Version.Semantic.of(it.metadata().version().raw());
-                return version.compareTo(Version.Semantic.of(1, 8, 0, "", "")) > 0;
+                return version.compareTo(Version.Semantic.of(new int[]{1, 8, 0}, "", "")) > 0;
             } catch (VersionFormatException e) {
                 System.err.println("Carrier compat broke, cannot parse mod version.");
                 return false;

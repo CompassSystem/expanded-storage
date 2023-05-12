@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
+// todo: make record
 @SuppressWarnings("ClassCanBeRecord")
 public final class PickButton {
     private final ResourceLocation texture;

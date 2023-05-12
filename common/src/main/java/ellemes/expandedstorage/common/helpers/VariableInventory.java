@@ -5,6 +5,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -55,6 +56,7 @@ public final class VariableInventory implements Container {
         return true;
     }
 
+    @NotNull
     @Override
     public ItemStack getItem(int slot) {
         this.validateSlotIndex(slot);
@@ -65,12 +67,14 @@ public final class VariableInventory implements Container {
         assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
     }
 
+    @NotNull
     @Override
     public ItemStack removeItem(int slot, int amount) {
         this.validateSlotIndex(slot);
         return this.applyFunctionToSlot(slot, (part, rSlot) -> part.removeItem(rSlot, amount));
     }
 
+    @NotNull
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
         this.validateSlotIndex(slot);

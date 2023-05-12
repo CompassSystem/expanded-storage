@@ -54,10 +54,12 @@ public class CommonClient {
         ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLL_SCREEN_TYPE);
     }
 
+    @SuppressWarnings("unused")
     public static float hasSparrowProperty(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int i) {
         return MiniStorageBlock.hasSparrowProperty(stack) ? 1.0f : 0.0f;
     }
 
+    @SuppressWarnings("unused")
     public static float currentMutatorToolMode(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int i) {
         MutationMode mode = StorageMutator.getMode(stack);
         boolean isSparrow = stack.hasCustomHoverName() && stack.getHoverName().getString().equalsIgnoreCase("sparrow");

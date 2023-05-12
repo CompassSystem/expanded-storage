@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class OpenableBlock extends Block implements OpenableInventoryProvider<BlockContext>, EntityBlock {
@@ -42,6 +43,7 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     }
 
     public final ResourceLocation getBlockId() {
+        //noinspection deprecation
         return this.builtInRegistryHolder().key().location();
     }
 
@@ -50,6 +52,7 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
         if (this == ModBlocks.BAMBOO_CHEST && CommonMain.platformHelper().canDestroyBamboo(player.getMainHandItem())) {
             return 1.0F;
@@ -87,11 +90,13 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     @Override
     public void onInitialOpen(ServerPlayer player) {
         player.awardStat(openingStat);
+        //noinspection resource
         if (!player.level().isClientSide()) {
             PiglinAi.angerNearbyPiglins(player, true);
         }
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

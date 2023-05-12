@@ -29,6 +29,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class ChestMinecart extends AbstractMinecart implements ExposedInventory, OpenableInventoryProvider<BaseContext>, OpenableInventory {
     private final NonNullList<ItemStack> inventory;
@@ -46,23 +47,28 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
         chestItem = block.asItem();
     }
 
+    @NotNull
     @Override
     protected Item getDropItem() {
         return dropItem;
     }
 
+    @NotNull
     @Override
     public ItemStack getPickResult() {
         return new ItemStack(dropItem);
     }
 
+    @NotNull
     @Override
     public BlockState getDisplayBlockState() {
         return renderBlockState;
     }
 
+    @NotNull
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
+        //noinspection resource
         boolean isClient = level().isClientSide();
         if (!isClient) {
             InventoryOpeningApi.openEntityInventory((ServerPlayer) player, this);
@@ -72,6 +78,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     @Override
     public void remove(Entity.RemovalReason reason) {
+        //noinspection resource
         if (!level().isClientSide() && reason.shouldDestroy()) {
             Containers.dropContents(level(), this, this);
         }
@@ -80,6 +87,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     @Override
     public void onInitialOpen(ServerPlayer player) {
+        //noinspection resource
         if (!player.level().isClientSide()) {
             PiglinAi.angerNearbyPiglins(player, true);
         }
@@ -87,6 +95,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     public void destroy(DamageSource source) {
         this.kill();
+        //noinspection resource
         if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
             Entity breaker = source.getDirectEntity();
             if (breaker != null && breaker.isShiftKeyDown()) {
@@ -103,6 +112,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
                 }
                 this.spawnAtLocation(stack);
             }
+            //noinspection resource
             if (!level().isClientSide) {
                 if (breaker != null && breaker.getType() == EntityType.PLAYER) {
                     PiglinAi.angerNearbyPiglins((Player) breaker, true);
@@ -111,11 +121,13 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
         }
     }
 
+    @NotNull
     @Override
     public Type getMinecartType() {
         return Type.CHEST;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static ChestMinecart createMinecart(Level level, Vec3 pos, ResourceLocation cartItemId) {
         return level.registryAccess().registry(Registries.ENTITY_TYPE).map(registry -> {
             ChestMinecart cart = (ChestMinecart) registry.get(cartItemId).create(level);

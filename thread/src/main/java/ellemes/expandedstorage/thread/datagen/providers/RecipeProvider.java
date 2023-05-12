@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -26,6 +27,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         recipeHelper.registerRecipes(exporter);
     }
 
+    @NotNull
     @Override
     public String getName() {
         return "Expanded Storage - Recipes";

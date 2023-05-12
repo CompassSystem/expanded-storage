@@ -8,6 +8,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class GenericItemAccess implements ItemAccess {
     private final OpenableBlockEntity entity;
@@ -34,16 +35,19 @@ public class GenericItemAccess implements ItemAccess {
                     return wrapped.isEmpty();
                 }
 
+                @NotNull
                 @Override
                 public ItemStack getItem(int slot) {
                     return wrapped.getItem(slot);
                 }
 
+                @NotNull
                 @Override
                 public ItemStack removeItem(int slot, int amount) {
                     return ContainerHelper.removeItem(items, slot, amount);
                 }
 
+                @NotNull
                 @Override
                 public ItemStack removeItemNoUpdate(int slot) {
                     return wrapped.removeItemNoUpdate(slot);

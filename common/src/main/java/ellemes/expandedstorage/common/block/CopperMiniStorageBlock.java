@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -29,11 +30,13 @@ public final class CopperMiniStorageBlock extends MiniStorageBlock implements We
         WeatheringCopper.super.onRandomTick(state, level, pos, source);
     }
 
+    @NotNull
     @Override
     public Optional<BlockState> getNext(BlockState state) {
         return CopperBlockHelper.getNextOxidisedState(state);
     }
 
+    @NotNull
     @Override
     public WeatheringCopper.WeatherState getAge() {
         return weatherState;

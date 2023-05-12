@@ -18,11 +18,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class ChestMinecartItem extends Item {
     private static final DispenseItemBehavior DISPENSER_BEHAVIOR = new DefaultDispenseItemBehavior() {
         private final DispenseItemBehavior defaultDispenserBehaviour = new DefaultDispenseItemBehavior();
 
+        @NotNull
         @Override
         public ItemStack execute(BlockSource block, ItemStack stack) {
             Direction forward = block.getBlockState().getValue(DispenserBlock.FACING);
@@ -66,6 +68,7 @@ public class ChestMinecartItem extends Item {
         DispenserBlock.registerBehavior(this, ChestMinecartItem.DISPENSER_BEHAVIOR);
     }
 
+    @NotNull
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();

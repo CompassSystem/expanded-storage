@@ -20,6 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         return MutationMode.from(tag.getByte("mode"));
     }
 
+    @NotNull
     @Override
     public InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
@@ -55,6 +57,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         return InteractionResult.FAIL;
     }
 
+    @NotNull
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (player.isShiftKeyDown()) {
@@ -80,6 +83,7 @@ public final class StorageMutator extends Item implements EntityInteractableItem
         StorageMutator.getMode(stack);
     }
 
+    @NotNull
     @Override
     public ItemStack getDefaultInstance() {
         ItemStack stack = super.getDefaultInstance();

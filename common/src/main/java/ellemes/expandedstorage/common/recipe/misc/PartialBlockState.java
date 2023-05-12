@@ -45,6 +45,7 @@ public class PartialBlockState<T extends Block> {
             Map<String, Property<?>> propertyLookup = block.get().defaultBlockState().getProperties().stream()
                                                            .map(it -> Map.entry(it.getName(), it))
                                                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            //noinspection rawtypes
             Map.Entry[] stateProperties = new Map.Entry[properties.size()];
             int index = 0;
 
@@ -61,6 +62,7 @@ public class PartialBlockState<T extends Block> {
                 stateProperties[index] = Map.entry(property, value.get());
                 index++;
             }
+            //noinspection unchecked,rawtypes
             return new PartialBlockState<>(block.get(), Map.ofEntries(stateProperties));
         }
         return new PartialBlockState<>(block.get(), Map.of());
@@ -70,6 +72,7 @@ public class PartialBlockState<T extends Block> {
         return block;
     }
 
+    // todo: unused?
     public boolean matches(BlockState state) {
         if (state.getBlock() != block) {
             return false;
@@ -89,6 +92,7 @@ public class PartialBlockState<T extends Block> {
     // I hate generics.
     public <K extends Comparable<K>, V extends K> BlockState transform(BlockState state) {
         for (Map.Entry<Property<?>, ?> entry : properties.entrySet()) {
+            //noinspection unchecked
             state = state.setValue((Property<K>) entry.getKey(), (V) entry.getValue());
         }
         return state;
@@ -121,6 +125,7 @@ public class PartialBlockState<T extends Block> {
         Map<Property<?>, Object> properties = Maps.newHashMapWithExpectedSize(mapSize);
         for (int i = 0; i < mapSize; i++) {
             Property<?> key = block.getStateDefinition().getProperty(buffer.readUtf());
+            // todo: we should be more safe, bad data could be sent by server / corrupted in transport
             Object value = key.getValue(buffer.readUtf()).orElseThrow();
             properties.put(key, value);
         }
@@ -129,6 +134,7 @@ public class PartialBlockState<T extends Block> {
 
     public JsonObject toJson() {
         JsonObject json = new JsonObject();
+        //noinspection deprecation
         json.addProperty("id", block.builtInRegistryHolder().key().location().toString());
         if (!properties.isEmpty()) {
             JsonObject jsonProperties = new JsonObject();

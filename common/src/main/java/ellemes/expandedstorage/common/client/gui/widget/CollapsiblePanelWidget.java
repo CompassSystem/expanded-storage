@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CollapsiblePanelWidget extends AbstractWidget {
     private AbstractWidget openPanelButton;
-    private List<AbstractWidget> children = new ArrayList<>();
+    private final List<AbstractWidget> children = new ArrayList<>();
 
     public CollapsiblePanelWidget(int x, int y, int width, int height, Component message) {
         super(x, y, width, height, message);

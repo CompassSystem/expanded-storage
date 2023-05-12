@@ -199,10 +199,11 @@ public final class CommonMain {
                                                   .mapColor(MapColor.COLOR_GREEN)
                                                   .strength(0.1F)
                                                   .sound(SoundType.MOSS);
-        final Properties copperSettings = Properties.of()
-                                                    .mapColor(MapColor.COLOR_ORANGE)
-                                                    .strength(3.0F, 6.0F)
-                                                    .sound(SoundType.COPPER);
+        // todo: reminder for copper chest update
+//        final Properties copperSettings = Properties.of()
+//                                                    .mapColor(MapColor.COLOR_ORANGE)
+//                                                    .strength(3.0F, 6.0F)
+//                                                    .sound(SoundType.COPPER);
         final Properties ironSettings = Properties.of()
                                                   .mapColor(MapColor.METAL)
                                                   .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
@@ -353,6 +354,9 @@ public final class CommonMain {
             Predicate<Block> isChestBlock = b -> b instanceof AbstractChestBlock;
             CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.MERGE, (context, level, state, pos, stack) -> {
                 Player player = context.getPlayer();
+                if (player == null) {
+                    return ToolUsageResult.fail();
+                }
                 if (state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
                     CompoundTag tag = stack.getOrCreateTag();
                     if (tag.contains("pos")) {
@@ -714,6 +718,7 @@ public final class CommonMain {
         return InteractionResult.PASS;
     }
 
+    @SuppressWarnings("unused")
     public static void generateDisplayItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, Consumer<ItemStack> output) {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
         Consumer<Item> sparrowWrap = item -> {
