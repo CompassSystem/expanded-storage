@@ -6,6 +6,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
+/**
+ * @deprecated Use replacements under the compasses.expandedstorage.api package; for removal in minecraft 1.21.
+ */
+@Deprecated(forRemoval = true)
 public enum EsChestType implements StringRepresentable {
     TOP(-1),
     BOTTOM(-1),
@@ -56,5 +60,29 @@ public enum EsChestType implements StringRepresentable {
 
     public int getOffset() {
         return offset;
+    }
+
+    public static EsChestType fromNewType(compasses.expandedstorage.api.EsChestType chestType) {
+        return switch (chestType) {
+            case TOP -> EsChestType.TOP;
+            case BOTTOM -> EsChestType.BOTTOM;
+            case FRONT -> EsChestType.FRONT;
+            case BACK -> EsChestType.BACK;
+            case LEFT -> EsChestType.LEFT;
+            case RIGHT -> EsChestType.RIGHT;
+            case SINGLE -> EsChestType.SINGLE;
+        };
+    }
+
+    public compasses.expandedstorage.api.EsChestType toNewType() {
+        return switch (this) {
+            case TOP -> compasses.expandedstorage.api.EsChestType.TOP;
+            case BOTTOM -> compasses.expandedstorage.api.EsChestType.BOTTOM;
+            case FRONT -> compasses.expandedstorage.api.EsChestType.FRONT;
+            case BACK -> compasses.expandedstorage.api.EsChestType.BACK;
+            case LEFT -> compasses.expandedstorage.api.EsChestType.LEFT;
+            case RIGHT -> compasses.expandedstorage.api.EsChestType.RIGHT;
+            case SINGLE -> compasses.expandedstorage.api.EsChestType.SINGLE;
+        };
     }
 }

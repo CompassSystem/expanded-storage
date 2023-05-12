@@ -1,7 +1,7 @@
 {
   "required": true,
-  "package": "ellemes.expandedstorage.thread.mixin",
-  "plugin": "ellemes.expandedstorage.thread.MixinPlugin",
+  "package": "compasses.expandedstorage.thread.mixin",
+  "plugin": "compasses.expandedstorage.thread.MixinPlugin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "HTMChestCompat",
@@ -10,7 +10,9 @@
     "ToweletteCompat",
     "SyncRecipesMixin"
   ],
-  "client": [ "LastAfterInitCallbackMixin" ],
+  "client": [
+    "LastAfterInitCallbackMixin"
+  ],
   "injectors": { "defaultRequire": 1 },
   "minVersion": "0.8"
 }
