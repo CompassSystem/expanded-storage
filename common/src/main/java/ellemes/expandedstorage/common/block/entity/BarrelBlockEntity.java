@@ -1,11 +1,11 @@
 package ellemes.expandedstorage.common.block.entity;
 
-import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.block.OpenableBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.ExposedInventoryBlockEntity;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.block.strategies.Lockable;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;

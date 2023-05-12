@@ -1,8 +1,8 @@
 package ellemes.expandedstorage.common.block.entity.extendable;
 
-import ellemes.expandedstorage.common.v3.OpenableInventory;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.block.strategies.Lockable;
+import ellemes.expandedstorage.common.v3.OpenableInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;

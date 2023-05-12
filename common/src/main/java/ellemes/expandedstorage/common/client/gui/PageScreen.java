@@ -2,10 +2,10 @@ package ellemes.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Pair;
-import ellemes.expandedstorage.common.client.function.ScreenSize;
-import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
+import ellemes.expandedstorage.common.client.function.ScreenSize;
 import ellemes.expandedstorage.common.client.gui.widget.PageButton;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;

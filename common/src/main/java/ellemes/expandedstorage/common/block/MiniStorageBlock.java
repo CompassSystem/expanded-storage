@@ -1,9 +1,9 @@
 package ellemes.expandedstorage.common.block;
 
-import ellemes.expandedstorage.common.v3.OpenableInventory;
-import ellemes.expandedstorage.common.v3.context.BlockContext;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.v3.OpenableInventory;
+import ellemes.expandedstorage.common.v3.context.BlockContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

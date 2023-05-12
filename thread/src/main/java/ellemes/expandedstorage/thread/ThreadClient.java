@@ -1,8 +1,8 @@
 package ellemes.expandedstorage.thread;
 
-import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.CommonMain;
+import ellemes.expandedstorage.common.client.gui.AbstractScreen;
 import ellemes.expandedstorage.common.misc.ClientPlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.common.recipe.BlockConversionRecipe;

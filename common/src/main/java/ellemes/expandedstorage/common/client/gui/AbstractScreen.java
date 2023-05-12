@@ -2,13 +2,13 @@ package ellemes.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
+import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.MiniStorageScreen;
 import ellemes.expandedstorage.common.client.ScreenConstructor;
 import ellemes.expandedstorage.common.client.SizedSimpleTexture;
 import ellemes.expandedstorage.common.client.function.ScreenSize;
 import ellemes.expandedstorage.common.client.function.ScreenSizeRetriever;
 import ellemes.expandedstorage.common.inventory.AbstractHandler;
-import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.misc.ErrorlessTextureGetter;
 import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;

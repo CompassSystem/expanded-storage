@@ -1,15 +1,15 @@
 package ellemes.expandedstorage.common;
 
 import ellemes.expandedstorage.common.block.MiniStorageBlock;
-import ellemes.expandedstorage.common.item.MutationMode;
-import ellemes.expandedstorage.common.item.StorageMutator;
-import ellemes.expandedstorage.common.v3.client.ScreenTypeApi;
 import ellemes.expandedstorage.common.client.gui.FakePickScreen;
 import ellemes.expandedstorage.common.client.gui.PageScreen;
 import ellemes.expandedstorage.common.client.gui.ScrollScreen;
 import ellemes.expandedstorage.common.client.gui.SingleScreen;
+import ellemes.expandedstorage.common.item.MutationMode;
+import ellemes.expandedstorage.common.item.StorageMutator;
 import ellemes.expandedstorage.common.misc.ClientPlatformHelper;
 import ellemes.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.common.v3.client.ScreenTypeApi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;

@@ -1,13 +1,13 @@
 package ellemes.expandedstorage.common.block;
 
 import ellemes.expandedstorage.api.EsChestType;
-import ellemes.expandedstorage.common.v3.OpenableInventory;
-import ellemes.expandedstorage.common.v3.context.BlockContext;
-import ellemes.expandedstorage.common.v3.helpers.OpenableInventories;
 import ellemes.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.common.block.entity.OldChestBlockEntity;
 import ellemes.expandedstorage.common.block.misc.Property;
 import ellemes.expandedstorage.common.block.misc.PropertyRetriever;
+import ellemes.expandedstorage.common.v3.OpenableInventory;
+import ellemes.expandedstorage.common.v3.context.BlockContext;
+import ellemes.expandedstorage.common.v3.helpers.OpenableInventories;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

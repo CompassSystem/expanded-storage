@@ -1,11 +1,11 @@
 package ellemes.expandedstorage.common.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
-import ellemes.expandedstorage.common.client.function.ScreenSizePredicate;
-import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.CommonClient;
 import ellemes.expandedstorage.common.client.PickButton;
+import ellemes.expandedstorage.common.client.function.ScreenSizePredicate;
 import ellemes.expandedstorage.common.client.gui.widget.ScreenPickButton;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

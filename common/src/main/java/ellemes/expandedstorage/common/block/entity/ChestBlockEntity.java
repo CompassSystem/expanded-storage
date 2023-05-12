@@ -1,13 +1,13 @@
 package ellemes.expandedstorage.common.block.entity;
 
-import ellemes.expandedstorage.common.helpers.VariableInventory;
-import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import ellemes.expandedstorage.common.block.AbstractChestBlock;
 import ellemes.expandedstorage.common.block.ChestBlock;
 import ellemes.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.common.block.strategies.ItemAccess;
 import ellemes.expandedstorage.common.block.strategies.Lockable;
 import ellemes.expandedstorage.common.block.strategies.Observable;
+import ellemes.expandedstorage.common.helpers.VariableInventory;
+import ellemes.expandedstorage.common.inventory.AbstractHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
