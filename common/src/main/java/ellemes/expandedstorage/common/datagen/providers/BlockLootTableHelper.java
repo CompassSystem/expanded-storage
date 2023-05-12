@@ -47,7 +47,6 @@ public class BlockLootTableHelper {
         consumer.accept(ModBlocks.NETHERITE_BARREL, lootTableBuilder);
 
         consumer.accept(ModBlocks.VANILLA_WOOD_MINI_CHEST, BlockLootTableHelper::createMiniStorageDrop);
-        consumer.accept(ModBlocks.VANILLA_WOOD_MINI_CHEST, BlockLootTableHelper::createMiniStorageDrop);
         consumer.accept(ModBlocks.WOOD_MINI_CHEST, BlockLootTableHelper::createMiniStorageDrop);
         consumer.accept(ModBlocks.PUMPKIN_MINI_CHEST, BlockLootTableHelper::createMiniStorageDrop);
         consumer.accept(ModBlocks.RED_MINI_PRESENT, BlockLootTableHelper::createMiniStorageDrop);
