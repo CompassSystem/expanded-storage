@@ -8,7 +8,7 @@ import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ContentConsumer;
 import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.thread.ThreadMain;
-import compasses.expandedstorage.thread.ThreadPlatformHelper;
+import compasses.expandedstorage.thread.ThreadCommonPlatformHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -41,7 +41,7 @@ public final class FabricMain implements ModInitializer {
         }
 
         boolean isClient = fabricLoader.getEnvironmentType() == EnvType.CLIENT;
-        ThreadMain.constructContent(new FabricPlatformHelper(),
+        ThreadMain.constructContent(new FabricCommonPlatformHelper(),
                 fabricLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
@@ -51,7 +51,7 @@ public final class FabricMain implements ModInitializer {
         );
 
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-            ((ThreadPlatformHelper) CommonMain.platformHelper()).setServerInstance(null);
+            ((ThreadCommonPlatformHelper) CommonMain.platformHelper()).setServerInstance(null);
         });
     }
 

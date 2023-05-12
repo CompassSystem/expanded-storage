@@ -1,4 +1,4 @@
-package compasses.expandedstorage.thread;
+package compasses.expandedstorage.thread.misc;
 
 import compasses.expandedstorage.common.inventory.ServerScreenHandlerFactory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;

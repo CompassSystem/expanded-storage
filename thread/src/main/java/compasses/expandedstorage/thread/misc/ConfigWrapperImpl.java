@@ -1,4 +1,4 @@
-package compasses.expandedstorage.thread.wrappers;
+package compasses.expandedstorage.thread.misc;
 
 import compasses.expandedstorage.common.config.ConfigV0;
 import compasses.expandedstorage.common.misc.ConfigWrapper;

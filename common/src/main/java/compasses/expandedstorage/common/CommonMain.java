@@ -12,7 +12,7 @@ import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
 import compasses.expandedstorage.common.client.MiniStorageScreen;
 import compasses.expandedstorage.common.entity.ChestMinecart;
-import compasses.expandedstorage.common.misc.PlatformHelper;
+import compasses.expandedstorage.common.misc.CommonPlatformHelper;
 import compasses.expandedstorage.common.misc.Tier;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.block.AbstractChestBlock;
@@ -101,7 +101,7 @@ public final class CommonMain {
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
     private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
     private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
-    private static PlatformHelper platformHelper;
+    private static CommonPlatformHelper platformHelper;
 
     public static BlockEntityType<ChestBlockEntity> getChestBlockEntityType() {
         return chestBlockEntityType.getValue();
@@ -162,7 +162,7 @@ public final class CommonMain {
         return null;
     }
 
-    public static void constructContent(PlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
+    public static void constructContent(CommonPlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
                                         boolean isClient, ContentConsumer contentRegistrationConsumer,
             /*Base*/ boolean manuallyWrapTooltips,
             /*Chest*/ BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker, Function<OpenableBlockEntity, ItemAccess> chestAccessMaker,
@@ -841,7 +841,7 @@ public final class CommonMain {
         sparrowWrap.accept(ModItems.NETHERITE_MINI_BARREL);
     }
 
-    public static PlatformHelper platformHelper() {
+    public static CommonPlatformHelper platformHelper() {
         return platformHelper;
     }
 }

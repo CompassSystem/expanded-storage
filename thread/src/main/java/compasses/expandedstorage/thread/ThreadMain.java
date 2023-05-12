@@ -71,7 +71,7 @@ public class ThreadMain {
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static void constructContent(ThreadPlatformHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
+    public static void constructContent(ThreadCommonPlatformHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Utils.id("tab"),
                 FabricItemGroup.builder()
                                .icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
