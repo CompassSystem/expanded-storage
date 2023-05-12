@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.inventory;
+package compasses.expandedstorage.common.inventory.handler;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

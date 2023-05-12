@@ -10,7 +10,7 @@ import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEnt
 import compasses.expandedstorage.common.block.misc.DoubleItemAccess;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
-import compasses.expandedstorage.common.client.MiniStorageScreen;
+import compasses.expandedstorage.common.client.gui.MiniStorageScreen;
 import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.misc.CommonPlatformHelper;
 import compasses.expandedstorage.common.misc.Tier;

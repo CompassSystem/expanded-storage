@@ -1,7 +1,7 @@
 package compasses.expandedstorage.thread;
 
-import compasses.expandedstorage.common.inventory.AbstractHandler;
-import compasses.expandedstorage.common.inventory.ServerScreenHandlerFactory;
+import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
+import compasses.expandedstorage.common.inventory.handler.ServerScreenHandlerFactory;
 import compasses.expandedstorage.common.misc.CommonPlatformHelper;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.BlockConversionRecipe;

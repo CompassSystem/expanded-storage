@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.v3.context;
+package compasses.expandedstorage.common.inventory.context;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

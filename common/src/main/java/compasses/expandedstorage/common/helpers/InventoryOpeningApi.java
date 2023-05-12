@@ -1,11 +1,11 @@
-package compasses.expandedstorage.common.v4;
+package compasses.expandedstorage.common.helpers;
 
 import compasses.expandedstorage.common.CommonMain;
-import compasses.expandedstorage.common.inventory.AbstractHandler;
-import compasses.expandedstorage.common.v3.OpenableInventory;
-import compasses.expandedstorage.common.v3.OpenableInventoryProvider;
-import compasses.expandedstorage.common.v3.context.BaseContext;
-import compasses.expandedstorage.common.v3.context.BlockContext;
+import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
+import compasses.expandedstorage.common.inventory.OpenableInventory;
+import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
+import compasses.expandedstorage.common.inventory.context.BaseContext;
+import compasses.expandedstorage.common.inventory.context.BlockContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

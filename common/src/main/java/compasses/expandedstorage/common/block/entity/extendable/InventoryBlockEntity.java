@@ -1,7 +1,7 @@
 package compasses.expandedstorage.common.block.entity.extendable;
 
 import compasses.expandedstorage.common.block.strategies.Observable;
-import compasses.expandedstorage.common.misc.WrappedInventory;
+import compasses.expandedstorage.common.inventory.WrappedInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;

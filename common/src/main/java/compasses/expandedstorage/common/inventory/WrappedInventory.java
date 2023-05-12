@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.misc;
+package compasses.expandedstorage.common.inventory;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.WorldlyContainer;

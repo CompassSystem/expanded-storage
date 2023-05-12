@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.v3.client;
+package compasses.expandedstorage.common.helpers.client;
 
 import compasses.expandedstorage.common.client.gui.PickScreen;
 import net.minecraft.client.gui.screens.Screen;

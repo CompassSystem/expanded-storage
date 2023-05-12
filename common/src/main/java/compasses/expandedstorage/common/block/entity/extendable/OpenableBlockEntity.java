@@ -2,7 +2,7 @@ package compasses.expandedstorage.common.block.entity.extendable;
 
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
-import compasses.expandedstorage.common.v3.OpenableInventory;
+import compasses.expandedstorage.common.inventory.OpenableInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;

@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.misc;
+package compasses.expandedstorage.common.inventory.handler;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;

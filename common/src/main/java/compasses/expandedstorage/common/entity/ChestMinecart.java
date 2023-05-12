@@ -2,10 +2,10 @@ package compasses.expandedstorage.common.entity;
 
 import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.inventory.ExposedInventory;
-import compasses.expandedstorage.common.v3.OpenableInventory;
-import compasses.expandedstorage.common.v3.OpenableInventoryProvider;
-import compasses.expandedstorage.common.v3.context.BaseContext;
-import compasses.expandedstorage.common.v4.InventoryOpeningApi;
+import compasses.expandedstorage.common.inventory.OpenableInventory;
+import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
+import compasses.expandedstorage.common.inventory.context.BaseContext;
+import compasses.expandedstorage.common.helpers.InventoryOpeningApi;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;

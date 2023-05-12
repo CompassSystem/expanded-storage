@@ -1,7 +1,7 @@
 package compasses.expandedstorage.common.misc;
 
-import compasses.expandedstorage.common.inventory.AbstractHandler;
-import compasses.expandedstorage.common.inventory.ServerScreenHandlerFactory;
+import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
+import compasses.expandedstorage.common.inventory.handler.ServerScreenHandlerFactory;
 import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.common.recipe.EntityConversionRecipe;
 import net.minecraft.network.chat.Component;

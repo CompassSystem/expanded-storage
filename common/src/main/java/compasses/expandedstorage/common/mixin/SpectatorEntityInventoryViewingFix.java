@@ -1,6 +1,6 @@
 package compasses.expandedstorage.common.mixin;
 
-import compasses.expandedstorage.common.v3.OpenableInventoryProvider;
+import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;

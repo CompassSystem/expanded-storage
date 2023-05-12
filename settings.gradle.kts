@@ -36,6 +36,6 @@ include(
         "common",
         "thread",
             "fabric",
-//            "quilt",
+            "quilt",
 //        "forge"
 )

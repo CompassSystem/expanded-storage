@@ -1,6 +1,6 @@
 package compasses.expandedstorage.common.mixin;
 
-import compasses.expandedstorage.common.v3.OpenableInventoryProvider;
+import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;

@@ -2,10 +2,10 @@ package compasses.expandedstorage.common.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
 import compasses.expandedstorage.common.CommonClient;
-import compasses.expandedstorage.common.client.PickButton;
+import compasses.expandedstorage.common.client.gui.widget.PickButton;
 import compasses.expandedstorage.common.client.function.ScreenSizePredicate;
 import compasses.expandedstorage.common.client.gui.widget.ScreenPickButton;
-import compasses.expandedstorage.common.inventory.AbstractHandler;
+import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

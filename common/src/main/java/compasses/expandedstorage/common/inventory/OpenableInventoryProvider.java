@@ -1,7 +1,6 @@
-package compasses.expandedstorage.common.v3;
+package compasses.expandedstorage.common.inventory;
 
-import compasses.expandedstorage.common.v3.context.BaseContext;
-import compasses.expandedstorage.common.v3.helpers.OpenableInventories;
+import compasses.expandedstorage.common.inventory.context.BaseContext;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 

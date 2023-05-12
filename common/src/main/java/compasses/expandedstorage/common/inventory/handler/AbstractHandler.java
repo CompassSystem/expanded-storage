@@ -1,6 +1,5 @@
-package compasses.expandedstorage.common.inventory;
+package compasses.expandedstorage.common.inventory.handler;
 
-import compasses.expandedstorage.common.misc.ToggleableSlot;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.CommonMain;
 import net.minecraft.network.FriendlyByteBuf;

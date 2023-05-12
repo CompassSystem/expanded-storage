@@ -9,7 +9,7 @@ import compasses.expandedstorage.common.client.gui.SingleScreen;
 import compasses.expandedstorage.common.item.MutationMode;
 import compasses.expandedstorage.common.item.StorageMutator;
 import compasses.expandedstorage.common.misc.Utils;
-import compasses.expandedstorage.common.v3.client.ScreenTypeApi;
+import compasses.expandedstorage.common.helpers.client.ScreenTypeApi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;

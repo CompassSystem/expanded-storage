@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.v3;
+package compasses.expandedstorage.common.inventory;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

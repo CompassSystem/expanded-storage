@@ -1,6 +1,6 @@
-package compasses.expandedstorage.common.helpers;
+package compasses.expandedstorage.common.inventory;
 
-import compasses.expandedstorage.common.inventory.InventorySlotFunction;
+import compasses.expandedstorage.common.inventory.handler.InventorySlotFunction;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;

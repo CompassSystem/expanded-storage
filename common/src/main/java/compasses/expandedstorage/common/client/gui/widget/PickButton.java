@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.client;
+package compasses.expandedstorage.common.client.gui.widget;
 
 import compasses.expandedstorage.common.client.function.ScreenSizePredicate;
 import net.minecraft.network.chat.Component;

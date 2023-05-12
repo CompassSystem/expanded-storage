@@ -1,7 +1,5 @@
-package compasses.expandedstorage.common.v3.helpers;
+package compasses.expandedstorage.common.inventory;
 
-import compasses.expandedstorage.common.helpers.VariableInventory;
-import compasses.expandedstorage.common.v3.OpenableInventory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;

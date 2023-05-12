@@ -1,11 +1,10 @@
-package compasses.expandedstorage.common.client;
+package compasses.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import compasses.expandedstorage.common.client.function.ScreenSize;
-import compasses.expandedstorage.common.client.gui.AbstractScreen;
-import compasses.expandedstorage.common.inventory.AbstractHandler;
+import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.common.misc.Utils;
-import compasses.expandedstorage.common.v3.client.ScreenTypeApi;
+import compasses.expandedstorage.common.helpers.client.ScreenTypeApi;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
