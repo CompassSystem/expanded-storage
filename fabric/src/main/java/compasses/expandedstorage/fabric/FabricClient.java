@@ -11,9 +11,9 @@ public class FabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         ThreadClient.initialize(new FabricClientHelper());
 
-        ClientPlayConnectionEvents.INIT.register((_unused_1, _unused_2) -> {
-            ClientPlayNetworking.registerReceiver(ThreadMain.UPDATE_RECIPES_ID, (client, handler, buffer, responseSender) -> {
-                ThreadClient.handleUpdateRecipesPacket(client, handler, buffer);
+        ClientPlayConnectionEvents.INIT.register((_listener, _client) -> {
+            ClientPlayNetworking.registerReceiver(ThreadMain.UPDATE_RECIPES_ID, (client, listener, buffer, responseSender) -> {
+                ThreadClient.handleUpdateRecipesPacket(client, listener, buffer);
             });
         });
     }
