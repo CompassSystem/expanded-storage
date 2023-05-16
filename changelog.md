@@ -1,3 +1,1 @@
-- Fix JEI entry point on Quilt
-- Port 9.0.0 to 1.20 pre-release 1
-- Merge in some screen texture generation code which isn't used under normal circumstances right now.
+- Fix issue with opening chests.

@@ -21,7 +21,7 @@
       },
       {
         "id": "minecraft",
-        "versions": ">=1.20-beta.1"
+        "versions": ">=1.20-beta.2"
       },
       {
         "id": "org.quiltmc:quilted_fabric_api",

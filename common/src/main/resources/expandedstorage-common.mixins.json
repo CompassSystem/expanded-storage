@@ -10,9 +10,7 @@
     "SpectatorBlockInventoryViewingFix",
     "SpectatorEntityInventoryViewingFix"
   ],
-  "client": [
-    "ErrorlessTextureManager"
-  ],
+  "client": [ "ErrorlessTextureManager" ],
   "injectors": { "defaultRequire": 1 },
   "minVersion": "0.8"
 }

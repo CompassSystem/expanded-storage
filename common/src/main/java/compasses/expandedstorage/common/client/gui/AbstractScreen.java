@@ -47,48 +47,57 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         textureLocation = this instanceof MiniStorageScreen ?
                 Utils.id("textures/gui/container/mini_chest_screen.png") :
                 Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
-        boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).expandedstorage$isTexturePresent(textureLocation);
 
-        if (!isTexturePresent) {
-            int guiWidth = 36 + Utils.SLOT_SIZE * inventoryWidth;
-            int guiHeight = 132 + Utils.SLOT_SIZE * inventoryHeight;
-            int textureWidth = (int) (Math.ceil(guiWidth / 16.0f) * 16);
-            int textureHeight = (int) (Math.ceil(guiHeight / 16.0f) * 16);
+        if (!(this instanceof  MiniStorageScreen || this instanceof FakePickScreen)) {
+            boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).expandedstorage$isTexturePresent(textureLocation);
 
-            RenderSystem.setShaderTexture(0, Utils.id("textures/gui/container/atlas_gen.png"));
-            RenderSystem.bindTexture(RenderSystem.getShaderTexture(0));
-            try (NativeImage atlas = new NativeImage(96, 96, false)) {
-                atlas.downloadTexture(0, false);
-                try (NativeImage image = new NativeImage(textureWidth, textureHeight, false)) {
-                    image.fillRect(0, 0, textureWidth, textureHeight, 0x00FFFFFF);
+            if (!isTexturePresent) {
+                int guiWidth = 36 + Utils.SLOT_SIZE * inventoryWidth;
+                int guiHeight = 132 + Utils.SLOT_SIZE * inventoryHeight;
+                int textureWidth = (int) (Math.ceil(guiWidth / 16.0f) * 16);
+                int textureHeight = (int) (Math.ceil(guiHeight / 16.0f) * 16);
 
-                    AbstractScreen.renderGui(inventoryWidth, inventoryHeight, (destX, destY, w, h, srcX, srcY) -> {
-                        atlas.copyRect(image, srcX, srcY, destX, destY, w, h, false, false);
-                    });
+                RenderSystem.setShaderTexture(0, Utils.id("textures/gui/container/atlas_gen.png"));
+                RenderSystem.bindTexture(RenderSystem.getShaderTexture(0));
+                try (NativeImage atlas = new NativeImage(96, 96, false)) {
+                    atlas.downloadTexture(0, false);
+                    try (NativeImage image = new NativeImage(textureWidth, textureHeight, false)) {
+                        image.fillRect(0, 0, textureWidth, textureHeight, 0x00FFFFFF);
 
-                    if (Utils.textureSaveRoot != null) {
-                        try {
-                            image.writeToFile(Utils.textureSaveRoot.resolve("shared_" + inventoryWidth + "_" + inventoryHeight + ".png"));
-                        } catch (IOException e) {
-                            System.out.println("Failed to save genned image.");
+                        AbstractScreen.renderGui(inventoryWidth, inventoryHeight, (destX, destY, w, h, srcX, srcY) -> {
+                            atlas.copyRect(image, srcX, srcY, destX, destY, w, h, false, false);
+                        });
+
+                        if (Utils.textureSaveRoot != null) {
+                            try {
+                                image.writeToFile(Utils.textureSaveRoot.resolve("shared_" + inventoryWidth + "_" + inventoryHeight + ".png"));
+                            } catch (IOException e) {
+                                System.out.println("Failed to save genned image.");
+                            }
                         }
-                    }
 
-                    DynamicTexture texture = new DynamicTexture(image);
-                    Minecraft.getInstance().getTextureManager().register(textureLocation, texture);
+                        DynamicTexture texture = new DynamicTexture(image);
+                        Minecraft.getInstance().getTextureManager().register(textureLocation, texture);
+                    }
                 }
             }
         }
-        AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(textureLocation);
 
-        if (texture instanceof DynamicTexture dynamicTexture) {
-            textureWidth = dynamicTexture.getPixels().getWidth();
-            textureHeight = dynamicTexture.getPixels().getHeight();
-        } else if (texture instanceof SizedSimpleTexture simpleTexture) {
-            textureWidth = simpleTexture.getWidth();
-            textureHeight = simpleTexture.getHeight();
+        if (!(this instanceof FakePickScreen)) {
+            AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(textureLocation);
+
+            if (texture instanceof DynamicTexture dynamicTexture) {
+                textureWidth = dynamicTexture.getPixels().getWidth();
+                textureHeight = dynamicTexture.getPixels().getHeight();
+            } else if (texture instanceof SizedSimpleTexture simpleTexture) {
+                textureWidth = simpleTexture.getWidth();
+                textureHeight = simpleTexture.getHeight();
+            } else {
+                throw new IllegalStateException();
+            }
         } else {
-            throw new IllegalStateException();
+            textureWidth = 0;
+            textureHeight = 0;
         }
     }
 
