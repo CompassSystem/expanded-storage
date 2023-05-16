@@ -1,3 +1,1 @@
-- Fix JEI entry point on Quilt
-- Backport 9.0.0 to 1.19.2
-- Merge in some screen texture generation code which isn't used under normal circumstances right now.
+- Fix issue with opening chests.
