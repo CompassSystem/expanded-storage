@@ -1,2 +1,1 @@
-- Fix JEI entry point on Quilt
-- Merge in some screen texture generation code which isn't used under normal circumstances right now.
+- Fix issue with opening chests.
