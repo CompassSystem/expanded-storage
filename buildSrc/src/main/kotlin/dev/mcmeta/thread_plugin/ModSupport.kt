@@ -4,7 +4,8 @@ import org.gradle.api.artifacts.ModuleDependency
 import org.gradle.kotlin.dsl.exclude
 
 object ModVersions {
-    val AMECS = "1.3.8+mc.1.18.2"
+    val AMECS = "1.3.7+mc.1.18.2"
+    val AMECS_API = "1.3.7+mc1.18-pre1"
     val CCA = "5.0.2"
     val EMI = "0.4.3+1.18.2"
     val IPN = "1.3.5"
@@ -24,6 +25,7 @@ enum class ModSupport(
 ) {
     AMECS(
         "de.siphalor:amecs-1.18:${ModVersions.AMECS}",
+        "de.siphalor:amecsapi-1.18:${ModVersions.AMECS_API}",
         "de.siphalor:nmuk-1.18:1.0.1+mc1.18-pre1",
         block = {
             exclude(group = "com.github.astei")

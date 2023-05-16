@@ -1,1 +1,1 @@
-- Backport 8.3.1 from 1.19.2
+- Fix issue with opening chests.
