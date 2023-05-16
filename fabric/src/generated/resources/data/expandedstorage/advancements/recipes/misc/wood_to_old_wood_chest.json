@@ -30,5 +30,6 @@
     "recipes": [
       "expandedstorage:wood_to_old_wood_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

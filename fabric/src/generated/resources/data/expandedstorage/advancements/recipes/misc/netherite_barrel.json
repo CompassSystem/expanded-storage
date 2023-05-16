@@ -30,5 +30,6 @@
     "recipes": [
       "expandedstorage:netherite_barrel"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

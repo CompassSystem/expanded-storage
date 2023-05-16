@@ -4,22 +4,26 @@ import compasses.expandedstorage.common.datagen.content.ModTags;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.registration.ModItems;
+import io.netty.buffer.Unpooled;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -200,11 +204,16 @@ public class RecipeHelper {
                 .define('D', diamonds)
                 .save(exporter);
         smithingRecipe(ModItems.DIAMOND_TO_NETHERITE_CONVERSION_KIT, ModItems.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT, netheriteIngots, RecipeCategory.MISC, Criterions.HAS_PREVIOUS_KIT, exporter);
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT)
-                              .requires(obsidianBlocks)
-                              .requires(netheriteIngots)
-                              .unlockedBy(Criterions.HAS_ITEM, RecipeProvider.has(obsidianBlocks))
-                              .save(exporter, itemIdGetter.apply(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT));
+
+        // Horrible hack to avoid an access widener but still construct an Ingredient containing air
+        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+        buffer.writeCollection(List.of(new ItemStack(Items.AIR)), FriendlyByteBuf::writeItem);
+        Ingredient ingredient = Ingredient.fromNetwork(buffer);
+        buffer.clear();
+
+        SmithingTransformRecipeBuilder.smithing(ingredient, Ingredient.of(obsidianBlocks), Ingredient.of(netheriteIngots), RecipeCategory.MISC, ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT)
+                                      .unlocks(Criterions.HAS_ITEM, RecipeProvider.has(obsidianBlocks))
+                                      .save(exporter, itemIdGetter.apply(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT));
     }
 
     private void offerChestRecipes(Consumer<FinishedRecipe> exporter) {

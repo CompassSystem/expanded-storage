@@ -30,5 +30,6 @@
     "recipes": [
       "expandedstorage:vanilla_wood_mini_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

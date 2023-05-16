@@ -30,5 +30,6 @@
     "recipes": [
       "expandedstorage:old_diamond_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
