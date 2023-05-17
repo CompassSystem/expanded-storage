@@ -59,10 +59,10 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
                 Utils.id("textures/gui/container/mini_chest_screen.png") :
                 Utils.id("textures/gui/container/shared_" + inventoryWidth + "_" + inventoryHeight + ".png");
 
-        if (!(this instanceof  MiniStorageScreen || this instanceof FakePickScreen)) {
-            boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).isTexturePresent(textureLocation);
+        if (!(this instanceof FakePickScreen)) {
+            boolean isTexturePresent = ((ErrorlessTextureGetter) Minecraft.getInstance().getTextureManager()).expandedstorage$isTexturePresent(textureLocation);
 
-            if (!isTexturePresent) {
+            if (!isTexturePresent && !(this instanceof MiniStorageScreen)) {
                 int guiWidth = 36 + Utils.SLOT_SIZE * inventoryWidth;
                 int guiHeight = 132 + Utils.SLOT_SIZE * inventoryHeight;
                 int textureWidth = (int) (Math.ceil(guiWidth / 16.0f) * 16);
@@ -92,9 +92,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
                     }
                 }
             }
-        }
 
-        if (!(this instanceof FakePickScreen)) {
             AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(textureLocation);
 
             if (texture instanceof DynamicTexture dynamicTexture) {
