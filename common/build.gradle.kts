@@ -1,4 +1,3 @@
-import dev.mcmeta.thread_plugin.ModVersions
 import dev.mcmeta.thread_plugin.Mods
 
 dependencies {

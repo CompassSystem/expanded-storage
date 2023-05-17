@@ -1,4 +1,3 @@
-import dev.mcmeta.thread_plugin.ModSupport
 import dev.mcmeta.thread_plugin.Mods
 
 repositories {
