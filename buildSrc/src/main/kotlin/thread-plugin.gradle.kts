@@ -1,4 +1,5 @@
 import dev.mcmeta.thread_plugin.ModSupport
+import dev.mcmeta.thread_plugin.Mods
 
 repositories {
     maven { // Cardinal Components
@@ -54,20 +55,17 @@ repositories {
         url = uri("https://gitlab.com/api/v4/projects/21830712/packages/maven")
     }
 }
-// Note: when changing this you will likely need to stop any gradle deamons and delete the root .gradle folder.
-val enabledMods = setOf<ModSupport>()
 
-fun DependencyHandlerScope.optionalDependency(enumValue: ModSupport) {
-    val configuration = if (enabledMods.contains(enumValue)) "modImplementation" else "modCompileOnly"
-    enumValue.dependencies.forEach {
-        configuration(it) {
-            exclude("net.fabricmc")
-            exclude("net.fabricmc.fabric-api")
-            enumValue.block(this)
-        }
-    }
-}
+// Note: when changing this you will likely need to stop any gradle deamons and delete the root .gradle folder.
+val enabledMods = setOf<Mods>()
 
 dependencies {
-    ModSupport.values().forEach { optionalDependency(it) }
+    Mods::class.nestedClasses.forEach {
+        val mod = it.objectInstance as Mods
+
+        mod.applyCompileDependencies(this)
+        if (mod in enabledMods) {
+            mod.applyRuntimeDependencies(this)
+        }
+    }
 }

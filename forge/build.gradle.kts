@@ -1,4 +1,5 @@
 import dev.mcmeta.thread_plugin.ModVersions
+import dev.mcmeta.thread_plugin.Mods
 import ellemes.gradle.mod.api.task.AbstractJsonTask
 
 plugins {
@@ -34,9 +35,9 @@ repositories {
 
 dependencies {
     compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}-forge-api:${properties["jei_version"]}")
-    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}")
+    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${Mods.InventoryProfiles.minecraftVersion}-${Mods.InventoryProfiles.version}")
     modCompileOnly("vazkii.quark:Quark:3.3-373.2529")
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${ModVersions.REI}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${Mods.RoughlyEnoughItems.version}")
 }
 
 tasks.getByName<AbstractJsonTask>("minJar") {

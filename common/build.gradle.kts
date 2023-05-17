@@ -1,11 +1,12 @@
 import dev.mcmeta.thread_plugin.ModVersions
+import dev.mcmeta.thread_plugin.Mods
 
 dependencies {
-    modCompileOnly("maven.modrinth:inventory-profiles-next:fabric-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}") {
+    modCompileOnly("maven.modrinth:inventory-profiles-next:fabric-${Mods.InventoryProfiles.minecraftVersion}-${Mods.InventoryProfiles.version}") {
         exclude(group = "net.fabricmc")
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "com.terraformersmc")
     }
 
-    modCompileOnly("curse.maven:jei-238222:4371828")
+    Mods.JustEnoughItems.applyCompileDependencies(this)
 }
