@@ -1,1 +1,1 @@
-- Fix issue with opening chests.
+- Fix issue when opening mini storage blocks.
