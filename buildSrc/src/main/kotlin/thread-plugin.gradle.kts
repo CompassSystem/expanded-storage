@@ -1,4 +1,5 @@
 import dev.mcmeta.thread_plugin.Mods
+import dev.mcmeta.thread_plugin.ModPlatform
 
 repositories {
     maven { // Cardinal Components
@@ -41,6 +42,10 @@ repositories {
             includeGroup("com.github.Andrew6rant")
         }
     }
+    maven { // Quark
+        name = "Jared"
+        url = uri("https://maven.blamejared.com/")
+    }
     maven { // Roughly Enough Items
         name = "Shedaniel"
         url = uri("https://maven.shedaniel.me/")
@@ -49,22 +54,27 @@ repositories {
         name = "Siphalor's Maven"
         url = uri("https://maven.siphalor.de/")
     }
-    maven { // FLAN
-        name = "Flemmli97"
-        url = uri("https://gitlab.com/api/v4/projects/21830712/packages/maven")
-    }
 }
 
 // Note: when changing this you will likely need to stop any gradle deamons and delete the root .gradle folder.
 val enabledMods = setOf<Mods>()
 
+val platform = when (project.name) {
+    "common" -> ModPlatform.Common
+    "fabric" -> ModPlatform.Fabric
+    "forge" -> ModPlatform.Forge
+    "quilt" -> ModPlatform.Quilt
+    "thread" -> ModPlatform.Thread
+    else -> throw IllegalArgumentException()
+}
+
 dependencies {
     Mods::class.nestedClasses.forEach {
         val mod = it.objectInstance as Mods
 
-        mod.applyCompileDependencies(this)
+        mod.applyCompileDependencies(platform, this)
         if (mod in enabledMods) {
-            mod.applyRuntimeDependencies(this)
+            mod.applyRuntimeDependencies(platform, this)
         }
     }
 }
