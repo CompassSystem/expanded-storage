@@ -1,3 +1,4 @@
+import dev.mcmeta.thread_plugin.DependencyHelper
 import dev.mcmeta.thread_plugin.Mods
 import dev.mcmeta.thread_plugin.ModPlatform
 
@@ -69,12 +70,17 @@ val platform = when (project.name) {
 }
 
 dependencies {
-    Mods::class.nestedClasses.forEach {
-        val mod = it.objectInstance as Mods
+    val helper = DependencyHelper(
+            this,
+            project.providers
+    )
 
-        mod.applyCompileDependencies(platform, this)
+    Mods::class.nestedClasses.forEach {
+        val mod = it.constructors.first().call(platform, helper) as Mods
+
+        mod.applyCompileDependencies()
         if (mod in enabledMods) {
-            mod.applyRuntimeDependencies(platform, this)
+            mod.applyRuntimeDependencies()
         }
     }
 }
