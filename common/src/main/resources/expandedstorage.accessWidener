@@ -21,7 +21,3 @@ extendable method net/minecraft/data/models/ModelProvider getName ()Ljava/lang/S
 extendable method net/minecraft/data/loot/LootTableProvider getName ()Ljava/lang/String;
 
 accessible method net/minecraft/world/item/ItemStack <init> (Lnet/minecraft/nbt/CompoundTag;)V
-
-accessible method net/minecraft/world/item/crafting/Ingredient <init> (Ljava/util/stream/Stream;)V
-accessible class net/minecraft/world/item/crafting/Ingredient$ItemValue
-accessible method net/minecraft/world/item/crafting/Ingredient$ItemValue <init> (Lnet/minecraft/world/item/ItemStack;)V

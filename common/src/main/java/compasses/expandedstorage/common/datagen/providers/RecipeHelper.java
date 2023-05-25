@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 public class RecipeHelper {
     private final Function<Item, ResourceLocation> itemIdGetter;
@@ -202,7 +201,7 @@ public class RecipeHelper {
                 .save(exporter);
         smithingRecipe(ModItems.DIAMOND_TO_NETHERITE_CONVERSION_KIT, ModItems.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT, netheriteIngots, RecipeCategory.MISC, Criterions.HAS_PREVIOUS_KIT, exporter);
 
-        SmithingTransformRecipeBuilder.smithing(new Ingredient(Stream.of(new Ingredient.ItemValue(Items.AIR.getDefaultInstance()))), Ingredient.of(obsidianBlocks), Ingredient.of(netheriteIngots), RecipeCategory.MISC, ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT)
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(), Ingredient.of(obsidianBlocks), Ingredient.of(netheriteIngots), RecipeCategory.MISC, ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT)
                                       .unlocks(Criterions.HAS_ITEM, RecipeProvider.has(obsidianBlocks))
                                       .save(exporter, itemIdGetter.apply(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT));
     }
