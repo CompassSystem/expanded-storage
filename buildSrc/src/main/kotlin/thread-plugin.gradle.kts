@@ -30,6 +30,7 @@ repositories {
         }
         filter {
             includeGroup("com.terraformersmc")
+            includeGroup("dev.emi")
         }
     }
     exclusiveContent {// Inventory Tabs

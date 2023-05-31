@@ -35,7 +35,7 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
     }
 
     class Carrier(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
-        private val cardinalComponentsVersion = "5.0.2"
+        private val cardinalComponentsVersion = "5.2.0"
 
         override fun addDependenciesToScope(adder: (String) -> Unit) {
             if (platform.isThread()) {
@@ -48,9 +48,21 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
     }
 
     class EMI(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
-        override fun addDependenciesToScope(adder: (String) -> Unit) {
+        private val version = "1.0.1+1.19.4"
+
+        override fun applyCompileDependencies() {
+            when (platform) {
+                ModPlatform.Common -> helper.add(COMPILE_API_CONFIGURATION, "dev.emi:emi-xplat-intermediary:${version}:api")
+                ModPlatform.Thread, ModPlatform.Fabric, ModPlatform.Quilt -> helper.add(COMPILE_API_CONFIGURATION, "dev.emi:emi-fabric:${version}:api")
+                ModPlatform.Forge -> helper.add(COMPILE_API_CONFIGURATION, "dev.emi:emi-forge:${version}:api")
+            }
+        }
+
+        override fun applyRuntimeDependencies() {
             if (platform.isThread()) {
-                adder("maven.modrinth:emi:0.7.3+1.19.4")
+                helper.add(RUNTIME_CONFIGURATION, "dev.emi:emi-fabric:${version}")
+            } else if (platform == ModPlatform.Forge) {
+                helper.add(RUNTIME_CONFIGURATION, "dev.emi:emi-forge:${version}")
             }
         }
     }
@@ -64,15 +76,16 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
     }
 
     class InventoryProfiles(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
-        private val libVersion = "3.0.0"
-        private val minecraftVersion = "1.19.4"
-        private val version = "1.10.1"
+        private val libVersion = "3.0.1"
+        private val minecraftVersion = "1.20-pre4"
+        private val version = "1.10.2"
 
         override fun addDependenciesToScope(adder: (String) -> Unit) {
             val target = if (platform == ModPlatform.Common) ModPlatform.Fabric else platform.parent
 
             adder("maven.modrinth:inventory-profiles-next:$target-$minecraftVersion-$version")
-            adder("maven.modrinth:libipn:$target-$minecraftVersion-$libVersion")
+//            adder("maven.modrinth:libipn:$target-$minecraftVersion-$libVersion")
+            adder("maven.modrinth:libipn:$target-1.20-pre2-$libVersion")
 
             if (platform == ModPlatform.Forge) {
                 adder("maven.modrinth:kotlin-for-forge:4.2.0")
@@ -83,8 +96,8 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
     }
 
     class JustEnoughItems(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
-        private val minecraftVersion = "1.19.2"
-        private val version = "11.5.0.297"
+        private val minecraftVersion = "1.19.4"
+        private val version = "13.1.0.11"
 
         override fun applyCompileDependencies() {
             helper.add(COMPILE_API_CONFIGURATION, "mezz.jei:jei-$minecraftVersion-common-api:$version")
