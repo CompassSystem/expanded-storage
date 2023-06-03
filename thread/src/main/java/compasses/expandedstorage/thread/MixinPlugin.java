@@ -10,7 +10,7 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 public final class MixinPlugin implements IMixinConfigPlugin {
-    private static final int MIXIN_PACKAGE_LENGTH = "compasses.expandedstorage.thread.mixin".length() + 1;
+    private static final int MIXIN_PACKAGE_LENGTH = MixinPlugin.class.getPackageName().length() + 7;
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {

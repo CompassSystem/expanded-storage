@@ -2,9 +2,9 @@ package compasses.expandedstorage.common.recipe;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.recipe.conditions.RecipeCondition;
 import compasses.expandedstorage.common.recipe.misc.RecipeTool;
-import compasses.expandedstorage.common.entity.ChestMinecart;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -45,6 +45,7 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
         }
 
         ServerLevel serverLevel = (ServerLevel) level;
+        //noinspection unchecked
         ChestMinecart newCart = ((EntityType<ChestMinecart>) output).create(serverLevel, null, cart -> {
             boolean isMinecraftCart = input instanceof AbstractMinecartContainer;
             NonNullList<ItemStack> items = isMinecraftCart ? ((AbstractMinecartContainer) input).getItemStacks() : ((ChestMinecart) input).getItems();
@@ -103,6 +104,7 @@ public class EntityConversionRecipe<O extends Entity> extends ConversionRecipe<E
         JsonObject recipe = new JsonObject();
         recipe.addProperty("type", "expandedstorage:entity_conversion");
         recipe.add("tool", recipeTool.toJson());
+        //noinspection deprecation
         recipe.addProperty("result", output.builtInRegistryHolder().key().location().toString());
         recipe.add("inputs", input.toJson(null));
         return recipe;

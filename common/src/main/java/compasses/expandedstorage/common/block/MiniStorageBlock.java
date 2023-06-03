@@ -41,7 +41,7 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
 
     static {
         NO_RIBBON_NO_SPARROW = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D);
-        RIBBON_NO_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 6.0D, 10.0D ,9.0D, 10.0D));
+        RIBBON_NO_SPARROW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 6.0D, 10.0D, 9.0D, 10.0D));
         NO_RIBBON_SPARROW_NS = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 5.0D, 10.0D, 13.0D, 11.0D));
         NO_RIBBON_SPARROW_EW = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(5.0D, 8.0D, 6.0D, 11.0D, 13.0D, 10.0D));
         RIBBON_SPARROW_NS = Shapes.or(NO_RIBBON_NO_SPARROW, Block.box(6.0D, 8.0D, 5.0D, 10.0D, 14.0D, 11.0D));
@@ -95,11 +95,13 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
         return false;
     }
 
+    @NotNull
     @SuppressWarnings("deprecation")
     public FluidState getFluidState(BlockState state) {
         return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
@@ -121,12 +123,14 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
         return CommonMain.getMiniStorageBlockEntityType().create(pos, state);
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
+    @NotNull
     @Override
     @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, Rotation rotation) {

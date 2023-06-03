@@ -1,8 +1,5 @@
 package compasses.expandedstorage.forge;
 
-import compasses.expandedstorage.forge.misc.ForgeClientHelper;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
-import ellemes.expandedstorage.api.v3.client.ScreenOpeningApi;
 import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.client.ChestBlockEntityRenderer;
@@ -12,6 +9,9 @@ import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ModItems;
 import compasses.expandedstorage.common.registration.NamedValue;
+import compasses.expandedstorage.forge.misc.ForgeClientHelper;
+import ellemes.expandedstorage.api.client.gui.AbstractScreen;
+import ellemes.expandedstorage.api.v3.client.ScreenOpeningApi;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.MinecartRenderer;

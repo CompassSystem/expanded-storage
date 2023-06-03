@@ -19,6 +19,7 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
     }
 
     public boolean isMatchFor(ItemStack tool) {
+        //noinspection deprecation
         return tool.getItem().builtInRegistryHolder().is(toolId);
     }
 
@@ -38,6 +39,7 @@ public abstract sealed class RecipeTool permits RecipeTool.UpgradeTool, RecipeTo
         }
 
         public UpgradeTool(Item item) {
+            //noinspection deprecation
             super(item.builtInRegistryHolder().key().location());
         }
     }

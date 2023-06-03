@@ -19,7 +19,7 @@ public abstract class DataFixerEntrypoint {
                     remap = false
             )
     )
-    private static void expandedstorage_register1_17DataFixer(DataFixerBuilder builder, CallbackInfo ci) {
+    private static void expandedstorage$register1_17DataFixer(DataFixerBuilder builder, CallbackInfo ci) {
         DataFixerUtils.register1_17DataFixer(builder, 2707, 1);
     }
 
@@ -32,7 +32,7 @@ public abstract class DataFixerEntrypoint {
                     remap = false
             )
     )
-    private static void expandedstorage_register1_18DataFixer(DataFixerBuilder builder, CallbackInfo ci) {
+    private static void expandedstorage$register1_18DataFixer(DataFixerBuilder builder, CallbackInfo ci) {
         DataFixerUtils.register1_18DataFixer(builder, 2852, 1);
     }
 }

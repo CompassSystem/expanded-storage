@@ -1,9 +1,9 @@
 package compasses.expandedstorage.thread.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import compasses.expandedstorage.common.misc.Utils;
 import de.siphalor.amecs.api.AmecsKeyBinding;
 import de.siphalor.amecs.api.KeyModifiers;
-import compasses.expandedstorage.common.misc.Utils;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 

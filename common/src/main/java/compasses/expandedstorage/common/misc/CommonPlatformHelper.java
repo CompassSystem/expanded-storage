@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public interface PlatformHelper {
+public interface CommonPlatformHelper {
     MenuType<AbstractHandler> getScreenHandlerType();
 
     void openScreenHandler(ServerPlayer player, Container inventory, ServerScreenHandlerFactory factory, Component title, ResourceLocation forcedScreenType);

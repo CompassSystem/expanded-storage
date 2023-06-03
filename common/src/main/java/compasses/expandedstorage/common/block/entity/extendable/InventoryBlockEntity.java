@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.IntStream;
@@ -25,7 +26,7 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
         private int[] availableSlots;
 
         @Override
-        public int[] getSlotsForFace(Direction side) {
+        public int @NotNull [] getSlotsForFace(Direction side) {
             if (availableSlots == null) {
                 availableSlots = IntStream.range(0, this.getContainerSize()).toArray();
             }
@@ -56,11 +57,13 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
             return true;
         }
 
+        @NotNull
         @Override
         public ItemStack getItem(int slot) {
             return items.get(slot);
         }
 
+        @NotNull
         @Override
         public ItemStack removeItem(int slot, int amount) {
             ItemStack stack = ContainerHelper.removeItem(items, slot, amount);
@@ -68,6 +71,7 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
             return stack;
         }
 
+        @NotNull
         @Override
         public ItemStack removeItemNoUpdate(int slot) {
             return ContainerHelper.takeItem(items, slot);

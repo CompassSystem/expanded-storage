@@ -9,10 +9,10 @@
       "init": "compasses.expandedstorage.quilt.QuiltMain",
       "client_init": "compasses.expandedstorage.quilt.QuiltClient",
       "fabric-datagen": "compasses.expandedstorage.thread.datagen.Main",
-      "rei_client": "compasses.expandedstorage.thread.client.ReiCompat",
+      "emi": "compasses.expandedstorage.common.client.EmiCompat",
+      "jei_mod_plugin": "compasses.expandedstorage.common.client.JeiCompat",
       "modmenu": "compasses.expandedstorage.thread.client.ModMenuCompat",
-      "emi": "compasses.expandedstorage.thread.client.EmiCompat",
-      "jei_mod_plugin": "compasses.expandedstorage.common.client.JeiCompat"
+      "rei_client": "compasses.expandedstorage.thread.client.ReiCompat"
     },
     "depends": [
       {

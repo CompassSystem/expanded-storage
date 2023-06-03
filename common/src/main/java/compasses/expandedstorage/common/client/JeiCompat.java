@@ -24,6 +24,7 @@ public final class JeiCompat implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addGuiContainerHandler(AbstractScreen.class, new IGuiContainerHandler<>() {
+            @NotNull
             @Override
             public List<Rect2i> getGuiExtraAreas(AbstractScreen screen) {
                 return screen.getExclusionZones();

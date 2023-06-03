@@ -1,9 +1,9 @@
 package compasses.expandedstorage.common.datagen.providers;
 
-import compasses.expandedstorage.common.registration.ModBlocks;
-import compasses.expandedstorage.common.registration.ModItems;
 import compasses.expandedstorage.common.datagen.content.ModEntityTypes;
 import compasses.expandedstorage.common.datagen.content.ModTags;
+import compasses.expandedstorage.common.registration.ModBlocks;
+import compasses.expandedstorage.common.registration.ModItems;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.tags.TagsProvider;

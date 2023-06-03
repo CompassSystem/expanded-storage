@@ -1,9 +1,9 @@
 package compasses.expandedstorage.common.datagen.providers;
 
-import compasses.expandedstorage.common.registration.ModItems;
 import compasses.expandedstorage.common.datagen.content.ModTags;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
 import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.registration.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.LegacyUpgradeRecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;

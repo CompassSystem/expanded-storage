@@ -1,8 +1,6 @@
 package compasses.expandedstorage.common.datagen.providers;
 
 import com.google.gson.JsonElement;
-import compasses.expandedstorage.common.registration.ModBlocks;
-import compasses.expandedstorage.common.registration.ModItems;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
 import compasses.expandedstorage.common.datagen.content.ModEntityTypes;
 import compasses.expandedstorage.common.datagen.content.ModTags;
@@ -16,6 +14,8 @@ import compasses.expandedstorage.common.recipe.conditions.IsRegistryObject;
 import compasses.expandedstorage.common.recipe.conditions.RecipeCondition;
 import compasses.expandedstorage.common.recipe.misc.PartialBlockState;
 import compasses.expandedstorage.common.recipe.misc.RecipeTool;
+import compasses.expandedstorage.common.registration.ModBlocks;
+import compasses.expandedstorage.common.registration.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -23,6 +23,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -536,6 +537,7 @@ public abstract class ConversionRecipeProvider implements DataProvider {
         simpleEntityThemeSwap(Utils.id("moss_to_wood_chest_minecart"), ModEntityTypes.MOSS_CHEST_MINECART, ModEntityTypes.WOOD_CHEST_MINECART);
     }
 
+    @NotNull
     @Override
     public String getName() {
         return "Expanded Storage - Conversion Recipes";

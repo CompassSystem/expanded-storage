@@ -18,7 +18,7 @@ import compasses.expandedstorage.forge.block.misc.GenericItemAccess;
 import compasses.expandedstorage.forge.item.ChestBlockItem;
 import compasses.expandedstorage.forge.item.ChestMinecartItem;
 import compasses.expandedstorage.forge.item.MiniStorageBlockItem;
-import compasses.expandedstorage.forge.misc.ForgePlatformHelper;
+import compasses.expandedstorage.forge.misc.ForgeCommonHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -55,7 +55,7 @@ import java.util.function.Supplier;
 @Mod("expandedstorage")
 public final class ForgeMain {
     public ForgeMain() {
-        CommonMain.constructContent(new ForgePlatformHelper(), GenericItemAccess::new, BasicLockable::new,
+        CommonMain.constructContent(new ForgeCommonHelper(), GenericItemAccess::new, BasicLockable::new,
                 FMLLoader.getDist().isClient(), this::registerContent,
                 /*Base*/ false,
                 /*Chest*/ ChestBlockItem::new, ChestItemAccess::new,

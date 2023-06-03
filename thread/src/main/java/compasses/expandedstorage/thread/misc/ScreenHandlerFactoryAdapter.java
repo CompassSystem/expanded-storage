@@ -1,4 +1,4 @@
-package compasses.expandedstorage.thread;
+package compasses.expandedstorage.thread.misc;
 
 import compasses.expandedstorage.common.inventory.ServerScreenHandlerFactory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -11,6 +11,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 // Note: MenuProvider is important without it dependants will crash in development when opening inventories.
@@ -36,6 +37,7 @@ public final class ScreenHandlerFactoryAdapter implements ExtendedScreenHandlerF
         }
     }
 
+    @NotNull
     @Override
     public Component getDisplayName() {
         return title;

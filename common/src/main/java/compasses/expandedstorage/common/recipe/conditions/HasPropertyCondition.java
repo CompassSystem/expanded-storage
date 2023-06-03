@@ -74,6 +74,7 @@ public class HasPropertyCondition implements RecipeCondition {
         Map<Property<?>, Object> properties = Maps.newHashMapWithExpectedSize(numProperties);
         for (int i = 0; i < numProperties; i++) {
             Property<?> key = block.getStateDefinition().getProperty(buffer.readUtf());
+            // todo: we should be more safe when it comes to networking, server could send bad data intentionally
             Object value = key.getValue(buffer.readUtf()).orElseThrow();
             properties.put(key, value);
         }

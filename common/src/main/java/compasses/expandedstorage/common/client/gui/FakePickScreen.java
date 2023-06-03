@@ -55,13 +55,13 @@ public final class FakePickScreen extends AbstractScreen {
             minecraft.player.closeContainer();
         } else {
             int invSize = menu.getInventory().getContainerSize();
-            if (AbstractScreen.getScreenSize(preference, invSize, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
+            if (getScreenSize(preference, invSize, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
                 minecraft.player.displayClientMessage(Component.translatable("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(Component.translatable("chat.ellemes_container_lib.cannot_display_screen", Component.translatable("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
                 minecraft.player.closeContainer();
                 return;
             }
             menu.clearSlots();
-            minecraft.setScreen(AbstractScreen.createScreen(menu, Minecraft.getInstance().player.getInventory(), this.getTitle()));
+            minecraft.setScreen(createScreen(menu, Minecraft.getInstance().player.getInventory(), this.getTitle()));
         }
     }
 

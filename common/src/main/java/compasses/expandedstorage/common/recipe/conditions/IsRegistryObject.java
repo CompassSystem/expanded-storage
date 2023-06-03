@@ -28,7 +28,7 @@ public class IsRegistryObject implements RecipeCondition {
 
     @Override
     public boolean test(Object subject) {
-        return unwrap(subject) == value;
+        return RecipeCondition.unwrap(subject) == value;
     }
 
     @Override

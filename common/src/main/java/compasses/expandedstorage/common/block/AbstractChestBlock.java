@@ -204,6 +204,7 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
         return super.updateShape(state, offset, offsetState, level, pos, offsetPos);
     }
 
+    // todo: look into making this return not null?
     @Override
     public WorldlyContainer getContainer(BlockState state, LevelAccessor level, BlockPos pos) {
         return AbstractChestBlock.createPropertyRetriever(this, state, level, pos, true).get(AbstractChestBlock.INVENTORY_GETTER).orElse(null);

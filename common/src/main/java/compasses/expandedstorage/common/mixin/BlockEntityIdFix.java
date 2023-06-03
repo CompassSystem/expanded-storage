@@ -16,7 +16,7 @@ public abstract class BlockEntityIdFix {
             at = @At(value = "HEAD"),
             cancellable = true
     )
-    private static void expandedstorage_fixChestIds(BlockPos pos, BlockState state, CompoundTag nbt, CallbackInfoReturnable<BlockEntity> cir) {
+    private static void expandedstorage$fixChestIds(BlockPos pos, BlockState state, CompoundTag nbt, CallbackInfoReturnable<BlockEntity> cir) {
         String id = nbt.getString("id");
         if (id.equals("expandedstorage:cursed_chest")) {
             nbt.putString("id", "expandedstorage:chest");

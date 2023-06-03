@@ -82,6 +82,7 @@ public interface RecipeCondition {
                                                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                     boolean optional = objCondition.has("optional") && JsonHelper.getJsonBoolean(objCondition, "optional");
                     JsonObject properties = JsonHelper.getJsonObject(objCondition, "state");
+                    //noinspection rawtypes
                     Map.Entry[] stateProperties = new Map.Entry[properties.size()];
                     int index = 0;
                     for (Map.Entry<String, JsonElement> propertyEntry : properties.entrySet()) {
@@ -97,6 +98,7 @@ public interface RecipeCondition {
                         stateProperties[index] = Map.entry(property, value.get());
                         index++;
                     }
+                    //noinspection deprecation
                     return new AndCondition(generic, new HasPropertyCondition(block.builtInRegistryHolder().key().location(), Map.ofEntries(stateProperties), optional));
                 }
             }

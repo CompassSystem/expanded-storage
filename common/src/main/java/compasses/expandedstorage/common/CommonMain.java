@@ -1,6 +1,14 @@
 package compasses.expandedstorage.common;
 
 import com.google.common.collect.ImmutableSet;
+import compasses.expandedstorage.common.block.AbstractChestBlock;
+import compasses.expandedstorage.common.block.BarrelBlock;
+import compasses.expandedstorage.common.block.ChestBlock;
+import compasses.expandedstorage.common.block.CopperBarrelBlock;
+import compasses.expandedstorage.common.block.CopperMiniStorageBlock;
+import compasses.expandedstorage.common.block.MiniStorageBlock;
+import compasses.expandedstorage.common.block.MossChestBlock;
+import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.entity.BarrelBlockEntity;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.entity.MiniStorageBlockEntity;
@@ -11,20 +19,6 @@ import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
 import compasses.expandedstorage.common.client.MiniStorageScreen;
 import compasses.expandedstorage.common.entity.ChestMinecart;
-import compasses.expandedstorage.common.misc.PlatformHelper;
-import compasses.expandedstorage.common.misc.Tier;
-import compasses.expandedstorage.common.misc.Utils;
-import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
-import compasses.expandedstorage.common.recipe.ConversionRecipeManager;
-import ellemes.expandedstorage.api.EsChestType;
-import compasses.expandedstorage.common.block.AbstractChestBlock;
-import compasses.expandedstorage.common.block.BarrelBlock;
-import compasses.expandedstorage.common.block.ChestBlock;
-import compasses.expandedstorage.common.block.CopperBarrelBlock;
-import compasses.expandedstorage.common.block.CopperMiniStorageBlock;
-import compasses.expandedstorage.common.block.MiniStorageBlock;
-import compasses.expandedstorage.common.block.MossChestBlock;
-import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.item.BlockMutatorBehaviour;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
 import compasses.expandedstorage.common.item.EntityInteractableItem;
@@ -32,11 +26,17 @@ import compasses.expandedstorage.common.item.MutationMode;
 import compasses.expandedstorage.common.item.StorageConversionKit;
 import compasses.expandedstorage.common.item.StorageMutator;
 import compasses.expandedstorage.common.item.ToolUsageResult;
+import compasses.expandedstorage.common.misc.CommonPlatformHelper;
+import compasses.expandedstorage.common.misc.Tier;
+import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
+import compasses.expandedstorage.common.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ContentConsumer;
 import compasses.expandedstorage.common.registration.ModItems;
 import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.common.registration.ObjectConsumer;
+import ellemes.expandedstorage.api.EsChestType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -101,7 +101,7 @@ public final class CommonMain {
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
     private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
     private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
-    private static PlatformHelper platformHelper;
+    private static CommonPlatformHelper platformHelper;
 
     public static BlockEntityType<ChestBlockEntity> getChestBlockEntityType() {
         return chestBlockEntityType.getValue();
@@ -162,7 +162,7 @@ public final class CommonMain {
         return null;
     }
 
-    public static void constructContent(PlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
+    public static void constructContent(CommonPlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
                                         boolean isClient, ContentConsumer contentRegistrationConsumer,
             /*Base*/ boolean manuallyWrapTooltips,
             /*Chest*/ BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker, Function<OpenableBlockEntity, ItemAccess> chestAccessMaker,
@@ -316,6 +316,9 @@ public final class CommonMain {
             Predicate<Block> isChestBlock = b -> b instanceof AbstractChestBlock;
             CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.MERGE, (context, level, state, pos, stack) -> {
                 Player player = context.getPlayer();
+                if (player == null) {
+                    return ToolUsageResult.fail();
+                }
                 if (state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
                     CompoundTag tag = stack.getOrCreateTag();
                     if (tag.contains("pos")) {
@@ -647,6 +650,7 @@ public final class CommonMain {
         return InteractionResult.PASS;
     }
 
+    @SuppressWarnings("unused")
     public static void generateDisplayItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, Consumer<ItemStack> output) {
         Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
         Consumer<Item> sparrowWrap = item -> {
@@ -769,7 +773,7 @@ public final class CommonMain {
         sparrowWrap.accept(ModItems.NETHERITE_MINI_BARREL);
     }
 
-    public static PlatformHelper platformHelper() {
+    public static CommonPlatformHelper platformHelper() {
         return platformHelper;
     }
 }

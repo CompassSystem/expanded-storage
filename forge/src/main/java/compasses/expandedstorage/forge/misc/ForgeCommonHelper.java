@@ -2,7 +2,7 @@ package compasses.expandedstorage.forge.misc;
 
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import compasses.expandedstorage.common.inventory.ServerScreenHandlerFactory;
-import compasses.expandedstorage.common.misc.PlatformHelper;
+import compasses.expandedstorage.common.misc.CommonPlatformHelper;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.common.recipe.EntityConversionRecipe;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ForgePlatformHelper implements PlatformHelper {
+public class ForgeCommonHelper implements CommonPlatformHelper {
     private final SimpleChannel channel;
     private final MenuType<AbstractHandler> menuType;
 

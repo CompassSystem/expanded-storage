@@ -61,10 +61,12 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         @Override
         public Int2IntFunction get(ChestBlockEntity first, ChestBlockEntity second) {
             return i -> {
+                //noinspection DataFlowIssue
                 int firstLightColor = LevelRenderer.getLightColor(first.getLevel(), first.getBlockPos());
                 int firstBlockLight = LightTexture.block(firstLightColor);
                 int firstSkyLight = LightTexture.sky(firstLightColor);
 
+                //noinspection DataFlowIssue
                 int secondLightColor = LevelRenderer.getLightColor(second.getLevel(), second.getBlockPos());
                 int secondBlockLight = LightTexture.block(secondLightColor);
                 int secondSkyLight = LightTexture.sky(secondLightColor);

@@ -53,6 +53,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -63,6 +64,7 @@ import java.util.function.Supplier;
 
 public class ThreadMain {
     public static final ResourceLocation UPDATE_RECIPES_ID = Utils.id("update_conversion_recipes");
+    private static Supplier<Content> temporaryContentSupplier;
 
     @SuppressWarnings({"UnstableApiUsage"})
     public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
@@ -70,7 +72,16 @@ public class ThreadMain {
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static void constructContent(ThreadPlatformHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
+    public static Content doClientInit() {
+        Content content = temporaryContentSupplier.get();
+        temporaryContentSupplier = null;
+
+        registerClientStuff(content);
+
+        return content;
+    }
+
+    public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
         FabricItemGroup.builder(Utils.id("tab")).icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
                        .displayItems((itemDisplayParameters, output) -> {
                            CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
@@ -95,6 +106,7 @@ public class ThreadMain {
                 return Utils.id("conversion_recipe_loader");
             }
 
+            @NotNull
             @Override
             public CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager manager, ProfilerFiller filler1, ProfilerFiller filler2, Executor executor1, Executor executor2) {
                 return base.reload(barrier, manager, filler1, filler2, executor1, executor2);
@@ -124,6 +136,8 @@ public class ThreadMain {
         ThreadMain.registerBlockEntity(content.getOldChestBlockEntityType());
         ThreadMain.registerBlockEntity(content.getBarrelBlockEntityType());
         ThreadMain.registerBlockEntity(content.getMiniChestBlockEntityType());
+
+        temporaryContentSupplier = () -> content;
     }
 
     private static <T extends BlockEntity> void registerBlockEntity(NamedValue<BlockEntityType<T>> blockEntityType) {

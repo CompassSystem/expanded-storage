@@ -164,7 +164,7 @@ public final class ScrollScreen extends AbstractScreen {
     protected boolean handleKeyPress(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_DOWN || keyCode == GLFW.GLFW_KEY_PAGE_DOWN) {
             if (topRow != totalRows - inventoryHeight) {
-                if (Screen.hasShiftDown()) {
+                if (hasShiftDown()) {
                     this.setTopRowAndMoveThumb(topRow, Math.min(topRow + inventoryHeight, totalRows - inventoryHeight));
                 } else {
                     this.setTopRowAndMoveThumb(topRow, topRow + 1);
@@ -173,7 +173,7 @@ public final class ScrollScreen extends AbstractScreen {
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_UP || keyCode == GLFW.GLFW_KEY_PAGE_UP) {
             if (topRow != 0) {
-                if (Screen.hasShiftDown()) {
+                if (hasShiftDown()) {
                     this.setTopRowAndMoveThumb(topRow, Math.max(topRow - inventoryHeight, 0));
                 } else {
                     this.setTopRowAndMoveThumb(topRow, topRow - 1);
@@ -233,9 +233,9 @@ public final class ScrollScreen extends AbstractScreen {
         if (scrollingUnrestricted || this.isMouseOverTrack(mouseX, mouseY)) {
             int newTop;
             if (delta < 0) {
-                newTop = Math.min(topRow + (Screen.hasShiftDown() ? inventoryHeight : 1), totalRows - inventoryHeight);
+                newTop = Math.min(topRow + (hasShiftDown() ? inventoryHeight : 1), totalRows - inventoryHeight);
             } else {
-                newTop = Math.max(topRow - (Screen.hasShiftDown() ? inventoryHeight : 1), 0);
+                newTop = Math.max(topRow - (hasShiftDown() ? inventoryHeight : 1), 0);
             }
             this.setTopRowAndMoveThumb(topRow, newTop);
             return true;

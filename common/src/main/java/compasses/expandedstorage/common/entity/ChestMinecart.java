@@ -1,11 +1,11 @@
 package compasses.expandedstorage.common.entity;
 
+import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.inventory.ExposedInventory;
 import ellemes.expandedstorage.api.v3.OpenableInventory;
 import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
 import ellemes.expandedstorage.api.v3.context.BaseContext;
 import ellemes.expandedstorage.api.v4.InventoryOpeningApi;
-import compasses.expandedstorage.common.block.ChestBlock;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +29,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class ChestMinecart extends AbstractMinecart implements ExposedInventory, OpenableInventoryProvider<BaseContext>, OpenableInventory {
     private final NonNullList<ItemStack> inventory;
@@ -46,21 +47,25 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
         chestItem = block.asItem();
     }
 
+    @NotNull
     @Override
     protected Item getDropItem() {
         return dropItem;
     }
 
+    @NotNull
     @Override
     public ItemStack getPickResult() {
         return new ItemStack(dropItem);
     }
 
+    @NotNull
     @Override
     public BlockState getDisplayBlockState() {
         return renderBlockState;
     }
 
+    @NotNull
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         boolean isClient = level.isClientSide();
@@ -111,11 +116,13 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
         }
     }
 
+    @NotNull
     @Override
     public Type getMinecartType() {
         return Type.CHEST;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static ChestMinecart createMinecart(Level level, Vec3 pos, ResourceLocation cartItemId) {
         return level.registryAccess().registry(Registries.ENTITY_TYPE).map(registry -> {
             ChestMinecart cart = (ChestMinecart) registry.get(cartItemId).create(level);

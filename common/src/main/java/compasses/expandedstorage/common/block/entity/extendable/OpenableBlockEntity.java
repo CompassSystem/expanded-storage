@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory, Nameable {
@@ -38,6 +39,7 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
     }
 
     protected final boolean isValidAndPlayerInRange(Player player) {
+        //noinspection DataFlowIssue
         return this.getLevel().getBlockEntity(this.getBlockPos()) == this && player.distanceToSqr(Vec3.atCenterOf(this.getBlockPos())) <= 36.0D;
     }
 
@@ -96,10 +98,12 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         customName = name;
     }
 
+    @NotNull
     public final Component getName() {
         return this.hasCustomName() ? customName : defaultName;
     }
 
+    @NotNull
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag updateTag = super.getUpdateTag();

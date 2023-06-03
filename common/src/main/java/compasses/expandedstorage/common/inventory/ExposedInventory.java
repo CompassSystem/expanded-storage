@@ -6,6 +6,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public interface ExposedInventory extends Container {
     NonNullList<ItemStack> getItems();
@@ -48,11 +49,13 @@ public interface ExposedInventory extends Container {
         return true;
     }
 
+    @NotNull
     @Override
     default ItemStack getItem(int slot) {
         return getItems().get(slot);
     }
 
+    @NotNull
     @Override
     default ItemStack removeItem(int slot, int amount) {
         ItemStack stack = ContainerHelper.removeItem(getItems(), slot, amount);
@@ -60,6 +63,7 @@ public interface ExposedInventory extends Container {
         return stack;
     }
 
+    @NotNull
     @Override
     default ItemStack removeItemNoUpdate(int slot) {
         return ContainerHelper.takeItem(getItems(), slot);
