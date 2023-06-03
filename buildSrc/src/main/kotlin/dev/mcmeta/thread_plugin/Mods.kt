@@ -125,16 +125,18 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
     }
 
     class RoughlyEnoughItems(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
-        private val version = "11.0.597"
+        private val version = "11.0.617"
 
         override fun applyCompileDependencies() {
             if (platform == ModPlatform.Common) {
                 helper.add(COMPILE_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-api:$version") {
+                    isTransitive = true
                     exclude(mapOf("group" to "net.fabricmc"))
                     exclude(mapOf("group" to "net.fabricmc.fabric-api"))
                 }
             } else {
                 helper.add(COMPILE_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-${platform.parent}:$version") {
+                    isTransitive = true
                     exclude(mapOf("group" to "net.fabricmc"))
                     exclude(mapOf("group" to "net.fabricmc.fabric-api"))
                 }
@@ -144,6 +146,7 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
         override fun applyRuntimeDependencies() {
             if (platform != ModPlatform.Common) {
                 helper.add(RUNTIME_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-${platform.parent}:$version") {
+                    isTransitive = true
                     exclude(mapOf("group" to "net.fabricmc"))
                     exclude(mapOf("group" to "net.fabricmc.fabric-api"))
                 }
