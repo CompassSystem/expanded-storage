@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.api.v3.client;
 
-import ellemes.expandedstorage.common.client.gui.PickScreen;
+import compasses.expandedstorage.common.client.gui.PickScreen;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.NotNull;
 

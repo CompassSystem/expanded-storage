@@ -1,8 +1,8 @@
 package ellemes.expandedstorage.api.inventory;
 
-import ellemes.expandedstorage.common.CommonMain;
-import ellemes.expandedstorage.common.misc.ToggleableSlot;
-import ellemes.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.misc.ToggleableSlot;
+import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

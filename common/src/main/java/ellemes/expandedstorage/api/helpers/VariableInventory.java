@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.api.helpers;
 
-import ellemes.expandedstorage.common.inventory.InventorySlotFunction;
+import compasses.expandedstorage.common.inventory.InventorySlotFunction;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;

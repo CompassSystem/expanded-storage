@@ -1,7 +1,7 @@
 {
   "required": true,
-  "plugin": "ellemes.expandedstorage.forge.ForgeMixinPlugin",
-  "package": "ellemes.expandedstorage.forge.mixin",
+  "plugin": "compasses.expandedstorage.forge.ForgeMixinPlugin",
+  "package": "compasses.expandedstorage.forge.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [ "OxidizableBlockMixin" ],
   "client": [

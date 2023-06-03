@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.api;
 
-import ellemes.expandedstorage.common.block.AbstractChestBlock;
+import compasses.expandedstorage.common.block.AbstractChestBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
