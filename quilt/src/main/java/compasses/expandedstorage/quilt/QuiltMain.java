@@ -1,16 +1,13 @@
 package compasses.expandedstorage.quilt;
 
 import compasses.expandedstorage.common.CommonMain;
-import compasses.expandedstorage.common.block.BarrelBlock;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ContentConsumer;
-import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
 import compasses.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
-import net.minecraft.client.renderer.RenderType;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.Version;
@@ -19,7 +16,6 @@ import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.content.registry.api.ReversibleBlockEntry;
-import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +41,6 @@ public final class QuiltMain implements ModInitializer {
         ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThenIf(isClient, ThreadMain::registerClientStuff)
-                        .andThenIf(isClient, this::registerBarrelRenderLayers)
                         .andThen(this::registerWaxedContent)
         );
 
@@ -62,11 +56,5 @@ public final class QuiltMain implements ModInitializer {
         CopperBlockHelper.oxidisation().forEach((before, next) -> {
             BlockContentRegistries.OXIDIZABLE.put(before, new ReversibleBlockEntry(next, true));
         });
-    }
-
-    private void registerBarrelRenderLayers(Content content) {
-        for (NamedValue<BarrelBlock> block : content.getBarrelBlocks()) {
-            BlockRenderLayerMap.put(RenderType.cutoutMipped(), block.getValue());
-        }
     }
 }

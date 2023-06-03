@@ -1,23 +1,19 @@
 package compasses.expandedstorage.fabric;
 
 import compasses.expandedstorage.common.CommonMain;
-import compasses.expandedstorage.common.block.BarrelBlock;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ContentConsumer;
-import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
 import compasses.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.VersionParsingException;
-import net.minecraft.client.renderer.RenderType;
 import org.slf4j.LoggerFactory;
 
 public final class FabricMain implements ModInitializer {
@@ -45,8 +41,6 @@ public final class FabricMain implements ModInitializer {
                 fabricLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThenIf(isClient, ThreadMain::registerClientStuff)
-                        .andThenIf(isClient, this::registerBarrelRenderLayers)
                         .andThen(this::registerOxidisableAndWaxableBlocks)
         );
 
@@ -58,11 +52,5 @@ public final class FabricMain implements ModInitializer {
     private void registerOxidisableAndWaxableBlocks(Content content) {
         CopperBlockHelper.oxidisation().forEach(OxidizableBlocksRegistry::registerOxidizableBlockPair);
         CopperBlockHelper.dewaxing().inverse().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
-    }
-
-    private void registerBarrelRenderLayers(Content content) {
-        for (NamedValue<BarrelBlock> block : content.getBarrelBlocks()) {
-            BlockRenderLayerMap.INSTANCE.putBlock(block.getValue(), RenderType.cutoutMipped());
-        }
     }
 }

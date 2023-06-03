@@ -64,11 +64,21 @@ import java.util.function.Supplier;
 
 public class ThreadMain {
     public static final ResourceLocation UPDATE_RECIPES_ID = Utils.id("update_conversion_recipes");
+    private static Supplier<Content> temporaryContentSupplier;
 
     @SuppressWarnings({"UnstableApiUsage"})
     public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
         //noinspection unchecked
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
+    }
+
+    public static Content doClientInit() {
+        Content content = temporaryContentSupplier.get();
+        temporaryContentSupplier = null;
+
+        registerClientStuff(content);
+
+        return content;
     }
 
     public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
@@ -129,6 +139,8 @@ public class ThreadMain {
         ThreadMain.registerBlockEntity(content.getOldChestBlockEntityType());
         ThreadMain.registerBlockEntity(content.getBarrelBlockEntityType());
         ThreadMain.registerBlockEntity(content.getMiniChestBlockEntityType());
+
+        temporaryContentSupplier = () -> content;
     }
 
     private static <T extends BlockEntity> void registerBlockEntity(NamedValue<BlockEntityType<T>> blockEntityType) {

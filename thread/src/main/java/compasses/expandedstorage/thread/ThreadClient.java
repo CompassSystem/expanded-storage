@@ -8,6 +8,7 @@ import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.common.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.common.recipe.EntityConversionRecipe;
+import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -17,11 +18,14 @@ import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ThreadClient {
-    public static void initialize(ClientPlatformHelper helper) {
+    public static void initialize(ClientPlatformHelper helper, Consumer<Content> extraClientInit) {
         CommonClient.initialize(helper);
         MenuScreens.register(CommonMain.platformHelper().getScreenHandlerType(), AbstractScreen::createScreen);
+
+        extraClientInit.accept(ThreadMain.doClientInit());
 
         ItemProperties.registerGeneric(Utils.id("sparrow"), CommonClient::hasSparrowProperty);
         ItemProperties.register(ModItems.STORAGE_MUTATOR, Utils.id("tool_mode"), CommonClient::currentMutatorToolMode);
