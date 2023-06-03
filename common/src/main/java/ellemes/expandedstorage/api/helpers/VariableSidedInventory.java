@@ -1,6 +1,6 @@
 package ellemes.expandedstorage.api.helpers;
 
-import ellemes.expandedstorage.common.inventory.InventorySlotFunction;
+import compasses.expandedstorage.common.inventory.InventorySlotFunction;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -8,6 +8,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -61,18 +62,21 @@ public final class VariableSidedInventory implements WorldlyContainer {
         return true;
     }
 
+    @NotNull
     @Override
     public ItemStack getItem(int slot) {
         assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
         return this.applyFunctionToSlot(slot, Container::getItem);
     }
 
+    @NotNull
     @Override
     public ItemStack removeItem(int slot, int amount) {
         assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
         return this.applyFunctionToSlot(slot, (part, rSlot) -> part.removeItem(rSlot, amount));
     }
 
+    @NotNull
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
         assert slot >= 0 && slot < this.getContainerSize() : "slot index out of range";
@@ -154,7 +158,7 @@ public final class VariableSidedInventory implements WorldlyContainer {
     }
 
     @Override
-    public int[] getSlotsForFace(Direction direction) {
+    public int @NotNull [] getSlotsForFace(Direction direction) {
         return slotsAccessibleThroughFace.computeIfAbsent(direction, (dir) -> {
             int previousSize = 0;
             IntArrayList list = new IntArrayList();

@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "ellemes.expandedstorage.common.mixin",
+  "package": "compasses.expandedstorage.common.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BlockEntityIdFix",

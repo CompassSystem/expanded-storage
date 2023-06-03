@@ -1,8 +1,8 @@
 package ellemes.expandedstorage.api.inventory;
 
-import ellemes.expandedstorage.common.CommonMain;
-import ellemes.expandedstorage.common.misc.ToggleableSlot;
-import ellemes.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.misc.ToggleableSlot;
+import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntUnaryOperator;
 
@@ -67,6 +68,7 @@ public final class AbstractHandler extends AbstractContainerMenu {
         return inventory;
     }
 
+    @NotNull
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack originalStack = ItemStack.EMPTY;

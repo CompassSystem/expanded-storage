@@ -1,7 +1,7 @@
 {
   "required": true,
-  "package": "ellemes.expandedstorage.thread.mixin",
-  "plugin": "ellemes.expandedstorage.thread.MixinPlugin",
+  "package": "compasses.expandedstorage.thread.mixin",
+  "plugin": "compasses.expandedstorage.thread.MixinPlugin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "HTMChestCompat",

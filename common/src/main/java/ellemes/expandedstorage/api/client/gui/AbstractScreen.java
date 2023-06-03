@@ -3,17 +3,17 @@ package ellemes.expandedstorage.api.client.gui;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import compasses.expandedstorage.common.CommonClient;
+import compasses.expandedstorage.common.client.MiniStorageScreen;
+import compasses.expandedstorage.common.client.SizedSimpleTexture;
+import compasses.expandedstorage.common.client.gui.FakePickScreen;
+import compasses.expandedstorage.common.client.gui.PickScreen;
+import compasses.expandedstorage.common.misc.ErrorlessTextureGetter;
+import compasses.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.api.client.ScreenConstructor;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.function.ScreenSizeRetriever;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
-import ellemes.expandedstorage.common.CommonClient;
-import ellemes.expandedstorage.common.client.MiniStorageScreen;
-import ellemes.expandedstorage.common.client.SizedSimpleTexture;
-import ellemes.expandedstorage.common.client.gui.FakePickScreen;
-import ellemes.expandedstorage.common.client.gui.PickScreen;
-import ellemes.expandedstorage.common.misc.ErrorlessTextureGetter;
-import ellemes.expandedstorage.common.misc.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
@@ -43,8 +43,8 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     protected final int textureWidth, textureHeight;
 
     private static void copyRectangle(NativeImage from, NativeImage to, int srcX, int srcY, int destX, int destY, int width, int height) {
-        for(int y = 0; y < height; ++y) {
-            for(int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
                 to.setPixelRGBA(destX + x, destY + y, from.getPixelRGBA(srcX + x, srcY + y));
             }
         }

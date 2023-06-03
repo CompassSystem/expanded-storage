@@ -2,6 +2,7 @@ package ellemes.expandedstorage.api;
 
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
@@ -30,6 +31,7 @@ public enum EsChestType implements StringRepresentable {
         };
     }
 
+    @NotNull
     @Override
     public String getSerializedName() {
         return name;
