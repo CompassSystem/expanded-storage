@@ -1,1 +1,2 @@
-- Fix issue when opening mini storage blocks.
+- Fix a major issue where client classes were being accessed earlier than they should have been leading to some issues with other mods e.g. missing banner patters, issues with some modded signs ect.
+- Thanks to DaFuqs for reporting the above issue: [issue #32](https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues/32)
