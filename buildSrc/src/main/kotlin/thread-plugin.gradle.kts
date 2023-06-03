@@ -1,4 +1,6 @@
-import dev.mcmeta.thread_plugin.ModSupport
+import dev.mcmeta.thread_plugin.DependencyHelper
+import dev.mcmeta.thread_plugin.Mods
+import dev.mcmeta.thread_plugin.ModPlatform
 
 repositories {
     maven { // Cardinal Components
@@ -28,6 +30,7 @@ repositories {
         }
         filter {
             includeGroup("com.terraformersmc")
+            includeGroup("dev.emi")
         }
     }
     exclusiveContent {// Inventory Tabs
@@ -41,6 +44,10 @@ repositories {
             includeGroup("com.github.Andrew6rant")
         }
     }
+    maven { // Quark
+        name = "Jared"
+        url = uri("https://maven.blamejared.com/")
+    }
     maven { // Roughly Enough Items
         name = "Shedaniel"
         url = uri("https://maven.shedaniel.me/")
@@ -49,25 +56,32 @@ repositories {
         name = "Siphalor's Maven"
         url = uri("https://maven.siphalor.de/")
     }
-    maven { // FLAN
-        name = "Flemmli97"
-        url = uri("https://gitlab.com/api/v4/projects/21830712/packages/maven")
-    }
 }
-// Note: when changing this you will likely need to stop any gradle deamons and delete the root .gradle folder.
-val enabledMods = setOf<ModSupport>()
 
-fun DependencyHandlerScope.optionalDependency(enumValue: ModSupport) {
-    val configuration = if (enabledMods.contains(enumValue)) "modImplementation" else "modCompileOnly"
-    enumValue.dependencies.forEach {
-        configuration(it) {
-            exclude("net.fabricmc")
-            exclude("net.fabricmc.fabric-api")
-            enumValue.block(this)
-        }
-    }
+// Note: when changing this you will likely need to stop any gradle deamons and delete the root .gradle folder.
+val enabledMods = setOf<Mods>()
+
+val platform = when (project.name) {
+    "common" -> ModPlatform.Common
+    "fabric" -> ModPlatform.Fabric
+    "forge" -> ModPlatform.Forge
+    "quilt" -> ModPlatform.Quilt
+    "thread" -> ModPlatform.Thread
+    else -> throw IllegalArgumentException()
 }
 
 dependencies {
-    ModSupport.values().forEach { optionalDependency(it) }
+    val helper = DependencyHelper(
+            this,
+            project.providers
+    )
+
+    Mods::class.nestedClasses.forEach {
+        val mod = it.constructors.first().call(platform, helper) as Mods
+
+        mod.applyCompileDependencies()
+        if (mod in enabledMods) {
+            mod.applyRuntimeDependencies()
+        }
+    }
 }

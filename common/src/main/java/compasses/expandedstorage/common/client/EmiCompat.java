@@ -1,6 +1,5 @@
 package compasses.expandedstorage.common.client;
 
-import compasses.expandedstorage.common.client.gui.AbstractScreen;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;

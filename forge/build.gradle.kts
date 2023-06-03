@@ -1,42 +1,14 @@
-import dev.mcmeta.thread_plugin.ModVersions
 import ellemes.gradle.mod.api.task.AbstractJsonTask
 
 plugins {
     id("ellemes.gradle.mod").apply(false)
+    id("thread-plugin")
 }
 
 loom {
     forge {
         mixinConfig("expandedstorage-forge.mixins.json")
     }
-}
-
-repositories {
-    maven {
-        // JEI maven
-        name = "Progwml6 maven"
-        url = uri("https://dvs1.progwml6.com/files/maven/")
-    }
-    maven {
-        // JEI maven - fallback
-        name = "ModMaven"
-        url = uri("https://modmaven.k-4u.nl")
-    }
-    maven {
-        name = "Jared"
-        url = uri("https://maven.blamejared.com/")
-    }
-    maven { // Roughly Enough Items
-        name = "Shedaniel"
-        url = uri("https://maven.shedaniel.me/")
-    }
-}
-
-dependencies {
-    compileOnly("mezz.jei:jei-${properties["jei_minecraft_version"]}-forge-api:${properties["jei_version"]}")
-    modCompileOnly("maven.modrinth:inventory-profiles-next:forge-${ModVersions.IPN_MINECRAFT}-${ModVersions.IPN}")
-    modCompileOnly("vazkii.quark:Quark:3.3-373.2529")
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${ModVersions.REI}")
 }
 
 tasks.getByName<AbstractJsonTask>("minJar") {
