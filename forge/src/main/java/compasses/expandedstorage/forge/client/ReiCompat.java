@@ -1,7 +1,7 @@
 package compasses.expandedstorage.forge.client;
 
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import compasses.expandedstorage.common.client.gui.FakePickScreen;
+import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;

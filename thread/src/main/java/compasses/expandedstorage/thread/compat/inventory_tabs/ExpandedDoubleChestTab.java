@@ -1,7 +1,7 @@
 package compasses.expandedstorage.thread.compat.inventory_tabs;
 
-import ellemes.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.common.block.AbstractChestBlock;
+import ellemes.expandedstorage.api.EsChestType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;

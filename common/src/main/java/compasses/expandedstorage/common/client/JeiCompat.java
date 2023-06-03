@@ -1,8 +1,8 @@
 package compasses.expandedstorage.common.client;
 
 import compasses.expandedstorage.common.client.gui.FakePickScreen;
-import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import compasses.expandedstorage.common.misc.Utils;
+import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;

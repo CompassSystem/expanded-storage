@@ -2,12 +2,12 @@ package compasses.expandedstorage.common.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.mojang.blaze3d.vertex.PoseStack;
+import compasses.expandedstorage.common.CommonClient;
+import compasses.expandedstorage.common.client.PickButton;
 import compasses.expandedstorage.common.client.gui.widget.ScreenPickButton;
 import ellemes.expandedstorage.api.client.function.ScreenSizePredicate;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
-import compasses.expandedstorage.common.CommonClient;
-import compasses.expandedstorage.common.client.PickButton;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;

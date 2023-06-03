@@ -1,11 +1,11 @@
 package ellemes.expandedstorage.api.v4;
 
+import compasses.expandedstorage.common.CommonMain;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.api.v3.OpenableInventory;
 import ellemes.expandedstorage.api.v3.OpenableInventoryProvider;
 import ellemes.expandedstorage.api.v3.context.BaseContext;
 import ellemes.expandedstorage.api.v3.context.BlockContext;
-import compasses.expandedstorage.common.CommonMain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

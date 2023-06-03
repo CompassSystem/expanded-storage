@@ -1,11 +1,11 @@
 package compasses.expandedstorage.forge.misc;
 
-import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import compasses.expandedstorage.common.inventory.ServerScreenHandlerFactory;
 import compasses.expandedstorage.common.misc.CommonPlatformHelper;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.common.recipe.EntityConversionRecipe;
+import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

@@ -1,10 +1,10 @@
 package compasses.expandedstorage.common.block;
 
+import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.entity.OldChestBlockEntity;
 import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import ellemes.expandedstorage.api.EsChestType;
-import compasses.expandedstorage.common.CommonMain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;

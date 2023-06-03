@@ -1,13 +1,13 @@
 package compasses.expandedstorage.common.block.entity;
 
+import compasses.expandedstorage.common.block.AbstractChestBlock;
+import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
 import compasses.expandedstorage.common.block.strategies.Observable;
 import ellemes.expandedstorage.api.helpers.VariableInventory;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
-import compasses.expandedstorage.common.block.AbstractChestBlock;
-import compasses.expandedstorage.common.block.ChestBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;

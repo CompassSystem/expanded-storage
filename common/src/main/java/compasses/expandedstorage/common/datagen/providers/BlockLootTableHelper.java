@@ -1,7 +1,7 @@
 package compasses.expandedstorage.common.datagen.providers;
 
-import compasses.expandedstorage.common.registration.ModBlocks;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
+import compasses.expandedstorage.common.registration.ModBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;

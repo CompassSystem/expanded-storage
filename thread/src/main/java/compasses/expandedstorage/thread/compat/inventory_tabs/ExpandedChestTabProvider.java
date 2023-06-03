@@ -2,9 +2,9 @@ package compasses.expandedstorage.thread.compat.inventory_tabs;
 
 import com.kqp.inventorytabs.tabs.provider.BlockTabProvider;
 import com.kqp.inventorytabs.tabs.tab.Tab;
-import ellemes.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.common.block.AbstractChestBlock;
 import compasses.expandedstorage.common.block.OpenableBlock;
+import ellemes.expandedstorage.api.EsChestType;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

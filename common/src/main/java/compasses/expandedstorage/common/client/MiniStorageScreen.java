@@ -2,11 +2,11 @@ package compasses.expandedstorage.common.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import compasses.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import ellemes.expandedstorage.api.v3.client.ScreenTypeApi;
-import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;

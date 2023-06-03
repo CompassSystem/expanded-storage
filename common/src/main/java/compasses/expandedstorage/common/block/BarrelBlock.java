@@ -1,9 +1,9 @@
 package compasses.expandedstorage.common.block;
 
+import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.entity.BarrelBlockEntity;
 import ellemes.expandedstorage.api.v3.OpenableInventory;
 import ellemes.expandedstorage.api.v3.context.BlockContext;
-import compasses.expandedstorage.common.CommonMain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;

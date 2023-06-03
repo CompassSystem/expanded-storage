@@ -2,15 +2,14 @@ package compasses.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import compasses.expandedstorage.common.CommonClient;
+import compasses.expandedstorage.common.misc.ToggleableSlot;
+import compasses.expandedstorage.common.misc.Utils;
 import ellemes.expandedstorage.api.client.function.ScreenSize;
 import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.client.gui.TexturedRect;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
-import compasses.expandedstorage.common.CommonClient;
-import compasses.expandedstorage.common.misc.ToggleableSlot;
-import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
