@@ -1,6 +1,6 @@
 import dev.mcmeta.thread_plugin.DependencyHelper
-import dev.mcmeta.thread_plugin.Mods
 import dev.mcmeta.thread_plugin.ModPlatform
+import dev.mcmeta.thread_plugin.Mods
 
 repositories {
     maven { // Cardinal Components
@@ -59,7 +59,7 @@ repositories {
 }
 
 // Note: when changing this you will likely need to stop any gradle deamons and delete the root .gradle folder.
-val enabledMods = setOf<Mods>()
+val enabledMods = setOf<Class<*>>()
 
 val platform = when (project.name) {
     "common" -> ModPlatform.Common
@@ -80,7 +80,7 @@ dependencies {
         val mod = it.constructors.first().call(platform, helper) as Mods
 
         mod.applyCompileDependencies()
-        if (mod in enabledMods) {
+        if (mod::class.java in enabledMods) {
             mod.applyRuntimeDependencies()
         }
     }

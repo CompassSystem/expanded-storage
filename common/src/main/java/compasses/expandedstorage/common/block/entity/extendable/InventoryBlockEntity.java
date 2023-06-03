@@ -25,7 +25,6 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
     private final WorldlyContainer inventory = new WorldlyContainer() {
         private int[] availableSlots;
 
-
         @Override
         public int @NotNull [] getSlotsForFace(Direction side) {
             if (availableSlots == null) {

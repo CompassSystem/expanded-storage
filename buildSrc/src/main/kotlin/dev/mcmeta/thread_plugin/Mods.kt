@@ -1,10 +1,5 @@
 package dev.mcmeta.thread_plugin
 
-import org.gradle.api.artifacts.ExternalModuleDependency
-import org.gradle.api.provider.ProviderFactory
-import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.kotlin.dsl.exclude
-
 private const val COMPILE_CONFIGURATION: String = "modCompileOnly"
 private const val COMPILE_API_CONFIGURATION: String = "modCompileOnlyApi"
 private const val RUNTIME_CONFIGURATION: String = "modRuntimeOnly"
@@ -75,6 +70,12 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
         }
     }
 
+    class InventoryTabs(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
+        override fun addDependenciesToScope(adder: (String) -> Unit) {
+            adder("com.github.Andrew6rant:InventoryTabs:inventorytabs-0.8.1-1.19.x")
+        }
+    }
+
     class InventoryProfiles(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
         private val libVersion = "3.0.1"
         private val minecraftVersion = "1.20-pre4"
@@ -89,8 +90,10 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
 
             if (platform == ModPlatform.Forge) {
                 adder("maven.modrinth:kotlin-for-forge:4.2.0")
-            } else if (platform.isThread()) {
+            } else if (platform == ModPlatform.Thread || platform == ModPlatform.Fabric) {
                 adder("net.fabricmc:fabric-language-kotlin:1.9.4+kotlin.1.8.21")
+            } else if (platform == ModPlatform.Quilt) {
+                adder("org.quiltmc.quilt-kotlin-libraries:quilt-kotlin-libraries:2.0.2+kt.1.8.20+flk.1.9.3")
             }
         }
     }
@@ -123,19 +126,31 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
     }
 
     class RoughlyEnoughItems(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
-        private val version = "11.0.599"
+        private val version = "11.0.617"
 
         override fun applyCompileDependencies() {
-            val target = if (platform == ModPlatform.Common) "" else "-${platform.parent}"
-
-            helper.add(COMPILE_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-api$target:$version") {
-                isTransitive = true
+            if (platform == ModPlatform.Common) {
+                helper.add(COMPILE_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-api:$version") {
+                    isTransitive = true
+                    exclude(mapOf("group" to "net.fabricmc"))
+                    exclude(mapOf("group" to "net.fabricmc.fabric-api"))
+                }
+            } else {
+                helper.add(COMPILE_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-${platform.parent}:$version") {
+                    isTransitive = true
+                    exclude(mapOf("group" to "net.fabricmc"))
+                    exclude(mapOf("group" to "net.fabricmc.fabric-api"))
+                }
             }
         }
 
         override fun applyRuntimeDependencies() {
-            helper.add(RUNTIME_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-${platform.parent}:$version") {
-                isTransitive = true
+            if (platform != ModPlatform.Common) {
+                helper.add(RUNTIME_CONFIGURATION, "me.shedaniel:RoughlyEnoughItems-${platform.parent}:$version") {
+                    isTransitive = true
+                    exclude(mapOf("group" to "net.fabricmc"))
+                    exclude(mapOf("group" to "net.fabricmc.fabric-api"))
+                }
             }
         }
     }
