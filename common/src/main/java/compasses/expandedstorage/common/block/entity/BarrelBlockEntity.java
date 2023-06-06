@@ -8,7 +8,6 @@ import compasses.expandedstorage.common.block.strategies.Lockable;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

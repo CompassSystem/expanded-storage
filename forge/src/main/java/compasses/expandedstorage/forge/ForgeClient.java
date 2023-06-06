@@ -15,7 +15,6 @@ import ellemes.expandedstorage.api.client.gui.AbstractScreen;
 import ellemes.expandedstorage.api.v3.client.ScreenOpeningApi;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.client.ConfigScreenHandler;

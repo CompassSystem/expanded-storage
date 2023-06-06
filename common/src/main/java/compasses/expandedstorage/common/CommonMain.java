@@ -8,7 +8,6 @@ import compasses.expandedstorage.common.block.CopperBarrelBlock;
 import compasses.expandedstorage.common.block.CopperMiniStorageBlock;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
 import compasses.expandedstorage.common.block.MossChestBlock;
-import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.entity.BarrelBlockEntity;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.entity.MiniStorageBlockEntity;

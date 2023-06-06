@@ -1,10 +1,10 @@
 package compasses.expandedstorage.common.item;
 
-import ellemes.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.common.block.AbstractChestBlock;
 import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import compasses.expandedstorage.common.entity.ChestMinecart;
+import ellemes.expandedstorage.api.EsChestType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

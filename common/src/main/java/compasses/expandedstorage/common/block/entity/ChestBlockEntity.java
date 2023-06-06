@@ -9,7 +9,6 @@ import compasses.expandedstorage.common.block.strategies.Observable;
 import ellemes.expandedstorage.api.helpers.VariableInventory;
 import ellemes.expandedstorage.api.inventory.AbstractHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
