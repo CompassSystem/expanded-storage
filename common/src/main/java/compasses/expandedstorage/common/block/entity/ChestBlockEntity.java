@@ -9,7 +9,6 @@ import compasses.expandedstorage.common.block.strategies.Observable;
 import compasses.expandedstorage.common.inventory.VariableInventory;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +23,7 @@ import net.minecraft.world.level.block.entity.ChestLidController;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -55,9 +55,9 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
     };
     private final ChestLidController lidController;
 
-    public ChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
-                            Function<OpenableBlockEntity, ItemAccess> access, Supplier<Lockable> lockable) {
-        super(type, pos, state, blockId, access, lockable);
+    public ChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
+                            Function<OpenableBlockEntity, ItemAccess> access, @Nullable Supplier<Lockable> lockable) {
+        super(type, pos, state, access, lockable);
         this.setObservable(new Observable() {
             @Override
             public void playerStartViewing(Player player) {

@@ -9,7 +9,6 @@ import compasses.expandedstorage.common.block.CopperBarrelBlock;
 import compasses.expandedstorage.common.block.CopperMiniStorageBlock;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
 import compasses.expandedstorage.common.block.MossChestBlock;
-import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.entity.BarrelBlockEntity;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.entity.MiniStorageBlockEntity;
@@ -23,6 +22,8 @@ import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.item.BlockMutatorBehaviour;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
 import compasses.expandedstorage.common.item.EntityInteractableItem;
+import compasses.expandedstorage.common.item.GoldKeyItem;
+import compasses.expandedstorage.common.item.LockItem;
 import compasses.expandedstorage.common.item.MutationMode;
 import compasses.expandedstorage.common.item.StorageConversionKit;
 import compasses.expandedstorage.common.item.StorageMutator;
@@ -233,10 +234,13 @@ public final class CommonMain {
             return statId;
         };
 
-        List<NamedValue<Item>> baseItems = new ArrayList<>(22);
+        List<NamedValue<Item>> baseItems = new ArrayList<>(25);
         /*Base*/
         {
             baseItems.add(new NamedValue<>(Utils.id("storage_mutator"), () -> new StorageMutator(new Item.Properties().stacksTo(1))));
+            baseItems.add(new NamedValue<>(Utils.id("gold_key"), () -> new GoldKeyItem(new Item.Properties().stacksTo(1))));
+            baseItems.add(new NamedValue<>(Utils.id("gold_lock"), () -> new LockItem(new Item.Properties().stacksTo(16), false)));
+            baseItems.add(new NamedValue<>(Utils.id("diamond_lock"), () -> new LockItem(new Item.Properties().stacksTo(16), true)));
             CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, woodTier, copperTier, ironTier, goldTier, diamondTier, obsidianTier, netheriteTier);
         }
 
@@ -318,7 +322,7 @@ public final class CommonMain {
                 });
             }
 
-            CommonMain.chestBlockEntityType = new NamedValue<>(CommonMain.CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, lockable), chestBlocks.stream().map(NamedValue::getValue).toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
+            CommonMain.chestBlockEntityType = new NamedValue<>(CommonMain.CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, chestAccessMaker, lockable), chestBlocks.stream().map(NamedValue::getValue).toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
         }
 
         List<NamedValue<AbstractChestBlock>> oldChestBlocks = new ArrayList<>(6);
@@ -346,7 +350,7 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("old_obsidian_chest"), obsidianStat, obsidianTier, obsidianSettings);
             chestMaker.apply(Utils.id("old_netherite_chest"), netheriteStat, netheriteTier, netheriteSettings);
 
-            CommonMain.oldChestBlockEntityType = new NamedValue<>(CommonMain.OLD_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, lockable), oldChestBlocks.stream().map(NamedValue::getValue).toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
+            CommonMain.oldChestBlockEntityType = new NamedValue<>(CommonMain.OLD_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, chestAccessMaker, lockable), oldChestBlocks.stream().map(NamedValue::getValue).toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
         }
 
         /*Both Chests*/
@@ -516,7 +520,7 @@ public final class CommonMain {
             barrelMaker.apply(Utils.id("obsidian_barrel"), obsidianStat, obsidianTier, obsidianBarrelSettings);
             barrelMaker.apply(Utils.id("netherite_barrel"), netheriteStat, netheriteTier, netheriteBarrelSettings);
 
-            CommonMain.barrelBlockEntityType = new NamedValue<>(CommonMain.BARREL_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), barrelBlocks.stream().map(NamedValue::getValue).toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
+            CommonMain.barrelBlockEntityType = new NamedValue<>(CommonMain.BARREL_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, itemAccess, lockable), barrelBlocks.stream().map(NamedValue::getValue).toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
 
             Predicate<Block> isUpgradableBarrelBlock = (block) -> block instanceof BarrelBlock || block instanceof net.minecraft.world.level.block.BarrelBlock || block.defaultBlockState().is(barrelTag);
 
@@ -618,7 +622,7 @@ public final class CommonMain {
             miniStorageMakerNoRibbon.apply(Utils.id("obsidian_mini_barrel"), obsidianBarrelStat, obsidianTier, obsidianBarrelSettings);
             miniStorageMakerNoRibbon.apply(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, netheriteTier, netheriteBarrelSettings);
 
-            CommonMain.miniStorageBlockEntityType = new NamedValue<>(CommonMain.MINI_STORAGE_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
+            CommonMain.miniStorageBlockEntityType = new NamedValue<>(CommonMain.MINI_STORAGE_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, itemAccess, lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
 
             if (isClient) {
                 MiniStorageScreen.registerScreenType();
@@ -750,7 +754,10 @@ public final class CommonMain {
             output.accept(sparrowMutator);
         }
 
-        // todo: add lock stuff when finished and ported.
+        wrap.accept(ModItems.GOLD_KEY);
+        wrap.accept(ModItems.GOLD_LOCK);
+        wrap.accept(ModItems.DIAMOND_LOCK);
+
         wrap.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
         wrap.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);

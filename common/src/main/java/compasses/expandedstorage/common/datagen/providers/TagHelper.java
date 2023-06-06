@@ -238,6 +238,8 @@ public class TagHelper {
                 .add(item(ModItems.BAMBOO_CHEST))
                 .add(item(ModItems.MOSS_CHEST));
         tagMaker.apply(ItemTags.PIGLIN_LOVED)
+                .add(item(ModItems.GOLD_KEY))
+                .add(item(ModItems.GOLD_LOCK))
                 .add(item(ModItems.WOOD_TO_GOLD_CONVERSION_KIT))
                 .add(item(ModItems.COPPER_TO_GOLD_CONVERSION_KIT))
                 .add(item(ModItems.IRON_TO_GOLD_CONVERSION_KIT))

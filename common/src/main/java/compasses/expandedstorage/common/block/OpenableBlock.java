@@ -2,6 +2,7 @@ package compasses.expandedstorage.common.block;
 
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
+import compasses.expandedstorage.common.misc.VisualLockType;
 import compasses.expandedstorage.common.helpers.InventoryOpeningApi;
 import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
 import compasses.expandedstorage.common.inventory.context.BlockContext;
@@ -23,11 +24,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class OpenableBlock extends Block implements OpenableInventoryProvider<BlockContext>, EntityBlock {
+    public static final EnumProperty<VisualLockType> LOCK_TYPE = EnumProperty.create("lock_type", VisualLockType.class);
     private final ResourceLocation openingStat;
     private final int slotCount;
 
@@ -35,6 +39,13 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
         super(settings);
         this.openingStat = openingStat;
         this.slotCount = slotCount;
+        this.registerDefaultState(this.defaultBlockState().setValue(LOCK_TYPE, VisualLockType.NONE));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(LOCK_TYPE);
     }
 
     public Component getInventoryTitle() {

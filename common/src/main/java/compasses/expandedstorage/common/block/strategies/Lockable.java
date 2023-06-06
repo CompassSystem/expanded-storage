@@ -6,7 +6,9 @@ import net.minecraft.server.level.ServerPlayer;
 public interface Lockable {
     void writeLock(CompoundTag tag);
 
-    void readLock(CompoundTag tag);
+    boolean readLock(CompoundTag tag);
 
     boolean canPlayerOpenLock(ServerPlayer player);
+
+    boolean isLockPresent();
 }

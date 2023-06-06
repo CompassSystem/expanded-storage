@@ -2,38 +2,35 @@
   "parent": "minecraft:block/block",
   "elements": [
     {
-      "from": [ 0, 0, 0 ],
-      "to": [ 16, 16, 16 ],
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
       "faces": {
         "down": {
-          "uv": [ 8, 0, 4, 4 ],
-          "texture": "#all",
+          "uv": [8, 0, 4, 4],
+          "texture": "#atlas",
           "cullface": "down"
         },
         "up": {
-          "uv": [ 8, 4, 4, 0 ],
-          "texture": "#all",
+          "uv": [8, 4, 4, 0],
+          "texture": "#atlas",
           "cullface": "up"
         },
         "south": {
-          "uv": [ 0, 4, 4, 8 ],
-          "texture": "#all",
+          "uv": [0, 4, 4, 8],
+          "texture": "#atlas",
           "cullface": "south"
         },
         "west": {
-          "uv": [ 12, 4, 16, 8 ],
-          "texture": "#all",
+          "uv": [12, 4, 16, 8],
+          "texture": "#atlas",
           "cullface": "west"
         },
         "east": {
-          "uv": [ 8, 4, 12, 8 ],
-          "texture": "#all",
+          "uv": [8, 4, 12, 8],
+          "texture": "#atlas",
           "cullface": "east"
         }
       }
     }
-  ],
-  "textures": {
-    "all": "#atlas"
-  }
+  ]
 }

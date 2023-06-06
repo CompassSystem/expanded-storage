@@ -3,6 +3,7 @@ package compasses.expandedstorage.common.block;
 import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.entity.OldChestBlockEntity;
+import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEntity;
 import compasses.expandedstorage.common.block.misc.Property;
 import compasses.expandedstorage.common.block.misc.PropertyRetriever;
 import compasses.expandedstorage.common.inventory.OpenableInventories;
@@ -129,14 +130,9 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
     }
 
     @Override
-    protected final void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AbstractChestBlock.CURSED_CHEST_TYPE);
-        builder.add(BlockStateProperties.HORIZONTAL_FACING);
-        this.appendAdditionalStateDefinitions(builder);
-    }
-
-    protected void appendAdditionalStateDefinitions(StateDefinition.Builder<Block, BlockState> builder) {
-
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(AbstractChestBlock.CURSED_CHEST_TYPE, BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Nullable
@@ -199,9 +195,27 @@ public class AbstractChestBlock extends OpenableBlock implements WorldlyContaine
                     otherState.getValue(CURSED_CHEST_TYPE) != state.getValue(CURSED_CHEST_TYPE).getOpposite() ||
                     state.getValue(BlockStateProperties.HORIZONTAL_FACING) != state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
                 return state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.SINGLE);
+            } else {
+                if (!level.isClientSide()) {
+                    EsChestType cursedChestType = state.getValue(CURSED_CHEST_TYPE);
+                    EsChestType offsetChestType = offsetState.getValue(CURSED_CHEST_TYPE);
+                    if (cursedChestType != EsChestType.SINGLE && offsetChestType != EsChestType.SINGLE && cursedChestType == offsetChestType.getOpposite()) {
+                        this.onDoubleChestFormed(level, pos, state, offsetPos, offsetState);
+                    }
+                }
             }
         }
         return super.updateShape(state, offset, offsetState, level, pos, offsetPos);
+    }
+
+    private void onDoubleChestFormed(LevelAccessor level, BlockPos pos, BlockState state, BlockPos offsetPos, BlockState offsetState) {
+        OpenableBlockEntity existingChest = (OpenableBlockEntity) level.getBlockEntity(offsetPos);
+        OpenableBlockEntity newChest = (OpenableBlockEntity) level.getBlockEntity(pos);
+        if (existingChest.getLockHolder().hasLock() && !newChest.getLockHolder().hasLock()) {
+            newChest.copyLockFrom(existingChest.getLockHolder());
+        } else if (newChest.getLockHolder().hasLock() && !existingChest.getLockHolder().hasLock()) {
+            existingChest.copyLockFrom(newChest.getLockHolder());
+        }
     }
 
     // todo: look into making this return not null?

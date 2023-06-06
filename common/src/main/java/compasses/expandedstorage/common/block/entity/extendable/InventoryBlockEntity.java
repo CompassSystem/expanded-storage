@@ -1,5 +1,6 @@
 package compasses.expandedstorage.common.block.entity.extendable;
 
+import compasses.expandedstorage.common.block.strategies.Lockable;
 import compasses.expandedstorage.common.block.strategies.Observable;
 import compasses.expandedstorage.common.inventory.WrappedInventory;
 import net.minecraft.core.BlockPos;
@@ -7,7 +8,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public abstract class InventoryBlockEntity extends OpenableBlockEntity implements WrappedInventory {
@@ -112,8 +113,8 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
         }
     };
 
-    public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, int inventorySize) {
-        super(type, pos, state, blockId, defaultName);
+    public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Component defaultName, @Nullable Supplier<Lockable> lockable, int inventorySize) {
+        super(type, pos, state, defaultName, lockable);
         items = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
     }
 

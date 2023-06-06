@@ -12,7 +12,6 @@ import compasses.expandedstorage.common.recipe.conditions.RecipeCondition;
 import compasses.expandedstorage.common.recipe.misc.PartialBlockState;
 import compasses.expandedstorage.common.recipe.misc.RecipeTool;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
@@ -82,7 +81,6 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
             if (newState != originalState) {
                 List<ItemStack> originalItems;
                 Component customName = null;
-                CompoundTag tagForLock = input.entity().saveWithoutMetadata();
 
                 if (input.entity() instanceof OpenableBlockEntity entity) {
                     originalItems = entity.getItems();
@@ -112,7 +110,12 @@ public class BlockConversionRecipe<O extends Block> extends ConversionRecipe<Blo
                         }
 
                         entity.setCustomName(customName);
-                        entity.getLockable().readLock(tagForLock);
+
+                        if (input.entity() instanceof OpenableBlockEntity original) {
+                            entity.copyLockFrom(original.getLockHolder());
+                        } else if (input.entity() instanceof RandomizableContainerBlockEntity original) {
+                            entity.getLockHolder().setVanillaLock(original.lockKey);
+                        }
                     }
                     toolsUsed++;
                 } else {

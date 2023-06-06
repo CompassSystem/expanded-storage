@@ -10,9 +10,13 @@ import compasses.expandedstorage.common.item.MutationMode;
 import compasses.expandedstorage.common.item.StorageMutator;
 import compasses.expandedstorage.common.misc.ClientPlatformHelper;
 import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.misc.VisualLockType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +25,18 @@ import java.util.List;
 
 public class CommonClient {
     private static ClientPlatformHelper platformHelper;
+
+    public static final EntityDataSerializer<VisualLockType> VISUAL_LOCK_SERIALIZER = new EntityDataSerializer.ForValueType<>() {
+        @Override
+        public void write(FriendlyByteBuf buffer, VisualLockType value) {
+            buffer.writeEnum(value);
+        }
+
+        @Override
+        public VisualLockType read(FriendlyByteBuf buffer) {
+            return buffer.readEnum(VisualLockType.class);
+        }
+    };
 
     public static void initialize(ClientPlatformHelper helper) {
         platformHelper = helper;
@@ -52,6 +68,8 @@ public class CommonClient {
 
         ScreenTypeApi.setPrefersSingleScreen(Utils.PAGE_SCREEN_TYPE);
         ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLL_SCREEN_TYPE);
+
+        EntityDataSerializers.registerSerializer(VISUAL_LOCK_SERIALIZER);
     }
 
     @SuppressWarnings("unused")

@@ -5,9 +5,9 @@ import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.block.OpenableBlock;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
-import compasses.expandedstorage.common.block.misc.BasicLockable;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.client.ChestBlockEntityRenderer;
+import compasses.expandedstorage.common.client.ChestMinecartRenderer;
 import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
 import compasses.expandedstorage.common.misc.Utils;
@@ -33,7 +33,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -53,6 +52,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,7 +92,7 @@ public class ThreadMain {
                                })
                                .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
 
-        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
+        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : null, isClient, contentRegistrationConsumer,
                 /*Base*/ true,
                 /*Chest*/ BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
@@ -172,7 +172,7 @@ public class ThreadMain {
 
         public static void registerItemRenderers(List<NamedValue<BlockItem>> items) {
             for (NamedValue<BlockItem> item : items) {
-                ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getValue().getBlock().defaultBlockState());
+                ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getValue().getBlock().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH));
                 BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, context, stack, source, light, overlay) -> {
                     renderEntity.setCustomName(itemStack.getHoverName());
                     Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay);
@@ -185,11 +185,12 @@ public class ThreadMain {
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.BOTTOM_LAYER, ChestBlockEntityRenderer::createBottomBodyLayer);
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.FRONT_LAYER, ChestBlockEntityRenderer::createFrontBodyLayer);
             EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.BACK_LAYER, ChestBlockEntityRenderer::createBackBodyLayer);
+            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.CUSTOM_LOCK_LAYER, ChestBlockEntityRenderer::createCustomLockLayer);
         }
 
         public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
             for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
-                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
+                EntityRendererRegistry.register(type.getValue(), context -> new ChestMinecartRenderer(context, ModelLayers.CHEST_MINECART));
             }
         }
 

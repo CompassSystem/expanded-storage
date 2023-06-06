@@ -1,9 +1,9 @@
 {
-  "parent": "expandedstorage:block/gold_mini_barrel",
+  "parent":    "expandedstorage:block/no_lock/gold_mini_barrel",
   "overrides": [
     {
-      "predicate": { "expandedstorage:sparrow": 1.0 },
-      "model": "expandedstorage:block/gold_mini_barrel_with_sparrow"
+      "predicate": {"expandedstorage:sparrow": 1.0},
+      "model":     "expandedstorage:block/no_lock/gold_mini_barrel_with_sparrow"
     }
   ]
 }

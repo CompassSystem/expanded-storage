@@ -1,9 +1,9 @@
 {
-  "parent": "expandedstorage:block/diamond_mini_barrel",
+  "parent":    "expandedstorage:block/no_lock/diamond_mini_barrel",
   "overrides": [
     {
-      "predicate": { "expandedstorage:sparrow": 1.0 },
-      "model": "expandedstorage:block/diamond_mini_barrel_with_sparrow"
+      "predicate": {"expandedstorage:sparrow": 1.0},
+      "model":     "expandedstorage:block/no_lock/diamond_mini_barrel_with_sparrow"
     }
   ]
 }

@@ -1,0 +1,1 @@
+{"parent": "expandedstorage:block/parent/mini_barrel", "textures": {"atlas": "expandedstorage:block/oxidized_copper_mini_barrel", "particle": "minecraft:block/barrel_side", "lock": "expandedstorage:block/gold_lock_mini_barrel"}}

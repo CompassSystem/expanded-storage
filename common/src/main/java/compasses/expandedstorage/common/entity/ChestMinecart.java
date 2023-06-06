@@ -1,15 +1,21 @@
 package compasses.expandedstorage.common.entity;
 
+import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.helpers.InventoryOpeningApi;
 import compasses.expandedstorage.common.inventory.ExposedInventory;
 import compasses.expandedstorage.common.inventory.OpenableInventory;
 import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
 import compasses.expandedstorage.common.inventory.context.BaseContext;
+import compasses.expandedstorage.common.misc.LockHolder;
+import compasses.expandedstorage.common.misc.VisualLockType;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -28,6 +34,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,14 +44,18 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     private final BlockState renderBlockState;
     private final Component title;
     private final Item chestItem;
+    private final LockHolder lockHolder;
+
+    public static final EntityDataAccessor<VisualLockType> VISUAL_LOCK = SynchedEntityData.defineId(ChestMinecart.class, CommonClient.VISUAL_LOCK_SERIALIZER);
 
     public ChestMinecart(EntityType<?> entityType, Level level, Item dropItem, ChestBlock block) {
         super(entityType, level);
         this.dropItem = dropItem;
-        renderBlockState = block.defaultBlockState();
+        renderBlockState = block.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH);
         title = dropItem.getDescription();
         inventory = NonNullList.withSize(block.getSlotCount(), ItemStack.EMPTY);
         chestItem = block.asItem();
+        lockHolder = new LockHolder((type) -> this.entityData.set(VISUAL_LOCK, type));
     }
 
     @NotNull
@@ -154,12 +165,14 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     protected void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         this.saveInventoryToTag(tag);
+        lockHolder.saveLockToTag(tag);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.loadInventoryFromTag(tag);
+        lockHolder.readLockFromTag(tag);
     }
 
     @Override
@@ -169,7 +182,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     @Override
     public boolean canBeUsedBy(ServerPlayer player) {
-        return this.stillValid(player);
+        return this.stillValid(player) && lockHolder.canOpen(player);
     }
 
     @Override
@@ -185,5 +198,15 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     @Override
     public int getDefaultDisplayOffset() {
         return 8;
+    }
+
+    public LockHolder getLockHolder() {
+        return lockHolder;
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VISUAL_LOCK, VisualLockType.NONE);
     }
 }

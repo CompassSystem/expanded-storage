@@ -1,22 +1,25 @@
 package compasses.expandedstorage.common.block.entity.extendable;
 
+import compasses.expandedstorage.common.block.strategies.Lockable;
 import compasses.expandedstorage.common.inventory.ExposedInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public abstract class ExposedInventoryBlockEntity extends OpenableBlockEntity implements ExposedInventory {
     private final NonNullList<ItemStack> items;
 
-    public ExposedInventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, int inventorySize) {
-        super(type, pos, state, blockId, defaultName);
+    public ExposedInventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Component defaultName, @Nullable Supplier<Lockable> lockable, int inventorySize) {
+        super(type, pos, state, defaultName, lockable);
         items = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
     }
 
