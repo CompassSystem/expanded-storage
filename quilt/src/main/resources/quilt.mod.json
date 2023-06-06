@@ -21,11 +21,11 @@
       },
       {
         "id": "minecraft",
-        "versions": ">=1.20-rc.1 <1.20.1"
+        "versions": [">=1.20-rc.1", "<1.20.1"]
       },
       {
         "id": "org.quiltmc:quilted_fabric_api",
-        "versions": ">=7.0.0-alpha.1"
+        "versions": ">=7.0.0-alpha.4"
       }
     ],
     "metadata": {
