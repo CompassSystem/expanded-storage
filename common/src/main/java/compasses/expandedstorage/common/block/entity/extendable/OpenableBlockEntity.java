@@ -14,7 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Player;
@@ -135,16 +134,6 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
     @NotNull
     public final Component getName() {
         return this.hasCustomName() ? customName : defaultName;
-    }
-
-    @NotNull
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag updateTag = super.getUpdateTag();
-        if (customName != null) {
-            updateTag.putString("CustomName", Component.Serializer.toJson(customName));
-        }
-        return updateTag;
     }
 
     public boolean isDinnerbone() {

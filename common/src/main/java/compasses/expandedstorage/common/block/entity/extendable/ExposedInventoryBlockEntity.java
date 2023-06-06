@@ -1,11 +1,11 @@
 package compasses.expandedstorage.common.block.entity.extendable;
 
+import compasses.expandedstorage.common.block.strategies.Lockable;
 import compasses.expandedstorage.common.inventory.ExposedInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
