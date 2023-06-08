@@ -82,6 +82,10 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
         private val version = "1.10.2"
 
         override fun addDependenciesToScope(adder: (String) -> Unit) {
+            // Disabled until IPN does forge update.
+            if (platform == ModPlatform.Forge) return;
+
+
             val target = if (platform == ModPlatform.Common) ModPlatform.Fabric else platform.parent
 
             adder("maven.modrinth:inventory-profiles-next:$target-$minecraftVersion-$version")
