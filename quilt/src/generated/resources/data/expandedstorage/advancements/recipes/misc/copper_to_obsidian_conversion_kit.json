@@ -30,5 +30,6 @@
     "recipes": [
       "expandedstorage:copper_to_obsidian_conversion_kit"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

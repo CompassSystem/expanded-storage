@@ -28,5 +28,6 @@
     "recipes": [
       "expandedstorage:moss_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

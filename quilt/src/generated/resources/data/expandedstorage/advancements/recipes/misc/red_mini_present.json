@@ -30,5 +30,6 @@
     "recipes": [
       "expandedstorage:red_mini_present"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
