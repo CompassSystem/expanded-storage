@@ -20,5 +20,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "expandedstorage:blocks/netherite_mini_chest"
 }

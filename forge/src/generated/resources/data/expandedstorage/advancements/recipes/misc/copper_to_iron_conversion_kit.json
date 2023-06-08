@@ -28,5 +28,6 @@
     "recipes": [
       "expandedstorage:copper_to_iron_conversion_kit"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

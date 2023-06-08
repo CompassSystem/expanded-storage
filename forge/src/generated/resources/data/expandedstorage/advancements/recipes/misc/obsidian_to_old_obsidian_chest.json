@@ -30,5 +30,6 @@
     "recipes": [
       "expandedstorage:obsidian_to_old_obsidian_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

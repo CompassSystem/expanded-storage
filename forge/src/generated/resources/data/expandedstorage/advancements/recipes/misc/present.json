@@ -28,5 +28,6 @@
     "recipes": [
       "expandedstorage:present"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

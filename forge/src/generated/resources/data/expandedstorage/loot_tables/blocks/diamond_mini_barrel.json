@@ -20,5 +20,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "expandedstorage:blocks/diamond_mini_barrel"
 }

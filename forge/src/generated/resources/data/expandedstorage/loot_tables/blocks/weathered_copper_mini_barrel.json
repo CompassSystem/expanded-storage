@@ -20,5 +20,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "expandedstorage:blocks/weathered_copper_mini_barrel"
 }
