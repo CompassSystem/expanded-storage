@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "expandedstorage:gold_key",
+    "expandedstorage:gold_lock",
     "expandedstorage:wood_to_gold_conversion_kit",
     "expandedstorage:copper_to_gold_conversion_kit",
     "expandedstorage:iron_to_gold_conversion_kit",
