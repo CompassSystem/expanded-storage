@@ -1,6 +1,7 @@
 package compasses.expandedstorage.common.helpers.client;
 
 import compasses.expandedstorage.common.client.gui.PickScreen;
+import compasses.expandedstorage.common.client.gui.config.ConfigOverviewScreen;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,6 @@ public class ScreenOpeningApi {
      */
     public static Screen createTypeSelectScreen(@NotNull Supplier<Screen> returnToScreen) {
         Objects.requireNonNull(returnToScreen, "returnToScreen must not be null, pass () -> null instead.");
-        return new PickScreen(returnToScreen);
+        return new ConfigOverviewScreen(returnToScreen);
     }
 }
