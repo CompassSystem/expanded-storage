@@ -1,1 +1,1 @@
-- Fix version constraints for quilt release.
+- Update dependencies for 1.20 release and lessen version range restriction in preparation for 1.20.1
