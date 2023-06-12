@@ -124,7 +124,7 @@ sealed class Mods(val platform: ModPlatform, val helper: DependencyHelper) {
     class ModMenu(platform: ModPlatform, helper: DependencyHelper) : Mods(platform, helper) {
         override fun addDependenciesToScope(adder: (String) -> Unit) {
             if (platform.isThread()) {
-                adder("com.terraformersmc:modmenu:7.0.0-beta.2")
+                adder("com.terraformersmc:modmenu:7.0.1")
             }
         }
     }
