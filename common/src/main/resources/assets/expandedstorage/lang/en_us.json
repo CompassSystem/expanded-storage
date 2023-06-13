@@ -253,5 +253,6 @@
 
   "text.expandedstorage.disconnect.old_version":                        "Please update Expanded Storage.",
 
-  "text.expandedstorage.wrong_loader_warning": "You have downloaded Expanded Storage for %s%1 instead of %s%2, whilst the mod might function correctly if you do encounter any issues support will not be provided unless you use the release for %s%2."
+  "text.expandedstorage.prefix":                                        "[Expanded Storage] %s",
+  "text.expandedstorage.wrong_loader_warning":                          "Please install the %2$s release of this mod, this hasn't been tested for %1$s so there may be issues which support will not be provided for otherwise."
 }

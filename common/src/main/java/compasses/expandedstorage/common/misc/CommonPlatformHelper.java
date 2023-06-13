@@ -22,4 +22,8 @@ public interface CommonPlatformHelper {
     void sendConversionRecipesToClient(@Nullable ServerPlayer target, List<BlockConversionRecipe<?>> blockRecipes, List<EntityConversionRecipe<?>> entityRecipes);
 
     boolean canDestroyBamboo(ItemStack stack);
+
+    boolean platformMarkerExists();
+
+    void createInvalidPlatformMarker();
 }

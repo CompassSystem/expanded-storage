@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.NetworkRegistry;
@@ -25,6 +26,10 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 public class ForgePlatformHelper implements CommonPlatformHelper {
@@ -80,5 +85,25 @@ public class ForgePlatformHelper implements CommonPlatformHelper {
     @Override
     public boolean canDestroyBamboo(ItemStack stack) {
         return stack.canPerformAction(ToolActions.SWORD_DIG);
+    }
+
+    @Override
+    public boolean platformMarkerExists() {
+        return Files.exists(FMLPaths.CONFIGDIR.get().resolve(Utils.MOD_ID + "/announcement_marker.txt"));
+    }
+
+    @Override
+    public void createInvalidPlatformMarker() {
+        Path folder = FMLPaths.CONFIGDIR.get().resolve(Utils.MOD_ID);
+        try {
+            Files.createDirectories(folder);
+        } catch (IOException e) {
+            return;
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(folder.resolve("announcement_marker.txt"))) {
+            writer.write("0");
+        } catch (IOException ignored) {
+
+        }
     }
 }

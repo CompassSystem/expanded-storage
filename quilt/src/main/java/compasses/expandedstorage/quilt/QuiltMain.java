@@ -17,8 +17,6 @@ import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.content.registry.api.ReversibleBlockEntry;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
 
-import java.util.List;
-
 public final class QuiltMain implements ModInitializer {
     @Override
     public void onInitialize(ModContainer mod) {
@@ -36,7 +34,7 @@ public final class QuiltMain implements ModInitializer {
         ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThen(this::registerWaxedContent), List.of("Quilt", "Quilt")
+                        .andThen(this::registerWaxedContent), "Quilt", "Quilt"
         );
 
         ServerLifecycleEvents.STOPPED.register(server -> {

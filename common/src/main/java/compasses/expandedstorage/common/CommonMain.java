@@ -102,6 +102,8 @@ public final class CommonMain {
     private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
     private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
     private static CommonPlatformHelper platformHelper;
+    private static String modTargetPlatform;
+    private static String userPlatform;
 
     public static BlockEntityType<ChestBlockEntity> getChestBlockEntityType() {
         return chestBlockEntityType.getValue();
@@ -163,7 +165,7 @@ public final class CommonMain {
     }
 
     public static void constructContent(CommonPlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
-                                        boolean isClient, ContentConsumer contentRegistrationConsumer, List<String> platforms,
+                                        boolean isClient, ContentConsumer contentRegistrationConsumer, String modTargetPlatform, String userPlatform,
             /*Base*/ boolean manuallyWrapTooltips,
             /*Chest*/ BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker, Function<OpenableBlockEntity, ItemAccess> chestAccessMaker,
             /*Minecart Chest*/ BiFunction<Item.Properties, ResourceLocation, ChestMinecartItem> chestMinecartItemMaker,
@@ -171,6 +173,10 @@ public final class CommonMain {
             /*Barrel*/ TagKey<Block> barrelTag,
             /*Mini Storage*/ BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker) {
         platformHelper = helper;
+
+        CommonMain.modTargetPlatform = modTargetPlatform;
+        CommonMain.userPlatform = userPlatform;
+
         final Tier woodTier = new Tier(Utils.WOOD_TIER_ID, Utils.WOOD_STACK_COUNT, UnaryOperator.identity(), UnaryOperator.identity());
         final Tier copperTier = new Tier(Utils.COPPER_TIER_ID, 45, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
         final Tier ironTier = new Tier(Utils.id("iron"), 54, Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
@@ -843,5 +849,13 @@ public final class CommonMain {
 
     public static CommonPlatformHelper platformHelper() {
         return platformHelper;
+    }
+
+    public static String getModTargetPlatform() {
+        return modTargetPlatform;
+    }
+
+    public static String getUserPlatform() {
+        return userPlatform;
     }
 }

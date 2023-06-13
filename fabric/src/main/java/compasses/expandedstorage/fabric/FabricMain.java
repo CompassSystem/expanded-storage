@@ -14,30 +14,27 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.VersionParsingException;
 
-import java.util.List;
-
 public final class FabricMain implements ModInitializer {
     @Override
     public void onInitialize() {
-        // todo: we should replace this with a nice warning screen before the main menu
-        FabricLoader fabricLoader = FabricLoader.getInstance();
-        boolean quiltDetected = fabricLoader.isModLoaded("quilt_loader");
+        FabricLoader loader = FabricLoader.getInstance();
+        boolean quiltDetected = loader.isModLoaded("quilt_loader");
         boolean isCarrierCompatEnabled;
         try {
             SemanticVersion version = SemanticVersion.parse("1.8.0");
-            isCarrierCompatEnabled = fabricLoader.getModContainer("carrier").map(it -> {
+            isCarrierCompatEnabled = loader.getModContainer("carrier").map(it -> {
                 return it.getMetadata().getVersion().compareTo(version) > 0;
             }).orElse(false);
         } catch (VersionParsingException e) {
             throw new IllegalStateException("Author made a typo: ", e);
         }
 
-        boolean isClient = fabricLoader.getEnvironmentType() == EnvType.CLIENT;
+        boolean isClient = loader.getEnvironmentType() == EnvType.CLIENT;
         ThreadMain.constructContent(new FabricCommonHelper(),
-                fabricLoader.isModLoaded("htm"), isClient,
+                loader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThen(this::registerOxidisableAndWaxableBlocks), List.of("Fabric", quiltDetected ? "Quilt" : "Fabric")
+                        .andThen(this::registerOxidisableAndWaxableBlocks), "Fabric", quiltDetected ? "Quilt" : "Fabric"
         );
 
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
