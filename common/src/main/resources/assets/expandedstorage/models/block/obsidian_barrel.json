@@ -1,6 +1,6 @@
 {
   "parent": "expandedstorage:block/parent/barrel",
   "textures": {
-    "strip": "expandedstorage:block/obsidian_barrel_strip"
+    "side": "expandedstorage:block/obsidian_barrel_side"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "expandedstorage:block/parent/barrel",
   "textures": {
-    "strip": "expandedstorage:block/gold_barrel_strip"
+    "side": "expandedstorage:block/gold_barrel_side"
   }
 }

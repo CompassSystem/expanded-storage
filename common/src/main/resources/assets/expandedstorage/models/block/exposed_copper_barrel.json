@@ -1,6 +1,6 @@
 {
   "parent": "expandedstorage:block/parent/barrel",
   "textures": {
-    "strip": "expandedstorage:block/exposed_copper_barrel_strip"
+    "side": "expandedstorage:block/exposed_copper_barrel_side"
   }
 }
