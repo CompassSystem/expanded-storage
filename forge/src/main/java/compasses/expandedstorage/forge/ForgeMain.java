@@ -50,13 +50,14 @@ import net.minecraftforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 @Mod("expandedstorage")
 public final class ForgeMain {
     public ForgeMain() {
         CommonMain.constructContent(new ForgePlatformHelper(), GenericItemAccess::new, BasicLockable::new,
-                FMLLoader.getDist().isClient(), this::registerContent,
+                FMLLoader.getDist().isClient(), this::registerContent, List.of("Forge", "Forge"), // Don't think there's any project to load forge mods on other platforms yet.
                 /*Base*/ false,
                 /*Chest*/ ChestBlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,

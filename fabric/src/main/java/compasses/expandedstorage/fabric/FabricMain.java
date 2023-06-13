@@ -2,7 +2,6 @@ package compasses.expandedstorage.fabric;
 
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
-import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ContentConsumer;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
@@ -14,18 +13,15 @@ import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.VersionParsingException;
-import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public final class FabricMain implements ModInitializer {
     @Override
     public void onInitialize() {
         // todo: we should replace this with a nice warning screen before the main menu
         FabricLoader fabricLoader = FabricLoader.getInstance();
-        if (fabricLoader.isModLoaded("quilt_loader")) {
-            LoggerFactory.getLogger(Utils.MOD_ID).warn("Please use Expanded Storage for Quilt instead.");
-            System.exit(0);
-            return;
-        }
+        boolean quiltDetected = fabricLoader.isModLoaded("quilt_loader");
         boolean isCarrierCompatEnabled;
         try {
             SemanticVersion version = SemanticVersion.parse("1.8.0");
@@ -41,7 +37,7 @@ public final class FabricMain implements ModInitializer {
                 fabricLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThen(this::registerOxidisableAndWaxableBlocks)
+                        .andThen(this::registerOxidisableAndWaxableBlocks), List.of("Fabric", quiltDetected ? "Quilt" : "Fabric")
         );
 
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {

@@ -2,7 +2,6 @@ package compasses.expandedstorage.quilt;
 
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
-import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ContentConsumer;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
@@ -17,16 +16,12 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.content.registry.api.ReversibleBlockEntry;
 import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
-import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public final class QuiltMain implements ModInitializer {
     @Override
     public void onInitialize(ModContainer mod) {
-        if (!QuiltLoader.isModLoaded("quilt_loader")) {
-            LoggerFactory.getLogger(Utils.MOD_ID).warn("Please use Expanded Storage for Fabric instead.");
-            System.exit(0);
-            return;
-        }
         boolean isCarrierCompatEnabled = QuiltLoader.getModContainer("carrier").map(it -> {
             try {
                 Version.Semantic version = Version.Semantic.of(it.metadata().version().raw());
@@ -41,7 +36,7 @@ public final class QuiltMain implements ModInitializer {
         ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), isClient,
                 ((ContentConsumer) ThreadMain::registerContent)
                         .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThen(this::registerWaxedContent)
+                        .andThen(this::registerWaxedContent), List.of("Quilt", "Quilt")
         );
 
         ServerLifecycleEvents.STOPPED.register(server -> {

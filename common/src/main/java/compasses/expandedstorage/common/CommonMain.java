@@ -163,7 +163,7 @@ public final class CommonMain {
     }
 
     public static void constructContent(CommonPlatformHelper helper, Function<OpenableBlockEntity, ItemAccess> itemAccess, Supplier<Lockable> lockable,
-                                        boolean isClient, ContentConsumer contentRegistrationConsumer,
+                                        boolean isClient, ContentConsumer contentRegistrationConsumer, List<String> platforms,
             /*Base*/ boolean manuallyWrapTooltips,
             /*Chest*/ BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker, Function<OpenableBlockEntity, ItemAccess> chestAccessMaker,
             /*Minecart Chest*/ BiFunction<Item.Properties, ResourceLocation, ChestMinecartItem> chestMinecartItemMaker,

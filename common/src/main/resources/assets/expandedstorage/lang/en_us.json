@@ -251,5 +251,7 @@
   "chat.ellemes_container_lib.cannot_display_screen":                   "Cannot open the inventory with \"%s\" type, please try a different one.",
   "generic.ellemes_container_lib.label":                                "[ECL] ",
 
-  "text.expandedstorage.disconnect.old_version":                        "Please update Expanded Storage."
+  "text.expandedstorage.disconnect.old_version":                        "Please update Expanded Storage.",
+
+  "text.expandedstorage.wrong_loader_warning": "You have downloaded Expanded Storage for %s%1 instead of %s%2, whilst the mod might function correctly if you do encounter any issues support will not be provided unless you use the release for %s%2."
 }

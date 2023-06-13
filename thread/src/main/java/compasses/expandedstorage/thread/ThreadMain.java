@@ -81,7 +81,7 @@ public class ThreadMain {
         return content;
     }
 
-    public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer) {
+    public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer, List<String> platforms) {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Utils.id("tab"),
                 FabricItemGroup.builder()
                                .icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
@@ -92,7 +92,7 @@ public class ThreadMain {
                                })
                                .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
 
-        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer,
+        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer, platforms,
                 /*Base*/ true,
                 /*Chest*/ BlockItem::new, ChestItemAccess::new,
                 /*Minecart Chest*/ ChestMinecartItem::new,
