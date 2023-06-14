@@ -2,8 +2,6 @@ package compasses.expandedstorage.quilt;
 
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
-import compasses.expandedstorage.common.registration.Content;
-import compasses.expandedstorage.common.registration.ContentConsumer;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
 import compasses.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
@@ -31,10 +29,12 @@ public final class QuiltMain implements ModInitializer {
         }).orElse(false);
 
         boolean isClient = MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
-        ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), isClient,
-                ((ContentConsumer) ThreadMain::registerContent)
-                        .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThen(this::registerWaxedContent), "Quilt", "Quilt"
+        ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), isClient, "Quilt", "Quilt", initializer -> {
+                    if (isCarrierCompatEnabled) {
+                        ThreadMain.registerCarrierCompat(initializer);
+                    }
+                    this.registerWaxedContent();
+                }
         );
 
         ServerLifecycleEvents.STOPPED.register(server -> {
@@ -42,7 +42,7 @@ public final class QuiltMain implements ModInitializer {
         });
     }
 
-    private void registerWaxedContent(Content content) {
+    private void registerWaxedContent() {
         CopperBlockHelper.dewaxing().forEach((waxed, dewaxed) -> {
             BlockContentRegistries.WAXABLE.put(dewaxed, new ReversibleBlockEntry(waxed, true));
         });

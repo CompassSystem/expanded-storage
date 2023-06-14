@@ -24,8 +24,8 @@ import java.nio.file.Path;
 public class QuiltClient implements ClientModInitializer {
     @Override
     public void onInitializeClient(ModContainer mod) {
-        ThreadClient.initialize(new QuiltClientHelper(), content -> {
-            for (NamedValue<BarrelBlock> block : content.getBarrelBlocks()) {
+        ThreadClient.initialize(new QuiltClientHelper(), initializer -> {
+            for (NamedValue<BarrelBlock> block : initializer.barrelBlocks) {
                 BlockRenderLayerMap.put(RenderType.cutoutMipped(), block.getValue());
             }
         });
@@ -53,7 +53,7 @@ public class QuiltClient implements ClientModInitializer {
             Path mcmeta = root.resolve("resources/pack.mcmeta");
             if (!Files.exists(mcmeta)) {
                 try (BufferedWriter writer = Files.newBufferedWriter(root.resolve("resources/pack.mcmeta"))) {
-                    writer.write("{ \"pack\": { \"description\": \"Expanded Storage gui resources\", \"pack_format\": 9 } }");
+                    writer.write("{ \"pack\": { \"description\": \"Expanded Storage gui resources\", \"pack_format\": 15 } }");
                 }
             }
             return textureSaveRoot;

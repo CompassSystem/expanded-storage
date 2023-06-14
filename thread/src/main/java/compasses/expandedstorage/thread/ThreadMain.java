@@ -1,52 +1,37 @@
 package compasses.expandedstorage.thread;
 
-import com.google.common.base.Suppliers;
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.block.OpenableBlock;
-import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.misc.BasicLockable;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
-import compasses.expandedstorage.common.client.ChestBlockEntityRenderer;
-import compasses.expandedstorage.common.entity.ChestMinecart;
+import compasses.expandedstorage.common.block.strategies.Lockable;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.ConversionRecipeReloadListener;
-import compasses.expandedstorage.common.registration.Content;
-import compasses.expandedstorage.common.registration.ContentConsumer;
 import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.thread.block.misc.ChestItemAccess;
 import compasses.expandedstorage.thread.block.misc.GenericItemAccess;
 import compasses.expandedstorage.thread.compat.carrier.CarrierCompat;
 import compasses.expandedstorage.thread.compat.htm.HTMLockable;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
@@ -56,15 +41,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ThreadMain {
     public static final ResourceLocation UPDATE_RECIPES_ID = Utils.id("update_conversion_recipes");
-    private static Supplier<Content> temporaryContentSupplier;
+    private static Supplier<CommonMain.Initializer> temporaryInitializerSupplier;
 
     @SuppressWarnings({"UnstableApiUsage"})
     public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
@@ -72,16 +56,30 @@ public class ThreadMain {
         return (Storage<ItemVariant>) CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
-    public static Content doClientInit() {
-        Content content = temporaryContentSupplier.get();
-        temporaryContentSupplier = null;
+    public static CommonMain.Initializer getInitializeForClient() {
+        CommonMain.Initializer initializer = temporaryInitializerSupplier.get();
+        temporaryInitializerSupplier = null;
 
-        registerClientStuff(content);
-
-        return content;
+        return initializer;
     }
 
-    public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, boolean isClient, ContentConsumer contentRegistrationConsumer, String modTargetPlatform, String userPlatform) {
+    public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, boolean isClient, String modTargetPlatform, String userPlatform, Consumer<CommonMain.Initializer> registerExtra) {
+        CommonMain.Initializer initializer = new CommonMain.Initializer();
+
+        Supplier<Lockable> lockable = htmPresent ? HTMLockable::new : BasicLockable::new;
+
+        initializer.commonInit(helper, modTargetPlatform, userPlatform);
+        initializer.baseInit(true);
+        initializer.chestInit(isClient, lockable, BlockItem::new, ChestItemAccess::new, ChestMinecartItem::new);
+        initializer.oldChestInit(lockable, ChestItemAccess::new);
+        initializer.commonChestInit();
+        initializer.barrelInit(GenericItemAccess::new, lockable, ConventionalBlockTags.WOODEN_BARRELS);
+        initializer.miniStorageBlockInit(isClient, GenericItemAccess::new, lockable, BlockItem::new);
+
+        registerContent(initializer);
+
+        registerExtra.accept(initializer);
+
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Utils.id("tab"),
                 FabricItemGroup.builder()
                                .icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
@@ -92,15 +90,8 @@ public class ThreadMain {
                                })
                                .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
 
-        CommonMain.constructContent(helper, GenericItemAccess::new, htmPresent ? HTMLockable::new : BasicLockable::new, isClient, contentRegistrationConsumer, modTargetPlatform, userPlatform,
-                /*Base*/ true,
-                /*Chest*/ BlockItem::new, ChestItemAccess::new,
-                /*Minecart Chest*/ ChestMinecartItem::new,
-                /*Old Chest*/
-                /*Barrel*/ TagKey.create(Registries.BLOCK, new ResourceLocation("c", "wooden_barrels")),
-                /*Mini Storage*/ BlockItem::new);
-
         UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
+
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
             private final PreparableReloadListener base = new ConversionRecipeReloadListener();
 
@@ -117,93 +108,42 @@ public class ThreadMain {
         });
     }
 
-    public static void registerContent(Content content) {
-        for (ResourceLocation stat : content.getStats()) {
+    public static void registerContent(CommonMain.Initializer initializer) {
+        for (ResourceLocation stat : initializer.stats) {
             Registry.register(BuiltInRegistries.CUSTOM_STAT, stat, stat);
         }
 
-        CommonMain.iterateNamedList(content.getBlocks(), (name, value) -> {
+        CommonMain.iterateNamedList(initializer.getBlocks(), (name, value) -> {
             Registry.register(BuiltInRegistries.BLOCK, name, value);
         });
 
         //noinspection UnstableApiUsage
-        ItemStorage.SIDED.registerForBlocks(ThreadMain::getItemAccess, content.getBlocks().stream().map(NamedValue::getValue).toArray(OpenableBlock[]::new));
+        ItemStorage.SIDED.registerForBlocks(ThreadMain::getItemAccess, initializer.getBlocks().stream().map(NamedValue::getValue).toArray(OpenableBlock[]::new));
 
-        CommonMain.iterateNamedList(content.getItems(), (name, value) -> Registry.register(BuiltInRegistries.ITEM, name, value));
+        CommonMain.iterateNamedList(initializer.getItems(), (name, value) -> Registry.register(BuiltInRegistries.ITEM, name, value));
 
-        CommonMain.iterateNamedList(content.getEntityTypes(), (name, value) -> {
+        CommonMain.iterateNamedList(initializer.getEntityTypes(), (name, value) -> {
             Registry.register(BuiltInRegistries.ENTITY_TYPE, name, value);
         });
 
-        ThreadMain.registerBlockEntity(content.getChestBlockEntityType());
-        ThreadMain.registerBlockEntity(content.getOldChestBlockEntityType());
-        ThreadMain.registerBlockEntity(content.getBarrelBlockEntityType());
-        ThreadMain.registerBlockEntity(content.getMiniChestBlockEntityType());
+        ThreadMain.registerBlockEntity(initializer.getChestBlockEntityType());
+        ThreadMain.registerBlockEntity(initializer.getOldChestBlockEntityType());
+        ThreadMain.registerBlockEntity(initializer.getBarrelBlockEntityType());
+        ThreadMain.registerBlockEntity(initializer.getMiniStorageBlockEntityType());
 
-        temporaryContentSupplier = () -> content;
+        temporaryInitializerSupplier = () -> initializer;
     }
 
     private static <T extends BlockEntity> void registerBlockEntity(NamedValue<BlockEntityType<T>> blockEntityType) {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, blockEntityType.getName(), blockEntityType.getValue());
     }
 
-    public static void registerCarrierCompat(Content content) {
-        for (NamedValue<? extends OpenableBlock> block : content.getBlocks()) {
+    public static void registerCarrierCompat(CommonMain.Initializer initializer) {
+        for (NamedValue<? extends OpenableBlock> block : initializer.getBlocks()) {
             if (block.getValue() instanceof ChestBlock chestBlock) {
                 CarrierCompat.registerChestBlock(chestBlock);
             } else {
                 CarrierCompat.registerOpenableBlock(block.getValue());
-            }
-        }
-    }
-
-    public static void registerClientStuff(Content content) {
-        ThreadMain.Client.registerChestBlockEntityRenderer();
-        ThreadMain.Client.registerItemRenderers(content.getChestItems());
-        ThreadMain.Client.registerMinecartEntityRenderers(content.getChestMinecartEntityTypes());
-        ThreadMain.Client.registerMinecartItemRenderers(content.getChestMinecartAndTypes());
-        ThreadMain.Client.registerInventoryTabsCompat();
-    }
-
-    public static class Client {
-        public static void registerChestBlockEntityRenderer() {
-            BlockEntityRenderers.register(CommonMain.getChestBlockEntityType(), ChestBlockEntityRenderer::new);
-        }
-
-        public static void registerItemRenderers(List<NamedValue<BlockItem>> items) {
-            for (NamedValue<BlockItem> item : items) {
-                ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getValue().getBlock().defaultBlockState());
-                BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, context, stack, source, light, overlay) -> {
-                    renderEntity.setCustomName(itemStack.getHoverName());
-                    Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay);
-                });
-            }
-            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.SINGLE_LAYER, ChestBlockEntityRenderer::createSingleBodyLayer);
-            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.LEFT_LAYER, ChestBlockEntityRenderer::createLeftBodyLayer);
-            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.RIGHT_LAYER, ChestBlockEntityRenderer::createRightBodyLayer);
-            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.TOP_LAYER, ChestBlockEntityRenderer::createTopBodyLayer);
-            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.BOTTOM_LAYER, ChestBlockEntityRenderer::createBottomBodyLayer);
-            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.FRONT_LAYER, ChestBlockEntityRenderer::createFrontBodyLayer);
-            EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.BACK_LAYER, ChestBlockEntityRenderer::createBackBodyLayer);
-        }
-
-        public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
-            for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
-                EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
-            }
-        }
-
-        public static void registerMinecartItemRenderers(List<Map.Entry<NamedValue<ChestMinecartItem>, NamedValue<EntityType<ChestMinecart>>>> chestMinecartAndTypes) {
-            for (var pair : chestMinecartAndTypes) {
-                Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> pair.getValue().getValue().create(Minecraft.getInstance().level));
-                BuiltinItemRendererRegistry.INSTANCE.register(pair.getKey().getValue(), (itemStack, transform, stack, source, light, overlay) ->
-                        Minecraft.getInstance().getEntityRenderDispatcher().render(renderEntity.get(), 0, 0, 0, 0, 0, stack, source, light));
-            }
-        }
-
-        public static void registerInventoryTabsCompat() {
-            if (FabricLoader.getInstance().isModLoaded("inventorytabs")) {
-//                InventoryTabCompat.register();
             }
         }
     }

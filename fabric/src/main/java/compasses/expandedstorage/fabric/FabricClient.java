@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.RenderType;
 public class FabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ThreadClient.initialize(new FabricClientHelper(), content -> {
-            for (NamedValue<BarrelBlock> block : content.getBarrelBlocks()) {
+        ThreadClient.initialize(new FabricClientHelper(), initializer -> {
+            for (NamedValue<BarrelBlock> block : initializer.barrelBlocks) {
                 BlockRenderLayerMap.INSTANCE.putBlock(block.getValue(), RenderType.cutoutMipped());
             }
         });

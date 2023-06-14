@@ -2,8 +2,6 @@ package compasses.expandedstorage.fabric;
 
 import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
-import compasses.expandedstorage.common.registration.Content;
-import compasses.expandedstorage.common.registration.ContentConsumer;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
 import compasses.expandedstorage.thread.ThreadMain;
 import net.fabricmc.api.EnvType;
@@ -31,10 +29,12 @@ public final class FabricMain implements ModInitializer {
 
         boolean isClient = loader.getEnvironmentType() == EnvType.CLIENT;
         ThreadMain.constructContent(new FabricCommonHelper(),
-                loader.isModLoaded("htm"), isClient,
-                ((ContentConsumer) ThreadMain::registerContent)
-                        .andThenIf(isCarrierCompatEnabled, ThreadMain::registerCarrierCompat)
-                        .andThen(this::registerOxidisableAndWaxableBlocks), "Fabric", quiltDetected ? "Quilt" : "Fabric"
+                loader.isModLoaded("htm"), isClient, "Fabric", quiltDetected ? "Quilt" : "Fabric", initializer -> {
+                    if (isCarrierCompatEnabled) {
+                        ThreadMain.registerCarrierCompat(initializer);
+                    }
+                    this.registerOxidisableAndWaxableBlocks();
+                }
         );
 
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
@@ -42,7 +42,7 @@ public final class FabricMain implements ModInitializer {
         });
     }
 
-    private void registerOxidisableAndWaxableBlocks(Content content) {
+    private void registerOxidisableAndWaxableBlocks() {
         CopperBlockHelper.oxidisation().forEach(OxidizableBlocksRegistry::registerOxidizableBlockPair);
         CopperBlockHelper.dewaxing().inverse().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
     }

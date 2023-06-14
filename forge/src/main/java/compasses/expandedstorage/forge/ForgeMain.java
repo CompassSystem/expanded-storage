@@ -11,7 +11,6 @@ import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.common.recipe.ConversionRecipeReloadListener;
-import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.forge.block.misc.ChestItemAccess;
 import compasses.expandedstorage.forge.block.misc.GenericItemAccess;
@@ -23,8 +22,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.HoneycombItem;
@@ -33,6 +30,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -55,14 +53,18 @@ import java.util.function.Supplier;
 @Mod("expandedstorage")
 public final class ForgeMain {
     public ForgeMain() {
-        CommonMain.constructContent(new ForgePlatformHelper(), GenericItemAccess::new, BasicLockable::new,
-                FMLLoader.getDist().isClient(), this::registerContent, "Forge", "Forge", // Don't think there's any project to load forge mods on other platforms yet.
-                /*Base*/ false,
-                /*Chest*/ ChestBlockItem::new, ChestItemAccess::new,
-                /*Minecart Chest*/ ChestMinecartItem::new,
-                /*Old Chest*/
-                /*Barrel*/ TagKey.create(ForgeRegistries.Keys.BLOCKS, new ResourceLocation("forge", "barrels/wooden")),
-                /*Mini Storage*/ MiniStorageBlockItem::new);
+        CommonMain.Initializer initializer = new CommonMain.Initializer();
+
+        initializer.commonInit(new ForgePlatformHelper(), "Forge", "Forge");
+        initializer.baseInit(false);
+        initializer.chestInit(FMLLoader.getDist().isClient(), BasicLockable::new, ChestBlockItem::new, ChestItemAccess::new, ChestMinecartItem::new);
+        initializer.oldChestInit(BasicLockable::new, ChestItemAccess::new);
+        initializer.commonChestInit();
+        initializer.barrelInit(GenericItemAccess::new, BasicLockable::new, Tags.Blocks.BARRELS_WOODEN);
+        initializer.miniStorageBlockInit(FMLLoader.getDist().isClient(), GenericItemAccess::new, BasicLockable::new, MiniStorageBlockItem::new);
+
+        registerContent(initializer);
+
         MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent event) -> event.addListener(new ConversionRecipeReloadListener()));
         MinecraftForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> CommonMain.platformHelper().sendConversionRecipesToClient(event.getPlayer(), ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes()));
 
@@ -99,30 +101,30 @@ public final class ForgeMain {
         });
     }
 
-    private void registerContent(Content content) {
+    private void registerContent(CommonMain.Initializer initializer) {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((RegisterEvent event) -> {
             event.register(ForgeRegistries.Keys.STAT_TYPES, helper -> {
-                content.getStats().forEach(it -> Registry.register(BuiltInRegistries.CUSTOM_STAT, it, it));
+                initializer.stats.forEach(it -> Registry.register(BuiltInRegistries.CUSTOM_STAT, it, it));
             });
 
             event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
-                CommonMain.iterateNamedList(content.getBlocks(), helper::register);
+                CommonMain.iterateNamedList(initializer.getBlocks(), helper::register);
             });
 
             event.register(ForgeRegistries.Keys.ITEMS, helper -> {
-                CommonMain.iterateNamedList(content.getItems(), helper::register);
+                CommonMain.iterateNamedList(initializer.getItems(), helper::register);
             });
 
             event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, helper -> {
-                ForgeMain.registerBlockEntity(helper, content.getChestBlockEntityType());
-                ForgeMain.registerBlockEntity(helper, content.getOldChestBlockEntityType());
-                ForgeMain.registerBlockEntity(helper, content.getBarrelBlockEntityType());
-                ForgeMain.registerBlockEntity(helper, content.getMiniChestBlockEntityType());
+                ForgeMain.registerBlockEntity(helper, initializer.getChestBlockEntityType());
+                ForgeMain.registerBlockEntity(helper, initializer.getOldChestBlockEntityType());
+                ForgeMain.registerBlockEntity(helper, initializer.getBarrelBlockEntityType());
+                ForgeMain.registerBlockEntity(helper, initializer.getMiniStorageBlockEntityType());
             });
 
             event.register(ForgeRegistries.Keys.ENTITY_TYPES, helper -> {
-                CommonMain.iterateNamedList(content.getEntityTypes(), helper::register);
+                CommonMain.iterateNamedList(initializer.getEntityTypes(), helper::register);
             });
 
             event.register(BuiltInRegistries.CREATIVE_MODE_TAB.key(), helper -> {
@@ -147,7 +149,7 @@ public final class ForgeMain {
         });
 
         if (FMLLoader.getDist() == Dist.CLIENT) {
-            ForgeClient.initialize(modBus, content);
+            ForgeClient.initialize(modBus, initializer);
         }
     }
 

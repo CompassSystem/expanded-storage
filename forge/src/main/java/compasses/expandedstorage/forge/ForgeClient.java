@@ -8,7 +8,6 @@ import compasses.expandedstorage.common.client.gui.PageScreen;
 import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.helpers.client.ScreenOpeningApi;
 import compasses.expandedstorage.common.misc.Utils;
-import compasses.expandedstorage.common.registration.Content;
 import compasses.expandedstorage.common.registration.ModItems;
 import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.forge.misc.ForgeClientHelper;
@@ -27,7 +26,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ForgeClient {
-    public static void initialize(IEventBus modBus, Content content) {
+    public static void initialize(IEventBus modBus, CommonMain.Initializer initializer) {
         CommonClient.initialize(new ForgeClientHelper(modBus));
         ModLoadingContext.get().getActiveContainer().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory((client, screen) -> ScreenOpeningApi.createTypeSelectScreen(() -> screen))
@@ -46,7 +45,7 @@ public class ForgeClient {
         });
 
         modBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
-            event.registerBlockEntityRenderer(content.getChestBlockEntityType().getValue(), ChestBlockEntityRenderer::new);
+            event.registerBlockEntityRenderer(CommonMain.getChestBlockEntityType(), ChestBlockEntityRenderer::new);
         });
 
         modBus.addListener((EntityRenderersEvent.RegisterLayerDefinitions event) -> {
@@ -60,7 +59,7 @@ public class ForgeClient {
         });
 
         modBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
-            for (NamedValue<EntityType<ChestMinecart>> type : content.getChestMinecartEntityTypes()) {
+            for (NamedValue<EntityType<ChestMinecart>> type : initializer.getChestMinecartEntityTypes()) {
                 event.registerEntityRenderer(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
             }
         });

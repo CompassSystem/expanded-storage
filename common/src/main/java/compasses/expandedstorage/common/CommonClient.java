@@ -24,6 +24,7 @@ public class CommonClient {
 
     public static void initialize(ClientPlatformHelper helper) {
         platformHelper = helper;
+
         ScreenTypeApi.registerScreenButton(Utils.PAGE_SCREEN_TYPE,
                 Utils.id("textures/gui/page_button.png"),
                 Component.translatable("screen.ellemes_container_lib.page_screen"));
