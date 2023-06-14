@@ -63,18 +63,18 @@ public class ThreadMain {
         return initializer;
     }
 
-    public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, boolean isClient, String modTargetPlatform, String userPlatform, Consumer<CommonMain.Initializer> registerExtra) {
+    public static void constructContent(ThreadCommonHelper helper, boolean htmPresent, String modTargetPlatform, String userPlatform, Consumer<CommonMain.Initializer> registerExtra) {
         CommonMain.Initializer initializer = new CommonMain.Initializer();
 
         Supplier<Lockable> lockable = htmPresent ? HTMLockable::new : BasicLockable::new;
 
         initializer.commonInit(helper, modTargetPlatform, userPlatform);
         initializer.baseInit(true);
-        initializer.chestInit(isClient, lockable, BlockItem::new, ChestItemAccess::new, ChestMinecartItem::new);
+        initializer.chestInit(lockable, BlockItem::new, ChestItemAccess::new, ChestMinecartItem::new);
         initializer.oldChestInit(lockable, ChestItemAccess::new);
         initializer.commonChestInit();
         initializer.barrelInit(GenericItemAccess::new, lockable, ConventionalBlockTags.WOODEN_BARRELS);
-        initializer.miniStorageBlockInit(isClient, GenericItemAccess::new, lockable, BlockItem::new);
+        initializer.miniStorageBlockInit(GenericItemAccess::new, lockable, BlockItem::new);
 
         registerContent(initializer);
 

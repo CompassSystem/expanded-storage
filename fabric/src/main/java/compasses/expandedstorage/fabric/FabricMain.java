@@ -4,7 +4,6 @@ import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
 import compasses.expandedstorage.thread.ThreadMain;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
@@ -27,9 +26,8 @@ public final class FabricMain implements ModInitializer {
             throw new IllegalStateException("Author made a typo: ", e);
         }
 
-        boolean isClient = loader.getEnvironmentType() == EnvType.CLIENT;
         ThreadMain.constructContent(new FabricCommonHelper(),
-                loader.isModLoaded("htm"), isClient, "Fabric", quiltDetected ? "Quilt" : "Fabric", initializer -> {
+                loader.isModLoaded("htm"), "Fabric", quiltDetected ? "Quilt" : "Fabric", initializer -> {
                     if (isCarrierCompatEnabled) {
                         ThreadMain.registerCarrierCompat(initializer);
                     }

@@ -27,7 +27,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ForgeClient {
     public static void initialize(IEventBus modBus, CommonMain.Initializer initializer) {
-        CommonClient.initialize(new ForgeClientHelper(modBus));
+        CommonClient.initialize(new ForgeClientHelper(modBus), initializer);
         ModLoadingContext.get().getActiveContainer().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory((client, screen) -> ScreenOpeningApi.createTypeSelectScreen(() -> screen))
         );

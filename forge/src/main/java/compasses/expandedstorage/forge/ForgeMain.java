@@ -57,11 +57,11 @@ public final class ForgeMain {
 
         initializer.commonInit(new ForgePlatformHelper(), "Forge", "Forge");
         initializer.baseInit(false);
-        initializer.chestInit(FMLLoader.getDist().isClient(), BasicLockable::new, ChestBlockItem::new, ChestItemAccess::new, ChestMinecartItem::new);
+        initializer.chestInit(BasicLockable::new, ChestBlockItem::new, ChestItemAccess::new, ChestMinecartItem::new);
         initializer.oldChestInit(BasicLockable::new, ChestItemAccess::new);
         initializer.commonChestInit();
         initializer.barrelInit(GenericItemAccess::new, BasicLockable::new, Tags.Blocks.BARRELS_WOODEN);
-        initializer.miniStorageBlockInit(FMLLoader.getDist().isClient(), GenericItemAccess::new, BasicLockable::new, MiniStorageBlockItem::new);
+        initializer.miniStorageBlockInit(GenericItemAccess::new, BasicLockable::new, MiniStorageBlockItem::new);
 
         registerContent(initializer);
 

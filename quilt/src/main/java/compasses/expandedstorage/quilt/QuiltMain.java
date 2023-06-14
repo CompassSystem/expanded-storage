@@ -4,12 +4,10 @@ import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.block.misc.CopperBlockHelper;
 import compasses.expandedstorage.thread.ThreadCommonHelper;
 import compasses.expandedstorage.thread.ThreadMain;
-import net.fabricmc.api.EnvType;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.Version;
 import org.quiltmc.loader.api.VersionFormatException;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.content.registry.api.ReversibleBlockEntry;
@@ -28,8 +26,7 @@ public final class QuiltMain implements ModInitializer {
             }
         }).orElse(false);
 
-        boolean isClient = MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
-        ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), isClient, "Quilt", "Quilt", initializer -> {
+        ThreadMain.constructContent(new QuiltCommonHelper(), QuiltLoader.isModLoaded("htm"), "Quilt", "Quilt", initializer -> {
                     if (isCarrierCompatEnabled) {
                         ThreadMain.registerCarrierCompat(initializer);
                     }

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import compasses.expandedstorage.api.EsChestType;
-import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.block.AbstractChestBlock;
 import compasses.expandedstorage.common.block.ChestBlock;
 import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
@@ -223,7 +223,7 @@ public final class ChestBlockEntityRenderer implements BlockEntityRenderer<Chest
         } else {
             retriever = PropertyRetriever.createDirect(entity);
         }
-        VertexConsumer consumer = new Material(Sheets.CHEST_SHEET, CommonMain.getChestTexture(blockId, chestType)).buffer(provider, RenderType::entityCutout);
+        VertexConsumer consumer = new Material(Sheets.CHEST_SHEET, CommonClient.getChestTexture(blockId, chestType)).buffer(provider, RenderType::entityCutout);
         float lidOpenness = ChestBlockEntityRenderer.getLidOpenness(retriever.get(ChestBlockEntityRenderer.LID_OPENNESS_FUNCTION_GETTER).orElse(f -> 0).get(delta));
         int brightness = retriever.get(ChestBlockEntityRenderer.BRIGHTNESS_PROPERTY).orElse(i -> i).applyAsInt(light);
         if (chestType == EsChestType.SINGLE) {

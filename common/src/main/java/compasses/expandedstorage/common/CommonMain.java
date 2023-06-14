@@ -18,7 +18,6 @@ import compasses.expandedstorage.common.block.entity.extendable.OpenableBlockEnt
 import compasses.expandedstorage.common.block.misc.DoubleItemAccess;
 import compasses.expandedstorage.common.block.strategies.ItemAccess;
 import compasses.expandedstorage.common.block.strategies.Lockable;
-import compasses.expandedstorage.common.client.gui.MiniStorageScreen;
 import compasses.expandedstorage.common.entity.ChestMinecart;
 import compasses.expandedstorage.common.item.BlockMutatorBehaviour;
 import compasses.expandedstorage.common.item.ChestMinecartItem;
@@ -37,7 +36,6 @@ import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.common.registration.ObjectConsumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
-import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -94,7 +92,6 @@ public final class CommonMain {
     public static final ResourceLocation MINI_STORAGE_OBJECT_TYPE = Utils.id("mini_chest");
 
     private static final Map<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
-    private static final Map<ResourceLocation, ResourceLocation[]> CHEST_TEXTURES = new HashMap<>();
 
     private static NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
@@ -133,22 +130,6 @@ public final class CommonMain {
                 items.add(new NamedValue<>(itemId, () -> new StorageConversionKit(settings, fromTier.getId(), toTier.getId(), wrapTooltipManually)));
             }
         }
-    }
-
-    public static void declareChestTextures(ResourceLocation block, ResourceLocation singleTexture, ResourceLocation leftTexture, ResourceLocation rightTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, ResourceLocation frontTexture, ResourceLocation backTexture) {
-        if (!CommonMain.CHEST_TEXTURES.containsKey(block)) {
-            ResourceLocation[] collection = {topTexture, bottomTexture, frontTexture, backTexture, leftTexture, rightTexture, singleTexture};
-            CommonMain.CHEST_TEXTURES.put(block, collection);
-        } else {
-            throw new IllegalArgumentException("Tried registering chest textures for \"" + block + "\" which already has textures.");
-        }
-    }
-
-    public static ResourceLocation getChestTexture(ResourceLocation block, EsChestType chestType) {
-        if (CommonMain.CHEST_TEXTURES.containsKey(block)) {
-            return CommonMain.CHEST_TEXTURES.get(block)[chestType.ordinal()];
-        }
-        return MissingTextureAtlasSprite.getLocation();
     }
 
     private static void registerMutationBehaviour(Predicate<Block> predicate, MutationMode mode, BlockMutatorBehaviour behaviour) {
@@ -258,8 +239,6 @@ public final class CommonMain {
         public final List<NamedValue<ChestMinecartItem>> chestMinecartItems = new ArrayList<>(chestTypes);
 
         public void chestInit(
-                boolean isClient,
-
                 Supplier<Lockable> lockable,
 
                 BiFunction<ChestBlock, Item.Properties, BlockItem> chestItemMaker,
@@ -323,21 +302,6 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("diamond_chest"), diamondStat, Tiers.DIAMOND, Properties.DIAMOND);
             chestMaker.apply(Utils.id("obsidian_chest"), obsidianStat, Tiers.OBSIDIAN, Properties.OBSIDIAN);
             chestMaker.apply(Utils.id("netherite_chest"), netheriteStat, Tiers.NETHERITE, Properties.NETHERITE);
-
-            if (isClient) {
-                chestBlocks.forEach(block -> {
-                    String blockId = block.getName().getPath();
-                    CommonMain.declareChestTextures(block.getName(),
-                            Utils.id("entity/chest/" + blockId + "_single"),
-                            Utils.id("entity/chest/" + blockId + "_left"),
-                            Utils.id("entity/chest/" + blockId + "_right"),
-                            Utils.id("entity/chest/" + blockId + "_top"),
-                            Utils.id("entity/chest/" + blockId + "_bottom"),
-                            Utils.id("entity/chest/" + blockId + "_front"),
-                            Utils.id("entity/chest/" + blockId + "_back")
-                    );
-                });
-            }
 
             CommonMain.chestBlockEntityType = new NamedValue<>(CommonMain.CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, lockable), chestBlocks.stream().map(NamedValue::getValue).toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
         }
@@ -572,8 +536,6 @@ public final class CommonMain {
         public final List<NamedValue<BlockItem>> miniStorageItems = new ArrayList<>();
 
         public void miniStorageBlockInit(
-                boolean isClient,
-
                 Function<OpenableBlockEntity, ItemAccess> itemAccess,
                 Supplier<Lockable> lockable,
 
@@ -663,10 +625,6 @@ public final class CommonMain {
             miniStorageMakerNoRibbon.apply(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, Tiers.NETHERITE, netheriteBarrelSettings);
 
             CommonMain.miniStorageBlockEntityType = new NamedValue<>(CommonMain.MINI_STORAGE_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
-
-            if (isClient) {
-                MiniStorageScreen.registerScreenType();
-            }
 
             Predicate<Block> isMiniStorage = b -> b instanceof MiniStorageBlock;
             CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (useContext, level, state, pos, stack) -> {

@@ -48,6 +48,7 @@ public final class Utils {
     public static final ResourceLocation SINGLE_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "single");
     public static final ResourceLocation SCROLL_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "scroll");
     public static final ResourceLocation UNSET_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "auto");
+    public static final ResourceLocation MINI_STORAGE_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "mini_storage");
     public static Path textureSaveRoot;
 
     private Utils() {

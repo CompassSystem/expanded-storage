@@ -33,15 +33,14 @@ import net.minecraft.world.item.BlockItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ThreadClient {
-    public static void initialize(ClientPlatformHelper helper, Consumer<CommonMain.Initializer> extraClientInit) {
-        CommonClient.initialize(helper);
-        MenuScreens.register(CommonMain.platformHelper().getScreenHandlerType(), AbstractScreen::createScreen);
-
+    public static void initialize(ClientPlatformHelper helper) {
         CommonMain.Initializer initializer = ThreadMain.getInitializeForClient();
+        CommonClient.initialize(helper, initializer);
+
+        MenuScreens.register(CommonMain.platformHelper().getScreenHandlerType(), AbstractScreen::createScreen);
 
         ThreadClient.registerChestBlockEntityRenderer();
         ThreadClient.registerItemRenderers(initializer.chestItems);

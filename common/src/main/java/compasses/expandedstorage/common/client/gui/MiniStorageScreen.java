@@ -2,9 +2,7 @@ package compasses.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import compasses.expandedstorage.common.client.function.ScreenSize;
-import compasses.expandedstorage.common.helpers.client.ScreenTypeApi;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,11 +16,6 @@ public final class MiniStorageScreen extends AbstractScreen {
 
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {
         return ScreenSize.of(1, 1);
-    }
-
-    public static void registerScreenType() {
-        ScreenTypeApi.registerScreenType(Utils.id("mini_chest"), MiniStorageScreen::new);
-        ScreenTypeApi.registerDefaultScreenSize(Utils.id("mini_chest"), MiniStorageScreen::retrieveScreenSize);
     }
 
     private void initializeSlots(Inventory playerInventory) {

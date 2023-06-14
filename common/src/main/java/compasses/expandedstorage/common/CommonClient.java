@@ -1,7 +1,9 @@
 package compasses.expandedstorage.common;
 
+import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
 import compasses.expandedstorage.common.client.gui.FakePickScreen;
+import compasses.expandedstorage.common.client.gui.MiniStorageScreen;
 import compasses.expandedstorage.common.client.gui.PageScreen;
 import compasses.expandedstorage.common.client.gui.ScrollScreen;
 import compasses.expandedstorage.common.client.gui.SingleScreen;
@@ -12,18 +14,36 @@ import compasses.expandedstorage.common.misc.ClientPlatformHelper;
 import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommonClient {
+    private static final Map<ResourceLocation, ResourceLocation[]> CHEST_TEXTURES = new HashMap<>();
     private static ClientPlatformHelper platformHelper;
 
-    public static void initialize(ClientPlatformHelper helper) {
+    public static void initialize(ClientPlatformHelper helper, CommonMain.Initializer initializer) {
         platformHelper = helper;
+
+        initializer.chestBlocks.forEach(block -> {
+            String blockId = block.getName().getPath();
+            CommonClient.declareChestTextures(block.getName(),
+                    Utils.id("entity/chest/" + blockId + "_single"),
+                    Utils.id("entity/chest/" + blockId + "_left"),
+                    Utils.id("entity/chest/" + blockId + "_right"),
+                    Utils.id("entity/chest/" + blockId + "_top"),
+                    Utils.id("entity/chest/" + blockId + "_bottom"),
+                    Utils.id("entity/chest/" + blockId + "_front"),
+                    Utils.id("entity/chest/" + blockId + "_back")
+            );
+        });
 
         ScreenTypeApi.registerScreenButton(Utils.PAGE_SCREEN_TYPE,
                 Utils.id("textures/gui/page_button.png"),
@@ -44,12 +64,14 @@ public class CommonClient {
         ScreenTypeApi.registerScreenType(Utils.PAGE_SCREEN_TYPE, PageScreen::new);
         ScreenTypeApi.registerScreenType(Utils.SCROLL_SCREEN_TYPE, ScrollScreen::new);
         ScreenTypeApi.registerScreenType(Utils.SINGLE_SCREEN_TYPE, SingleScreen::new);
+        ScreenTypeApi.registerScreenType(Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::new);
 
         // todo: these settings leave no room for rei/jei should we take those into consideration for minimum screen width
         ScreenTypeApi.registerDefaultScreenSize(Utils.UNSET_SCREEN_TYPE, FakePickScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.PAGE_SCREEN_TYPE, PageScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.SCROLL_SCREEN_TYPE, ScrollScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.SINGLE_SCREEN_TYPE, SingleScreen::retrieveScreenSize);
+        ScreenTypeApi.registerDefaultScreenSize(Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::retrieveScreenSize);
 
         ScreenTypeApi.setPrefersSingleScreen(Utils.PAGE_SCREEN_TYPE);
         ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLL_SCREEN_TYPE);
@@ -77,6 +99,22 @@ public class CommonClient {
             return 0.2F;
         }
         return 0.0F;
+    }
+
+    public static void declareChestTextures(ResourceLocation block, ResourceLocation singleTexture, ResourceLocation leftTexture, ResourceLocation rightTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, ResourceLocation frontTexture, ResourceLocation backTexture) {
+        if (!CommonClient.CHEST_TEXTURES.containsKey(block)) {
+            ResourceLocation[] collection = {topTexture, bottomTexture, frontTexture, backTexture, leftTexture, rightTexture, singleTexture};
+            CommonClient.CHEST_TEXTURES.put(block, collection);
+        } else {
+            throw new IllegalArgumentException("Tried registering chest textures for \"" + block + "\" which already has textures.");
+        }
+    }
+
+    public static ResourceLocation getChestTexture(ResourceLocation block, EsChestType chestType) {
+        if (CommonClient.CHEST_TEXTURES.containsKey(block)) {
+            return CommonClient.CHEST_TEXTURES.get(block)[chestType.ordinal()];
+        }
+        return MissingTextureAtlasSprite.getLocation();
     }
 
     public static ClientPlatformHelper platformHelper() {
