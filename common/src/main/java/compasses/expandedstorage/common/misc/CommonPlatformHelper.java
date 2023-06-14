@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.file.Path;
 import java.util.List;
 
 public interface CommonPlatformHelper {
@@ -23,7 +24,19 @@ public interface CommonPlatformHelper {
 
     boolean canDestroyBamboo(ItemStack stack);
 
-    boolean platformMarkerExists();
+    Path getLocalConfigPath();
 
-    void createInvalidPlatformMarker();
+    default Path getGlobalConfigPath() {
+        Path minecraftPath = Path.of(System.getProperty("user.home"));
+        String os = System.getProperty("os.name");
+        if (os.startsWith("Windows")) {
+            minecraftPath = minecraftPath.resolve("AppData/Roaming/.minecraft/");
+        } else if (os.startsWith("Mac")) {
+            minecraftPath = minecraftPath.resolve("Library/Application Support/minecraft/");
+        } else { // Assume Linux
+            minecraftPath = minecraftPath.resolve(".minecraft/");
+        }
+
+        return minecraftPath.resolve(Utils.MOD_ID + "_global_config/");
+    }
 }

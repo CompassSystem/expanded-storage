@@ -2,9 +2,9 @@ package compasses.expandedstorage.common.misc;
 
 import com.google.gson.JsonParseException;
 import compasses.expandedstorage.common.client.gui.AbstractScreen;
-import compasses.expandedstorage.common.config.Config;
-import compasses.expandedstorage.common.config.ConfigV0;
-import compasses.expandedstorage.common.config.Converter;
+import compasses.expandedstorage.common.config.old.Config;
+import compasses.expandedstorage.common.config.old.ConfigV0;
+import compasses.expandedstorage.common.config.old.Converter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.apache.logging.log4j.LogManager;

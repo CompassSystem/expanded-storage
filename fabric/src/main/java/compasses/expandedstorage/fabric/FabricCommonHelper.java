@@ -8,9 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FabricCommonHelper extends ThreadCommonHelper {
@@ -20,22 +17,7 @@ public class FabricCommonHelper extends ThreadCommonHelper {
     }
 
     @Override
-    public boolean platformMarkerExists() {
-        return Files.exists(FabricLoader.getInstance().getConfigDir().resolve(Utils.MOD_ID + "/announcement_marker.txt"));
-    }
-
-    @Override
-    public void createInvalidPlatformMarker() {
-        Path folder = FabricLoader.getInstance().getConfigDir().resolve(Utils.MOD_ID);
-        try {
-            Files.createDirectories(folder);
-        } catch (IOException e) {
-            return;
-        }
-        try (BufferedWriter writer = Files.newBufferedWriter(folder.resolve("announcement_marker.txt"))) {
-            writer.write("0");
-        } catch (IOException ignored) {
-
-        }
+    public Path getLocalConfigPath() {
+        return FabricLoader.getInstance().getConfigDir().resolve(Utils.MOD_ID);
     }
 }

@@ -8,9 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class QuiltCommonHelper extends ThreadCommonHelper {
@@ -20,22 +17,7 @@ public class QuiltCommonHelper extends ThreadCommonHelper {
     }
 
     @Override
-    public boolean platformMarkerExists() {
-        return Files.exists(QuiltLoader.getConfigDir().resolve(Utils.MOD_ID + "/announcement_marker.txt"));
-    }
-
-    @Override
-    public void createInvalidPlatformMarker() {
-        Path folder = QuiltLoader.getConfigDir().resolve(Utils.MOD_ID);
-        try {
-            Files.createDirectories(folder);
-        } catch (IOException e) {
-            return;
-        }
-        try (BufferedWriter writer = Files.newBufferedWriter(folder.resolve("announcement_marker.txt"))) {
-            writer.write("0");
-        } catch (IOException ignored) {
-
-        }
+    public Path getLocalConfigPath() {
+        return QuiltLoader.getConfigDir().resolve(Utils.MOD_ID);
     }
 }

@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.config;
+package compasses.expandedstorage.common.config.old;
 
 public interface Converter<S, T> {
     T fromSource(S source);

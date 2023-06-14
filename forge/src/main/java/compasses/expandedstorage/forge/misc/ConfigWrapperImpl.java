@@ -2,7 +2,7 @@ package compasses.expandedstorage.forge.misc;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.toml.TomlFormat;
-import compasses.expandedstorage.common.config.ConfigV0;
+import compasses.expandedstorage.common.config.old.ConfigV0;
 import compasses.expandedstorage.common.misc.ConfigWrapper;
 import compasses.expandedstorage.forge.config.LegacyFactory;
 

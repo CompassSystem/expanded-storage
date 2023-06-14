@@ -1,4 +1,4 @@
-package compasses.expandedstorage.common.config;
+package compasses.expandedstorage.common.config.old;
 
 import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.resources.ResourceLocation;

@@ -4,11 +4,13 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import compasses.expandedstorage.common.config.IdentifierTypeAdapter;
+import compasses.expandedstorage.common.config.ResourceLocationTypeAdapter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 import java.nio.file.Path;
@@ -16,6 +18,7 @@ import java.util.Map;
 
 public final class Utils {
     public static final String MOD_ID = "expandedstorage";
+    public static final Logger LOGGER = LoggerFactory.getLogger("Expanded Storage");
     public static final Component ALT_USE = Component.translatable("tooltip.expandedstorage.alt_use",
             Component.keybind("key.sneak").withStyle(ChatFormatting.GOLD),
             Component.keybind("key.use").withStyle(ChatFormatting.GOLD));
@@ -35,7 +38,7 @@ public final class Utils {
     public static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() {
     }.getType();
     // todo: look into possibility of replacing, might be worth exposing obj->json to configs.
-    public static final Gson GSON = new GsonBuilder().registerTypeAdapter(ResourceLocation.class, new IdentifierTypeAdapter())
+    public static final Gson GSON = new GsonBuilder().registerTypeAdapter(ResourceLocation.class, new ResourceLocationTypeAdapter())
                                                      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                                                      .setPrettyPrinting()
                                                      .setLenient()

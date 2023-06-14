@@ -26,9 +26,6 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -88,22 +85,7 @@ public class ForgePlatformHelper implements CommonPlatformHelper {
     }
 
     @Override
-    public boolean platformMarkerExists() {
-        return Files.exists(FMLPaths.CONFIGDIR.get().resolve(Utils.MOD_ID + "/announcement_marker.txt"));
-    }
-
-    @Override
-    public void createInvalidPlatformMarker() {
-        Path folder = FMLPaths.CONFIGDIR.get().resolve(Utils.MOD_ID);
-        try {
-            Files.createDirectories(folder);
-        } catch (IOException e) {
-            return;
-        }
-        try (BufferedWriter writer = Files.newBufferedWriter(folder.resolve("announcement_marker.txt"))) {
-            writer.write("0");
-        } catch (IOException ignored) {
-
-        }
+    public Path getLocalConfigPath() {
+        return FMLPaths.CONFIGDIR.get().resolve(Utils.MOD_ID);
     }
 }

@@ -1,8 +1,8 @@
 package compasses.expandedstorage.forge.config;
 
 import com.electronwill.nightconfig.core.Config;
-import compasses.expandedstorage.common.config.ConfigV0;
-import compasses.expandedstorage.common.config.Converter;
+import compasses.expandedstorage.common.config.old.ConfigV0;
+import compasses.expandedstorage.common.config.old.Converter;
 import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;

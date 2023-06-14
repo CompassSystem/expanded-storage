@@ -1,6 +1,7 @@
 package compasses.expandedstorage.common.mixin;
 
 import compasses.expandedstorage.common.CommonMain;
+import compasses.expandedstorage.common.config.common.CommonConfigManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -28,9 +29,8 @@ public class ClientJoinWorld {
     private void expandedstorage$onJoinWorld(ClientboundLoginPacket packet, CallbackInfo ci) {
         String modTargetPlatform = CommonMain.getModTargetPlatform();
         String userPlatform = CommonMain.getUserPlatform();
-        if (!Objects.equals(modTargetPlatform, userPlatform) && !CommonMain.platformHelper().platformMarkerExists()) {
+        if (!Objects.equals(modTargetPlatform, userPlatform) && CommonConfigManager.getInternalConfig().showPlatformWarning()) {
             minecraft.player.sendSystemMessage(Component.translatable("text.expandedstorage.prefix", Component.translatable("text.expandedstorage.wrong_loader_warning", CommonMain.getModTargetPlatform(), CommonMain.getUserPlatform()).withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.DARK_AQUA));
-            CommonMain.platformHelper().createInvalidPlatformMarker();
         }
     }
 }

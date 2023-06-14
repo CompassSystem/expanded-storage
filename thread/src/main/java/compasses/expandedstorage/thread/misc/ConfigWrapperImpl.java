@@ -1,6 +1,6 @@
 package compasses.expandedstorage.thread.misc;
 
-import compasses.expandedstorage.common.config.ConfigV0;
+import compasses.expandedstorage.common.config.old.ConfigV0;
 import compasses.expandedstorage.common.misc.ConfigWrapper;
 import compasses.expandedstorage.thread.config.LegacyFactory;
 
