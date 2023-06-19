@@ -11,9 +11,6 @@ public class InternalConfig {
     @SerializedName("config_version")
     private int configVersion = -1;
 
-    @SerializedName("latest_checked_infobase_id")
-    private int latestCheckedInfobaseId = -1;
-
     @SerializedName("shown_wrong_platform_version")
     private String shownWrongPlatformVersion = null;
 
@@ -26,6 +23,15 @@ public class InternalConfig {
         }
 
         return false;
+    }
+
+    public int getConfigVersion() {
+        return configVersion;
+    }
+
+    public void setConfigVersion(int version) {
+        configVersion = version;
+        CommonConfigManager.saveInternalConfig();
     }
 
 }
