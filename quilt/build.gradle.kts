@@ -1,3 +1,5 @@
+import compasses.gradle.mod.api.publishing.UploadProperties
+
 plugins {
     id("ellemes.gradle.mod").apply(false)
     id("thread-plugin")
@@ -7,9 +9,9 @@ dependencies {
     modImplementation(mod.fabricApi().full())
 }
 
-val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "${project.property("repo_base_url")}")
+val upload = UploadProperties(project, "${project.property("repo_base_url")}")
 
-u.configureCurseForge {
+upload.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
         requiredDependency("qsl")
         optionalDependency("htm")
@@ -25,7 +27,7 @@ u.configureCurseForge {
     })
 }
 
-u.configureModrinth {
+upload.configureModrinth {
     dependencies {
         required.project("qvIfYCYJ") // qsl
         optional.project("IEPAK5x6") // htm

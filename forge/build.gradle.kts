@@ -1,4 +1,5 @@
-import ellemes.gradle.mod.api.task.AbstractJsonTask
+import compasses.gradle.mod.api.publishing.UploadProperties
+import compasses.gradle.mod.api.task.AbstractJsonTask
 
 plugins {
     id("ellemes.gradle.mod").apply(false)
@@ -17,9 +18,9 @@ tasks.getByName<AbstractJsonTask>("minJar") {
     ))
 }
 
-val u = ellemes.gradle.mod.api.publishing.UploadProperties(project, "${project.property("repo_base_url")}")
+val upload = UploadProperties(project, "${project.property("repo_base_url")}")
 
-u.configureCurseForge {
+upload.configureCurseForge {
     relations(closureOf<me.hypherionmc.cursegradle.CurseRelation> {
         optionalDependency("jei")
         optionalDependency("quark")
@@ -28,7 +29,7 @@ u.configureCurseForge {
     })
 }
 
-u.configureModrinth {
+upload.configureModrinth {
     dependencies {
         optional.project("u6dRKJwZ") // jei
         optional.project("qnQsVE2z") // quark
