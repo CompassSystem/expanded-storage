@@ -1,7 +1,7 @@
 import compasses.gradle.mod.api.publishing.UploadProperties
 
 plugins {
-    id("ellemes.gradle.mod").apply(false)
+    id("compasses.gradle.mod").apply(false)
     id("thread-plugin")
 }
 

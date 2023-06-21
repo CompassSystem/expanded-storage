@@ -1,3 +1,3 @@
 plugins {
-    id("ellemes.gradle.mod")
+    id("compasses.gradle.mod")
 }
