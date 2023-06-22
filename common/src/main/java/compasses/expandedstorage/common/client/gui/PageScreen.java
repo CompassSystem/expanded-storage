@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.client.function.ScreenSize;
 import compasses.expandedstorage.common.client.gui.widget.PageButton;
+import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.client.gui.GuiGraphics;
@@ -84,7 +85,7 @@ public final class PageScreen extends AbstractScreen {
 
             if (newBlankSlots <= currentBlankSlots && newPages < currentPages && currentWidth == newWidth) {
                 picked = option;
-            } else if (CommonClient.platformHelper().configWrapper().preferSmallerScreens() && currentPages == newPages + 1 && newBlankSlots < newWidth * newHeight / 2.0) {
+            } else if (ClientConfigManager.getClientConfig().prefersSmallerScreens() && currentPages == newPages + 1 && newBlankSlots < newWidth * newHeight / 2.0) {
             } else if (newPages < currentPages && newBlankSlots < newWidth * newHeight / 2.0) {
                 picked = option;
             }

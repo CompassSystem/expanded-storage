@@ -1,8 +1,8 @@
 package compasses.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.client.function.ScreenSize;
+import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.common.inventory.handler.ToggleableSlot;
 import compasses.expandedstorage.common.misc.Utils;
@@ -36,7 +36,7 @@ public final class ScrollScreen extends AbstractScreen {
         totalRows = Mth.ceil(((double) totalSlots) / inventoryWidth);
         imageWidth = Utils.CONTAINER_PADDING_LDR + Utils.SLOT_SIZE * inventoryWidth + Utils.CONTAINER_PADDING_LDR; // 22 - 4 is scrollbar width - overlap
         imageHeight = Utils.CONTAINER_HEADER_HEIGHT + Utils.SLOT_SIZE * inventoryHeight + 14 + Utils.SLOT_SIZE * 3 + 4 + Utils.SLOT_SIZE + Utils.CONTAINER_PADDING_LDR;
-        scrollingUnrestricted = CommonClient.platformHelper().configWrapper().isScrollingUnrestricted();
+        scrollingUnrestricted = ClientConfigManager.getClientConfig().isScrollingUnrestricted();
     }
 
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {

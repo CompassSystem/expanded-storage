@@ -1,10 +1,10 @@
 package compasses.expandedstorage.common.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
-import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.client.function.ScreenSizePredicate;
 import compasses.expandedstorage.common.client.gui.widget.PickButton;
 import compasses.expandedstorage.common.client.gui.widget.ScreenPickButton;
+import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -58,10 +58,13 @@ public final class PickScreen extends Screen {
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
         if (handler != null) {
-            ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
-            int invSize = handler.getInventory().getContainerSize();
-            if (AbstractScreen.getScreenSize(preference, invSize, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
-                minecraft.player.displayClientMessage(Component.translatable("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(Component.translatable("chat.ellemes_container_lib.cannot_display_screen", Component.translatable("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
+            ResourceLocation preference = ClientConfigManager.getClientConfig().getDefaultScreenType();
+            if (preference == null) {
+                minecraft.player.closeContainer();
+                return;
+            }
+            else if (AbstractScreen.getScreenSize(preference, handler.getInventory().getContainerSize(), minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
+                minecraft.player.displayClientMessage(Component.translatable("text.expandedstorage.short_prefix").withStyle(ChatFormatting.GOLD).append(Component.translatable("chat.ellemes_container_lib.cannot_display_screen", Component.translatable("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
                 minecraft.player.closeContainer();
                 return;
             }
@@ -79,7 +82,7 @@ public final class PickScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = ClientConfigManager.getClientConfig().getDefaultScreenType();
         int choices = options.size();
         int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is smallest gap for any screen.
@@ -107,7 +110,7 @@ public final class PickScreen extends Screen {
     }
 
     private void updatePlayerPreference(ResourceLocation selection) {
-        CommonClient.platformHelper().configWrapper().setPreferredScreenType(selection);
+        ClientConfigManager.getClientConfig().setDefaultScreenType(selection);
         this.onClose();
     }
 

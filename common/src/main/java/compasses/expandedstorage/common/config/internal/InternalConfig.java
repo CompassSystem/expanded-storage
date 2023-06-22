@@ -2,6 +2,7 @@ package compasses.expandedstorage.common.config.internal;
 
 import com.google.gson.annotations.SerializedName;
 import compasses.expandedstorage.common.config.common.CommonConfigManager;
+import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.SharedConstants;
 
 public class InternalConfig {
@@ -9,7 +10,7 @@ public class InternalConfig {
     private String warning = "This file should not be edited by the user.";
 
     @SerializedName("config_version")
-    private int configVersion = -1;
+    private int configVersion = Utils.CURRENT_CONFIG_VERSION;
 
     @SerializedName("shown_wrong_platform_version")
     private String shownWrongPlatformVersion = null;

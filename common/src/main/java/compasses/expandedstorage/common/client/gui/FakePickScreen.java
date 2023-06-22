@@ -1,12 +1,11 @@
 package compasses.expandedstorage.common.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
-import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.client.function.ScreenSize;
 import compasses.expandedstorage.common.client.gui.widget.PickButton;
 import compasses.expandedstorage.common.client.gui.widget.ScreenPickButton;
+import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.common.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -25,8 +24,8 @@ public final class FakePickScreen extends AbstractScreen {
     private final Set<ResourceLocation> options = ImmutableSortedSet.copyOf(PickScreen.BUTTON_SETTINGS.keySet());
     private int topPadding;
 
-    public FakePickScreen(AbstractHandler handler, Inventory playerInventory, Component title, ScreenSize screenSize) {
-        super(handler, playerInventory, title, screenSize);
+    public FakePickScreen(AbstractHandler handler, Inventory playerInventory) {
+        super(handler, playerInventory, TITLE, ScreenSize.of(0, 0));
         for (int i = 0; i < menu.getInventory().getContainerSize(); i++) {
             menu.addClientSlot(new Slot(menu.getInventory(), i, 0, 0));
         }
@@ -48,13 +47,13 @@ public final class FakePickScreen extends AbstractScreen {
     @Override
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
-        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
-        if (preference.equals(Utils.UNSET_SCREEN_TYPE)) {
+        ResourceLocation preference = ClientConfigManager.getClientConfig().getDefaultScreenType();
+        if (preference == null) {
             minecraft.player.closeContainer();
         } else {
             int invSize = menu.getInventory().getContainerSize();
             if (getScreenSize(preference, invSize, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight()) == null) {
-                minecraft.player.displayClientMessage(Component.translatable("generic.ellemes_container_lib.label").withStyle(ChatFormatting.GOLD).append(Component.translatable("chat.ellemes_container_lib.cannot_display_screen", Component.translatable("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
+                minecraft.player.displayClientMessage(Component.translatable("text.expandedstorage.short_prefix").withStyle(ChatFormatting.GOLD).append(Component.translatable("chat.ellemes_container_lib.cannot_display_screen", Component.translatable("screen." + preference.getNamespace() + "." + preference.getPath() + "_screen")).withStyle(ChatFormatting.WHITE)), false);
                 minecraft.player.closeContainer();
                 return;
             }
@@ -66,7 +65,7 @@ public final class FakePickScreen extends AbstractScreen {
     @Override
     protected void init() {
         super.init();
-        ResourceLocation preference = CommonClient.platformHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = ClientConfigManager.getClientConfig().getDefaultScreenType();
         int choices = options.size();
         int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is smallest gap for any screen.
@@ -94,7 +93,7 @@ public final class FakePickScreen extends AbstractScreen {
     }
 
     private void updatePlayerPreference(ResourceLocation selection) {
-        CommonClient.platformHelper().configWrapper().setPreferredScreenType(selection);
+        ClientConfigManager.getClientConfig().setDefaultScreenType(selection);
         this.onClose();
     }
 
@@ -105,9 +104,5 @@ public final class FakePickScreen extends AbstractScreen {
             widget.render(graphics, mouseX, mouseY, delta);
         }
         graphics.drawCenteredString(font, TITLE, width / 2, Math.max(topPadding / 2, 0), 0xFFFFFFFF);
-    }
-
-    public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {
-        return ScreenSize.of(0, 0);
     }
 }

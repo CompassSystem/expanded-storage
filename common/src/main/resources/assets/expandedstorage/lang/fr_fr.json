@@ -129,7 +129,7 @@
   "screen.ellemes_container_lib.off_screen_warning_1":           "Une partie de l'écran peut ne pas être visible",
   "screen.ellemes_container_lib.off_screen_warning_2":           " si vous sélectionnez cette option.",
   "screen.ellemes_container_lib.current_option_notice":          "Ceci est votre préférence actuelle.",
-  "key.ellemes_container_lib.config":                            "[ECL] Ouvrir la sélection d'écran",
   "chat.ellemes_container_lib.cannot_display_screen":            "L'inventaire ne peut pas être ouvert avec le type \"%s\", veuillez en sélectionner un autre.",
-  "generic.ellemes_container_lib.label":                         "[ECL] "
+
+  "key.expandedstorage.open_config_screen":                      "[ES] Ouvrir la sélection d'écran"
 }

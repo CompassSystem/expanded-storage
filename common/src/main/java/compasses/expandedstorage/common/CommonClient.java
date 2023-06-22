@@ -2,7 +2,6 @@ package compasses.expandedstorage.common;
 
 import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.common.block.MiniStorageBlock;
-import compasses.expandedstorage.common.client.gui.FakePickScreen;
 import compasses.expandedstorage.common.client.gui.MiniStorageScreen;
 import compasses.expandedstorage.common.client.gui.PageScreen;
 import compasses.expandedstorage.common.client.gui.ScrollScreen;
@@ -45,10 +44,10 @@ public class CommonClient {
             );
         });
 
-        ScreenTypeApi.registerScreenButton(Utils.PAGE_SCREEN_TYPE,
+        ScreenTypeApi.registerScreenButton(Utils.PAGINATED_SCREEN_TYPE,
                 Utils.id("textures/gui/page_button.png"),
                 Component.translatable("screen.ellemes_container_lib.page_screen"));
-        ScreenTypeApi.registerScreenButton(Utils.SCROLL_SCREEN_TYPE,
+        ScreenTypeApi.registerScreenButton(Utils.SCROLLABLE_SCREEN_TYPE,
                 Utils.id("textures/gui/scroll_button.png"),
                 Component.translatable("screen.ellemes_container_lib.scroll_screen"));
         ScreenTypeApi.registerScreenButton(Utils.SINGLE_SCREEN_TYPE,
@@ -60,21 +59,19 @@ public class CommonClient {
                         Component.translatable("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
                 ));
 
-        ScreenTypeApi.registerScreenType(Utils.UNSET_SCREEN_TYPE, FakePickScreen::new);
-        ScreenTypeApi.registerScreenType(Utils.PAGE_SCREEN_TYPE, PageScreen::new);
-        ScreenTypeApi.registerScreenType(Utils.SCROLL_SCREEN_TYPE, ScrollScreen::new);
+        ScreenTypeApi.registerScreenType(Utils.PAGINATED_SCREEN_TYPE, PageScreen::new);
+        ScreenTypeApi.registerScreenType(Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::new);
         ScreenTypeApi.registerScreenType(Utils.SINGLE_SCREEN_TYPE, SingleScreen::new);
         ScreenTypeApi.registerScreenType(Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::new);
 
         // todo: these settings leave no room for rei/jei should we take those into consideration for minimum screen width
-        ScreenTypeApi.registerDefaultScreenSize(Utils.UNSET_SCREEN_TYPE, FakePickScreen::retrieveScreenSize);
-        ScreenTypeApi.registerDefaultScreenSize(Utils.PAGE_SCREEN_TYPE, PageScreen::retrieveScreenSize);
-        ScreenTypeApi.registerDefaultScreenSize(Utils.SCROLL_SCREEN_TYPE, ScrollScreen::retrieveScreenSize);
+        ScreenTypeApi.registerDefaultScreenSize(Utils.PAGINATED_SCREEN_TYPE, PageScreen::retrieveScreenSize);
+        ScreenTypeApi.registerDefaultScreenSize(Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.SINGLE_SCREEN_TYPE, SingleScreen::retrieveScreenSize);
         ScreenTypeApi.registerDefaultScreenSize(Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::retrieveScreenSize);
 
-        ScreenTypeApi.setPrefersSingleScreen(Utils.PAGE_SCREEN_TYPE);
-        ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLL_SCREEN_TYPE);
+        ScreenTypeApi.setPrefersSingleScreen(Utils.PAGINATED_SCREEN_TYPE);
+        ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLLABLE_SCREEN_TYPE);
     }
 
     @SuppressWarnings("unused")

@@ -12,7 +12,7 @@ public class WrappedAmecsKeybind implements Keybinding {
     private final KeyMapping binding;
 
     public WrappedAmecsKeybind() {
-        this.binding = KeyBindingHelper.registerKeyBinding(new AmecsKeyBinding(Utils.containerId("config"), InputConstants.Type.KEYSYM, Utils.KEY_BIND_KEY, "key.categories.inventory", new KeyModifiers().setShift(true)));
+        this.binding = KeyBindingHelper.registerKeyBinding(new AmecsKeyBinding(Utils.id("open_config_screen"), InputConstants.Type.KEYSYM, Utils.KEY_BIND_KEY, "key.categories.inventory", new KeyModifiers().setShift(true)));
     }
 
     @Override

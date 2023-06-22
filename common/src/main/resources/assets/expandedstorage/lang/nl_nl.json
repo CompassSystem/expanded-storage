@@ -241,6 +241,7 @@
   "screen.ellemes_container_lib.off_screen_warning_1":                  "Gedeelte van het scherm is mogelijk niet zichtbaar",
   "screen.ellemes_container_lib.off_screen_warning_2":                  " als je deze optie selecteert.",
   "screen.ellemes_container_lib.current_option_notice":                 "Dit is je huidige voorkeur.",
-  "key.ellemes_container_lib.config":                                   "[ECL] Open Schermselectie",
-  "chat.ellemes_container_lib.cannot_display_screen":                   "Kan inventaris met type \"%s\" niet openen, probeer een andere alstublieft."
+  "chat.ellemes_container_lib.cannot_display_screen":                   "Kan inventaris met type \"%s\" niet openen, probeer een andere alstublieft.",
+
+  "key.expandedstorage.open_config_screen":                             "[ES] Open Schermselectie"
 }

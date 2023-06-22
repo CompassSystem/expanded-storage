@@ -241,7 +241,7 @@
   "screen.ellemes_container_lib.off_screen_warning_1":                  "Parte da tela pode não estar visível",
   "screen.ellemes_container_lib.off_screen_warning_2":                  " se você escolher esta opção.",
   "screen.ellemes_container_lib.current_option_notice":                 "Esta é sua preferência atual.",
-  "key.ellemes_container_lib.config":                                   "[ECL] Abrir tela de configuração",
   "chat.ellemes_container_lib.cannot_display_screen":                   "Não é possível abrir o inventário com o tipo \"%s\", por favor tente um diferente.",
-  "generic.ellemes_container_lib.label":                                "[ECL] "
+
+  "key.expandedstorage.open_config_screen":                             "[ES] Abrir tela de configuração"
 }

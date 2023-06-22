@@ -129,7 +129,7 @@
   "screen.ellemes_container_lib.off_screen_warning_1":           "Часть экрана может быть не видна",
   "screen.ellemes_container_lib.off_screen_warning_2":           " если выбрать этот вариант.",
   "screen.ellemes_container_lib.current_option_notice":          "Это ваш текущий выбор.",
-  "key.ellemes_container_lib.config":                            "[ECL] Открыть экран выбора",
   "chat.ellemes_container_lib.cannot_display_screen":            "Невозможно открыть инвентарь с типом \"%s\", попробуйте другой.",
-  "generic.ellemes_container_lib.label":                         "[ECL] "
+
+  "key.expandedstorage.open_config_screen":                      "[ES] Открыть экран выбора"
 }

@@ -7,6 +7,7 @@ import compasses.expandedstorage.common.client.ScreenConstructor;
 import compasses.expandedstorage.common.client.SizedSimpleTexture;
 import compasses.expandedstorage.common.client.function.ScreenSize;
 import compasses.expandedstorage.common.client.function.ScreenSizeRetriever;
+import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.common.misc.ErrorlessTextureGetter;
 import compasses.expandedstorage.common.misc.Utils;
@@ -221,7 +222,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
     public static AbstractScreen createScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
         ResourceLocation forcedScreenType = handler.getForcedScreenType();
-        ResourceLocation preference = forcedScreenType != null ? forcedScreenType : CommonClient.platformHelper().configWrapper().getPreferredScreenType();
+        ResourceLocation preference = forcedScreenType != null ? forcedScreenType : ClientConfigManager.getClientConfig().getDefaultScreenType();
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
         int slots = handler.getInventory().getContainerSize();
@@ -230,10 +231,15 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
             preference = Utils.SINGLE_SCREEN_TYPE;
         }
 
+        if (preference == null) {
+            return new FakePickScreen(handler, playerInventory);
+        }
+
         ScreenSize screenSize = AbstractScreen.SIZE_RETRIEVERS.get(preference).get(slots, scaledWidth, scaledHeight);
         if (screenSize == null) {
             throw new IllegalStateException("screenSize should never be null...");
         }
+
         return AbstractScreen.SCREEN_CONSTRUCTORS.get(preference).createScreen(handler, playerInventory, title, screenSize);
     }
 
@@ -276,10 +282,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         AbstractScreen.SIZE_RETRIEVERS.putIfAbsent(type, retriever);
     }
 
-    public static boolean isScreenTypeDeclared(ResourceLocation type) {
-        return AbstractScreen.SCREEN_CONSTRUCTORS.containsKey(type);
-    }
-
     public static void setPrefersSingleScreen(ResourceLocation type) {
         AbstractScreen.PREFERS_SINGLE_SCREEN.add(type);
     }
@@ -302,7 +304,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         if (this.handleKeyPress(keyCode, scanCode, modifiers)) {
             return true;
         } else if (CommonClient.platformHelper().isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
-                && !CommonClient.platformHelper().configWrapper().getPreferredScreenType().equals(Utils.UNSET_SCREEN_TYPE)) {
+                && ClientConfigManager.getClientConfig().getDefaultScreenType() != null) { // todo-nobuild: check this condition
             minecraft.setScreen(new PickScreen(this));
             return true;
         }

@@ -51,7 +51,7 @@ public class CommonConfigManager {
         }
     }
 
-    private static <T> T loadFile(Path filePath, Class<T> configClass, Supplier<T> defaultSupplier) {
+    public static <T> T loadFile(Path filePath, Class<T> configClass, Supplier<T> defaultSupplier) {
         Gson gson = createGsonInstance();
         T returnValue;
         try (Reader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {
@@ -64,7 +64,7 @@ public class CommonConfigManager {
         return returnValue;
     }
 
-    private static <T> boolean saveFile(Path filePath, T config, Consumer<T> successCallback) {
+    public static <T> boolean saveFile(Path filePath, T config, Consumer<T> successCallback) {
         Gson gson = createGsonInstance();
 
         try (Writer writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {

@@ -10,7 +10,7 @@ public class WrappedVanillaKeybind implements Keybinding {
     private final KeyMapping binding;
 
     public WrappedVanillaKeybind() {
-        this.binding = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.ellemes_container_lib.config", Utils.KEY_BIND_KEY, "key.categories.inventory"));
+        this.binding = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.expandedstorage.open_config_screen", Utils.KEY_BIND_KEY, "key.categories.inventory"));
     }
 
     @Override
