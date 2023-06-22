@@ -79,6 +79,21 @@ public class CommonConfigManager {
         return false;
     }
 
+    public static Path getGlobalConfigPath() {
+        Path configPath = CommonMain.platformHelper().getGlobalConfigPath();
+
+        if (Files.notExists(configPath)) {
+            try {
+                Files.createDirectories(configPath);
+            } catch (IOException exception) {
+                printIoError(exception);
+                return null;
+            }
+        }
+
+        return configPath;
+    }
+
     public static Path getLocalConfigPath() {
         Path configPath = CommonMain.platformHelper().getLocalConfigPath();
 

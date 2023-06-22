@@ -15,6 +15,9 @@ public class InternalConfig {
     @SerializedName("shown_wrong_platform_version")
     private String shownWrongPlatformVersion = null;
 
+    @SerializedName("use_global_config")
+    private boolean useGlobalConfig = true;
+
     public boolean showPlatformWarning() {
         String currentVersion = SharedConstants.getCurrentVersion().getName();
         if (shownWrongPlatformVersion == null || !shownWrongPlatformVersion.equals(currentVersion)) {
@@ -26,6 +29,10 @@ public class InternalConfig {
         return false;
     }
 
+    public boolean shouldUseGlobalConfig() {
+        return useGlobalConfig;
+    }
+
     public int getConfigVersion() {
         return configVersion;
     }
@@ -34,5 +41,4 @@ public class InternalConfig {
         configVersion = version;
         CommonConfigManager.saveInternalConfig();
     }
-
 }

@@ -24,8 +24,8 @@ public final class FakePickScreen extends AbstractScreen {
     private final Set<ResourceLocation> options = ImmutableSortedSet.copyOf(PickScreen.BUTTON_SETTINGS.keySet());
     private int topPadding;
 
-    public FakePickScreen(AbstractHandler handler, Inventory playerInventory) {
-        super(handler, playerInventory, TITLE, ScreenSize.of(0, 0));
+    public FakePickScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
+        super(handler, playerInventory, title, ScreenSize.of(0, 0));
         for (int i = 0; i < menu.getInventory().getContainerSize(); i++) {
             menu.addClientSlot(new Slot(menu.getInventory(), i, 0, 0));
         }

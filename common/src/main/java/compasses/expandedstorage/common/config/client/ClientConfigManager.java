@@ -16,7 +16,9 @@ public class ClientConfigManager {
             return config;
         }
 
-        Path configPath = CommonConfigManager.getLocalConfigPath();
+        InternalConfig internalConfig = CommonConfigManager.getInternalConfig();
+
+        Path configPath = internalConfig.shouldUseGlobalConfig() ? CommonConfigManager.getGlobalConfigPath() : CommonConfigManager.getLocalConfigPath();
 
         if (configPath == null) {
             config = new ClientConfigV0();
@@ -26,14 +28,10 @@ public class ClientConfigManager {
                 config = new ClientConfigV0();
                 CommonConfigManager.saveFile(filePath, config, config -> {});
                 CommonConfigManager.getInternalConfig();
+            } else if (internalConfig.getConfigVersion() == Utils.CURRENT_CONFIG_VERSION) {
+                config = CommonConfigManager.loadFile(filePath, ClientConfigV0.class, ClientConfigV0::new);
             } else {
-                InternalConfig internalConfig = CommonConfigManager.getInternalConfig();
-
-                if (internalConfig.getConfigVersion() == Utils.CURRENT_CONFIG_VERSION) {
-                    config = CommonConfigManager.loadFile(filePath, ClientConfigV0.class, ClientConfigV0::new);
-                } else {
-                    throw new IllegalStateException("Trying to load unsupported config version: " + internalConfig.getConfigVersion());
-                }
+                throw new IllegalStateException("Trying to load unsupported config version: " + internalConfig.getConfigVersion());
             }
         }
 
@@ -41,7 +39,7 @@ public class ClientConfigManager {
     }
 
     public static void saveConfig() {
-        Path configPath = CommonConfigManager.getLocalConfigPath();
+        Path configPath = CommonConfigManager.getInternalConfig().shouldUseGlobalConfig() ? CommonConfigManager.getGlobalConfigPath() : CommonConfigManager.getLocalConfigPath();
 
         if (configPath != null) {
             Path filePath = configPath.resolve("client_config.json");

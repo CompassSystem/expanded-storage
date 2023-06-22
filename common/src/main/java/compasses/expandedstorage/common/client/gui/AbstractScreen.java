@@ -232,7 +232,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         }
 
         if (preference == null) {
-            return new FakePickScreen(handler, playerInventory);
+            return new FakePickScreen(handler, playerInventory, title);
         }
 
         ScreenSize screenSize = AbstractScreen.SIZE_RETRIEVERS.get(preference).get(slots, scaledWidth, scaledHeight);
