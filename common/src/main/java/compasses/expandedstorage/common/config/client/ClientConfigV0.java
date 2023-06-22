@@ -5,14 +5,14 @@ import compasses.expandedstorage.common.config.Config;
 import net.minecraft.resources.ResourceLocation;
 
 public class ClientConfigV0 implements Config {
-    @SerializedName("restrictive_scrolling")
-    private boolean restrictiveScrolling = false;
+    @SerializedName("scrolling_unrestricted")
+    private boolean scrollingUnrestricted = false;
 
     @SerializedName("defaults")
     private Defaults defaults = new Defaults();
 
     public boolean isScrollingUnrestricted() {
-        return !restrictiveScrolling;
+        return scrollingUnrestricted;
     }
 
     public boolean prefersSmallerScreens() {
