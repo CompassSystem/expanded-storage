@@ -146,8 +146,8 @@ public final class CommonMain {
 
     public static class Initializer {
         private static class Tiers {
-            static final Tier WOOD = new Tier(Utils.WOOD_TIER_ID, Utils.WOOD_STACK_COUNT, UnaryOperator.identity(), UnaryOperator.identity());
-            static final Tier COPPER = new Tier(Utils.COPPER_TIER_ID, 45, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
+            static final Tier WOOD = new Tier(Utils.id("wood"), 27, UnaryOperator.identity(), UnaryOperator.identity());
+            static final Tier COPPER = new Tier(Utils.id("copper"), 45, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
             static final Tier IRON = new Tier(Utils.id("iron"), 54, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
             static final Tier GOLD = new Tier(Utils.id("gold"), 81, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
             static final Tier DIAMOND = new Tier(Utils.id("diamond"), 108, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());

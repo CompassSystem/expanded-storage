@@ -159,6 +159,6 @@ public class MiniStorageBlock extends OpenableBlock implements SimpleWaterlogged
 
     @Override
     public ResourceLocation getForcedScreenType() {
-        return Utils.id("mini_chest");
+        return Utils.MINI_STORAGE_SCREEN_TYPE;
     }
 }

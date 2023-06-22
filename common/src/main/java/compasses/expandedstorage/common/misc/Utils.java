@@ -15,9 +15,6 @@ public final class Utils {
     public static final Component ALT_USE = Component.translatable("tooltip.expandedstorage.alt_use",
             Component.keybind("key.sneak").withStyle(ChatFormatting.GOLD),
             Component.keybind("key.use").withStyle(ChatFormatting.GOLD));
-    public static final int WOOD_STACK_COUNT = 27;
-    public static final ResourceLocation WOOD_TIER_ID = Utils.id("wood");
-    public static final ResourceLocation COPPER_TIER_ID = Utils.id("copper");
     public static final int TOOL_USAGE_QUICK_DELAY = 5; // In ticks...
     public static final int TOOL_USAGE_DELAY = 20; // In ticks...
     // Gui Element Sizes
@@ -25,7 +22,7 @@ public final class Utils {
     public static final int CONTAINER_HEADER_HEIGHT = 17;
     public static final int CONTAINER_PADDING_LDR = 7;
     // Handler Type ID
-    public static final ResourceLocation HANDLER_TYPE_ID = Utils.containerId("handler_type");
+    public static final ResourceLocation HANDLER_TYPE_ID = Utils.id("handler_type");
     public static final int KEY_BIND_KEY = GLFW.GLFW_KEY_G;
     public static final ResourceLocation PAGINATED_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "paginated");
     public static final ResourceLocation SINGLE_SCREEN_TYPE = new ResourceLocation(Utils.MOD_ID, "single");
@@ -42,9 +39,5 @@ public final class Utils {
 
     public static ResourceLocation id(String path) {
         return new ResourceLocation(Utils.MOD_ID, path);
-    }
-
-    public static ResourceLocation containerId(String path) {
-        return new ResourceLocation("ellemes_container_lib", path);
     }
 }
