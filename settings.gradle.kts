@@ -32,10 +32,12 @@ pluginManagement {
 
 rootProject.name = "expandedstorage"
 
-include(
-        "common",
-        "thread",
-            "fabric",
-            "quilt",
-        "forge"
-)
+include(":common")
+include(":common:thread")
+project(":common:thread").projectDir = file("thread")
+include(":common:thread:fabric")
+project(":common:thread:fabric").projectDir = file("fabric")
+include(":common:thread:quilt")
+project(":common:thread:quilt").projectDir = file("quilt")
+include(":common:forge")
+project(":common:forge").projectDir = file("forge")
