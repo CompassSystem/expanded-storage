@@ -1,7 +1,7 @@
 {
   "required": true,
-  "package": "compasses.expandedstorage.common.mixin",
-  "plugin": "compasses.expandedstorage.common.MixinPlugin",
+  "package": "compasses.expandedstorage.impl.mixin",
+  "plugin": "compasses.expandedstorage.impl.MixinPlugin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BlockEntityIdFix",
