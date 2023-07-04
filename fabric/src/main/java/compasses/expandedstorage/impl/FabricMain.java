@@ -108,7 +108,7 @@ public final class FabricMain implements ModInitializer {
                                })
                                .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
 
-        UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.interactWithEntity(world, player, hand, entity));
+        UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.onPlayerUseEntity(world, player, hand, entity));
 
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
             private final PreparableReloadListener base = new ConversionRecipeReloadListener();

@@ -115,14 +115,17 @@ public final class CommonMain {
 
     private static void defineTierUpgradePath(List<NamedValue<Item>> items, boolean wrapTooltipManually, Tier... tiers) {
         int numTiers = tiers.length;
+
         for (int fromIndex = 0; fromIndex < numTiers - 1; fromIndex++) {
             Tier fromTier = tiers[fromIndex];
+
             for (int toIndex = fromIndex + 1; toIndex < numTiers; toIndex++) {
                 Tier toTier = tiers[toIndex];
                 ResourceLocation itemId = Utils.id(fromTier.getId().getPath() + "_to_" + toTier.getId().getPath() + "_conversion_kit");
                 Item.Properties settings = fromTier.getItemSettings()
                                                    .andThen(toTier.getItemSettings())
                                                    .apply(new Item.Properties().stacksTo(16));
+
                 items.add(new NamedValue<>(itemId, () -> new StorageConversionKit(settings, fromTier.getId(), toTier.getId(), wrapTooltipManually)));
             }
         }
@@ -135,8 +138,12 @@ public final class CommonMain {
     public static BlockMutatorBehaviour getBlockMutatorBehaviour(Block block, MutationMode mode) {
         for (Map.Entry<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> entry : CommonMain.BLOCK_MUTATOR_BEHAVIOURS.entrySet()) {
             Map.Entry<Predicate<Block>, MutationMode> pair = entry.getKey();
-            if (pair.getValue() == mode && pair.getKey().test(block)) return entry.getValue();
+
+            if (pair.getValue() == mode && pair.getKey().test(block)) {
+                return entry.getValue();
+            }
         }
+
         return null;
     }
 
@@ -688,15 +695,20 @@ public final class CommonMain {
             DoubleItemAccess access = entity.getItemAccess();
             EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
             Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+
             if (access.hasCachedAccess() || type == EsChestType.SINGLE) {
                 return Optional.of(access);
             }
+
             if (level.getBlockEntity(pos.relative(AbstractChestBlock.getDirectionToAttached(type, facing))) instanceof OldChestBlockEntity otherEntity) {
                 DoubleItemAccess otherAccess = otherEntity.getItemAccess();
+
                 if (otherAccess.hasCachedAccess()) {
                     return Optional.of(otherAccess);
                 }
+
                 DoubleItemAccess first, second;
+
                 if (AbstractChestBlock.getBlockType(type) == DoubleBlockCombiner.BlockType.FIRST) {
                     first = access;
                     second = otherAccess;
@@ -704,32 +716,40 @@ public final class CommonMain {
                     first = otherAccess;
                     second = access;
                 }
+
                 first.setOther(second);
+
                 return Optional.of(first);
             }
-
         } else if (blockEntity instanceof OpenableBlockEntity entity) {
             return Optional.of(entity.getItemAccess());
         }
+
         return Optional.empty();
     }
 
-    public static InteractionResult interactWithEntity(Level level, Player player, InteractionHand hand, Entity entity) {
+    public static InteractionResult onPlayerUseEntity(Level level, Player player, InteractionHand hand, Entity entity) {
         if (player.isSpectator() || !player.isShiftKeyDown()) {
             return InteractionResult.PASS;
         }
+
         ItemStack handStack = player.getItemInHand(hand);
-        if (handStack.getItem() instanceof EntityInteractableItem item) {
-            if (player.getCooldowns().isOnCooldown(handStack.getItem())) {
-                return InteractionResult.CONSUME;
-            }
-            InteractionResult result = item.es_interactEntity(level, entity, player, hand, handStack);
-            if (result == InteractionResult.FAIL) {
-                result = InteractionResult.CONSUME;
-            }
-            return result;
+
+        if (!(handStack.getItem() instanceof EntityInteractableItem item)) {
+            return InteractionResult.PASS;
         }
-        return InteractionResult.PASS;
+
+        if (player.getCooldowns().isOnCooldown(handStack.getItem())) {
+            return InteractionResult.CONSUME;
+        }
+
+        InteractionResult result = item.es_interactEntity(level, entity, player, hand, handStack);
+
+        if (result == InteractionResult.FAIL) {
+            result = InteractionResult.CONSUME;
+        }
+
+        return result;
     }
 
     @SuppressWarnings("unused")
@@ -825,6 +845,7 @@ public final class CommonMain {
         wrap.accept(ModItems.DIAMOND_BARREL);
         wrap.accept(ModItems.OBSIDIAN_BARREL);
         wrap.accept(ModItems.NETHERITE_BARREL);
+
         sparrowWrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
         sparrowWrap.accept(ModItems.WOOD_MINI_CHEST);
         sparrowWrap.accept(ModItems.PUMPKIN_MINI_CHEST);

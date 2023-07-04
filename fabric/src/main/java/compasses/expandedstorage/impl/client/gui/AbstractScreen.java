@@ -8,7 +8,7 @@ import compasses.expandedstorage.impl.client.function.ScreenSize;
 import compasses.expandedstorage.impl.client.function.ScreenSizeRetriever;
 import compasses.expandedstorage.impl.config.client.ClientConfigManager;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.impl.misc.ErrorlessTextureGetter;
+import compasses.expandedstorage.impl.client.ErrorlessTextureGetter;
 import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.FabricClient;
 import net.minecraft.client.Minecraft;

@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.helpers.client;
+package compasses.expandedstorage.impl.client.helpers;
 
 import compasses.expandedstorage.impl.client.ScreenConstructor;
 import compasses.expandedstorage.impl.client.function.ScreenSizePredicate;

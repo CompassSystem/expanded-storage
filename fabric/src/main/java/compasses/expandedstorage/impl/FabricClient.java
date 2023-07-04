@@ -11,7 +11,7 @@ import compasses.expandedstorage.impl.client.gui.PageScreen;
 import compasses.expandedstorage.impl.client.gui.ScrollScreen;
 import compasses.expandedstorage.impl.client.gui.SingleScreen;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
-import compasses.expandedstorage.impl.helpers.client.ScreenTypeApi;
+import compasses.expandedstorage.impl.client.helpers.ScreenTypeApi;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
 import compasses.expandedstorage.impl.item.MutationMode;
 import compasses.expandedstorage.impl.item.StorageMutator;

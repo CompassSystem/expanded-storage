@@ -2,7 +2,7 @@ package compasses.expandedstorage.impl.client;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import compasses.expandedstorage.impl.helpers.client.ScreenOpeningApi;
+import compasses.expandedstorage.impl.client.helpers.ScreenOpeningApi;
 
 public final class ModMenuCompat implements ModMenuApi {
     @Override
