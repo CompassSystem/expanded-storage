@@ -2,10 +2,10 @@ package compasses.expandedstorage.common.config.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.config.ResourceLocationTypeAdapter;
 import compasses.expandedstorage.common.config.internal.InternalConfig;
 import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.common.FabricMain;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
@@ -79,8 +79,22 @@ public class CommonConfigManager {
         return false;
     }
 
-    public static Path getGlobalConfigPath() {
-        Path configPath = CommonMain.platformHelper().getGlobalConfigPath();
+    private static Path getGlobalConfigPath() {
+        Path minecraftPath = Path.of(System.getProperty("user.home"));
+        String os = System.getProperty("os.name");
+        if (os.startsWith("Windows")) {
+            minecraftPath = minecraftPath.resolve("AppData/Roaming/.minecraft/");
+        } else if (os.startsWith("Mac")) {
+            minecraftPath = minecraftPath.resolve("Library/Application Support/minecraft/");
+        } else { // Assume Linux
+            minecraftPath = minecraftPath.resolve(".minecraft/");
+        }
+
+        return minecraftPath.resolve(Utils.MOD_ID + "_global_config/");
+    }
+
+    public static Path getGlobalConfigPathOrNull() {
+        Path configPath = getGlobalConfigPath();
 
         if (Files.notExists(configPath)) {
             try {
@@ -95,7 +109,7 @@ public class CommonConfigManager {
     }
 
     public static Path getLocalConfigPath() {
-        Path configPath = CommonMain.platformHelper().getLocalConfigPath();
+        Path configPath = FabricMain.getLocalConfigPath();
 
         if (Files.notExists(configPath)) {
             try {

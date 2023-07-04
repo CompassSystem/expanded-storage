@@ -1,11 +1,11 @@
 package compasses.expandedstorage.common.helpers;
 
-import compasses.expandedstorage.common.CommonMain;
 import compasses.expandedstorage.common.inventory.OpenableInventory;
 import compasses.expandedstorage.common.inventory.OpenableInventoryProvider;
 import compasses.expandedstorage.common.inventory.context.BaseContext;
 import compasses.expandedstorage.common.inventory.context.BlockContext;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
+import compasses.expandedstorage.common.misc.ScreenHandlerFactoryAdapter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -30,14 +30,17 @@ public class InventoryOpeningApi {
 
     private static void s_openInventory(ServerPlayer player, OpenableInventory inventory, Consumer<ServerPlayer> onInitialOpen, ResourceLocation forcedScreenType) {
         Component title = inventory.getInventoryTitle();
+
         if (!inventory.canBeUsedBy(player)) {
             player.displayClientMessage(Component.translatable("container.isLocked", title), true);
             player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
             return;
         }
+
         if (!player.isSpectator()) {
             onInitialOpen.accept(player);
         }
-        CommonMain.platformHelper().openScreenHandler(player, inventory.getInventory(), (syncId, inv, playerInv) -> new AbstractHandler(syncId, inv, playerInv, null), title, forcedScreenType);
+
+        player.openMenu(new ScreenHandlerFactoryAdapter(title, inventory.getInventory(), (syncId, inv, playerInv) -> new AbstractHandler(syncId, inv, playerInv, null), forcedScreenType));
     }
 }

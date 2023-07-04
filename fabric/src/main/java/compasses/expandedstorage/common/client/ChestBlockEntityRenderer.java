@@ -10,7 +10,7 @@ import compasses.expandedstorage.common.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.common.block.misc.Property;
 import compasses.expandedstorage.common.block.misc.PropertyRetriever;
 import compasses.expandedstorage.common.misc.Utils;
-import compasses.expandedstorage.fabric.FabricClient;
+import compasses.expandedstorage.common.FabricClient;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.client.model.geom.ModelLayerLocation;

@@ -7,7 +7,7 @@ import compasses.expandedstorage.common.client.gui.widget.PageButton;
 import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.common.misc.Utils;
-import compasses.expandedstorage.fabric.FabricClient;
+import compasses.expandedstorage.common.FabricClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;

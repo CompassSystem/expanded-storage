@@ -6,13 +6,13 @@
     "fabric-api": ">=0.82.1+1.20"
   },
   "entrypoints": {
-    "main": [ "compasses.expandedstorage.fabric.FabricMain" ],
-    "client": [ "compasses.expandedstorage.fabric.FabricClient" ],
-    "fabric-datagen": [ "compasses.expandedstorage.thread.datagen.Main" ],
+    "main": [ "compasses.expandedstorage.common.FabricMain" ],
+    "client": [ "compasses.expandedstorage.common.FabricClient" ],
+    "fabric-datagen": [ "compasses.expandedstorage.common.datagen.Main" ],
     "emi": [ "compasses.expandedstorage.common.client.EmiCompat" ],
     "jei_mod_plugin": [ "compasses.expandedstorage.common.client.JeiCompat" ],
-    "modmenu": [ "compasses.expandedstorage.thread.client.ModMenuCompat" ],
-    "rei_client": [ "compasses.expandedstorage.thread.client.ReiCompat" ]
+    "modmenu": [ "compasses.expandedstorage.common.client.ModMenuCompat" ],
+    "rei_client": [ "compasses.expandedstorage.common.client.ReiCompat" ]
   },
   "environment": "*",
   "authors": [ "Compasses" ],

@@ -18,7 +18,7 @@ public class ClientConfigManager {
 
         InternalConfig internalConfig = CommonConfigManager.getInternalConfig();
 
-        Path configPath = internalConfig.shouldUseGlobalConfig() ? CommonConfigManager.getGlobalConfigPath() : CommonConfigManager.getLocalConfigPath();
+        Path configPath = internalConfig.shouldUseGlobalConfig() ? CommonConfigManager.getGlobalConfigPathOrNull() : CommonConfigManager.getLocalConfigPath();
 
         if (configPath == null) {
             config = new ClientConfigV0();
@@ -39,7 +39,7 @@ public class ClientConfigManager {
     }
 
     public static void saveConfig() {
-        Path configPath = CommonConfigManager.getInternalConfig().shouldUseGlobalConfig() ? CommonConfigManager.getGlobalConfigPath() : CommonConfigManager.getLocalConfigPath();
+        Path configPath = CommonConfigManager.getInternalConfig().shouldUseGlobalConfig() ? CommonConfigManager.getGlobalConfigPathOrNull() : CommonConfigManager.getLocalConfigPath();
 
         if (configPath != null) {
             Path filePath = configPath.resolve("client_config.json");
