@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.client;
+package compasses.expandedstorage.impl.client.gui;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.renderer.texture.SimpleTexture;
