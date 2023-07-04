@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.common;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;

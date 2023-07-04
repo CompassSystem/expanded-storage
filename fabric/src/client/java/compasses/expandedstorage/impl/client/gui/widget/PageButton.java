@@ -13,7 +13,7 @@ public final class PageButton extends Button {
     private final int textureOffset;
 
     public PageButton(int x, int y, int textureOffset, Component message, OnPress onPress) {
-        super(x, y, 12, 12, message, onPress, Button.DEFAULT_NARRATION);
+        super(x, y, 12, 12, message, onPress, DEFAULT_NARRATION);
         this.textureOffset = textureOffset;
         this.setTooltip(Tooltip.create(message));
     }

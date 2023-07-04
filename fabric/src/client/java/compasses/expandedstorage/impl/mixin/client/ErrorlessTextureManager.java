@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.client;
 
 import compasses.expandedstorage.impl.client.SizedSimpleTexture;
 import compasses.expandedstorage.impl.client.ErrorlessTextureGetter;

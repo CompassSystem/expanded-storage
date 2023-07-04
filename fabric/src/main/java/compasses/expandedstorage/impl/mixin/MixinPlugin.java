@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl;
+package compasses.expandedstorage.impl.mixin;
 
 import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 public final class MixinPlugin implements IMixinConfigPlugin {
-    private static final int MIXIN_PACKAGE_LENGTH = MixinPlugin.class.getPackageName().length() + 7;
+    private static final int MIXIN_PACKAGE_LENGTH = (MixinPlugin.class.getPackageName() + ".common.").length();
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {

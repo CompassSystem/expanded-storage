@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.common;
 
 import compasses.expandedstorage.impl.inventory.OpenableInventoryProvider;
 import net.minecraft.world.InteractionHand;

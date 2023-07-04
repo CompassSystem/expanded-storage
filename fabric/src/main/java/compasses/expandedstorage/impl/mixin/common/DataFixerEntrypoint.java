@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.common;
 
 import com.mojang.datafixers.DataFixerBuilder;
 import compasses.expandedstorage.impl.fixer.DataFixerUtils;

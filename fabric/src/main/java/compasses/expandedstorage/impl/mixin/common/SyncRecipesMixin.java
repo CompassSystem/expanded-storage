@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.common;
 
 import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.impl.FabricMain;

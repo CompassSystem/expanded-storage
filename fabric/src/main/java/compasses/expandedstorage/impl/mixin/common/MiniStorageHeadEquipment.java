@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.common;
 
 import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import net.minecraft.world.entity.EquipmentSlot;

@@ -15,7 +15,7 @@ public final class ScreenPickButton extends Button {
     private final boolean isCurrentPreference;
 
     public ScreenPickButton(int x, int y, int width, int height, ResourceLocation texture, Component message, boolean showWarningSymbol, boolean isCurrentPreference, OnPress onPress, Tooltip tooltip) {
-        super(x, y, width, height, message, onPress, Button.DEFAULT_NARRATION);
+        super(x, y, width, height, message, onPress, DEFAULT_NARRATION);
         this.texture = texture;
         this.showWarningSymbol = showWarningSymbol;
         this.isCurrentPreference = isCurrentPreference;

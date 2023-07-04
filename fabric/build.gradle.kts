@@ -12,6 +12,7 @@ version = property("mod_version")!!
 val minecraftVersion: String = property("minecraft_version") as String
 val javaVersion: JavaVersion = (property("java_version") as String).let { JavaVersion.toVersion(it) }
 
+val modId = property("mod_id") as String
 val usesDatagen = findProperty("template.usesDataGen") == "true"
 val producesReleaseArtifact = findProperty("template.producesReleaseArtifact") == "true"
 
@@ -20,6 +21,19 @@ loom {
 
     findProperty("access_widener_path")?.let {
         accessWidenerPath = file(it)
+    }
+
+    mixin {
+        defaultRefmapName = "$modId.refmap.json"
+    }
+
+    splitEnvironmentSourceSets()
+
+    mods {
+        create(modId) {
+            sourceSet("main")
+            sourceSet("client")
+        }
     }
 }
 
@@ -285,6 +299,8 @@ tasks {
         filesMatching("fabric.mod.json") {
             expand(inputs.properties)
         }
+
+        exclude(".cache/*")
     }
 
     withType(JavaCompile::class.java).configureEach {

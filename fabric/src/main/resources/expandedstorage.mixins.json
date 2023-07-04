@@ -1,7 +1,7 @@
 {
   "required": true,
-  "package": "compasses.expandedstorage.impl.mixin",
-  "plugin": "compasses.expandedstorage.impl.MixinPlugin",
+  "package": "compasses.expandedstorage.impl.mixin.common",
+  "plugin": "compasses.expandedstorage.impl.mixin.MixinPlugin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BlockEntityIdFix",
@@ -15,10 +15,6 @@
     "MiniStorageHeadEquipment",
     "ToweletteCompat",
     "SyncRecipesMixin"
-  ],
-  "client": [
-    "ErrorlessTextureManager",
-    "LastAfterInitCallbackMixin"
   ],
   "injectors": { "defaultRequire": 1 },
   "minVersion": "0.8"

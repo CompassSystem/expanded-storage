@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.client;
+package compasses.expandedstorage.impl.client.compat;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

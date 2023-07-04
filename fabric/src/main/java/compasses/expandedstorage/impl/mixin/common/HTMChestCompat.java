@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.common;
 
 import com.github.fabricservertools.htm.HTMContainerLock;
 import com.github.fabricservertools.htm.api.LockableChestBlock;

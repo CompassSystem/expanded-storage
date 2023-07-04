@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.mixin;
+package compasses.expandedstorage.impl.mixin.common;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
