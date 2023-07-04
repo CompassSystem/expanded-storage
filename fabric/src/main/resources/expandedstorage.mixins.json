@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "compasses.expandedstorage.common.mixin",
+  "plugin": "compasses.expandedstorage.common.MixinPlugin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BlockEntityIdFix",
@@ -8,10 +9,16 @@
     "SparrowBlockFix",
     "SparrowItemIdFix",
     "SpectatorBlockInventoryViewingFix",
-    "SpectatorEntityInventoryViewingFix"
+    "SpectatorEntityInventoryViewingFix",
+    "HTMChestCompat",
+    "HTMLockableBlockEntityCompat",
+    "MiniStorageHeadEquipment",
+    "ToweletteCompat",
+    "SyncRecipesMixin"
   ],
   "client": [
-    "ErrorlessTextureManager"
+    "ErrorlessTextureManager",
+    "LastAfterInitCallbackMixin"
   ],
   "injectors": { "defaultRequire": 1 },
   "minVersion": "0.8"

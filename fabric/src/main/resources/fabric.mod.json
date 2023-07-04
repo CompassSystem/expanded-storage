@@ -16,10 +16,7 @@
   },
   "environment": "*",
   "authors": [ "Compasses" ],
-  "mixins": [
-    "expandedstorage-common.mixins.json",
-    "expandedstorage-thread.mixins.json"
-  ],
+  "mixins": [ "expandedstorage.mixins.json" ],
   "contact": {
     "homepage": "https://modrinth.com/mod/expanded-storage",
     "issues": "https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues",
