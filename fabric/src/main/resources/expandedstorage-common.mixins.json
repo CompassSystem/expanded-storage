@@ -11,11 +11,7 @@
     "SpectatorEntityInventoryViewingFix"
   ],
   "client": [
-    "ClientJoinWorld",
     "ErrorlessTextureManager"
-  ],
-  "server": [
-    "DedicatedServerStart"
   ],
   "injectors": { "defaultRequire": 1 },
   "minVersion": "0.8"

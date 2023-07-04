@@ -2,7 +2,6 @@ package compasses.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.client.ScreenConstructor;
 import compasses.expandedstorage.common.client.SizedSimpleTexture;
 import compasses.expandedstorage.common.client.function.ScreenSize;
@@ -11,6 +10,7 @@ import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.common.misc.ErrorlessTextureGetter;
 import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.fabric.FabricClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -68,14 +68,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
                         AbstractScreen.renderGui(inventoryWidth, inventoryHeight, (destX, destY, w, h, srcX, srcY) -> {
                             atlas.copyRect(image, srcX, srcY, destX, destY, w, h, false, false);
                         });
-
-                        if (Utils.textureSaveRoot != null) {
-                            try {
-                                image.writeToFile(Utils.textureSaveRoot.resolve("shared_" + inventoryWidth + "_" + inventoryHeight + ".png"));
-                            } catch (IOException e) {
-                                System.out.println("Failed to save genned image.");
-                            }
-                        }
 
                         DynamicTexture texture = new DynamicTexture(image);
                         Minecraft.getInstance().getTextureManager().register(textureLocation, texture);
@@ -303,7 +295,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
     public final boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.handleKeyPress(keyCode, scanCode, modifiers)) {
             return true;
-        } else if (CommonClient.platformHelper().isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
+        } else if (FabricClient.isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
                 && ClientConfigManager.getClientConfig().getDefaultScreenType() != null) { // todo-: check this condition
             minecraft.setScreen(new PickScreen(this));
             return true;

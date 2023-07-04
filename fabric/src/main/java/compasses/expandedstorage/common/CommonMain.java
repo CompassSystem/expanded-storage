@@ -26,7 +26,6 @@ import compasses.expandedstorage.common.item.MutationMode;
 import compasses.expandedstorage.common.item.StorageConversionKit;
 import compasses.expandedstorage.common.item.StorageMutator;
 import compasses.expandedstorage.common.item.ToolUsageResult;
-import compasses.expandedstorage.common.misc.CommonPlatformHelper;
 import compasses.expandedstorage.common.misc.Tier;
 import compasses.expandedstorage.common.misc.Utils;
 import compasses.expandedstorage.common.recipe.BlockConversionRecipe;
@@ -34,6 +33,7 @@ import compasses.expandedstorage.common.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.common.registration.ModItems;
 import compasses.expandedstorage.common.registration.NamedValue;
 import compasses.expandedstorage.common.registration.ObjectConsumer;
+import compasses.expandedstorage.fabric.FabricCommonHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -97,9 +97,7 @@ public final class CommonMain {
     private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
     private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
     private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
-    private static CommonPlatformHelper platformHelper;
-    private static String modTargetPlatform;
-    private static String userPlatform;
+    private static FabricCommonHelper platformHelper;
 
     public static BlockEntityType<ChestBlockEntity> getChestBlockEntityType() {
         return chestBlockEntityType.getValue();
@@ -208,10 +206,8 @@ public final class CommonMain {
             return statId;
         }
 
-        public void commonInit(CommonPlatformHelper platformHelper, String modTargetPlatform, String userPlatform) {
+        public void commonInit(FabricCommonHelper platformHelper) {
             CommonMain.platformHelper = platformHelper;
-            CommonMain.modTargetPlatform = modTargetPlatform;
-            CommonMain.userPlatform = userPlatform;
 
             CommonMain.registerMutationBehaviour(b -> true, MutationMode.SWAP_THEME, (useContext, level, state, pos, stack) -> {
                 BlockConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getBlockRecipe(state, stack);
@@ -863,15 +859,7 @@ public final class CommonMain {
         sparrowWrap.accept(ModItems.NETHERITE_MINI_BARREL);
     }
 
-    public static CommonPlatformHelper platformHelper() {
+    public static FabricCommonHelper platformHelper() {
         return platformHelper;
-    }
-
-    public static String getModTargetPlatform() {
-        return modTargetPlatform;
-    }
-
-    public static String getUserPlatform() {
-        return userPlatform;
     }
 }

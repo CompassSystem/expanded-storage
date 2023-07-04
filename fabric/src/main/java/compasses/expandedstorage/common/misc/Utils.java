@@ -31,8 +31,6 @@ public final class Utils {
 
     public static final int CURRENT_CONFIG_VERSION = 0;
 
-    public static Path textureSaveRoot;
-
     private Utils() {
         throw new IllegalStateException("Should not instantiate this class.");
     }

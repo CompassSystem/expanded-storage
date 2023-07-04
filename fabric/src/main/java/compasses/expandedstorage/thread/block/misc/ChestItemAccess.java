@@ -17,12 +17,12 @@ public final class ChestItemAccess extends GenericItemAccess implements DoubleIt
     }
 
     @Override
-    public Object get() {
+    public Storage<ItemVariant> get() {
         return this.hasCachedAccess() ? cache : this.getSingle();
     }
 
     @Override
-    public Object getSingle() {
+    public Storage<ItemVariant> getSingle() {
         return super.get();
     }
 

@@ -2,12 +2,12 @@ package compasses.expandedstorage.common.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Pair;
-import compasses.expandedstorage.common.CommonClient;
 import compasses.expandedstorage.common.client.function.ScreenSize;
 import compasses.expandedstorage.common.client.gui.widget.PageButton;
 import compasses.expandedstorage.common.config.client.ClientConfigManager;
 import compasses.expandedstorage.common.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.common.misc.Utils;
+import compasses.expandedstorage.fabric.FabricClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
@@ -230,7 +230,7 @@ public final class PageScreen extends AbstractScreen {
             }
         }
         // Honestly this is dumb.
-        if (x == originalX && CommonClient.platformHelper().isModLoaded("inventoryprofiles")) {
+        if (x == originalX && FabricClient.isModLoaded("inventoryprofiles")) {
             x -= 14;
         }
         leftPageButton = new PageButton(x, y, 0,
