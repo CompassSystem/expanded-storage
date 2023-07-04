@@ -39,7 +39,7 @@ val cardinalComponentsVersion = "5.2.0"
 
 compileDependencies["carrier"] = mapOf(
     compileScope to listOf(
-        "curse.maven:carrier-409184:3873675",
+        "curse.maven:carrier-409184:4605884",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-base:$cardinalComponentsVersion",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:$cardinalComponentsVersion",
         "net.devtech:arrp:0.6.7"
@@ -54,7 +54,7 @@ runtimeDependencies["carrier"] = mapOf(
     )
 )
 
-val emiVersion = "1.0.1+1.19.4"
+val emiVersion = "1.0.5+1.20.1"
 
 compileDependencies["emi"] = mapOf(
     compileApiScope to listOf(
@@ -67,34 +67,36 @@ runtimeDependencies["emi"] = mapOf(
     )
 )
 
+val htmVersion = "1.1.9"
+
 compileDependencies["hey_thats_mine"] = mapOf(
     compileScope to listOf(
-        "maven.modrinth:htm:v1.1.8"
+        "maven.modrinth:htm:$htmVersion"
     )
 )
 runtimeDependencies["hey_thats_mine"] = mapOf(
     runtimeScope to listOf(
-        "maven.modrinth:htm:v1.1.8"
+        "maven.modrinth:htm:$htmVersion"
     )
 )
 
 compileDependencies["inventory_profiles"] = mapOf(
     compileScope to listOf(
-        "maven.modrinth:inventory-profiles-next:fabric-1.20-pre4-1.10.2",
-        "maven.modrinth:libipn:fabric-1.20-pre2-3.0.1",
-        "net.fabricmc:fabric-language-kotlin:1.9.4+kotlin.1.8.21"
+        "maven.modrinth:inventory-profiles-next:fabric-1.20-1.10.6",
+        "maven.modrinth:libipn:fabric-1.20-3.0.2",
+        "net.fabricmc:fabric-language-kotlin:1.9.6+kotlin.1.8.22"
     )
 )
 runtimeDependencies["inventory_profiles"] = mapOf(
     runtimeScope to listOf(
-        "maven.modrinth:inventory-profiles-next:fabric-1.20-pre4-1.10.2",
-        "maven.modrinth:libipn:fabric-1.20-pre2-3.0.1",
-        "net.fabricmc:fabric-language-kotlin:1.9.4+kotlin.1.8.21"
+        "maven.modrinth:inventory-profiles-next:fabric-1.20-1.10.6",
+        "maven.modrinth:libipn:fabric-1.20-3.0.2",
+        "net.fabricmc:fabric-language-kotlin:1.9.6+kotlin.1.8.22"
     )
 )
 
-val jeiMcVersion = "1.19.4"
-val jeiVersion = "13.1.0.11"
+val jeiMcVersion = "1.20.1"
+val jeiVersion = "15.2.0.22"
 
 compileDependencies["jei"] = mapOf(
     compileScope to listOf(
@@ -115,11 +117,11 @@ compileDependencies["modmenu"] = mapOf(
 )
 runtimeDependencies["modmenu"] = mapOf(
     runtimeScope to listOf(
-        "com.terraformersmc:modmenu:7.0.1"
+        "com.terraformersmc:modmenu:7.1.0"
     )
 )
 
-val reiVersion = "11.0.617"
+val reiVersion = "12.0.626"
 
 compileDependencies["rei"] = mapOf(
     compileScope to listOf(

@@ -2,10 +2,6 @@ package compasses.expandedstorage.common.datagen.providers;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.LootTable;
-
-import java.util.function.BiConsumer;
 
 public final class BlockLootProvider extends FabricBlockLootTableProvider {
     public BlockLootProvider(FabricDataOutput output) {
@@ -20,10 +16,5 @@ public final class BlockLootProvider extends FabricBlockLootTableProvider {
     @Override
     public String getName() {
         return "Expanded Storage - Loot Tables";
-    }
-
-    @Override
-    public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-        this.generate(consumer); // what the fuck fabric
     }
 }
