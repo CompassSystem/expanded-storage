@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value=":common:thread:fabric:runDatagen" />
+          <option value=":fabric:runDatagen" />
         </list>
       </option>
       <option name="vmOptions" />

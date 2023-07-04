@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value=":common:thread:fabric:runServer" />
+          <option value=":fabric:runServer" />
         </list>
       </option>
       <option name="vmOptions" />
