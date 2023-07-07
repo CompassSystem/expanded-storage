@@ -20,7 +20,6 @@ import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.impl.recipe.EntityConversionRecipe;
 import compasses.expandedstorage.impl.registration.ModItems;
-import compasses.expandedstorage.impl.registration.NamedValue;
 import compasses.expandedstorage.impl.client.Keybinding;
 import compasses.expandedstorage.impl.client.WrappedAmecsKeybind;
 import compasses.expandedstorage.impl.client.WrappedVanillaKeybind;
@@ -75,8 +74,8 @@ public class FabricClient implements ClientModInitializer {
         CommonMain.Initializer initializer = FabricMain.getInitializeForClient();
 
         initializer.chestBlocks.forEach(block -> {
-            String blockId = block.getName().getPath();
-            FabricClient.declareChestTextures(block.getName(),
+            String blockId = block.getBlockId().getPath();
+            FabricClient.declareChestTextures(block.getBlockId(),
                     Utils.id("entity/chest/" + blockId + "_single"),
                     Utils.id("entity/chest/" + blockId + "_left"),
                     Utils.id("entity/chest/" + blockId + "_right"),
@@ -189,11 +188,11 @@ public class FabricClient implements ClientModInitializer {
         BlockEntityRenderers.register(CommonMain.getChestBlockEntityType(), ChestBlockEntityRenderer::new);
     }
 
-    public static void registerItemRenderers(List<NamedValue<BlockItem>> items) {
-        for (NamedValue<BlockItem> item : items) {
-            ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getValue().getBlock().defaultBlockState());
+    public static void registerItemRenderers(List<BlockItem> items) {
+        for (BlockItem item : items) {
+            ChestBlockEntity renderEntity = CommonMain.getChestBlockEntityType().create(BlockPos.ZERO, item.getBlock().defaultBlockState());
 
-            BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, context, stack, source, light, overlay) -> {
+            BuiltinItemRendererRegistry.INSTANCE.register(item, (itemStack, context, stack, source, light, overlay) -> {
                 renderEntity.setCustomName(itemStack.getHoverName());
                 Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(renderEntity, stack, source, light, overlay);
             });
@@ -208,17 +207,17 @@ public class FabricClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(ChestBlockEntityRenderer.BACK_LAYER, ChestBlockEntityRenderer::createBackBodyLayer);
     }
 
-    public static void registerMinecartEntityRenderers(List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes) {
-        for (NamedValue<EntityType<ChestMinecart>> type : chestMinecartEntityTypes) {
-            EntityRendererRegistry.register(type.getValue(), context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
+    public static void registerMinecartEntityRenderers(List<EntityType<ChestMinecart>> chestMinecartEntityTypes) {
+        for (EntityType<ChestMinecart> type : chestMinecartEntityTypes) {
+            EntityRendererRegistry.register(type, context -> new MinecartRenderer<>(context, ModelLayers.CHEST_MINECART));
         }
     }
 
-    public static void registerMinecartItemRenderers(Map<NamedValue<ChestMinecartItem>, NamedValue<EntityType<ChestMinecart>>> chestMinecartAndTypes) {
+    public static void registerMinecartItemRenderers(Map<ChestMinecartItem, EntityType<ChestMinecart>> chestMinecartAndTypes) {
         chestMinecartAndTypes.forEach((item, type) -> {
-            Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> type.getValue().create(Minecraft.getInstance().level));
+            Supplier<ChestMinecart> renderEntity = Suppliers.memoize(() -> type.create(Minecraft.getInstance().level));
 
-            BuiltinItemRendererRegistry.INSTANCE.register(item.getValue(), (itemStack, transform, stack, source, light, overlay) -> {
+            BuiltinItemRendererRegistry.INSTANCE.register(item, (itemStack, transform, stack, source, light, overlay) -> {
                 Minecraft.getInstance().getEntityRenderDispatcher().render(renderEntity.get(), 0, 0, 0, 0, 0, stack, source, light);
             });
         });

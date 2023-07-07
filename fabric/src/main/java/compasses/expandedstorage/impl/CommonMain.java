@@ -37,6 +37,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
@@ -72,6 +74,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -92,28 +95,28 @@ public final class CommonMain {
 
     private static final Map<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
 
-    private static NamedValue<BlockEntityType<ChestBlockEntity>> chestBlockEntityType;
-    private static NamedValue<BlockEntityType<OldChestBlockEntity>> oldChestBlockEntityType;
-    private static NamedValue<BlockEntityType<BarrelBlockEntity>> barrelBlockEntityType;
-    private static NamedValue<BlockEntityType<MiniStorageBlockEntity>> miniStorageBlockEntityType;
+    private static BlockEntityType<ChestBlockEntity> chestBlockEntityType;
+    private static BlockEntityType<OldChestBlockEntity> oldChestBlockEntityType;
+    private static BlockEntityType<BarrelBlockEntity> barrelBlockEntityType;
+    private static BlockEntityType<MiniStorageBlockEntity> miniStorageBlockEntityType;
 
     public static BlockEntityType<ChestBlockEntity> getChestBlockEntityType() {
-        return chestBlockEntityType.getValue();
+        return chestBlockEntityType;
     }
 
     public static BlockEntityType<OldChestBlockEntity> getOldChestBlockEntityType() {
-        return oldChestBlockEntityType.getValue();
+        return oldChestBlockEntityType;
     }
 
     public static BlockEntityType<BarrelBlockEntity> getBarrelBlockEntityType() {
-        return barrelBlockEntityType.getValue();
+        return barrelBlockEntityType;
     }
 
     public static BlockEntityType<MiniStorageBlockEntity> getMiniStorageBlockEntityType() {
-        return miniStorageBlockEntityType.getValue();
+        return miniStorageBlockEntityType;
     }
 
-    private static void defineTierUpgradePath(List<NamedValue<Item>> items, boolean wrapTooltipManually, Tier... tiers) {
+    private static void defineTierUpgradePath(HashSet<ResourceLocation> items, boolean wrapTooltipManually, Tier... tiers) {
         int numTiers = tiers.length;
 
         for (int fromIndex = 0; fromIndex < numTiers - 1; fromIndex++) {
@@ -122,11 +125,16 @@ public final class CommonMain {
             for (int toIndex = fromIndex + 1; toIndex < numTiers; toIndex++) {
                 Tier toTier = tiers[toIndex];
                 ResourceLocation itemId = Utils.id(fromTier.getId().getPath() + "_to_" + toTier.getId().getPath() + "_conversion_kit");
-                Item.Properties settings = fromTier.getItemSettings()
-                                                   .andThen(toTier.getItemSettings())
-                                                   .apply(new Item.Properties().stacksTo(16));
 
-                items.add(new NamedValue<>(itemId, () -> new StorageConversionKit(settings, fromTier.getId(), toTier.getId(), wrapTooltipManually)));
+                if (!items.contains(itemId)) {
+                    items.add(itemId);
+
+                    Item.Properties settings = fromTier.getItemSettings()
+                                                       .andThen(toTier.getItemSettings())
+                                                       .apply(new Item.Properties().stacksTo(16));
+
+                    Registry.register(BuiltInRegistries.ITEM, itemId, new StorageConversionKit(settings, fromTier.getId(), toTier.getId(), wrapTooltipManually));
+                }
             }
         }
     }
@@ -203,16 +211,13 @@ public final class CommonMain {
                                                                                         .sound(SoundType.NETHERITE_BLOCK);
         }
 
-        public final List<ResourceLocation> stats = new ArrayList<>();
-
         private ResourceLocation defineStat(String id) {
             ResourceLocation statId = Utils.id(id);
-            stats.add(statId);
-            return statId;
+            return Registry.register(BuiltInRegistries.CUSTOM_STAT, statId, statId);
         }
 
         public void commonInit() {
-            CommonMain.registerMutationBehaviour(b -> true, MutationMode.SWAP_THEME, (useContext, level, state, pos, stack) -> {
+            CommonMain.registerMutationBehaviour(block -> true, MutationMode.SWAP_THEME, (useContext, level, state, pos, stack) -> {
                 BlockConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getBlockRecipe(state, stack);
                 if (recipe != null) {
                     return recipe.process(level, useContext.getPlayer(), stack, state, pos);
@@ -221,10 +226,10 @@ public final class CommonMain {
             });
         }
 
-        public final List<NamedValue<Item>> baseItems = new ArrayList<>(22);
-
         public void baseInit(boolean manuallyWrapTooltips) {
-            baseItems.add(new NamedValue<>(Utils.id("storage_mutator"), () -> new StorageMutator(new Item.Properties().stacksTo(1))));
+            Registry.register(BuiltInRegistries.ITEM, Utils.id("storage_mutator"), new StorageMutator(new Item.Properties().stacksTo(1)));
+
+            HashSet<ResourceLocation> baseItems = new HashSet<>();
             CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, Tiers.WOOD, Tiers.COPPER, Tiers.IRON, Tiers.GOLD, Tiers.DIAMOND, Tiers.OBSIDIAN, Tiers.NETHERITE);
         }
 
@@ -232,10 +237,10 @@ public final class CommonMain {
 
         private final int chestTypes = tiers + 3; // tiers + cosmetic variants
 
-        public final List<NamedValue<ChestBlock>> chestBlocks = new ArrayList<>(chestTypes);
-        public final List<NamedValue<BlockItem>> chestItems = new ArrayList<>(chestTypes);
-        public final List<NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypes = new ArrayList<>(chestTypes);
-        public final List<NamedValue<ChestMinecartItem>> chestMinecartItems = new ArrayList<>(chestTypes);
+        public final List<ChestBlock> chestBlocks = new ArrayList<>(chestTypes);
+        public final List<BlockItem> chestItems = new ArrayList<>(chestTypes);
+        public final List<EntityType<ChestMinecart>> chestMinecartEntityTypes = new ArrayList<>(chestTypes);
+        public final List<ChestMinecartItem> chestMinecartItems = new ArrayList<>(chestTypes);
 
         public void chestInit(
                 Supplier<Lockable> lockable,
@@ -271,10 +276,11 @@ public final class CommonMain {
                 NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> new EntityType<>((type, level) -> {
                     return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
                 }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, FeatureFlagSet.of()));
-                chestBlocks.add(block);
-                chestItems.add(item);
-                chestMinecartEntityTypes.add(cartEntityType);
-                chestMinecartItems.add(cartItem);
+
+                chestBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+                chestItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
+                chestMinecartEntityTypes.add(Registry.register(BuiltInRegistries.ENTITY_TYPE, cartEntityType.getName(), cartEntityType.getValue()));
+                chestMinecartItems.add(Registry.register(BuiltInRegistries.ITEM, cartItem.getName(), cartItem.getValue()));
             };
 
             ObjectConsumer mossChestMaker = (id, stat, tier, settings) -> {
@@ -285,10 +291,11 @@ public final class CommonMain {
                 NamedValue<EntityType<ChestMinecart>> cartEntityType = new NamedValue<>(cartId, () -> new EntityType<>((type, level) -> {
                     return new ChestMinecart(type, level, cartItem.getValue(), block.getValue());
                 }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, FeatureFlagSet.of()));
-                chestBlocks.add(block);
-                chestItems.add(item);
-                chestMinecartEntityTypes.add(cartEntityType);
-                chestMinecartItems.add(cartItem);
+
+                chestBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+                chestItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
+                chestMinecartEntityTypes.add(Registry.register(BuiltInRegistries.ENTITY_TYPE, cartEntityType.getName(), cartEntityType.getValue()));
+                chestMinecartItems.add(Registry.register(BuiltInRegistries.ITEM, cartItem.getName(), cartItem.getValue()));
             };
 
             chestMaker.apply(Utils.id("wood_chest"), woodStat, Tiers.WOOD, Properties.WOOD);
@@ -302,11 +309,11 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("obsidian_chest"), obsidianStat, Tiers.OBSIDIAN, Properties.OBSIDIAN);
             chestMaker.apply(Utils.id("netherite_chest"), netheriteStat, Tiers.NETHERITE, Properties.NETHERITE);
 
-            CommonMain.chestBlockEntityType = new NamedValue<>(CommonMain.CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, lockable), chestBlocks.stream().map(NamedValue::getValue).toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
+            CommonMain.chestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, lockable), chestBlocks.toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
         }
 
-        public final List<NamedValue<AbstractChestBlock>> oldChestBlocks = new ArrayList<>(tiers);
-        public final List<NamedValue<BlockItem>> oldChestItems = new ArrayList<>(tiers);
+        public final List<AbstractChestBlock> oldChestBlocks = new ArrayList<>(tiers);
+        public final List<BlockItem> oldChestItems = new ArrayList<>(tiers);
 
         public void oldChestInit(
                 Supplier<Lockable> lockable,
@@ -323,8 +330,8 @@ public final class CommonMain {
             ObjectConsumer chestMaker = (id, stat, tier, settings) -> {
                 NamedValue<AbstractChestBlock> block = new NamedValue<>(id, () -> new AbstractChestBlock(tier.getBlockSettings().apply(settings), stat, tier.getSlotCount()));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), tier.getItemSettings().apply(new Item.Properties())));
-                oldChestBlocks.add(block);
-                oldChestItems.add(item);
+                oldChestBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+                oldChestItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
             };
 
             chestMaker.apply(Utils.id("old_wood_chest"), woodStat, Tiers.WOOD, Properties.WOOD);
@@ -334,7 +341,7 @@ public final class CommonMain {
             chestMaker.apply(Utils.id("old_obsidian_chest"), obsidianStat, Tiers.OBSIDIAN, Properties.OBSIDIAN);
             chestMaker.apply(Utils.id("old_netherite_chest"), netheriteStat, Tiers.NETHERITE, Properties.NETHERITE);
 
-            CommonMain.oldChestBlockEntityType = new NamedValue<>(CommonMain.OLD_CHEST_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, lockable), oldChestBlocks.stream().map(NamedValue::getValue).toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
+            CommonMain.oldChestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.OLD_CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), chestAccessMaker, lockable), oldChestBlocks.toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
         }
 
         public void commonChestInit() {
@@ -436,8 +443,8 @@ public final class CommonMain {
             });
         }
 
-        public final List<NamedValue<BarrelBlock>> barrelBlocks = new ArrayList<>(tiers - 1);
-        public final List<NamedValue<BlockItem>> barrelItems = new ArrayList<>(tiers - 1);
+        public final List<BarrelBlock> barrelBlocks = new ArrayList<>(tiers - 1);
+        public final List<BlockItem> barrelItems = new ArrayList<>(tiers - 1);
 
         public void barrelInit(
                 Function<OpenableBlockEntity, ItemAccess> itemAccess,
@@ -491,15 +498,17 @@ public final class CommonMain {
             ObjectConsumer barrelMaker = (id, stat, tier, settings) -> {
                 NamedValue<BarrelBlock> block = new NamedValue<>(id, () -> new BarrelBlock(tier.getBlockSettings().apply(settings), stat, tier.getSlotCount()));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), tier.getItemSettings().apply(new Item.Properties())));
-                barrelBlocks.add(block);
-                barrelItems.add(item);
+
+                barrelBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+                barrelItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
             };
 
             BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperBarrelMaker = (id, weatherState) -> {
                 NamedValue<BarrelBlock> block = new NamedValue<>(id, () -> new CopperBarrelBlock(Tiers.COPPER.getBlockSettings().apply(copperBarrelProperties), copperStat, Tiers.COPPER.getSlotCount(), weatherState));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), Tiers.COPPER.getItemSettings().apply(new Item.Properties())));
-                barrelBlocks.add(block);
-                barrelItems.add(item);
+
+                barrelBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+                barrelItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
             };
 
             copperBarrelMaker.accept(Utils.id("copper_barrel"), WeatheringCopper.WeatherState.UNAFFECTED);
@@ -516,7 +525,7 @@ public final class CommonMain {
             barrelMaker.apply(Utils.id("obsidian_barrel"), obsidianStat, Tiers.OBSIDIAN, obsidianBarrelProperties);
             barrelMaker.apply(Utils.id("netherite_barrel"), netheriteStat, Tiers.NETHERITE, netheriteBarrelProperties);
 
-            CommonMain.barrelBlockEntityType = new NamedValue<>(CommonMain.BARREL_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), barrelBlocks.stream().map(NamedValue::getValue).toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
+            CommonMain.barrelBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.BARREL_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), barrelBlocks.toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
 
             Predicate<Block> isUpgradableBarrelBlock = (block) -> block instanceof BarrelBlock || block instanceof net.minecraft.world.level.block.BarrelBlock || block.defaultBlockState().is(barrelTag);
 
@@ -531,8 +540,8 @@ public final class CommonMain {
             });
         }
 
-        public final List<NamedValue<MiniStorageBlock>> miniStorageBlocks = new ArrayList<>();
-        public final List<NamedValue<BlockItem>> miniStorageItems = new ArrayList<>();
+        public final List<MiniStorageBlock> miniStorageBlocks = new ArrayList<>();
+        public final List<BlockItem> miniStorageItems = new ArrayList<>();
 
         public void miniStorageBlockInit(
                 Function<OpenableBlockEntity, ItemAccess> itemAccess,
@@ -579,8 +588,9 @@ public final class CommonMain {
             Function<Boolean, ObjectConsumer> miniStorageMaker = (hasRibbon) -> (id, stat, tier, settings) -> {
                 NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), stat, hasRibbon));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties())));
-                miniStorageBlocks.add(block);
-                miniStorageItems.add(item);
+
+                miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+                miniStorageItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
             };
 
             ObjectConsumer miniStorageMakerNoRibbon = miniStorageMaker.apply(false);
@@ -589,8 +599,9 @@ public final class CommonMain {
             BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperMiniBarrelMaker = (id, weatherState) -> {
                 NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new CopperMiniStorageBlock(Tiers.COPPER.getBlockSettings().apply(copperBarrelSettings), copperBarrelStat, weatherState));
                 NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), Tiers.COPPER.getItemSettings().apply(new Item.Properties())));
-                miniStorageBlocks.add(block);
-                miniStorageItems.add(item);
+
+                miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+                miniStorageItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
             };
 
             miniStorageMakerNoRibbon.apply(Utils.id("vanilla_wood_mini_chest"), woodChestStat, Tiers.WOOD, Properties.WOOD);
@@ -623,7 +634,7 @@ public final class CommonMain {
             miniStorageMakerNoRibbon.apply(Utils.id("obsidian_mini_barrel"), obsidianBarrelStat, Tiers.OBSIDIAN, obsidianBarrelSettings);
             miniStorageMakerNoRibbon.apply(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, Tiers.NETHERITE, netheriteBarrelSettings);
 
-            CommonMain.miniStorageBlockEntityType = new NamedValue<>(CommonMain.MINI_STORAGE_OBJECT_TYPE, () -> BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), miniStorageBlocks.stream().map(NamedValue::getValue).toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
+            CommonMain.miniStorageBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.MINI_STORAGE_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), miniStorageBlocks.toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
 
             Predicate<Block> isMiniStorage = b -> b instanceof MiniStorageBlock;
             CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (useContext, level, state, pos, stack) -> {
@@ -634,8 +645,8 @@ public final class CommonMain {
             });
         }
 
-        public List<NamedValue<? extends OpenableBlock>> getBlocks() {
-            List<NamedValue<? extends OpenableBlock>> blocks = new ArrayList<>();
+        public List<OpenableBlock> getBlocks() {
+            List<OpenableBlock> blocks = new ArrayList<>();
             blocks.addAll(chestBlocks);
             blocks.addAll(oldChestBlocks);
             blocks.addAll(barrelBlocks);
@@ -643,51 +654,20 @@ public final class CommonMain {
             return blocks;
         }
 
-        public List<NamedValue<? extends Item>> getItems() {
-            List<NamedValue<? extends Item>> items = new ArrayList<>();
-            items.addAll(baseItems);
-            items.addAll(chestItems);
-            items.addAll(chestMinecartItems);
-            items.addAll(oldChestItems);
-            items.addAll(barrelItems);
-            items.addAll(miniStorageItems);
-            return items;
-        }
-
-        public NamedValue<BlockEntityType<ChestBlockEntity>> getChestBlockEntityType() {
-            return chestBlockEntityType;
-        }
-
-        public NamedValue<BlockEntityType<OldChestBlockEntity>> getOldChestBlockEntityType() {
-            return oldChestBlockEntityType;
-        }
-
-        public NamedValue<BlockEntityType<BarrelBlockEntity>> getBarrelBlockEntityType() {
-            return barrelBlockEntityType;
-        }
-
-        public NamedValue<BlockEntityType<MiniStorageBlockEntity>> getMiniStorageBlockEntityType() {
-            return miniStorageBlockEntityType;
-        }
-
-        public List<NamedValue<? extends EntityType<? extends Entity>>> getEntityTypes() {
-            List<NamedValue<? extends EntityType<? extends Entity>>> returnValue = new ArrayList<>();
-            returnValue.addAll(chestMinecartEntityTypes);
-            return returnValue;
-        }
-
-        public List<NamedValue<EntityType<ChestMinecart>>> getChestMinecartEntityTypes() {
+        public List<EntityType<ChestMinecart>> getChestMinecartEntityTypes() {
             return chestMinecartEntityTypes;
         }
 
-        public Map<NamedValue<ChestMinecartItem>, NamedValue<EntityType<ChestMinecart>>> getChestMinecartAndTypes() {
-            Map<ResourceLocation, NamedValue<EntityType<ChestMinecart>>> chestMinecartEntityTypesLookup = chestMinecartEntityTypes.stream().map(it -> Map.entry(it.getName(), it)).collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
-            return chestMinecartItems.stream().map((value) -> Map.entry(value, chestMinecartEntityTypesLookup.get(value.getName()))).collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
-        }
-    }
+        public Map<ChestMinecartItem, EntityType<ChestMinecart>> getChestMinecartAndTypes() {
+            Map<ResourceLocation, EntityType<ChestMinecart>> chestMinecartEntityTypesLookup =
+                    chestMinecartEntityTypes.stream()
+                                            .map(it -> Map.entry(it.builtInRegistryHolder().key().location(), it))
+                                            .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    public static <T> void iterateNamedList(List<NamedValue<? extends T>> list, BiConsumer<ResourceLocation, T> consumer) {
-        list.forEach(it -> consumer.accept(it.getName(), it.getValue()));
+            return chestMinecartItems.stream()
+                                     .map(value -> Map.entry(value, chestMinecartEntityTypesLookup.get(value.builtInRegistryHolder().key().location())))
+                                     .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
     }
 
     public static Optional<ItemAccess> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {

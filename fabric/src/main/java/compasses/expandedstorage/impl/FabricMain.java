@@ -11,7 +11,6 @@ import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeReloadListener;
 import compasses.expandedstorage.impl.recipe.EntityConversionRecipe;
-import compasses.expandedstorage.impl.registration.NamedValue;
 import compasses.expandedstorage.impl.block.misc.ChestItemAccess;
 import compasses.expandedstorage.impl.block.misc.GenericItemAccess;
 import compasses.expandedstorage.impl.compat.htm.HTMLockable;
@@ -47,7 +46,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -129,33 +127,10 @@ public final class FabricMain implements ModInitializer {
     }
 
     public static void registerContent(CommonMain.Initializer initializer) {
-        for (ResourceLocation stat : initializer.stats) {
-            Registry.register(BuiltInRegistries.CUSTOM_STAT, stat, stat);
-        }
-
-        CommonMain.iterateNamedList(initializer.getBlocks(), (name, value) -> {
-            Registry.register(BuiltInRegistries.BLOCK, name, value);
-        });
-
         //noinspection UnstableApiUsage
-        ItemStorage.SIDED.registerForBlocks(FabricMain::getItemAccess, initializer.getBlocks().stream().map(NamedValue::getValue).toArray(OpenableBlock[]::new));
-
-        CommonMain.iterateNamedList(initializer.getItems(), (name, value) -> Registry.register(BuiltInRegistries.ITEM, name, value));
-
-        CommonMain.iterateNamedList(initializer.getEntityTypes(), (name, value) -> {
-            Registry.register(BuiltInRegistries.ENTITY_TYPE, name, value);
-        });
-
-        FabricMain.registerBlockEntity(initializer.getChestBlockEntityType());
-        FabricMain.registerBlockEntity(initializer.getOldChestBlockEntityType());
-        FabricMain.registerBlockEntity(initializer.getBarrelBlockEntityType());
-        FabricMain.registerBlockEntity(initializer.getMiniStorageBlockEntityType());
+        ItemStorage.SIDED.registerForBlocks(FabricMain::getItemAccess, initializer.getBlocks().toArray(OpenableBlock[]::new));
 
         temporaryInitializerSupplier = () -> initializer;
-    }
-
-    private static <T extends BlockEntity> void registerBlockEntity(NamedValue<BlockEntityType<T>> blockEntityType) {
-        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, blockEntityType.getName(), blockEntityType.getValue());
     }
 
     private void registerOxidisableAndWaxableBlocks() {
