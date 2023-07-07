@@ -33,6 +33,8 @@ import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.impl.registration.ModItems;
 import compasses.expandedstorage.impl.registration.NamedValue;
 import compasses.expandedstorage.impl.registration.ObjectConsumer;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -77,7 +79,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -541,13 +542,29 @@ public final class CommonMain {
         }
 
         public final List<MiniStorageBlock> miniStorageBlocks = new ArrayList<>();
-        public final List<BlockItem> miniStorageItems = new ArrayList<>();
+
+        private void createMiniStorageBlock(ResourceLocation id, ResourceLocation stat, Tier tier, Block.Properties properties, boolean hasRibbon) {
+            NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(properties), stat, hasRibbon));
+            NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), tier.getItemSettings().apply(new Item.Properties())));
+
+            miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+            Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue());
+        }
+
+        private final ResourceLocation copperBarrelStat = defineStat("open_copper_mini_barrel");
+        private final Block.Properties copperBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(3, 6).sound(SoundType.WOOD);
+
+        private void createCopperMiniStorageBlock(ResourceLocation id, WeatheringCopper.WeatherState weatherState) {
+            NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new CopperMiniStorageBlock(Tiers.COPPER.getBlockSettings().apply(copperBarrelSettings), copperBarrelStat, weatherState));
+            NamedValue<BlockItem> item = new NamedValue<>(id, () -> new BlockItem(block.getValue(), Tiers.COPPER.getItemSettings().apply(new Item.Properties())));
+
+            miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
+            Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue());
+        }
 
         public void miniStorageBlockInit(
                 Function<OpenableBlockEntity, ItemAccess> itemAccess,
-                Supplier<Lockable> lockable,
-
-                BiFunction<MiniStorageBlock, Item.Properties, BlockItem> miniChestItemMaker
+                Supplier<Lockable> lockable
         ) {
             final ResourceLocation woodChestStat = defineStat("open_wood_mini_chest");
             final ResourceLocation pumpkinChestStat = defineStat("open_pumpkin_mini_chest");
@@ -563,7 +580,6 @@ public final class CommonMain {
             final ResourceLocation obsidianChestStat = defineStat("open_obsidian_mini_chest");
             final ResourceLocation netheriteChestStat = defineStat("open_netherite_mini_chest");
             final ResourceLocation barrelStat = defineStat("open_mini_barrel");
-            final ResourceLocation copperBarrelStat = defineStat("open_copper_mini_barrel");
             final ResourceLocation ironBarrelStat = defineStat("open_iron_mini_barrel");
             final ResourceLocation goldBarrelStat = defineStat("open_gold_mini_barrel");
             final ResourceLocation diamondBarrelStat = defineStat("open_diamond_mini_barrel");
@@ -578,65 +594,45 @@ public final class CommonMain {
             final Block.Properties lavenderPresentSettings = Block.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
             final Block.Properties pinkAmethystPresentSettings = Block.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(2.5f).sound(SoundType.WOOD);
             final Block.Properties woodBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(2.5F).sound(SoundType.WOOD);
-            final Block.Properties copperBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Block.Properties ironBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(5, 6).sound(SoundType.WOOD);
             final Block.Properties goldBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(3, 6).sound(SoundType.WOOD);
             final Block.Properties diamondBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(5, 6).sound(SoundType.WOOD);
             final Block.Properties obsidianBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(50, 1200).sound(SoundType.WOOD);
             final Block.Properties netheriteBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(50, 1200).sound(SoundType.WOOD);
 
-            Function<Boolean, ObjectConsumer> miniStorageMaker = (hasRibbon) -> (id, stat, tier, settings) -> {
-                NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new MiniStorageBlock(tier.getBlockSettings().apply(settings), stat, hasRibbon));
-                NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), tier.getItemSettings().apply(new Item.Properties())));
+            createMiniStorageBlock(Utils.id("vanilla_wood_mini_chest"), woodChestStat, Tiers.WOOD, Properties.WOOD, false);
+            createMiniStorageBlock(Utils.id("wood_mini_chest"), woodChestStat, Tiers.WOOD, Properties.WOOD, false);
+            createMiniStorageBlock(Utils.id("pumpkin_mini_chest"), pumpkinChestStat, Tiers.WOOD, Properties.PUMPKIN, false);
+            createMiniStorageBlock(Utils.id("red_mini_present"), redPresentStat, Tiers.WOOD, redPresentSettings, true);
+            createMiniStorageBlock(Utils.id("white_mini_present"), whitePresentStat, Tiers.WOOD, whitePresentSettings, true);
+            createMiniStorageBlock(Utils.id("candy_cane_mini_present"), candyCanePresentStat, Tiers.WOOD, candyCanePresentSettings, false);
+            createMiniStorageBlock(Utils.id("green_mini_present"), greenPresentStat, Tiers.WOOD, greenPresentSettings, true);
+            createMiniStorageBlock(Utils.id("lavender_mini_present"), lavenderPresentStat, Tiers.WOOD, lavenderPresentSettings, true);
+            createMiniStorageBlock(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, Tiers.WOOD, pinkAmethystPresentSettings, true);
+            createMiniStorageBlock(Utils.id("iron_mini_chest"), ironChestStat, Tiers.IRON, Properties.IRON, false);
+            createMiniStorageBlock(Utils.id("gold_mini_chest"), goldChestStat, Tiers.GOLD, Properties.GOLD, false);
+            createMiniStorageBlock(Utils.id("diamond_mini_chest"), diamondChestStat, Tiers.DIAMOND, Properties.DIAMOND, false);
+            createMiniStorageBlock(Utils.id("obsidian_mini_chest"), obsidianChestStat, Tiers.OBSIDIAN, Properties.OBSIDIAN, false);
+            createMiniStorageBlock(Utils.id("netherite_mini_chest"), netheriteChestStat, Tiers.NETHERITE, Properties.NETHERITE, false);
 
-                miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
-                miniStorageItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
-            };
-
-            ObjectConsumer miniStorageMakerNoRibbon = miniStorageMaker.apply(false);
-            ObjectConsumer miniStorageMakerRibbon = miniStorageMaker.apply(true);
-
-            BiConsumer<ResourceLocation, WeatheringCopper.WeatherState> copperMiniBarrelMaker = (id, weatherState) -> {
-                NamedValue<MiniStorageBlock> block = new NamedValue<>(id, () -> new CopperMiniStorageBlock(Tiers.COPPER.getBlockSettings().apply(copperBarrelSettings), copperBarrelStat, weatherState));
-                NamedValue<BlockItem> item = new NamedValue<>(id, () -> miniChestItemMaker.apply(block.getValue(), Tiers.COPPER.getItemSettings().apply(new Item.Properties())));
-
-                miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, block.getName(), block.getValue()));
-                miniStorageItems.add(Registry.register(BuiltInRegistries.ITEM, item.getName(), item.getValue()));
-            };
-
-            miniStorageMakerNoRibbon.apply(Utils.id("vanilla_wood_mini_chest"), woodChestStat, Tiers.WOOD, Properties.WOOD);
-            miniStorageMakerNoRibbon.apply(Utils.id("wood_mini_chest"), woodChestStat, Tiers.WOOD, Properties.WOOD);
-            miniStorageMakerNoRibbon.apply(Utils.id("pumpkin_mini_chest"), pumpkinChestStat, Tiers.WOOD, Properties.PUMPKIN);
-            miniStorageMakerRibbon.apply(Utils.id("red_mini_present"), redPresentStat, Tiers.WOOD, redPresentSettings);
-            miniStorageMakerRibbon.apply(Utils.id("white_mini_present"), whitePresentStat, Tiers.WOOD, whitePresentSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("candy_cane_mini_present"), candyCanePresentStat, Tiers.WOOD, candyCanePresentSettings);
-            miniStorageMakerRibbon.apply(Utils.id("green_mini_present"), greenPresentStat, Tiers.WOOD, greenPresentSettings);
-            miniStorageMakerRibbon.apply(Utils.id("lavender_mini_present"), lavenderPresentStat, Tiers.WOOD, lavenderPresentSettings);
-            miniStorageMakerRibbon.apply(Utils.id("pink_amethyst_mini_present"), pinkAmethystPresentStat, Tiers.WOOD, pinkAmethystPresentSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("iron_mini_chest"), ironChestStat, Tiers.IRON, Properties.IRON);
-            miniStorageMakerNoRibbon.apply(Utils.id("gold_mini_chest"), goldChestStat, Tiers.GOLD, Properties.GOLD);
-            miniStorageMakerNoRibbon.apply(Utils.id("diamond_mini_chest"), diamondChestStat, Tiers.DIAMOND, Properties.DIAMOND);
-            miniStorageMakerNoRibbon.apply(Utils.id("obsidian_mini_chest"), obsidianChestStat, Tiers.OBSIDIAN, Properties.OBSIDIAN);
-            miniStorageMakerNoRibbon.apply(Utils.id("netherite_mini_chest"), netheriteChestStat, Tiers.NETHERITE, Properties.NETHERITE);
-
-            miniStorageMakerNoRibbon.apply(Utils.id("mini_barrel"), barrelStat, Tiers.WOOD, woodBarrelSettings);
-            copperMiniBarrelMaker.accept(Utils.id("copper_mini_barrel"), WeatheringCopper.WeatherState.UNAFFECTED);
-            copperMiniBarrelMaker.accept(Utils.id("exposed_copper_mini_barrel"), WeatheringCopper.WeatherState.EXPOSED);
-            copperMiniBarrelMaker.accept(Utils.id("weathered_copper_mini_barrel"), WeatheringCopper.WeatherState.WEATHERED);
-            copperMiniBarrelMaker.accept(Utils.id("oxidized_copper_mini_barrel"), WeatheringCopper.WeatherState.OXIDIZED);
-            miniStorageMakerNoRibbon.apply(Utils.id("waxed_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("waxed_exposed_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("waxed_weathered_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("waxed_oxidized_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("iron_mini_barrel"), ironBarrelStat, Tiers.IRON, ironBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("gold_mini_barrel"), goldBarrelStat, Tiers.GOLD, goldBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("diamond_mini_barrel"), diamondBarrelStat, Tiers.DIAMOND, diamondBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("obsidian_mini_barrel"), obsidianBarrelStat, Tiers.OBSIDIAN, obsidianBarrelSettings);
-            miniStorageMakerNoRibbon.apply(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, Tiers.NETHERITE, netheriteBarrelSettings);
+            createMiniStorageBlock(Utils.id("mini_barrel"), barrelStat, Tiers.WOOD, woodBarrelSettings, false);
+            createCopperMiniStorageBlock(Utils.id("copper_mini_barrel"), WeatheringCopper.WeatherState.UNAFFECTED);
+            createCopperMiniStorageBlock(Utils.id("exposed_copper_mini_barrel"), WeatheringCopper.WeatherState.EXPOSED);
+            createCopperMiniStorageBlock(Utils.id("weathered_copper_mini_barrel"), WeatheringCopper.WeatherState.WEATHERED);
+            createCopperMiniStorageBlock(Utils.id("oxidized_copper_mini_barrel"), WeatheringCopper.WeatherState.OXIDIZED);
+            createMiniStorageBlock(Utils.id("waxed_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("waxed_exposed_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("waxed_weathered_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("waxed_oxidized_copper_mini_barrel"), copperBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("iron_mini_barrel"), ironBarrelStat, Tiers.IRON, ironBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("gold_mini_barrel"), goldBarrelStat, Tiers.GOLD, goldBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("diamond_mini_barrel"), diamondBarrelStat, Tiers.DIAMOND, diamondBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("obsidian_mini_barrel"), obsidianBarrelStat, Tiers.OBSIDIAN, obsidianBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("netherite_mini_barrel"), netheriteBarrelStat, Tiers.NETHERITE, netheriteBarrelSettings, false);
 
             CommonMain.miniStorageBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.MINI_STORAGE_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), itemAccess, lockable), miniStorageBlocks.toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
 
-            Predicate<Block> isMiniStorage = b -> b instanceof MiniStorageBlock;
+            Predicate<Block> isMiniStorage = block -> block instanceof MiniStorageBlock;
             CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (useContext, level, state, pos, stack) -> {
                 if (!level.isClientSide()) {
                     level.setBlockAndUpdate(pos, state.rotate(Rotation.CLOCKWISE_90));
@@ -670,21 +666,22 @@ public final class CommonMain {
         }
     }
 
-    public static Optional<ItemAccess> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
+    @SuppressWarnings("UnstableApiUsage")
+    public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Direction direction) {
         if (blockEntity instanceof OldChestBlockEntity entity) {
             DoubleItemAccess access = entity.getItemAccess();
             EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
             Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
             if (access.hasCachedAccess() || type == EsChestType.SINGLE) {
-                return Optional.of(access);
+                return access.get();
             }
 
             if (level.getBlockEntity(pos.relative(AbstractChestBlock.getDirectionToAttached(type, facing))) instanceof OldChestBlockEntity otherEntity) {
                 DoubleItemAccess otherAccess = otherEntity.getItemAccess();
 
                 if (otherAccess.hasCachedAccess()) {
-                    return Optional.of(otherAccess);
+                    return otherAccess.get();
                 }
 
                 DoubleItemAccess first, second;
@@ -699,13 +696,13 @@ public final class CommonMain {
 
                 first.setOther(second);
 
-                return Optional.of(first);
+                return first.get();
             }
         } else if (blockEntity instanceof OpenableBlockEntity entity) {
-            return Optional.of(entity.getItemAccess());
+            return entity.getItemAccess().get();
         }
 
-        return Optional.empty();
+        return null;
     }
 
     public static InteractionResult onPlayerUseEntity(Level level, Player player, InteractionHand hand, Entity entity) {

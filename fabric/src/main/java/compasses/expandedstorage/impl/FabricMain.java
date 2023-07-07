@@ -3,7 +3,6 @@ package compasses.expandedstorage.impl;
 import compasses.expandedstorage.impl.block.OpenableBlock;
 import compasses.expandedstorage.impl.block.misc.BasicLockable;
 import compasses.expandedstorage.impl.block.misc.CopperBlockHelper;
-import compasses.expandedstorage.impl.block.strategies.ItemAccess;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
@@ -26,11 +25,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -44,9 +39,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -90,9 +82,12 @@ public final class FabricMain implements ModInitializer {
         initializer.oldChestInit(lockable, ChestItemAccess::new);
         initializer.commonChestInit();
         initializer.barrelInit(GenericItemAccess::new, lockable, ConventionalBlockTags.WOODEN_BARRELS);
-        initializer.miniStorageBlockInit(GenericItemAccess::new, lockable, BlockItem::new);
+        initializer.miniStorageBlockInit(GenericItemAccess::new, lockable);
 
-        FabricMain.registerContent(initializer);
+        //noinspection UnstableApiUsage
+        ItemStorage.SIDED.registerForBlocks(CommonMain::getItemAccess, initializer.getBlocks().toArray(OpenableBlock[]::new));
+
+        temporaryInitializerSupplier = () -> initializer;
 
         registerOxidisableAndWaxableBlocks();
 
@@ -126,21 +121,9 @@ public final class FabricMain implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> serverInstance = null);
     }
 
-    public static void registerContent(CommonMain.Initializer initializer) {
-        //noinspection UnstableApiUsage
-        ItemStorage.SIDED.registerForBlocks(FabricMain::getItemAccess, initializer.getBlocks().toArray(OpenableBlock[]::new));
-
-        temporaryInitializerSupplier = () -> initializer;
-    }
-
     private void registerOxidisableAndWaxableBlocks() {
         CopperBlockHelper.oxidisation().forEach(OxidizableBlocksRegistry::registerOxidizableBlockPair);
         CopperBlockHelper.dewaxing().inverse().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
-    }
-
-    @SuppressWarnings({"UnstableApiUsage"})
-    public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @SuppressWarnings("unused") Direction context) {
-        return CommonMain.getItemAccess(level, pos, state, blockEntity).map(ItemAccess::get).orElse(null);
     }
 
     public static CommonMain.Initializer getInitializeForClient() {
