@@ -75,7 +75,7 @@ public final class FakePickScreen extends AbstractScreen {
         this.topPadding = topPadding;
         for (ResourceLocation option : options) {
             PickButton settings = PickScreen.BUTTON_SETTINGS.get(option);
-            boolean isWarn = settings.getWarningTest().test(width, height);
+            boolean isWarn = settings.shouldShowWarning(width, height);
             boolean isCurrent = option.equals(preference);
             MutableComponent tooltipMessage = Component.literal("").append(settings.getTitle());
             if (isCurrent) {

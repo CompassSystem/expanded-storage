@@ -1,7 +1,6 @@
 package compasses.expandedstorage.impl.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
-import compasses.expandedstorage.impl.client.function.ScreenSizePredicate;
 import compasses.expandedstorage.impl.client.gui.widget.PickButton;
 import compasses.expandedstorage.impl.client.gui.widget.ScreenPickButton;
 import compasses.expandedstorage.impl.config.client.ClientConfigManager;
@@ -15,10 +14,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -37,12 +34,15 @@ public final class PickScreen extends Screen {
             Utils.SINGLE_SCREEN_TYPE, new PickButton(
                     Utils.id("textures/gui/single_button.png"),
                     Component.translatable("screen.ellemes_container_lib.single_screen"),
-                    (scaledWidth, scaledHeight) -> scaledWidth < 370 || scaledHeight < 386, // Smallest possible resolution a double netherite chest fits on.
-                    List.of(
-                            Component.translatable("screen.ellemes_container_lib.off_screen_warning_1").withStyle(ChatFormatting.GRAY),
-                            Component.translatable("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
-                    )
-            )
+
+                    Component.translatable("screen.ellemes_container_lib.off_screen_warning_1").withStyle(ChatFormatting.GRAY),
+                    Component.translatable("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
+            ) {
+                @Override
+                public boolean shouldShowWarning(int scaledWidth, int scaledHeight) {
+                    return scaledWidth < 370 || scaledHeight < 386; // Smallest possible resolution a double netherite chest fits on.
+                }
+            }
     );
     private final Set<ResourceLocation> options = ImmutableSortedSet.copyOf(PickScreen.BUTTON_SETTINGS.keySet());
     private final Supplier<Screen> returnToScreen;
@@ -55,21 +55,14 @@ public final class PickScreen extends Screen {
         });
     }
 
-    public PickScreen(Supplier<Screen> returnToScreen) {
-        this(null, returnToScreen);
+    public PickScreen(Screen returnToScreen) {
+        this(null, () -> returnToScreen);
     }
 
     private PickScreen(@Nullable AbstractHandler handler, Supplier<Screen> returnToScreen) {
         super(Component.translatable("screen.ellemes_container_lib.screen_picker_title"));
         this.handler = handler;
         this.returnToScreen = returnToScreen;
-    }
-
-    @Deprecated
-    @ApiStatus.Internal
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    public static void declareButtonSettings(ResourceLocation type, ResourceLocation texture, Component title, ScreenSizePredicate warningTest, List<Component> warningText) {
-        PickScreen.BUTTON_SETTINGS.putIfAbsent(type, new PickButton(texture, title, warningTest, warningText));
     }
 
     @Override
@@ -110,7 +103,7 @@ public final class PickScreen extends Screen {
         this.topPadding = topPadding;
         for (ResourceLocation option : options) {
             PickButton settings = PickScreen.BUTTON_SETTINGS.get(option);
-            boolean isWarn = settings.getWarningTest().test(width, height);
+            boolean isWarn = settings.shouldShowWarning(width, height);
             boolean isCurrent = option.equals(preference);
             MutableComponent tooltipMessage = Component.literal("").append(settings.getTitle());
             if (isCurrent) {

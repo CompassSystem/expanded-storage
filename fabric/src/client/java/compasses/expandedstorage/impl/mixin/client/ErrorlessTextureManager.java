@@ -26,8 +26,10 @@ public abstract class ErrorlessTextureManager implements ErrorlessTextureGetter 
     @Override
     public boolean expandedstorage$isTexturePresent(ResourceLocation location) {
         AbstractTexture texture = byPath.get(location);
+
         if (texture == null) {
             texture = new SizedSimpleTexture(location);
+
             try {
                 texture.load(resourceManager);
                 byPath.put(location, texture);

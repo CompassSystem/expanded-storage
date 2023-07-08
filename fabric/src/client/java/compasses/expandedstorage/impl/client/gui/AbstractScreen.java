@@ -2,9 +2,7 @@ package compasses.expandedstorage.impl.client.gui;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-import compasses.expandedstorage.impl.client.ScreenConstructor;
 import compasses.expandedstorage.impl.client.function.ScreenSize;
-import compasses.expandedstorage.impl.client.function.ScreenSizeRetriever;
 import compasses.expandedstorage.impl.config.client.ClientConfigManager;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.impl.client.helpers.ErrorlessTextureGetter;
@@ -24,26 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHandler> {
-    private static final Map<ResourceLocation, ScreenConstructor<?>> SCREEN_CONSTRUCTORS = Map.of(
-       Utils.PAGINATED_SCREEN_TYPE, PageScreen::new,
-       Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::new,
-       Utils.SINGLE_SCREEN_TYPE, SingleScreen::new,
-       Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::new
-    );
-
-    // todo: these settings leave no room for rei/jei should we take those into consideration for minimum screen width
-    private static final Map<ResourceLocation, ScreenSizeRetriever> SIZE_RETRIEVERS = Map.of(
-            Utils.PAGINATED_SCREEN_TYPE, PageScreen::retrieveScreenSize,
-            Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::retrieveScreenSize,
-            Utils.SINGLE_SCREEN_TYPE, SingleScreen::retrieveScreenSize,
-            Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::retrieveScreenSize
-    );
-    private static final Set<ResourceLocation> PREFERS_SINGLE_SCREEN = Set.of(Utils.PAGINATED_SCREEN_TYPE, Utils.SCROLLABLE_SCREEN_TYPE);
-
     protected final int inventoryWidth, inventoryHeight, totalSlots;
     protected final ResourceLocation textureLocation;
     protected final int textureWidth, textureHeight;
@@ -235,16 +215,27 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
             return new FakePickScreen(handler, playerInventory, title);
         }
 
-        ScreenSize screenSize = AbstractScreen.SIZE_RETRIEVERS.get(preference).get(slots, scaledWidth, scaledHeight);
+        ScreenSize screenSize = getScreenSize(preference, slots, scaledWidth, scaledHeight);
+
         if (screenSize == null) {
             throw new IllegalStateException("screenSize should never be null...");
         }
 
-        return AbstractScreen.SCREEN_CONSTRUCTORS.get(preference).createScreen(handler, playerInventory, title, screenSize);
+        if (Utils.PAGINATED_SCREEN_TYPE.equals(preference)) {
+            return new PageScreen(handler, playerInventory, title, screenSize);
+        } else if (Utils.SCROLLABLE_SCREEN_TYPE.equals(preference)) {
+            return new ScrollScreen(handler, playerInventory, title, screenSize);
+        } else if (Utils.SINGLE_SCREEN_TYPE.equals(preference)) {
+            return new SingleScreen(handler, playerInventory, title, screenSize);
+        } else if (Utils.MINI_STORAGE_SCREEN_TYPE.equals(preference)) {
+            return new MiniStorageScreen(handler, playerInventory, title, screenSize);
+        }
+
+        throw new IllegalArgumentException("Unknown preference.");
     }
 
     private static boolean shouldPreferSingleScreen(ResourceLocation type) {
-        return AbstractScreen.PREFERS_SINGLE_SCREEN.contains(type);
+        return Utils.PAGINATED_SCREEN_TYPE.equals(type) || Utils.SCROLLABLE_SCREEN_TYPE.equals(type);
     }
 
     private static boolean canSingleScreenDisplay(int slots, int scaledWidth, int scaledHeight) {
@@ -276,7 +267,17 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
     @Nullable
     public static ScreenSize getScreenSize(ResourceLocation type, int slots, int scaledWidth, int scaledHeight) {
-        return AbstractScreen.SIZE_RETRIEVERS.get(type).get(slots, scaledWidth, scaledHeight);
+        if (Utils.PAGINATED_SCREEN_TYPE.equals(type)) {
+            return PageScreen.retrieveScreenSize(slots, scaledWidth, scaledHeight);
+        } else if (Utils.SCROLLABLE_SCREEN_TYPE.equals(type)) {
+            return ScrollScreen.retrieveScreenSize(slots, scaledWidth, scaledHeight);
+        } else if (Utils.SINGLE_SCREEN_TYPE.equals(type)) {
+            return SingleScreen.retrieveScreenSize(slots, scaledWidth, scaledHeight);
+        } else if (Utils.MINI_STORAGE_SCREEN_TYPE.equals(type)) {
+            return MiniStorageScreen.retrieveScreenSize(slots, scaledWidth, scaledHeight);
+        }
+
+        return null;
     }
 
     @Override
@@ -312,6 +313,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         return List.of();
     }
 
+    // todo: was this api for someone?
     public int getInventoryWidth() {
         return inventoryWidth;
     }

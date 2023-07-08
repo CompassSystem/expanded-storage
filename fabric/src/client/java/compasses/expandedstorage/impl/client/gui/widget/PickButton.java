@@ -1,28 +1,20 @@
 package compasses.expandedstorage.impl.client.gui.widget;
 
-import compasses.expandedstorage.impl.client.function.ScreenSizePredicate;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Arrays;
 import java.util.List;
 
-// todo: make record
-@SuppressWarnings("ClassCanBeRecord")
-public final class PickButton {
+public class PickButton {
     private final ResourceLocation texture;
     private final Component title;
-    private final ScreenSizePredicate warningTest;
     private final List<Component> warningText;
 
-    public PickButton(ResourceLocation texture, Component title, ScreenSizePredicate warningTest, List<Component> warningText) {
+    public PickButton(ResourceLocation texture, Component title, Component... warningText) {
         this.texture = texture;
         this.title = title;
-        this.warningTest = warningTest;
-        this.warningText = warningText;
-    }
-
-    public PickButton(ResourceLocation texture, Component title) {
-        this(texture, title, ScreenSizePredicate::noTest, List.of());
+        this.warningText = Arrays.asList(warningText);
     }
 
     public ResourceLocation getTexture() {
@@ -33,8 +25,8 @@ public final class PickButton {
         return title;
     }
 
-    public ScreenSizePredicate getWarningTest() {
-        return warningTest;
+    public boolean shouldShowWarning(int scaledWidth, int scaledHeight) {
+        return false;
     }
 
     public List<Component> getWarningText() {
