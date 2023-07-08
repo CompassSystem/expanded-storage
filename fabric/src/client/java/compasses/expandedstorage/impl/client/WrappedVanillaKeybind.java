@@ -6,12 +6,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 
 public class WrappedVanillaKeybind implements Keybinding {
-
-    private final KeyMapping binding;
-
-    public WrappedVanillaKeybind() {
-        this.binding = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.expandedstorage.open_config_screen", Utils.KEY_BIND_KEY, "key.categories.inventory"));
-    }
+    private final KeyMapping binding = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.expandedstorage.open_config_screen", Utils.KEY_BIND_KEY, "key.categories.inventory"));
 
     @Override
     public boolean matches(int keyCode, int scanCode) {
