@@ -1,3 +1,4 @@
+import compasses.idk_plugin.JsonNormalizerReader
 import net.fabricmc.loom.task.RemapJarTask
 
 plugins {
@@ -327,4 +328,26 @@ tasks {
             archiveClassifier = "fat"
         }
     }
+
+    create("minJar", Jar::class.java) {
+        inputs.files(getByName("remapJar").outputs.files)
+
+        duplicatesStrategy = DuplicatesStrategy.FAIL
+
+        inputs.files.forEach {
+            if (it.extension == "jar") {
+                this.from(zipTree(it)) {
+                    exclude("**/MANIFEST.MF")
+                }
+            }
+        }
+
+        filesMatching(listOf("**/*.json", "**/*.mcmeta")) {
+            filter(JsonNormalizerReader::class.java)
+        }
+
+        dependsOn("remapJar")
+    }
+
+    build.get().dependsOn("minJar")
 }
