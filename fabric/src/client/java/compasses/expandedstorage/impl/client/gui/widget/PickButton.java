@@ -21,6 +21,10 @@ public final class PickButton {
         this.warningText = warningText;
     }
 
+    public PickButton(ResourceLocation texture, Component title) {
+        this(texture, title, ScreenSizePredicate::noTest, List.of());
+    }
+
     public ResourceLocation getTexture() {
         return texture;
     }

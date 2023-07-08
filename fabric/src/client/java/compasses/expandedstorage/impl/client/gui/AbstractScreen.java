@@ -23,16 +23,26 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHandler> {
-    private static final Map<ResourceLocation, ScreenConstructor<?>> SCREEN_CONSTRUCTORS = new HashMap<>();
-    private static final Map<ResourceLocation, ScreenSizeRetriever> SIZE_RETRIEVERS = new HashMap<>();
-    private static final Set<ResourceLocation> PREFERS_SINGLE_SCREEN = new HashSet<>();
+    private static final Map<ResourceLocation, ScreenConstructor<?>> SCREEN_CONSTRUCTORS = Map.of(
+       Utils.PAGINATED_SCREEN_TYPE, PageScreen::new,
+       Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::new,
+       Utils.SINGLE_SCREEN_TYPE, SingleScreen::new,
+       Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::new
+    );
+
+    // todo: these settings leave no room for rei/jei should we take those into consideration for minimum screen width
+    private static final Map<ResourceLocation, ScreenSizeRetriever> SIZE_RETRIEVERS = Map.of(
+            Utils.PAGINATED_SCREEN_TYPE, PageScreen::retrieveScreenSize,
+            Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::retrieveScreenSize,
+            Utils.SINGLE_SCREEN_TYPE, SingleScreen::retrieveScreenSize,
+            Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::retrieveScreenSize
+    );
+    private static final Set<ResourceLocation> PREFERS_SINGLE_SCREEN = Set.of(Utils.PAGINATED_SCREEN_TYPE, Utils.SCROLLABLE_SCREEN_TYPE);
 
     protected final int inventoryWidth, inventoryHeight, totalSlots;
     protected final ResourceLocation textureLocation;
@@ -262,18 +272,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
             return scaledHeight >= 384 && slots <= 270;
         }
         return false;
-    }
-
-    public static void declareScreenType(ResourceLocation type, ScreenConstructor<?> screenConstructor) {
-        AbstractScreen.SCREEN_CONSTRUCTORS.putIfAbsent(type, screenConstructor);
-    }
-
-    public static void declareScreenSizeRetriever(ResourceLocation type, ScreenSizeRetriever retriever) {
-        AbstractScreen.SIZE_RETRIEVERS.putIfAbsent(type, retriever);
-    }
-
-    public static void setPrefersSingleScreen(ResourceLocation type) {
-        AbstractScreen.PREFERS_SINGLE_SCREEN.add(type);
     }
 
     @Nullable

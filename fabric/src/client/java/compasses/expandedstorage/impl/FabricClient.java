@@ -6,12 +6,7 @@ import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.client.ChestBlockEntityRenderer;
 import compasses.expandedstorage.impl.client.gui.AbstractScreen;
-import compasses.expandedstorage.impl.client.gui.MiniStorageScreen;
-import compasses.expandedstorage.impl.client.gui.PageScreen;
-import compasses.expandedstorage.impl.client.gui.ScrollScreen;
-import compasses.expandedstorage.impl.client.gui.SingleScreen;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
-import compasses.expandedstorage.impl.client.helpers.ScreenTypeApi;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
 import compasses.expandedstorage.impl.item.MutationMode;
 import compasses.expandedstorage.impl.item.StorageMutator;
@@ -30,7 +25,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -42,7 +36,6 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -85,38 +78,6 @@ public class FabricClient implements ClientModInitializer {
                     Utils.id("entity/chest/" + blockId + "_back")
             );
         });
-
-        ScreenTypeApi.registerScreenButton(Utils.PAGINATED_SCREEN_TYPE,
-                Utils.id("textures/gui/page_button.png"),
-                Component.translatable("screen.ellemes_container_lib.page_screen")
-        );
-        ScreenTypeApi.registerScreenButton(Utils.SCROLLABLE_SCREEN_TYPE,
-                Utils.id("textures/gui/scroll_button.png"),
-                Component.translatable("screen.ellemes_container_lib.scroll_screen")
-        );
-        ScreenTypeApi.registerScreenButton(Utils.SINGLE_SCREEN_TYPE,
-                Utils.id("textures/gui/single_button.png"),
-                Component.translatable("screen.ellemes_container_lib.single_screen"),
-                (scaledWidth, scaledHeight) -> scaledWidth < 370 || scaledHeight < 386, // Smallest possible resolution a double netherite chest fits on.
-                List.of(
-                        Component.translatable("screen.ellemes_container_lib.off_screen_warning_1").withStyle(ChatFormatting.GRAY),
-                        Component.translatable("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
-                )
-        );
-
-        ScreenTypeApi.registerScreenType(Utils.PAGINATED_SCREEN_TYPE, PageScreen::new);
-        ScreenTypeApi.registerScreenType(Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::new);
-        ScreenTypeApi.registerScreenType(Utils.SINGLE_SCREEN_TYPE, SingleScreen::new);
-        ScreenTypeApi.registerScreenType(Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::new);
-
-        // todo: these settings leave no room for rei/jei should we take those into consideration for minimum screen width
-        ScreenTypeApi.registerDefaultScreenSize(Utils.PAGINATED_SCREEN_TYPE, PageScreen::retrieveScreenSize);
-        ScreenTypeApi.registerDefaultScreenSize(Utils.SCROLLABLE_SCREEN_TYPE, ScrollScreen::retrieveScreenSize);
-        ScreenTypeApi.registerDefaultScreenSize(Utils.SINGLE_SCREEN_TYPE, SingleScreen::retrieveScreenSize);
-        ScreenTypeApi.registerDefaultScreenSize(Utils.MINI_STORAGE_SCREEN_TYPE, MiniStorageScreen::retrieveScreenSize);
-
-        ScreenTypeApi.setPrefersSingleScreen(Utils.PAGINATED_SCREEN_TYPE);
-        ScreenTypeApi.setPrefersSingleScreen(Utils.SCROLLABLE_SCREEN_TYPE);
 
         MenuScreens.register(FabricMain.getScreenHandlerType(), AbstractScreen::createScreen);
 

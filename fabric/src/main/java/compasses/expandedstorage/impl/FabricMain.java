@@ -5,13 +5,10 @@ import compasses.expandedstorage.impl.block.misc.BasicLockable;
 import compasses.expandedstorage.impl.block.misc.CopperBlockHelper;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.impl.item.ChestMinecartItem;
 import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeReloadListener;
 import compasses.expandedstorage.impl.recipe.EntityConversionRecipe;
-import compasses.expandedstorage.impl.block.misc.ChestItemAccess;
-import compasses.expandedstorage.impl.block.misc.GenericItemAccess;
 import compasses.expandedstorage.impl.compat.htm.HTMLockable;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ModInitializer;
@@ -37,7 +34,6 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -91,15 +87,16 @@ public final class FabricMain implements ModInitializer {
 
         registerOxidisableAndWaxableBlocks();
 
-        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Utils.id("tab"),
-                FabricItemGroup.builder()
-                               .icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
-                               .displayItems((itemDisplayParameters, output) -> {
-                                   CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
-                                       output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                                   });
-                               })
-                               .title(Component.translatable("itemGroup.expandedstorage.tab")).build());
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Utils.id("tab"), FabricItemGroup
+                .builder()
+                .icon(() -> BuiltInRegistries.ITEM.get(Utils.id("netherite_chest")).getDefaultInstance())
+                .displayItems((itemDisplayParameters, output) -> {
+                    CommonMain.generateDisplayItems(itemDisplayParameters, stack -> {
+                        output.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    });
+                })
+                .title(Component.translatable("itemGroup.expandedstorage.tab")).build()
+        );
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> CommonMain.onPlayerUseEntity(world, player, hand, entity));
 

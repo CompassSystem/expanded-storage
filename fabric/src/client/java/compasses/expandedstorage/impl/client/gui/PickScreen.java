@@ -6,6 +6,7 @@ import compasses.expandedstorage.impl.client.gui.widget.PickButton;
 import compasses.expandedstorage.impl.client.gui.widget.ScreenPickButton;
 import compasses.expandedstorage.impl.config.client.ClientConfigManager;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
+import compasses.expandedstorage.impl.misc.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,7 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +25,25 @@ import java.util.function.Supplier;
 
 public final class PickScreen extends Screen {
     public static final Component CURRENT_OPTION_TEXT = Component.translatable("screen.ellemes_container_lib.current_option_notice").withStyle(ChatFormatting.GOLD);
-    public static final Map<ResourceLocation, PickButton> BUTTON_SETTINGS = new HashMap<>();
+    public static final Map<ResourceLocation, PickButton> BUTTON_SETTINGS = Map.of(
+            Utils.PAGINATED_SCREEN_TYPE, new PickButton(
+                    Utils.id("textures/gui/page_button.png"),
+                    Component.translatable("screen.ellemes_container_lib.page_screen")
+            ),
+            Utils.SCROLLABLE_SCREEN_TYPE, new PickButton(
+                    Utils.id("textures/gui/scroll_button.png"),
+                    Component.translatable("screen.ellemes_container_lib.scroll_screen")
+            ),
+            Utils.SINGLE_SCREEN_TYPE, new PickButton(
+                    Utils.id("textures/gui/single_button.png"),
+                    Component.translatable("screen.ellemes_container_lib.single_screen"),
+                    (scaledWidth, scaledHeight) -> scaledWidth < 370 || scaledHeight < 386, // Smallest possible resolution a double netherite chest fits on.
+                    List.of(
+                            Component.translatable("screen.ellemes_container_lib.off_screen_warning_1").withStyle(ChatFormatting.GRAY),
+                            Component.translatable("screen.ellemes_container_lib.off_screen_warning_2").withStyle(ChatFormatting.GRAY)
+                    )
+            )
+    );
     private final Set<ResourceLocation> options = ImmutableSortedSet.copyOf(PickScreen.BUTTON_SETTINGS.keySet());
     private final Supplier<Screen> returnToScreen;
     private final AbstractHandler handler;
