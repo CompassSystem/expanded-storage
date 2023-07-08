@@ -17,10 +17,12 @@ public final class ES1_17_1Schema2707v1 extends NamespacedSchema {
     @Override
     public Map<String, Supplier<TypeTemplate>> registerBlockEntities(Schema schema) {
         Map<String, Supplier<TypeTemplate>> map = super.registerBlockEntities(schema);
+
         schema.register(map, "expandedstorage:cursed_chest", () -> DSL.optionalFields("Items", DSL.list(References.ITEM_STACK.in(schema))));
         schema.register(map, "expandedstorage:old_cursed_chest", () -> DSL.optionalFields("Items", DSL.list(References.ITEM_STACK.in(schema))));
         schema.register(map, "expandedstorage:barrel", () -> DSL.optionalFields("Items", DSL.list(References.ITEM_STACK.in(schema))));
         schema.register(map, "expandedstorage:mini_chest", () -> DSL.optionalFields("Items", DSL.list(References.ITEM_STACK.in(schema))));
+
         return map;
     }
 }

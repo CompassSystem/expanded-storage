@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.entity;
 
+import compasses.expandedstorage.impl.CommonMain;
 import compasses.expandedstorage.impl.block.ChestBlock;
-import compasses.expandedstorage.impl.helpers.InventoryOpeningApi;
 import compasses.expandedstorage.impl.inventory.ExposedInventory;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
 import compasses.expandedstorage.impl.inventory.OpenableInventoryProvider;
@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
@@ -70,9 +71,11 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
     public InteractionResult interact(Player player, InteractionHand hand) {
         //noinspection resource
         boolean isClient = level().isClientSide();
+
         if (!isClient) {
-            InventoryOpeningApi.openEntityInventory((ServerPlayer) player, this);
+            CommonMain.openInventory((ServerPlayer) player, getOpenableInventory(new BaseContext((ServerLevel) level(), (ServerPlayer) player)), this::onInitialOpen, getForcedScreenType());
         }
+
         return InteractionResult.sidedSuccess(isClient);
     }
 
@@ -82,6 +85,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
         if (!level().isClientSide() && reason.shouldDestroy()) {
             Containers.dropContents(level(), this, this);
         }
+
         super.remove(reason);
     }
 
@@ -95,28 +99,33 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     public void destroy(DamageSource source) {
         this.kill();
+
         //noinspection resource
         if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
             Entity breaker = source.getDirectEntity();
+
             if (breaker != null && breaker.isShiftKeyDown()) {
                 ItemStack stack = new ItemStack(chestItem);
+
                 if (this.hasCustomName()) {
                     stack.setHoverName(this.getCustomName());
                 }
+
                 this.spawnAtLocation(stack);
                 this.spawnAtLocation(Items.MINECART);
             } else {
                 ItemStack stack = new ItemStack(this.getDropItem());
+
                 if (this.hasCustomName()) {
                     stack.setHoverName(this.getCustomName());
                 }
+
                 this.spawnAtLocation(stack);
             }
+
             //noinspection resource
-            if (!level().isClientSide) {
-                if (breaker != null && breaker.getType() == EntityType.PLAYER) {
-                    PiglinAi.angerNearbyPiglins((Player) breaker, true);
-                }
+            if (!level().isClientSide() && breaker != null && breaker.getType() == EntityType.PLAYER) {
+                PiglinAi.angerNearbyPiglins((Player) breaker, true);
             }
         }
     }

@@ -20,6 +20,7 @@ import compasses.expandedstorage.impl.block.misc.DoubleItemAccess;
 import compasses.expandedstorage.impl.block.misc.GenericItemAccess;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
+import compasses.expandedstorage.impl.inventory.OpenableInventory;
 import compasses.expandedstorage.impl.item.BlockMutatorBehaviour;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
 import compasses.expandedstorage.impl.item.EntityInteractableItem;
@@ -27,6 +28,7 @@ import compasses.expandedstorage.impl.item.MutationMode;
 import compasses.expandedstorage.impl.item.StorageConversionKit;
 import compasses.expandedstorage.impl.item.StorageMutator;
 import compasses.expandedstorage.impl.item.ToolUsageResult;
+import compasses.expandedstorage.impl.misc.ScreenHandlerFactoryAdapter;
 import compasses.expandedstorage.impl.misc.Tier;
 import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
@@ -44,6 +46,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.InteractionHand;
@@ -664,6 +669,22 @@ public final class CommonMain {
         }
 
         return result;
+    }
+
+    public static void openInventory(ServerPlayer player, OpenableInventory inventory, Consumer<ServerPlayer> onInitialOpen, ResourceLocation forcedScreenType) {
+        Component title = inventory.getInventoryTitle();
+
+        if (!inventory.canBeUsedBy(player)) {
+            player.displayClientMessage(Component.translatable("container.isLocked", title), true);
+            player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return;
+        }
+
+        if (!player.isSpectator()) {
+            onInitialOpen.accept(player);
+        }
+
+        player.openMenu(new ScreenHandlerFactoryAdapter(title, inventory.getInventory(), forcedScreenType));
     }
 
     @SuppressWarnings("unused")

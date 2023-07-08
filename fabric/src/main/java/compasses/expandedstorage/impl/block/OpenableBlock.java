@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.block;
 
+import compasses.expandedstorage.impl.CommonMain;
 import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
-import compasses.expandedstorage.impl.helpers.InventoryOpeningApi;
 import compasses.expandedstorage.impl.inventory.OpenableInventoryProvider;
 import compasses.expandedstorage.impl.inventory.context.BlockContext;
 import compasses.expandedstorage.impl.registration.ModBlocks;
@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -101,9 +102,11 @@ public abstract class OpenableBlock extends Block implements OpenableInventoryPr
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         boolean isClient = level.isClientSide();
+
         if (!isClient) {
-            InventoryOpeningApi.openBlockInventory((ServerPlayer) player, pos, this);
+            CommonMain.openInventory((ServerPlayer) player, getOpenableInventory(new BlockContext((ServerLevel) level, (ServerPlayer) player, pos)), this::onInitialOpen, getForcedScreenType());
         }
+
         return InteractionResult.sidedSuccess(isClient);
     }
 }
