@@ -78,11 +78,11 @@ public final class FabricMain implements ModInitializer {
 
         initializer.commonInit();
         initializer.baseInit(true);
-        initializer.chestInit(lockable, BlockItem::new, ChestItemAccess::new, ChestMinecartItem::new);
-        initializer.oldChestInit(lockable, ChestItemAccess::new);
+        initializer.chestInit(lockable);
+        initializer.oldChestInit(lockable);
         initializer.commonChestInit();
-        initializer.barrelInit(GenericItemAccess::new, lockable, ConventionalBlockTags.WOODEN_BARRELS);
-        initializer.miniStorageBlockInit(GenericItemAccess::new, lockable);
+        initializer.barrelInit(lockable, ConventionalBlockTags.WOODEN_BARRELS);
+        initializer.miniStorageBlockInit(lockable);
 
         //noinspection UnstableApiUsage
         ItemStorage.SIDED.registerForBlocks(CommonMain::getItemAccess, initializer.getBlocks().toArray(OpenableBlock[]::new));
