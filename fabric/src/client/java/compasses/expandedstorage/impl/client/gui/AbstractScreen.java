@@ -201,7 +201,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
 
     public static AbstractScreen createScreen(AbstractHandler handler, Inventory playerInventory, Component title) {
         ResourceLocation forcedScreenType = handler.getForcedScreenType();
-        ResourceLocation preference = forcedScreenType != null ? forcedScreenType : ClientConfigManager.getClientConfig().getDefaultScreenType();
+        ResourceLocation preference = forcedScreenType != null ? forcedScreenType : FabricClient.CONFIG.getPreferredScreenType();
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
         int slots = handler.getInventory().getContainerSize();
@@ -292,7 +292,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         if (this.handleKeyPress(keyCode, scanCode, modifiers)) {
             return true;
         } else if (FabricClient.isConfigKeyPressed(keyCode, scanCode, modifiers) && menu.getForcedScreenType() == null
-                && ClientConfigManager.getClientConfig().getDefaultScreenType() != null) { // todo-: check this condition
+                && FabricClient.CONFIG.getPreferredScreenType() != null) { // todo-: check this condition
             minecraft.setScreen(new PickScreen(this));
             return true;
         }

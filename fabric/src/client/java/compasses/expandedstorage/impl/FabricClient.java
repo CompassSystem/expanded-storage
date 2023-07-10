@@ -5,6 +5,8 @@ import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.client.ChestBlockEntityRenderer;
+import compasses.expandedstorage.impl.client.config.ConfigV0;
+import compasses.expandedstorage.impl.client.config.ConfigWrapper;
 import compasses.expandedstorage.impl.client.gui.AbstractScreen;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
@@ -43,6 +45,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +56,7 @@ public class FabricClient implements ClientModInitializer {
     private static final Map<ResourceLocation, ResourceLocation[]> CHEST_TEXTURES = new HashMap<>();
     private static final FabricLoader LOADER = FabricLoader.getInstance();
     private static final Keybinding BINDING;
+    public static final ConfigWrapper CONFIG;
 
     static {
         if (FabricClient.isModLoaded("amecs")) {
@@ -60,6 +64,9 @@ public class FabricClient implements ClientModInitializer {
         } else {
             BINDING = new WrappedVanillaKeybind();
         }
+
+        Path configPath = LOADER.getConfigDir();
+        CONFIG = new ConfigWrapper(configPath.resolve("expandedstorage.json"), configPath.resolve("ninjaphenix-container-library.json"));
     }
 
     @Override

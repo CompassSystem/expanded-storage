@@ -1,6 +1,7 @@
 package compasses.expandedstorage.impl.client.gui;
 
 import com.google.common.collect.ImmutableSortedSet;
+import compasses.expandedstorage.impl.FabricClient;
 import compasses.expandedstorage.impl.client.gui.widget.PickButton;
 import compasses.expandedstorage.impl.client.gui.widget.ScreenPickButton;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
@@ -68,7 +69,7 @@ public final class PickScreen extends Screen {
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
         if (handler != null) {
-            ResourceLocation preference = ClientConfigManager.getClientConfig().getDefaultScreenType();
+            ResourceLocation preference = FabricClient.CONFIG.getPreferredScreenType();
             if (preference == null) {
                 minecraft.player.closeContainer();
                 return;
@@ -92,7 +93,7 @@ public final class PickScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        ResourceLocation preference = ClientConfigManager.getClientConfig().getDefaultScreenType();
+        ResourceLocation preference = FabricClient.CONFIG.getPreferredScreenType();
         int choices = options.size();
         int columns = Math.min(Math.floorDiv(width, 96), choices);
         int innerPadding = Math.min((width - columns * 96) / (columns + 1), 20); // 20 is smallest gap for any screen.
@@ -120,7 +121,7 @@ public final class PickScreen extends Screen {
     }
 
     private void updatePlayerPreference(ResourceLocation selection) {
-        ClientConfigManager.getClientConfig().setDefaultScreenType(selection);
+        FabricClient.CONFIG.setPreferredScreenType(selection);
         this.onClose();
     }
 
