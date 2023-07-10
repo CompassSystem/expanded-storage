@@ -2,10 +2,7 @@ package compasses.expandedstorage.impl.block.entity;
 
 import compasses.expandedstorage.impl.block.AbstractChestBlock;
 import compasses.expandedstorage.impl.block.ChestBlock;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
-import compasses.expandedstorage.impl.block.strategies.ItemAccess;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
-import compasses.expandedstorage.impl.block.strategies.Observable;
 import compasses.expandedstorage.impl.inventory.VariableInventory;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import net.minecraft.core.BlockPos;
@@ -25,7 +22,6 @@ import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class ChestBlockEntity extends OldChestBlockEntity {
@@ -55,23 +51,19 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
     };
     private final ChestLidController lidController;
 
-    public ChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
-                            Function<OpenableBlockEntity, ItemAccess> access, Supplier<Lockable> lockable) {
-        super(type, pos, state, blockId, access, lockable);
-        this.setObservable(new Observable() {
-            @Override
-            public void playerStartViewing(Player player) {
-                BlockEntity self = ChestBlockEntity.this;
-                manager.incrementOpeners(player, self.getLevel(), self.getBlockPos(), self.getBlockState());
-            }
-
-            @Override
-            public void playerStopViewing(Player player) {
-                BlockEntity self = ChestBlockEntity.this;
-                manager.decrementOpeners(player, self.getLevel(), self.getBlockPos(), self.getBlockState());
-            }
-        });
+    public ChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Supplier<Lockable> lockable) {
+        super(type, pos, state, blockId, lockable);
         lidController = new ChestLidController();
+    }
+
+    @Override
+    protected void playerStartViewing(Player player) {
+        manager.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+    }
+
+    @Override
+    protected void playerStopViewing(Player player) {
+        manager.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
     }
 
     @SuppressWarnings("unused")

@@ -1,6 +1,5 @@
 package compasses.expandedstorage.impl.block.entity.extendable;
 
-import compasses.expandedstorage.impl.block.strategies.Observable;
 import compasses.expandedstorage.impl.inventory.WrappedInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,7 +20,6 @@ import java.util.stream.IntStream;
 
 public abstract class InventoryBlockEntity extends OpenableBlockEntity implements WrappedInventory {
     private final NonNullList<ItemStack> items;
-    private Observable observable;
     private final WorldlyContainer inventory = new WorldlyContainer() {
         private int[] availableSlots;
 
@@ -101,16 +99,24 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
 
         @Override
         public void startOpen(Player player) {
-            if (player.isSpectator() || observable == null) return;
-            observable.playerStartViewing(player);
+            if (player.isSpectator()) return;
+            InventoryBlockEntity.this.playerStartViewing(player);
         }
 
         @Override
         public void stopOpen(Player player) {
-            if (player.isSpectator() || observable == null) return;
-            observable.playerStopViewing(player);
+            if (player.isSpectator()) return;
+            InventoryBlockEntity.this.playerStopViewing(player);
         }
     };
+
+    protected void playerStartViewing(Player player) {
+
+    }
+
+    protected void playerStopViewing(Player player) {
+
+    }
 
     public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, int inventorySize) {
         super(type, pos, state, blockId, defaultName);
@@ -137,10 +143,6 @@ public abstract class InventoryBlockEntity extends OpenableBlockEntity implement
     public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, items);
-    }
-
-    protected void setObservable(Observable observable) {
-        if (this.observable == null) this.observable = observable;
     }
 }
 

@@ -15,9 +15,6 @@ import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.block.entity.MiniStorageBlockEntity;
 import compasses.expandedstorage.impl.block.entity.OldChestBlockEntity;
 import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
-import compasses.expandedstorage.impl.block.misc.ChestItemAccess;
-import compasses.expandedstorage.impl.block.misc.DoubleItemAccess;
-import compasses.expandedstorage.impl.block.misc.GenericItemAccess;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
@@ -284,7 +281,7 @@ public final class CommonMain {
             createChest(Utils.id("obsidian_chest"), stat("open_obsidian_chest"), Tiers.OBSIDIAN, Properties.OBSIDIAN);
             createChest(Utils.id("netherite_chest"), stat("open_netherite_chest"), Tiers.NETHERITE, Properties.NETHERITE);
 
-            CommonMain.chestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), ChestItemAccess::new, lockable), chestBlocks.toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
+            CommonMain.chestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), chestBlocks.toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
         }
 
         public final List<AbstractChestBlock> oldChestBlocks = new ArrayList<>(tiers);
@@ -305,7 +302,7 @@ public final class CommonMain {
             createOldChest(Utils.id("old_obsidian_chest"), stat("open_old_obsidian_chest"), Tiers.OBSIDIAN, Properties.OBSIDIAN);
             createOldChest(Utils.id("old_netherite_chest"), stat("open_old_netherite_chest"), Tiers.NETHERITE, Properties.NETHERITE);
 
-            CommonMain.oldChestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.OLD_CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), ChestItemAccess::new, lockable), oldChestBlocks.toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
+            CommonMain.oldChestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.OLD_CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), oldChestBlocks.toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
         }
 
         public void commonChestInit() {
@@ -489,7 +486,7 @@ public final class CommonMain {
             createBarrel(Utils.id("obsidian_barrel"), stat("open_obsidian_barrel"), Tiers.OBSIDIAN, obsidianBarrelProperties);
             createBarrel(Utils.id("netherite_barrel"), stat("open_netherite_barrel"), Tiers.NETHERITE, netheriteBarrelProperties);
 
-            CommonMain.barrelBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.BARREL_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), GenericItemAccess::new, lockable), barrelBlocks.toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
+            CommonMain.barrelBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.BARREL_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), barrelBlocks.toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
 
             Predicate<Block> isUpgradableBarrelBlock = (block) -> block instanceof BarrelBlock || block instanceof net.minecraft.world.level.block.BarrelBlock || block.defaultBlockState().is(barrelTag);
 
@@ -572,7 +569,7 @@ public final class CommonMain {
             createMiniStorageBlock(Utils.id("obsidian_mini_barrel"), stat("open_obsidian_mini_barrel"), Tiers.OBSIDIAN, obsidianBarrelSettings, false);
             createMiniStorageBlock(Utils.id("netherite_mini_barrel"), stat("open_netherite_mini_barrel"), Tiers.NETHERITE, netheriteBarrelSettings, false);
 
-            CommonMain.miniStorageBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.MINI_STORAGE_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), GenericItemAccess::new, lockable), miniStorageBlocks.toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
+            CommonMain.miniStorageBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.MINI_STORAGE_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), miniStorageBlocks.toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
 
             Predicate<Block> isMiniStorage = block -> block instanceof MiniStorageBlock;
             CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (useContext, level, state, pos, stack) -> {
@@ -611,37 +608,34 @@ public final class CommonMain {
     @SuppressWarnings("UnstableApiUsage")
     public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Direction direction) {
         if (blockEntity instanceof OldChestBlockEntity entity) {
-            DoubleItemAccess access = entity.getItemAccess();
             EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
             Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
-            if (access.hasCachedAccess() || type == EsChestType.SINGLE) {
-                return access.get();
+            if (entity.hasCachedTransferStorage() || type == EsChestType.SINGLE) {
+                return entity.getTransferStorage();
             }
 
             if (level.getBlockEntity(pos.relative(AbstractChestBlock.getDirectionToAttached(type, facing))) instanceof OldChestBlockEntity otherEntity) {
-                DoubleItemAccess otherAccess = otherEntity.getItemAccess();
-
-                if (otherAccess.hasCachedAccess()) {
-                    return otherAccess.get();
+                if (otherEntity.hasCachedTransferStorage()) {
+                    return otherEntity.getTransferStorage();
                 }
 
-                DoubleItemAccess first, second;
+                OldChestBlockEntity first, second;
 
                 if (AbstractChestBlock.getBlockType(type) == DoubleBlockCombiner.BlockType.FIRST) {
-                    first = access;
-                    second = otherAccess;
+                    first = entity;
+                    second = otherEntity;
                 } else {
-                    first = otherAccess;
-                    second = access;
+                    first = otherEntity;
+                    second = entity;
                 }
 
-                first.setOther(second);
+                first.setCachedTransferStorage(second);
 
-                return first.get();
+                return first.getTransferStorage();
             }
         } else if (blockEntity instanceof OpenableBlockEntity entity) {
-            return entity.getItemAccess().get();
+            return entity.getTransferStorage();
         }
 
         return null;

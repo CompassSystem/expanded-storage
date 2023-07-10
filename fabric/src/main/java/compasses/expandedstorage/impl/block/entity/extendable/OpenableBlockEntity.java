@@ -1,8 +1,10 @@
 package compasses.expandedstorage.impl.block.entity.extendable;
 
-import compasses.expandedstorage.impl.block.strategies.ItemAccess;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +12,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,9 +27,10 @@ import org.jetbrains.annotations.Nullable;
 public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory, Nameable {
     private final ResourceLocation blockId;
     private final Component defaultName;
-    private ItemAccess itemAccess;
     private Lockable lockable;
     private Component customName;
+
+    protected Storage<ItemVariant> storage;
 
     public OpenableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName) {
         super(type, pos, state);
@@ -72,14 +77,6 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         return blockId;
     }
 
-    public ItemAccess getItemAccess() {
-        return itemAccess;
-    }
-
-    protected void setItemAccess(ItemAccess itemAccess) {
-        if (this.itemAccess == null) this.itemAccess = itemAccess;
-    }
-
     public Lockable getLockable() {
         return lockable;
     }
@@ -115,5 +112,78 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
 
     public boolean isDinnerbone() {
         return this.hasCustomName() && customName.getString().equals("Dinnerbone");
+    }
+
+    public Storage<ItemVariant> getTransferStorage() {
+        if (storage == null) {
+            NonNullList<ItemStack> items = this.getItems();
+            Container wrapped = this.getInventory();
+            Container transferApiInventory = new Container() {
+                @Override
+                public int getContainerSize() {
+                    return wrapped.getContainerSize();
+                }
+
+                @Override
+                public boolean isEmpty() {
+                    return wrapped.isEmpty();
+                }
+
+                @NotNull
+                @Override
+                public ItemStack getItem(int slot) {
+                    return wrapped.getItem(slot);
+                }
+
+                @NotNull
+                @Override
+                public ItemStack removeItem(int slot, int amount) {
+                    return ContainerHelper.removeItem(items, slot, amount);
+                }
+
+                @NotNull
+                @Override
+                public ItemStack removeItemNoUpdate(int slot) {
+                    return wrapped.removeItemNoUpdate(slot);
+                }
+
+                @Override
+                public void setItem(int slot, ItemStack stack) {
+                    items.set(slot, stack);
+                    if (stack.getCount() > this.getMaxStackSize()) {
+                        stack.setCount(this.getMaxStackSize());
+                    }
+                }
+
+                @Override
+                public void setChanged() {
+                    wrapped.setChanged();
+                }
+
+                @Override
+                public boolean stillValid(Player player) {
+                    return wrapped.stillValid(player);
+                }
+
+                @Override
+                public void clearContent() {
+                    wrapped.clearContent();
+                }
+
+                @Override
+                public void startOpen(Player player) {
+                    wrapped.startOpen(player);
+                }
+
+                @Override
+                public void stopOpen(Player player) {
+                    wrapped.stopOpen(player);
+                }
+            };
+            //noinspection UnstableApiUsage
+            storage = InventoryStorage.of(transferApiInventory, null);
+        }
+
+        return storage;
     }
 }

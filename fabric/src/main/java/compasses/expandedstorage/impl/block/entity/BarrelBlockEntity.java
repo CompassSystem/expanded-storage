@@ -2,8 +2,6 @@ package compasses.expandedstorage.impl.block.entity;
 
 import compasses.expandedstorage.impl.block.OpenableBlock;
 import compasses.expandedstorage.impl.block.entity.extendable.ExposedInventoryBlockEntity;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
-import compasses.expandedstorage.impl.block.strategies.ItemAccess;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import net.minecraft.core.BlockPos;
@@ -21,7 +19,6 @@ import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
@@ -49,10 +46,8 @@ public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
         }
     };
 
-    public BarrelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId,
-                             Function<OpenableBlockEntity, ItemAccess> access, Supplier<Lockable> lockable) {
+    public BarrelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Supplier<Lockable> lockable) {
         super(type, pos, state, blockId, ((OpenableBlock) state.getBlock()).getInventoryTitle(), ((OpenableBlock) state.getBlock()).getSlotCount());
-        this.setItemAccess(access.apply(this));
         this.setLockable(lockable.get());
     }
 
