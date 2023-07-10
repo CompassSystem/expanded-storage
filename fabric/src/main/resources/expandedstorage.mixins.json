@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "compasses.expandedstorage.impl.mixin.common",
+  "plugin": "compasses.expandedstorage.impl.mixin.MixinPlugin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "BlockEntityIdFix",
+    "DataFixerEntrypoint",
+    "SparrowBlockFix",
+    "SparrowItemIdFix",
+    "SpectatorBlockInventoryViewingFix",
+    "SpectatorEntityInventoryViewingFix",
+    "HTMChestCompat",
+    "HTMLockableBlockEntityCompat",
+    "MiniStorageHeadEquipment",
+    "ToweletteCompat",
+    "SyncRecipesMixin"
+  ],
+  "injectors": { "defaultRequire": 1 },
+  "minVersion": "0.8"
+}

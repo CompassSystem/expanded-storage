@@ -1,1 +1,4 @@
-- Update dependencies for 1.20 release and lessen version range restriction in preparation for 1.20.1
+- Update to 1.20.1
+- Make project fabric only whilst remaining quilt compatible.
+- Fix barrel breaking textures.
+- Fix error in logs from storage_mutator model.

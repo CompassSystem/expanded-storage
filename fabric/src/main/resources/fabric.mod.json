@@ -2,23 +2,23 @@
   "schemaVersion": 1,
   "depends": {
     "fabricloader": ">=0.14.21",
-    "minecraft": ">=1.20 <1.20.2",
-    "fabric-api": ">=0.82.1+1.20"
+    "minecraft": "=1.20.1",
+    "fabric-api": ">=0.84.0+1.20.1"
   },
   "entrypoints": {
-    "main": [ "compasses.expandedstorage.fabric.FabricMain" ],
-    "client": [ "compasses.expandedstorage.fabric.FabricClient" ],
-    "fabric-datagen": [ "compasses.expandedstorage.thread.datagen.Main" ],
-    "emi": [ "compasses.expandedstorage.common.client.EmiCompat" ],
-    "jei_mod_plugin": [ "compasses.expandedstorage.common.client.JeiCompat" ],
-    "modmenu": [ "compasses.expandedstorage.thread.client.ModMenuCompat" ],
-    "rei_client": [ "compasses.expandedstorage.thread.client.ReiCompat" ]
+    "main": [ "compasses.expandedstorage.impl.FabricMain" ],
+    "client": [ "compasses.expandedstorage.impl.FabricClient" ],
+    "fabric-datagen": [ "compasses.expandedstorage.impl.datagen.Main" ],
+    "emi": [ "compasses.expandedstorage.impl.client.compat.EmiCompat" ],
+    "jei_mod_plugin": [ "compasses.expandedstorage.impl.client.compat.JeiCompat" ],
+    "modmenu": [ "compasses.expandedstorage.impl.client.compat.ModMenuCompat" ],
+    "rei_client": [ "compasses.expandedstorage.impl.client.compat.ReiCompat" ]
   },
   "environment": "*",
   "authors": [ "Compasses" ],
   "mixins": [
-    "expandedstorage-common.mixins.json",
-    "expandedstorage-thread.mixins.json"
+    "expandedstorage.mixins.json",
+    "client-expandedstorage.mixins.json"
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/expanded-storage",

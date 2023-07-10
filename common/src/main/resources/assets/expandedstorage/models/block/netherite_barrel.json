@@ -1,6 +1,0 @@
-{
-  "parent": "expandedstorage:block/parent/barrel",
-  "textures": {
-    "strip": "expandedstorage:block/netherite_barrel_strip"
-  }
-}

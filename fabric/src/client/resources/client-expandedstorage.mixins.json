@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "compasses.expandedstorage.impl.mixin.client",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "ErrorlessTextureManager",
+    "LastAfterInitCallbackMixin"
+  ],
+  "injectors": { "defaultRequire": 1 },
+  "minVersion": "0.8"
+}
