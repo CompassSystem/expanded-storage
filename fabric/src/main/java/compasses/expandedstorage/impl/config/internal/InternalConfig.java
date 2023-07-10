@@ -3,7 +3,6 @@ package compasses.expandedstorage.impl.config.internal;
 import com.google.gson.annotations.SerializedName;
 import compasses.expandedstorage.impl.config.common.CommonConfigManager;
 import compasses.expandedstorage.impl.misc.Utils;
-import net.minecraft.SharedConstants;
 
 public class InternalConfig {
     @SerializedName("_README")
@@ -12,22 +11,8 @@ public class InternalConfig {
     @SerializedName("config_version")
     private int configVersion = Utils.CURRENT_CONFIG_VERSION;
 
-    @SerializedName("shown_wrong_platform_version")
-    private String shownWrongPlatformVersion = null;
-
     @SerializedName("use_global_config")
     private boolean useGlobalConfig = true;
-
-    public boolean showPlatformWarning() {
-        String currentVersion = SharedConstants.getCurrentVersion().getName();
-        if (shownWrongPlatformVersion == null || !shownWrongPlatformVersion.equals(currentVersion)) {
-            shownWrongPlatformVersion = currentVersion;
-            CommonConfigManager.saveInternalConfig();
-            return true;
-        }
-
-        return false;
-    }
 
     public boolean shouldUseGlobalConfig() {
         return useGlobalConfig;
