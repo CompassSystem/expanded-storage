@@ -2,7 +2,6 @@ package compasses.expandedstorage.impl.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import compasses.expandedstorage.impl.client.function.ScreenSize;
-import compasses.expandedstorage.impl.config.client.ClientConfigManager;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.impl.inventory.handler.ToggleableSlot;
 import compasses.expandedstorage.impl.misc.Utils;

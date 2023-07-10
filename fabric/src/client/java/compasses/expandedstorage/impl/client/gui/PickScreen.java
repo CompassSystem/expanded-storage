@@ -3,7 +3,6 @@ package compasses.expandedstorage.impl.client.gui;
 import com.google.common.collect.ImmutableSortedSet;
 import compasses.expandedstorage.impl.client.gui.widget.PickButton;
 import compasses.expandedstorage.impl.client.gui.widget.ScreenPickButton;
-import compasses.expandedstorage.impl.config.client.ClientConfigManager;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.impl.misc.Utils;
 import net.minecraft.ChatFormatting;

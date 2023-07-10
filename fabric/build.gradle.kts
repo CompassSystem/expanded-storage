@@ -392,7 +392,7 @@ curseforge {
         val minJar = project.tasks.getByName("minJar")
 
         mainArtifact(minJar, closureOf<CurseArtifact> {
-            displayName = "Fabric $modVersion"
+            displayName = "Fabric/Quilt $modVersion"
             artifact = minJar
         })
 
@@ -401,6 +401,7 @@ curseforge {
 
         gameVersionStrings = buildList {
             add("Fabric")
+            add("Quilt")
             add("Java " + project.extensions.getByType(JavaPluginExtension::class.java).targetCompatibility.majorVersion)
             add(minecraftVersion)
         }
