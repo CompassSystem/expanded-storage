@@ -5,10 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.recipe.conditions.RecipeCondition;
 import compasses.expandedstorage.impl.recipe.misc.JsonHelper;
 import compasses.expandedstorage.impl.recipe.misc.PartialBlockState;
 import compasses.expandedstorage.impl.recipe.misc.RecipeTool;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadListener {
+public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
     private static final Logger LOGGER = LoggerFactory.getLogger("expanded-storage");
     private final List<BlockConversionRecipe<?>> blockRecipes = new ArrayList<>();
     private final List<EntityConversionRecipe<?>> entityRecipes = new ArrayList<>();
@@ -82,5 +84,10 @@ public class ConversionRecipeReloadListener extends SimpleJsonResourceReloadList
         EntityType<?> output = BuiltInRegistries.ENTITY_TYPE.getOptional(resultId).orElseThrow();
         JsonHelper.checkHasEntry(root, "inputs");
         entityRecipes.add(new EntityConversionRecipe<>(recipeTool, output, RecipeCondition.readEntityCondition(root.get("inputs"))));
+    }
+
+    @Override
+    public ResourceLocation getFabricId() {
+        return Utils.id("conversion_recipe_loader");
     }
 }

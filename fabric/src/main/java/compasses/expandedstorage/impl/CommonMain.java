@@ -20,7 +20,6 @@ import compasses.expandedstorage.impl.entity.ChestMinecart;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
 import compasses.expandedstorage.impl.item.BlockMutatorBehaviour;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
-import compasses.expandedstorage.impl.item.EntityInteractableItem;
 import compasses.expandedstorage.impl.item.MutationMode;
 import compasses.expandedstorage.impl.item.StorageConversionKit;
 import compasses.expandedstorage.impl.item.StorageMutator;
@@ -30,10 +29,6 @@ import compasses.expandedstorage.impl.misc.Tier;
 import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
-import compasses.expandedstorage.impl.registration.ModItems;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -48,32 +43,23 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.datafix.fixes.References;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WeatheringCopper;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -605,66 +591,6 @@ public final class CommonMain {
         }
     }
 
-    @SuppressWarnings("UnstableApiUsage")
-    public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Direction direction) {
-        if (blockEntity instanceof OldChestBlockEntity entity) {
-            EsChestType type = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
-            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
-
-            if (entity.hasCachedTransferStorage() || type == EsChestType.SINGLE) {
-                return entity.getTransferStorage();
-            }
-
-            if (level.getBlockEntity(pos.relative(AbstractChestBlock.getDirectionToAttached(type, facing))) instanceof OldChestBlockEntity otherEntity) {
-                if (otherEntity.hasCachedTransferStorage()) {
-                    return otherEntity.getTransferStorage();
-                }
-
-                OldChestBlockEntity first, second;
-
-                if (AbstractChestBlock.getBlockType(type) == DoubleBlockCombiner.BlockType.FIRST) {
-                    first = entity;
-                    second = otherEntity;
-                } else {
-                    first = otherEntity;
-                    second = entity;
-                }
-
-                first.setCachedTransferStorage(second);
-
-                return first.getTransferStorage();
-            }
-        } else if (blockEntity instanceof OpenableBlockEntity entity) {
-            return entity.getTransferStorage();
-        }
-
-        return null;
-    }
-
-    public static InteractionResult onPlayerUseEntity(Level level, Player player, InteractionHand hand, Entity entity) {
-        if (player.isSpectator() || !player.isShiftKeyDown()) {
-            return InteractionResult.PASS;
-        }
-
-        ItemStack handStack = player.getItemInHand(hand);
-
-        if (!(handStack.getItem() instanceof EntityInteractableItem item)) {
-            return InteractionResult.PASS;
-        }
-
-        if (player.getCooldowns().isOnCooldown(handStack.getItem())) {
-            return InteractionResult.CONSUME;
-        }
-
-        InteractionResult result = item.es_interactEntity(level, entity, player, hand, handStack);
-
-        if (result == InteractionResult.FAIL) {
-            result = InteractionResult.CONSUME;
-        }
-
-        return result;
-    }
-
     public static void openInventory(ServerPlayer player, OpenableInventory inventory, Consumer<ServerPlayer> onInitialOpen, ResourceLocation forcedScreenType) {
         Component title = inventory.getInventoryTitle();
 
@@ -679,129 +605,5 @@ public final class CommonMain {
         }
 
         player.openMenu(new ScreenHandlerFactoryAdapter(title, inventory.getInventory(), forcedScreenType));
-    }
-
-    @SuppressWarnings("unused")
-    public static void generateDisplayItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, Consumer<ItemStack> output) {
-        Consumer<Item> wrap = item -> output.accept(item.getDefaultInstance());
-        Consumer<Item> sparrowWrap = item -> {
-            wrap.accept(item);
-
-            ItemStack stack = new ItemStack(item);
-            CompoundTag tag = new CompoundTag();
-            CompoundTag blockStateTag = new CompoundTag();
-            blockStateTag.putString("sparrow", "true");
-            tag.put("BlockStateTag", blockStateTag);
-            stack.setTag(tag);
-            output.accept(stack);
-        };
-
-        for (MutationMode mode : MutationMode.values()) {
-            ItemStack stack = new ItemStack(ModItems.STORAGE_MUTATOR);
-            CompoundTag tag = new CompoundTag();
-            tag.putByte("mode", mode.toByte());
-            stack.setTag(tag);
-            output.accept(stack);
-        }
-
-        {
-            ItemStack sparrowMutator = new ItemStack(ModItems.STORAGE_MUTATOR);
-            CompoundTag tag = new CompoundTag();
-            tag.putByte("mode", MutationMode.SWAP_THEME.toByte());
-            sparrowMutator.setTag(tag);
-            sparrowMutator.setHoverName(Component.literal("Sparrow").withStyle(ChatFormatting.ITALIC));
-            output.accept(sparrowMutator);
-        }
-
-        // todo: add lock stuff when finished and ported.
-        wrap.accept(ModItems.WOOD_TO_COPPER_CONVERSION_KIT);
-        wrap.accept(ModItems.WOOD_TO_IRON_CONVERSION_KIT);
-        wrap.accept(ModItems.WOOD_TO_GOLD_CONVERSION_KIT);
-        wrap.accept(ModItems.WOOD_TO_DIAMOND_CONVERSION_KIT);
-        wrap.accept(ModItems.WOOD_TO_OBSIDIAN_CONVERSION_KIT);
-        wrap.accept(ModItems.WOOD_TO_NETHERITE_CONVERSION_KIT);
-        wrap.accept(ModItems.COPPER_TO_IRON_CONVERSION_KIT);
-        wrap.accept(ModItems.COPPER_TO_GOLD_CONVERSION_KIT);
-        wrap.accept(ModItems.COPPER_TO_DIAMOND_CONVERSION_KIT);
-        wrap.accept(ModItems.COPPER_TO_OBSIDIAN_CONVERSION_KIT);
-        wrap.accept(ModItems.COPPER_TO_NETHERITE_CONVERSION_KIT);
-        wrap.accept(ModItems.IRON_TO_GOLD_CONVERSION_KIT);
-        wrap.accept(ModItems.IRON_TO_DIAMOND_CONVERSION_KIT);
-        wrap.accept(ModItems.IRON_TO_OBSIDIAN_CONVERSION_KIT);
-        wrap.accept(ModItems.IRON_TO_NETHERITE_CONVERSION_KIT);
-        wrap.accept(ModItems.GOLD_TO_DIAMOND_CONVERSION_KIT);
-        wrap.accept(ModItems.GOLD_TO_OBSIDIAN_CONVERSION_KIT);
-        wrap.accept(ModItems.GOLD_TO_NETHERITE_CONVERSION_KIT);
-        wrap.accept(ModItems.DIAMOND_TO_OBSIDIAN_CONVERSION_KIT);
-        wrap.accept(ModItems.DIAMOND_TO_NETHERITE_CONVERSION_KIT);
-        wrap.accept(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT);
-        wrap.accept(ModItems.WOOD_CHEST);
-        wrap.accept(ModItems.PUMPKIN_CHEST);
-        wrap.accept(ModItems.PRESENT);
-        wrap.accept(ModItems.BAMBOO_CHEST);
-        wrap.accept(ModItems.MOSS_CHEST);
-        wrap.accept(ModItems.IRON_CHEST);
-        wrap.accept(ModItems.GOLD_CHEST);
-        wrap.accept(ModItems.DIAMOND_CHEST);
-        wrap.accept(ModItems.OBSIDIAN_CHEST);
-        wrap.accept(ModItems.NETHERITE_CHEST);
-        wrap.accept(ModItems.WOOD_CHEST_MINECART);
-        wrap.accept(ModItems.PUMPKIN_CHEST_MINECART);
-        wrap.accept(ModItems.PRESENT_MINECART);
-        wrap.accept(ModItems.BAMBOO_CHEST_MINECART);
-        wrap.accept(ModItems.MOSS_CHEST_MINECART);
-        wrap.accept(ModItems.IRON_CHEST_MINECART);
-        wrap.accept(ModItems.GOLD_CHEST_MINECART);
-        wrap.accept(ModItems.DIAMOND_CHEST_MINECART);
-        wrap.accept(ModItems.OBSIDIAN_CHEST_MINECART);
-        wrap.accept(ModItems.NETHERITE_CHEST_MINECART);
-        wrap.accept(ModItems.OLD_WOOD_CHEST);
-        wrap.accept(ModItems.OLD_IRON_CHEST);
-        wrap.accept(ModItems.OLD_GOLD_CHEST);
-        wrap.accept(ModItems.OLD_DIAMOND_CHEST);
-        wrap.accept(ModItems.OLD_OBSIDIAN_CHEST);
-        wrap.accept(ModItems.OLD_NETHERITE_CHEST);
-        wrap.accept(ModItems.COPPER_BARREL);
-        wrap.accept(ModItems.EXPOSED_COPPER_BARREL);
-        wrap.accept(ModItems.WEATHERED_COPPER_BARREL);
-        wrap.accept(ModItems.OXIDIZED_COPPER_BARREL);
-        wrap.accept(ModItems.WAXED_COPPER_BARREL);
-        wrap.accept(ModItems.WAXED_EXPOSED_COPPER_BARREL);
-        wrap.accept(ModItems.WAXED_WEATHERED_COPPER_BARREL);
-        wrap.accept(ModItems.WAXED_OXIDIZED_COPPER_BARREL);
-        wrap.accept(ModItems.IRON_BARREL);
-        wrap.accept(ModItems.GOLD_BARREL);
-        wrap.accept(ModItems.DIAMOND_BARREL);
-        wrap.accept(ModItems.OBSIDIAN_BARREL);
-        wrap.accept(ModItems.NETHERITE_BARREL);
-
-        sparrowWrap.accept(ModItems.VANILLA_WOOD_MINI_CHEST);
-        sparrowWrap.accept(ModItems.WOOD_MINI_CHEST);
-        sparrowWrap.accept(ModItems.PUMPKIN_MINI_CHEST);
-        sparrowWrap.accept(ModItems.RED_MINI_PRESENT);
-        sparrowWrap.accept(ModItems.WHITE_MINI_PRESENT);
-        sparrowWrap.accept(ModItems.CANDY_CANE_MINI_PRESENT);
-        sparrowWrap.accept(ModItems.GREEN_MINI_PRESENT);
-        sparrowWrap.accept(ModItems.LAVENDER_MINI_PRESENT);
-        sparrowWrap.accept(ModItems.PINK_AMETHYST_MINI_PRESENT);
-        sparrowWrap.accept(ModItems.IRON_MINI_CHEST);
-        sparrowWrap.accept(ModItems.GOLD_MINI_CHEST);
-        sparrowWrap.accept(ModItems.DIAMOND_MINI_CHEST);
-        sparrowWrap.accept(ModItems.OBSIDIAN_MINI_CHEST);
-        sparrowWrap.accept(ModItems.NETHERITE_MINI_CHEST);
-        sparrowWrap.accept(ModItems.MINI_BARREL);
-        sparrowWrap.accept(ModItems.COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.EXPOSED_COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.WEATHERED_COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.OXIDIZED_COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.WAXED_COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.WAXED_EXPOSED_COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.WAXED_WEATHERED_COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.WAXED_OXIDIZED_COPPER_MINI_BARREL);
-        sparrowWrap.accept(ModItems.IRON_MINI_BARREL);
-        sparrowWrap.accept(ModItems.GOLD_MINI_BARREL);
-        sparrowWrap.accept(ModItems.DIAMOND_MINI_BARREL);
-        sparrowWrap.accept(ModItems.OBSIDIAN_MINI_BARREL);
-        sparrowWrap.accept(ModItems.NETHERITE_MINI_BARREL);
     }
 }
