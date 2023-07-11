@@ -206,7 +206,7 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         int scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
         int slots = handler.getInventory().getContainerSize();
 
-        if (forcedScreenType == null && AbstractScreen.canSingleScreenDisplay(slots, scaledWidth, scaledHeight) && AbstractScreen.shouldPreferSingleScreen(preference)) {
+        if (forcedScreenType == null && (AbstractScreen.canSingleScreenDisplay(slots, scaledWidth, scaledHeight) && FabricClient.CONFIG.prefersSingleScreen(preference) || slots <= 54)) {
             preference = Utils.SINGLE_SCREEN_TYPE;
         }
 
@@ -231,10 +231,6 @@ public abstract class AbstractScreen extends AbstractContainerScreen<AbstractHan
         }
 
         throw new IllegalArgumentException("Unknown preference.");
-    }
-
-    private static boolean shouldPreferSingleScreen(ResourceLocation type) {
-        return Utils.PAGINATED_SCREEN_TYPE.equals(type) || Utils.SCROLLABLE_SCREEN_TYPE.equals(type);
     }
 
     private static boolean canSingleScreenDisplay(int slots, int scaledWidth, int scaledHeight) {

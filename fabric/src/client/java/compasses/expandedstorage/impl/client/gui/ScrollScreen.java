@@ -40,15 +40,17 @@ public final class ScrollScreen extends AbstractScreen {
     }
 
     public static ScreenSize retrieveScreenSize(int slots, int scaledWidth, int scaledHeight) {
-        ArrayList<ScreenSize> options = new ArrayList<>();
+        List<ScreenSize> options = new ArrayList<>();
         options.add(ScreenSize.of(9, 6));
-        if (slots > 90) {
-            options.add(ScreenSize.of(15, 6));
-        }
         if (scaledHeight >= 276) {
             if (slots > 54) {
                 options.add(ScreenSize.of(9, 9));
             }
+        }
+        if (slots > 90) {
+            options.add(ScreenSize.of(15, 6));
+        }
+        if (scaledHeight >= 276) {
             if (scaledWidth >= 248 && slots > 81) {
                 options.add(ScreenSize.of(12, 9));
             }
@@ -66,7 +68,15 @@ public final class ScrollScreen extends AbstractScreen {
             options.add(ScreenSize.of(18, 15));
         }
 
-        return options.get(options.size() - 1);
+        for (int i = options.size() - 1; i >= 0; i--) {
+            var option = options.get(i);
+            if (option.getHeight() * option.getWidth() == slots) {
+                continue;
+            }
+
+            return option;
+        }
+        return options.get(0);
     }
 
     private void initializeSlots(Inventory playerInventory) {

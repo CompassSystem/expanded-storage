@@ -3,6 +3,7 @@ package compasses.expandedstorage.impl.client.config;
 import compasses.expandedstorage.impl.misc.Utils;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.List;
 import java.util.Map;
 
 public final class LegacyFactory implements Converter<Map<String, Object>, ConfigV0> {
@@ -20,7 +21,7 @@ public final class LegacyFactory implements Converter<Map<String, Object>, Confi
             } else if ("expandedstorage:scrollable".equals(temp)) {
                 temp = Utils.SCROLLABLE_SCREEN_TYPE.toString();
             }
-            return new ConfigV0(ResourceLocation.tryParse(temp), restrictiveScrolling, true);
+            return new ConfigV0(ResourceLocation.tryParse(temp), restrictiveScrolling, true, List.of(Utils.PAGINATED_SCREEN_TYPE, Utils.SCROLLABLE_SCREEN_TYPE));
         }
         return null;
     }

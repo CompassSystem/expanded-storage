@@ -1,20 +1,23 @@
 package compasses.expandedstorage.impl.client.config;
 
+import compasses.expandedstorage.impl.misc.Utils;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ConfigV0 implements Config {
     private final boolean restrictiveScrolling;
     private final boolean preferSmallerScreens;
+    private final List<ResourceLocation> preferSingleScreens;
     private ResourceLocation screenType;
 
     public ConfigV0() {
-        this(null, false, true);
+        this(null, false, true, List.of(Utils.PAGINATED_SCREEN_TYPE, Utils.SCROLLABLE_SCREEN_TYPE));
     }
 
-    public ConfigV0(ResourceLocation screenType, boolean restrictiveScrolling, boolean preferSmallerScreens) {
+    public ConfigV0(ResourceLocation screenType, boolean restrictiveScrolling, boolean preferSmallerScreens, List<ResourceLocation> preferSingleScreens) {
         if (String.valueOf(screenType).equals("expandedstorage:auto")) {
             this.screenType = null;
         } else {
@@ -22,6 +25,7 @@ public class ConfigV0 implements Config {
         }
         this.restrictiveScrolling = restrictiveScrolling;
         this.preferSmallerScreens = preferSmallerScreens;
+        this.preferSingleScreens = preferSingleScreens;
     }
 
     public ResourceLocation getScreenType() {
@@ -38,6 +42,10 @@ public class ConfigV0 implements Config {
 
     public boolean preferSmallerScreens() {
         return this.preferSmallerScreens;
+    }
+
+    public boolean prefersSingleScreen(ResourceLocation type) {
+        return preferSingleScreens.contains(type);
     }
 
     @Override
@@ -65,7 +73,11 @@ public class ConfigV0 implements Config {
                 if (source.containsKey("prefer_smaller_screens") && source.get("prefer_smaller_screens") instanceof Boolean bool) {
                     preferSmallerScreens = bool;
                 }
-                return new ConfigV0(ResourceLocation.tryParse(screenType), restrictiveScrolling, preferSmallerScreens);
+                List<ResourceLocation> preferSingleScreens = List.of(Utils.PAGINATED_SCREEN_TYPE, Utils.SCROLLABLE_SCREEN_TYPE);
+                if (source.containsKey("prefer_single_screens") && source.get("prefer_single_screens") instanceof List value) {
+                    preferSingleScreens = (List<ResourceLocation>) value.stream().map(it -> ResourceLocation.tryParse(it.toString())).dropWhile(it -> it == null).toList();
+                }
+                return new ConfigV0(ResourceLocation.tryParse(screenType), restrictiveScrolling, preferSmallerScreens, preferSingleScreens);
             }
             return null;
         }
@@ -76,6 +88,7 @@ public class ConfigV0 implements Config {
             values.put("container_type", target.screenType);
             values.put("restrictive_scrolling", target.restrictiveScrolling);
             values.put("prefer_bigger_screens", target.preferSmallerScreens);
+            values.put("prefer_single_screens", target.preferSingleScreens);
             return values;
         }
 

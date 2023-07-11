@@ -62,6 +62,10 @@ public class ConfigWrapper {
         return config.getScreenType();
     }
 
+    public final boolean prefersSingleScreen(ResourceLocation type) {
+        return config.prefersSingleScreen(type);
+    }
+
     private boolean isValidScreenType(ResourceLocation type) {
         return Utils.PAGINATED_SCREEN_TYPE.equals(type) || Utils.SCROLLABLE_SCREEN_TYPE.equals(type) || Utils.SINGLE_SCREEN_TYPE.equals(type);
     }
