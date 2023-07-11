@@ -38,7 +38,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -50,18 +49,10 @@ public final class FabricMain implements ModInitializer {
     public static MinecraftServer serverInstance;
     private static Supplier<CommonMain.Initializer> temporaryInitializerSupplier;
 
-    public static Path getLocalConfigPath() {
-        return FabricLoader.getInstance().getConfigDir().resolve(Utils.MOD_ID);
-    }
-
-    public static ExtendedScreenHandlerType<AbstractHandler> getScreenHandlerType() {
-        return menuType;
-    }
-
     private static final ExtendedScreenHandlerType<AbstractHandler> menuType;
 
     static {
-        menuType = Registry.register(BuiltInRegistries.MENU, Utils.HANDLER_TYPE_ID, new ExtendedScreenHandlerType<>(AbstractHandler::createClientMenu));
+        menuType = Registry.register(BuiltInRegistries.MENU, Utils.id("handler_type"), new ExtendedScreenHandlerType<>(AbstractHandler::createClientMenu));
     }
 
     @Override
@@ -121,6 +112,10 @@ public final class FabricMain implements ModInitializer {
     private void registerOxidisableAndWaxableBlocks() {
         CopperBlockHelper.oxidisation().forEach(OxidizableBlocksRegistry::registerOxidizableBlockPair);
         CopperBlockHelper.dewaxing().inverse().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
+    }
+
+    public static ExtendedScreenHandlerType<AbstractHandler> getScreenHandlerType() {
+        return menuType;
     }
 
     public static CommonMain.Initializer getInitializeForClient() {
