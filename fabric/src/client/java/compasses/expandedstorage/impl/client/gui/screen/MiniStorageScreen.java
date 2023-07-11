@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.client.gui;
+package compasses.expandedstorage.impl.client.gui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import compasses.expandedstorage.impl.client.function.ScreenSize;

@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.client.compat;
 
-import compasses.expandedstorage.impl.client.gui.AbstractScreen;
-import compasses.expandedstorage.impl.client.gui.FakePickScreen;
+import compasses.expandedstorage.impl.client.gui.screen.AbstractScreen;
+import compasses.expandedstorage.impl.client.gui.screen.FakePickScreen;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;

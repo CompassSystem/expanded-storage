@@ -1,6 +1,6 @@
 package compasses.expandedstorage.impl.mixin.client;
 
-import compasses.expandedstorage.impl.client.gui.PageScreen;
+import compasses.expandedstorage.impl.client.gui.screen.PageScreen;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

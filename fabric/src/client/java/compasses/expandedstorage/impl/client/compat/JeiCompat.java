@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.client.compat;
 
-import compasses.expandedstorage.impl.client.gui.AbstractScreen;
-import compasses.expandedstorage.impl.client.gui.FakePickScreen;
+import compasses.expandedstorage.impl.client.gui.screen.AbstractScreen;
+import compasses.expandedstorage.impl.client.gui.screen.FakePickScreen;
 import compasses.expandedstorage.impl.misc.Utils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

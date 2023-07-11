@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.client.gui;
+package compasses.expandedstorage.impl.client.gui.screen;
 
 import com.google.common.collect.ImmutableSortedSet;
 import compasses.expandedstorage.impl.FabricClient;
