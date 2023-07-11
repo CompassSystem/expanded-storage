@@ -10,7 +10,7 @@ import java.nio.file.Files
 plugins {
     `java-library`
     id("dev.architectury.loom") version "1.2-SNAPSHOT"
-    id("io.github.juuxel.loom-quiltflower") version "1.10.0"
+    id("io.github.juuxel.loom-vineflower") version "1.11.0"
     id("me.hypherionmc.cursegradle") version "2.0.1"
 }
 
