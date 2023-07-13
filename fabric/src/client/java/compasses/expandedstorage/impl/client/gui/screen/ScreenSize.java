@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.client.function;
+package compasses.expandedstorage.impl.client.gui.screen;
 
 public final class ScreenSize {
     private final int width, height;

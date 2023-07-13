@@ -1,7 +1,6 @@
 package compasses.expandedstorage.impl.client.gui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import compasses.expandedstorage.impl.client.function.ScreenSize;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

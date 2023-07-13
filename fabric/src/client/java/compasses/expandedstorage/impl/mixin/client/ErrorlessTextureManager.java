@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.mixin.client;
 
 import compasses.expandedstorage.impl.client.gui.SizedSimpleTexture;
-import compasses.expandedstorage.impl.client.helpers.ErrorlessTextureGetter;
+import compasses.expandedstorage.impl.client.gui.ErrorlessTextureGetter;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;

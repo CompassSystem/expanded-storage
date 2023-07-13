@@ -2,7 +2,6 @@ package compasses.expandedstorage.impl.client.gui.screen;
 
 import com.google.common.collect.ImmutableSortedSet;
 import compasses.expandedstorage.impl.FabricClient;
-import compasses.expandedstorage.impl.client.function.ScreenSize;
 import compasses.expandedstorage.impl.client.gui.widget.PickButton;
 import compasses.expandedstorage.impl.client.gui.widget.ScreenPickButton;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;

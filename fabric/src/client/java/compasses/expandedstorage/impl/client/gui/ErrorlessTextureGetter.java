@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.client.helpers;
+package compasses.expandedstorage.impl.client.gui;
 
 import net.minecraft.resources.ResourceLocation;
 

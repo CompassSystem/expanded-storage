@@ -2,11 +2,10 @@ package compasses.expandedstorage.impl.client.gui.screen;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-import compasses.expandedstorage.impl.client.function.ScreenSize;
 import compasses.expandedstorage.impl.client.gui.CopyFunction;
 import compasses.expandedstorage.impl.client.gui.SizedSimpleTexture;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.impl.client.helpers.ErrorlessTextureGetter;
+import compasses.expandedstorage.impl.client.gui.ErrorlessTextureGetter;
 import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.FabricClient;
 import net.minecraft.client.Minecraft;
