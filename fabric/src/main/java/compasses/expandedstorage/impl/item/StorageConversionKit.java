@@ -28,15 +28,11 @@ public final class StorageConversionKit extends Item implements EntityInteractab
     private final Component instructionsFirst;
     private final Component instructionsSecond;
 
-    public StorageConversionKit(Properties settings, ResourceLocation fromTier, ResourceLocation toTier, boolean manuallyWrapTooltips) {
+    public StorageConversionKit(Properties settings, ResourceLocation fromTier, ResourceLocation toTier) {
         super(settings);
-        if (manuallyWrapTooltips) {
-            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
-            this.instructionsSecond = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
-        } else {
-            this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY).append(Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY));
-            this.instructionsSecond = Component.literal("");
-        }
+
+        this.instructionsFirst = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_1", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
+        this.instructionsSecond = Component.translatable("tooltip.expandedstorage.conversion_kit_" + fromTier.getPath() + "_" + toTier.getPath() + "_2", Utils.ALT_USE).withStyle(ChatFormatting.GRAY);
     }
 
     @NotNull

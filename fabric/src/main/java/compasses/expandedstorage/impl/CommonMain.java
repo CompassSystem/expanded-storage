@@ -14,72 +14,48 @@ import compasses.expandedstorage.impl.block.entity.BarrelBlockEntity;
 import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.block.entity.MiniStorageBlockEntity;
 import compasses.expandedstorage.impl.block.entity.OldChestBlockEntity;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
-import compasses.expandedstorage.impl.item.BlockMutatorBehaviour;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
-import compasses.expandedstorage.impl.item.MutationMode;
 import compasses.expandedstorage.impl.item.StorageConversionKit;
 import compasses.expandedstorage.impl.item.StorageMutator;
-import compasses.expandedstorage.impl.item.ToolUsageResult;
 import compasses.expandedstorage.impl.misc.ScreenHandlerFactoryAdapter;
 import compasses.expandedstorage.impl.misc.Tier;
 import compasses.expandedstorage.impl.misc.Utils;
-import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
-import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public final class CommonMain {
-    public static final ResourceLocation BARREL_OBJECT_TYPE = Utils.id("barrel");
-    public static final ResourceLocation CHEST_OBJECT_TYPE = Utils.id("chest");
-    public static final ResourceLocation OLD_CHEST_OBJECT_TYPE = Utils.id("old_chest");
-    public static final ResourceLocation MINI_STORAGE_OBJECT_TYPE = Utils.id("mini_chest");
-
-    private static final Map<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> BLOCK_MUTATOR_BEHAVIOURS = new HashMap<>();
-
     private static BlockEntityType<ChestBlockEntity> chestBlockEntityType;
     private static BlockEntityType<OldChestBlockEntity> oldChestBlockEntityType;
     private static BlockEntityType<BarrelBlockEntity> barrelBlockEntityType;
@@ -101,7 +77,7 @@ public final class CommonMain {
         return miniStorageBlockEntityType;
     }
 
-    private static void defineTierUpgradePath(HashSet<ResourceLocation> items, boolean wrapTooltipManually, Tier... tiers) {
+    private static void defineTierUpgradePath(HashSet<ResourceLocation> items, Tier... tiers) {
         int numTiers = tiers.length;
 
         for (int fromIndex = 0; fromIndex < numTiers - 1; fromIndex++) {
@@ -118,104 +94,50 @@ public final class CommonMain {
                                                        .andThen(toTier.getItemSettings())
                                                        .apply(new Item.Properties().stacksTo(16));
 
-                    Registry.register(BuiltInRegistries.ITEM, itemId, new StorageConversionKit(settings, fromTier.getId(), toTier.getId(), wrapTooltipManually));
+                    Registry.register(BuiltInRegistries.ITEM, itemId, new StorageConversionKit(settings, fromTier.getId(), toTier.getId()));
                 }
             }
         }
     }
 
-    private static void registerMutationBehaviour(Predicate<Block> predicate, MutationMode mode, BlockMutatorBehaviour behaviour) {
-        CommonMain.BLOCK_MUTATOR_BEHAVIOURS.put(Map.entry(predicate, mode), behaviour);
-    }
-
-    public static BlockMutatorBehaviour getBlockMutatorBehaviour(Block block, MutationMode mode) {
-        for (Map.Entry<Map.Entry<Predicate<Block>, MutationMode>, BlockMutatorBehaviour> entry : CommonMain.BLOCK_MUTATOR_BEHAVIOURS.entrySet()) {
-            Map.Entry<Predicate<Block>, MutationMode> pair = entry.getKey();
-
-            if (pair.getValue() == mode && pair.getKey().test(block)) {
-                return entry.getValue();
-            }
-        }
-
-        return null;
-    }
-
     public static class Initializer {
-        private static class Tiers {
-            static final Tier WOOD = new Tier(Utils.id("wood"), 27, UnaryOperator.identity(), UnaryOperator.identity());
-            static final Tier COPPER = new Tier(Utils.id("copper"), 45, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
-            static final Tier IRON = new Tier(Utils.id("iron"), 54, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
-            static final Tier GOLD = new Tier(Utils.id("gold"), 81, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
-            static final Tier DIAMOND = new Tier(Utils.id("diamond"), 108, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
-            static final Tier OBSIDIAN = new Tier(Utils.id("obsidian"), 108, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
-            static final Tier NETHERITE = new Tier(Utils.id("netherite"), 135, Block.Properties::requiresCorrectToolForDrops, Item.Properties::fireResistant);
-        }
+        private static final Tier TIERS_WOOD = new Tier(Utils.id("wood"), 27, UnaryOperator.identity(), UnaryOperator.identity());
+        private static final Tier TIERS_COPPER = new Tier(Utils.id("copper"), 45, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
+        private static final Tier TIERS_IRON = new Tier(Utils.id("iron"), 54, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
+        private static final Tier TIERS_GOLD = new Tier(Utils.id("gold"), 81, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
+        private static final Tier TIERS_DIAMOND = new Tier(Utils.id("diamond"), 108, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
+        private static final Tier TIERS_OBSIDIAN = new Tier(Utils.id("obsidian"), 108, Block.Properties::requiresCorrectToolForDrops, UnaryOperator.identity());
+        private static final Tier TIERS_NETHERITE = new Tier(Utils.id("netherite"), 135, Block.Properties::requiresCorrectToolForDrops, Item.Properties::fireResistant);
 
-        private static class Properties {
-            static final BlockBehaviour.Properties WOOD = BlockBehaviour.Properties.of()
-                                                                                   .mapColor(MapColor.WOOD)
-                                                                                   .instrument(NoteBlockInstrument.BASS)
-                                                                                   .strength(2.5f)
-                                                                                   .sound(SoundType.WOOD)
-                                                                                   .ignitedByLava();
-            static final BlockBehaviour.Properties PUMPKIN = BlockBehaviour.Properties.of()
-                                                                                      .mapColor(MapColor.COLOR_ORANGE)
-                                                                                      .instrument(NoteBlockInstrument.DIDGERIDOO)
-                                                                                      .strength(1.0F)
-                                                                                      .sound(SoundType.WOOD);
-            static final BlockBehaviour.Properties BAMBOO = BlockBehaviour.Properties.of()
-                                                                                     .mapColor(MapColor.PLANT)
-                                                                                     .strength(1)
-                                                                                     .sound(SoundType.BAMBOO)
-                                                                                     .ignitedByLava();
-            static final BlockBehaviour.Properties MOSS = BlockBehaviour.Properties.of()
-                                                                                   .mapColor(MapColor.COLOR_GREEN)
-                                                                                   .strength(0.1F)
-                                                                                   .sound(SoundType.MOSS);
-            static final BlockBehaviour.Properties IRON = BlockBehaviour.Properties.of()
-                                                                                   .mapColor(MapColor.METAL)
-                                                                                   .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
-                                                                                   .strength(5, 6)
-                                                                                   .sound(SoundType.METAL);
-            static final BlockBehaviour.Properties GOLD = BlockBehaviour.Properties.of()
-                                                                                   .mapColor(MapColor.GOLD)
-                                                                                   .instrument(NoteBlockInstrument.BELL)
-                                                                                   .strength(3, 6)
-                                                                                   .sound(SoundType.METAL);
-            static final BlockBehaviour.Properties DIAMOND = BlockBehaviour.Properties.of()
-                                                                                      .mapColor(MapColor.DIAMOND)
-                                                                                      .strength(5, 6)
-                                                                                      .sound(SoundType.METAL);
-            static final BlockBehaviour.Properties OBSIDIAN = BlockBehaviour.Properties.of()
-                                                                                       .mapColor(MapColor.COLOR_BLACK)
-                                                                                       .instrument(NoteBlockInstrument.BASEDRUM)
-                                                                                       .strength(50, 1200);
-            static final BlockBehaviour.Properties NETHERITE = BlockBehaviour.Properties.of()
-                                                                                        .mapColor(MapColor.COLOR_BLACK)
-                                                                                        .strength(50, 1200)
-                                                                                        .sound(SoundType.NETHERITE_BLOCK);
-        }
+        private static final BlockBehaviour.Properties PROPERTIES_WOOD = BlockBehaviour.Properties
+                .of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5f).sound(SoundType.WOOD).ignitedByLava();
+        private static final BlockBehaviour.Properties PROPERTIES_PUMPKIN = BlockBehaviour.Properties
+                .of().mapColor(MapColor.COLOR_ORANGE).instrument(NoteBlockInstrument.DIDGERIDOO).strength(1.0F).sound(SoundType.WOOD);
+        private static final BlockBehaviour.Properties PROPERTIES_BAMBOO = BlockBehaviour.Properties
+                .of().mapColor(MapColor.PLANT).strength(1).sound(SoundType.BAMBOO).ignitedByLava();
+        private static final BlockBehaviour.Properties PROPERTIES_MOSS = BlockBehaviour.Properties
+                .of().mapColor(MapColor.COLOR_GREEN).strength(0.1F).sound(SoundType.MOSS);
+        private static final BlockBehaviour.Properties PROPERTIES_IRON = BlockBehaviour.Properties
+                .of().mapColor(MapColor.METAL).instrument(NoteBlockInstrument.IRON_XYLOPHONE).strength(5, 6).sound(SoundType.METAL);
+        private static final BlockBehaviour.Properties PROPERTIES_GOLD = BlockBehaviour.Properties
+                .of().mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.BELL).strength(3, 6).sound(SoundType.METAL);
+        private static final BlockBehaviour.Properties PROPERTIES_DIAMOND = BlockBehaviour.Properties
+                .of().mapColor(MapColor.DIAMOND).strength(5, 6).sound(SoundType.METAL);
+        private static final BlockBehaviour.Properties PROPERTIES_OBSIDIAN = BlockBehaviour.Properties
+                .of().mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM).strength(50, 1200);
+        private static final BlockBehaviour.Properties PROPERTIES_NETHERITE = BlockBehaviour.Properties
+                .of().mapColor(MapColor.COLOR_BLACK).strength(50, 1200).sound(SoundType.NETHERITE_BLOCK);
 
         private ResourceLocation stat(String id) {
             ResourceLocation statId = Utils.id(id);
             return Registry.register(BuiltInRegistries.CUSTOM_STAT, statId, statId);
         }
 
-        public void commonInit() {
-            CommonMain.registerMutationBehaviour(block -> true, MutationMode.SWAP_THEME, (useContext, level, state, pos, stack) -> {
-                BlockConversionRecipe<?> recipe = ConversionRecipeManager.INSTANCE.getBlockRecipe(state, stack);
-                if (recipe != null) {
-                    return recipe.process(level, useContext.getPlayer(), stack, state, pos);
-                }
-                return ToolUsageResult.fail();
-            });
-        }
-
-        public void baseInit(boolean manuallyWrapTooltips) {
+        public void baseInit() {
             Registry.register(BuiltInRegistries.ITEM, Utils.id("storage_mutator"), new StorageMutator(new Item.Properties().stacksTo(1)));
 
-            HashSet<ResourceLocation> baseItems = new HashSet<>();
-            CommonMain.defineTierUpgradePath(baseItems, manuallyWrapTooltips, Tiers.WOOD, Tiers.COPPER, Tiers.IRON, Tiers.GOLD, Tiers.DIAMOND, Tiers.OBSIDIAN, Tiers.NETHERITE);
+            final HashSet<ResourceLocation> baseItems = new HashSet<>();
+            CommonMain.defineTierUpgradePath(baseItems, TIERS_WOOD, TIERS_COPPER, TIERS_IRON, TIERS_GOLD, TIERS_DIAMOND, TIERS_OBSIDIAN, TIERS_NETHERITE);
         }
 
         private final int tiers = 6;
@@ -228,17 +150,17 @@ public final class CommonMain {
         public final List<ChestMinecartItem> chestMinecartItems = new ArrayList<>(chestTypes);
 
         private void createChest(ResourceLocation id, ResourceLocation stat, Tier tier, BlockBehaviour.Properties properties) {
-            ChestBlock block;
-            if (properties == Properties.MOSS) {
+            final ChestBlock block;
+            if (properties == PROPERTIES_MOSS) {
                 block = new MossChestBlock(tier.getBlockSettings().apply(properties), stat, tier.getSlotCount());
             } else {
                 block = new ChestBlock(tier.getBlockSettings().apply(properties), stat, tier.getSlotCount());
             }
 
-            BlockItem item = new BlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
-            ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
-            ChestMinecartItem cartItem = new ChestMinecartItem(new Item.Properties(), cartId);
-            EntityType<ChestMinecart> cartEntityType = new EntityType<>((type, level) -> {
+            final BlockItem item = new BlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
+            final ResourceLocation cartId = new ResourceLocation(id.getNamespace(), id.getPath() + "_minecart");
+            final ChestMinecartItem cartItem = new ChestMinecartItem(new Item.Properties(), cartId);
+            final EntityType<ChestMinecart> cartEntityType = new EntityType<>((type, level) -> {
                 return new ChestMinecart(type, level, cartItem, block);
             }, MobCategory.MISC, true, true, false, false, ImmutableSet.of(), EntityDimensions.scalable(0.98F, 0.7F), 8, 3, FeatureFlagSet.of());
 
@@ -256,138 +178,41 @@ public final class CommonMain {
                 return MapColor.SNOW;
             }).strength(2.5f).sound(SoundType.WOOD);
 
-            createChest(Utils.id("wood_chest"), stat("open_wood_chest"), Tiers.WOOD, Properties.WOOD);
-            createChest(Utils.id("pumpkin_chest"), stat("open_pumpkin_chest"), Tiers.WOOD, Properties.PUMPKIN);
-            createChest(Utils.id("present"), stat("open_present"), Tiers.WOOD, presentSettings);
-            createChest(Utils.id("bamboo_chest"), stat("open_bamboo_chest"), Tiers.WOOD, Properties.BAMBOO);
-            createChest(Utils.id("moss_chest"), stat("open_moss_chest"), Tiers.WOOD, Properties.MOSS);
-            createChest(Utils.id("iron_chest"), stat("open_iron_chest"), Tiers.IRON, Properties.IRON);
-            createChest(Utils.id("gold_chest"), stat("open_gold_chest"), Tiers.GOLD, Properties.GOLD);
-            createChest(Utils.id("diamond_chest"), stat("open_diamond_chest"), Tiers.DIAMOND, Properties.DIAMOND);
-            createChest(Utils.id("obsidian_chest"), stat("open_obsidian_chest"), Tiers.OBSIDIAN, Properties.OBSIDIAN);
-            createChest(Utils.id("netherite_chest"), stat("open_netherite_chest"), Tiers.NETHERITE, Properties.NETHERITE);
+            createChest(Utils.id("wood_chest"), stat("open_wood_chest"), TIERS_WOOD, PROPERTIES_WOOD);
+            createChest(Utils.id("pumpkin_chest"), stat("open_pumpkin_chest"), TIERS_WOOD, PROPERTIES_PUMPKIN);
+            createChest(Utils.id("present"), stat("open_present"), TIERS_WOOD, presentSettings);
+            createChest(Utils.id("bamboo_chest"), stat("open_bamboo_chest"), TIERS_WOOD, PROPERTIES_BAMBOO);
+            createChest(Utils.id("moss_chest"), stat("open_moss_chest"), TIERS_WOOD, PROPERTIES_MOSS);
+            createChest(Utils.id("iron_chest"), stat("open_iron_chest"), TIERS_IRON, PROPERTIES_IRON);
+            createChest(Utils.id("gold_chest"), stat("open_gold_chest"), TIERS_GOLD, PROPERTIES_GOLD);
+            createChest(Utils.id("diamond_chest"), stat("open_diamond_chest"), TIERS_DIAMOND, PROPERTIES_DIAMOND);
+            createChest(Utils.id("obsidian_chest"), stat("open_obsidian_chest"), TIERS_OBSIDIAN, PROPERTIES_OBSIDIAN);
+            createChest(Utils.id("netherite_chest"), stat("open_netherite_chest"), TIERS_NETHERITE, PROPERTIES_NETHERITE);
 
-            CommonMain.chestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.getChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), chestBlocks.toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.CHEST_OBJECT_TYPE.toString())));
+            final ResourceLocation chestObjectType = Utils.id("chest");
+            CommonMain.chestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, chestObjectType, BlockEntityType.Builder.of((pos, state) -> new ChestBlockEntity(CommonMain.chestBlockEntityType, pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), chestBlocks.toArray(ChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, chestObjectType.toString())));
         }
 
         public final List<AbstractChestBlock> oldChestBlocks = new ArrayList<>(tiers);
 
         private void createOldChest(ResourceLocation id, ResourceLocation stat, Tier tier, BlockBehaviour.Properties settings) {
-            AbstractChestBlock block = new AbstractChestBlock(tier.getBlockSettings().apply(settings), stat, tier.getSlotCount());
-            BlockItem item = new BlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
+            final AbstractChestBlock block = new AbstractChestBlock(tier.getBlockSettings().apply(settings), stat, tier.getSlotCount());
+            final BlockItem item = new BlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
 
             oldChestBlocks.add(Registry.register(BuiltInRegistries.BLOCK, id, block));
             Registry.register(BuiltInRegistries.ITEM, id, item);
         }
 
         public void oldChestInit(Supplier<Lockable> lockable) {
-            createOldChest(Utils.id("old_wood_chest"), stat("open_old_wood_chest"), Tiers.WOOD, Properties.WOOD);
-            createOldChest(Utils.id("old_iron_chest"), stat("open_old_iron_chest"), Tiers.IRON, Properties.IRON);
-            createOldChest(Utils.id("old_gold_chest"), stat("open_old_gold_chest"), Tiers.GOLD, Properties.GOLD);
-            createOldChest(Utils.id("old_diamond_chest"), stat("open_old_diamond_chest"), Tiers.DIAMOND, Properties.DIAMOND);
-            createOldChest(Utils.id("old_obsidian_chest"), stat("open_old_obsidian_chest"), Tiers.OBSIDIAN, Properties.OBSIDIAN);
-            createOldChest(Utils.id("old_netherite_chest"), stat("open_old_netherite_chest"), Tiers.NETHERITE, Properties.NETHERITE);
+            createOldChest(Utils.id("old_wood_chest"), stat("open_old_wood_chest"), TIERS_WOOD, PROPERTIES_WOOD);
+            createOldChest(Utils.id("old_iron_chest"), stat("open_old_iron_chest"), TIERS_IRON, PROPERTIES_IRON);
+            createOldChest(Utils.id("old_gold_chest"), stat("open_old_gold_chest"), TIERS_GOLD, PROPERTIES_GOLD);
+            createOldChest(Utils.id("old_diamond_chest"), stat("open_old_diamond_chest"), TIERS_DIAMOND, PROPERTIES_DIAMOND);
+            createOldChest(Utils.id("old_obsidian_chest"), stat("open_old_obsidian_chest"), TIERS_OBSIDIAN, PROPERTIES_OBSIDIAN);
+            createOldChest(Utils.id("old_netherite_chest"), stat("open_old_netherite_chest"), TIERS_NETHERITE, PROPERTIES_NETHERITE);
 
-            CommonMain.oldChestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.OLD_CHEST_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.getOldChestBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), oldChestBlocks.toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.OLD_CHEST_OBJECT_TYPE.toString())));
-        }
-
-        public void commonChestInit() {
-            Predicate<Block> isChestBlock = block -> block instanceof AbstractChestBlock;
-            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.MERGE, (useContext, level, state, pos, stack) -> {
-                Player player = useContext.getPlayer();
-                if (player == null) {
-                    return ToolUsageResult.fail();
-                }
-
-                if (state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
-                    CompoundTag tag = stack.getOrCreateTag();
-
-                    if (tag.contains("pos")) {
-                        BlockPos otherPos = NbtUtils.readBlockPos(tag.getCompound("pos"));
-                        BlockState otherState = level.getBlockState(otherPos);
-                        BlockPos delta = otherPos.subtract(pos);
-                        Direction direction = Direction.fromDelta(delta.getX(), delta.getY(), delta.getZ());
-
-                        if (direction != null) {
-                            if (state.getBlock() == otherState.getBlock()) {
-                                if (otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) == EsChestType.SINGLE) {
-                                    if (state.getValue(BlockStateProperties.HORIZONTAL_FACING) == otherState.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-                                        boolean firstIsDinnerbone = level.getBlockEntity(pos) instanceof OpenableBlockEntity blockEntity && blockEntity.isDinnerbone();
-                                        boolean secondIsDinnerbone = level.getBlockEntity(otherPos) instanceof OpenableBlockEntity blockEntity && blockEntity.isDinnerbone();
-
-                                        if (firstIsDinnerbone == secondIsDinnerbone) {
-                                            if (!level.isClientSide()) {
-                                                EsChestType chestType = AbstractChestBlock.getChestType(state.getValue(BlockStateProperties.HORIZONTAL_FACING), direction);
-                                                level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, chestType));
-                                                // note: other state is updated via neighbour update
-                                                tag.remove("pos");
-                                                //noinspection ConstantConditions
-                                                player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_end"), true);
-                                            }
-                                            return ToolUsageResult.slowSuccess();
-                                        }
-                                        player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_block"), true);
-                                    } else {
-                                        //noinspection ConstantConditions
-                                        player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_facing"), true);
-                                    }
-                                } else {
-                                    //noinspection ConstantConditions
-                                    player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_already_double_chest"), true);
-                                }
-                            } else {
-                                //noinspection ConstantConditions
-                                player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_wrong_block"), true);
-                            }
-                        } else {
-                            //noinspection ConstantConditions
-                            player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_not_adjacent"), true);
-                        }
-                        tag.remove("pos");
-                    } else {
-                        if (!level.isClientSide()) {
-                            tag.put("pos", NbtUtils.writeBlockPos(pos));
-                            //noinspection ConstantConditions
-                            player.displayClientMessage(Component.translatable("tooltip.expandedstorage.storage_mutator.merge_start", Utils.ALT_USE), true);
-                        }
-                        return ToolUsageResult.fastSuccess();
-                    }
-                }
-                return ToolUsageResult.fail();
-            });
-
-            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.SPLIT, (useContext, level, state, pos, stack) -> {
-                if (state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE) != EsChestType.SINGLE) {
-                    if (!level.isClientSide()) {
-                        level.setBlockAndUpdate(pos, state.setValue(AbstractChestBlock.CURSED_CHEST_TYPE, EsChestType.SINGLE));
-                        // note: other state is updated to single via neighbour update
-                    }
-                    return ToolUsageResult.slowSuccess();
-                }
-                return ToolUsageResult.fail();
-            });
-
-            CommonMain.registerMutationBehaviour(isChestBlock, MutationMode.ROTATE, (useContext, level, state, pos, stack) -> {
-                if (!level.isClientSide()) {
-                    EsChestType chestType = state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE);
-
-                    if (chestType == EsChestType.SINGLE) {
-                        level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
-                    } else {
-                        BlockPos otherPos = pos.relative(AbstractChestBlock.getDirectionToAttached(state));
-                        BlockState otherState = level.getBlockState(otherPos);
-
-                        if (chestType == EsChestType.TOP || chestType == EsChestType.BOTTOM) {
-                            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
-                            level.setBlockAndUpdate(otherPos, otherState.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise()));
-                        } else {
-                            level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, state.getValue(AbstractChestBlock.CURSED_CHEST_TYPE).getOpposite()));
-                            level.setBlockAndUpdate(otherPos, otherState.setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()).setValue(AbstractChestBlock.CURSED_CHEST_TYPE, otherState.getValue(AbstractChestBlock.CURSED_CHEST_TYPE).getOpposite()));
-                        }
-                    }
-                }
-                return ToolUsageResult.slowSuccess();
-            });
+            final ResourceLocation oldChestObjectType = Utils.id("old_chest");
+            CommonMain.oldChestBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, oldChestObjectType, BlockEntityType.Builder.of((pos, state) -> new OldChestBlockEntity(CommonMain.oldChestBlockEntityType, pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), oldChestBlocks.toArray(AbstractChestBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, oldChestObjectType.toString())));
         }
 
         public final List<BarrelBlock> barrelBlocks = new ArrayList<>(tiers - 1);
@@ -411,18 +236,14 @@ public final class CommonMain {
                 .ignitedByLava();
 
         private void createCopperBarrel(ResourceLocation id, WeatheringCopper.WeatherState weatherState) {
-            BarrelBlock block = new CopperBarrelBlock(Tiers.COPPER.getBlockSettings().apply(copperBarrelProperties), copperBarrelStat, Tiers.COPPER.getSlotCount(), weatherState);
-            BlockItem item = new BlockItem(block, Tiers.COPPER.getItemSettings().apply(new Item.Properties()));
+            final BarrelBlock block = new CopperBarrelBlock(TIERS_COPPER.getBlockSettings().apply(copperBarrelProperties), copperBarrelStat, TIERS_COPPER.getSlotCount(), weatherState);
+            final BlockItem item = new BlockItem(block, TIERS_COPPER.getItemSettings().apply(new Item.Properties()));
 
             barrelBlocks.add(Registry.register(BuiltInRegistries.BLOCK, id, block));
             Registry.register(BuiltInRegistries.ITEM, id, item);
         }
 
-        public void barrelInit(
-                Supplier<Lockable> lockable,
-
-                TagKey<Block> barrelTag
-        ) {
+        public void barrelInit(Supplier<Lockable> lockable) {
             final Block.Properties ironBarrelProperties = Block.Properties
                     .of()
                     .mapColor(MapColor.WOOD)
@@ -462,36 +283,25 @@ public final class CommonMain {
             createCopperBarrel(Utils.id("exposed_copper_barrel"), WeatheringCopper.WeatherState.EXPOSED);
             createCopperBarrel(Utils.id("weathered_copper_barrel"), WeatheringCopper.WeatherState.WEATHERED);
             createCopperBarrel(Utils.id("oxidized_copper_barrel"), WeatheringCopper.WeatherState.OXIDIZED);
-            createBarrel(Utils.id("waxed_copper_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelProperties);
-            createBarrel(Utils.id("waxed_exposed_copper_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelProperties);
-            createBarrel(Utils.id("waxed_weathered_copper_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelProperties);
-            createBarrel(Utils.id("waxed_oxidized_copper_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelProperties);
-            createBarrel(Utils.id("iron_barrel"), stat("open_iron_barrel"), Tiers.IRON, ironBarrelProperties);
-            createBarrel(Utils.id("gold_barrel"), stat("open_gold_barrel"), Tiers.GOLD, goldBarrelProperties);
-            createBarrel(Utils.id("diamond_barrel"), stat("open_diamond_barrel"), Tiers.DIAMOND, diamondBarrelProperties);
-            createBarrel(Utils.id("obsidian_barrel"), stat("open_obsidian_barrel"), Tiers.OBSIDIAN, obsidianBarrelProperties);
-            createBarrel(Utils.id("netherite_barrel"), stat("open_netherite_barrel"), Tiers.NETHERITE, netheriteBarrelProperties);
+            createBarrel(Utils.id("waxed_copper_barrel"), copperBarrelStat, TIERS_COPPER, copperBarrelProperties);
+            createBarrel(Utils.id("waxed_exposed_copper_barrel"), copperBarrelStat, TIERS_COPPER, copperBarrelProperties);
+            createBarrel(Utils.id("waxed_weathered_copper_barrel"), copperBarrelStat, TIERS_COPPER, copperBarrelProperties);
+            createBarrel(Utils.id("waxed_oxidized_copper_barrel"), copperBarrelStat, TIERS_COPPER, copperBarrelProperties);
+            createBarrel(Utils.id("iron_barrel"), stat("open_iron_barrel"), TIERS_IRON, ironBarrelProperties);
+            createBarrel(Utils.id("gold_barrel"), stat("open_gold_barrel"), TIERS_GOLD, goldBarrelProperties);
+            createBarrel(Utils.id("diamond_barrel"), stat("open_diamond_barrel"), TIERS_DIAMOND, diamondBarrelProperties);
+            createBarrel(Utils.id("obsidian_barrel"), stat("open_obsidian_barrel"), TIERS_OBSIDIAN, obsidianBarrelProperties);
+            createBarrel(Utils.id("netherite_barrel"), stat("open_netherite_barrel"), TIERS_NETHERITE, netheriteBarrelProperties);
 
-            CommonMain.barrelBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.BARREL_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.getBarrelBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), barrelBlocks.toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.BARREL_OBJECT_TYPE.toString())));
-
-            Predicate<Block> isUpgradableBarrelBlock = (block) -> block instanceof BarrelBlock || block instanceof net.minecraft.world.level.block.BarrelBlock || block.defaultBlockState().is(barrelTag);
-
-            CommonMain.registerMutationBehaviour(isUpgradableBarrelBlock, MutationMode.ROTATE, (useContext, level, state, pos, stack) -> {
-                if (state.hasProperty(BlockStateProperties.FACING)) {
-                    if (!level.isClientSide()) {
-                        level.setBlockAndUpdate(pos, state.cycle(BlockStateProperties.FACING));
-                    }
-                    return ToolUsageResult.slowSuccess();
-                }
-                return ToolUsageResult.fail();
-            });
+            final ResourceLocation barrelObjectType = Utils.id("barrel");
+            CommonMain.barrelBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, barrelObjectType, BlockEntityType.Builder.of((pos, state) -> new BarrelBlockEntity(CommonMain.barrelBlockEntityType, pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), barrelBlocks.toArray(BarrelBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, barrelObjectType.toString())));
         }
 
         public final List<MiniStorageBlock> miniStorageBlocks = new ArrayList<>();
 
         private void createMiniStorageBlock(ResourceLocation id, ResourceLocation stat, Tier tier, Block.Properties properties, boolean hasRibbon) {
-            MiniStorageBlock block = new MiniStorageBlock(tier.getBlockSettings().apply(properties), stat, hasRibbon);
-            BlockItem item =new BlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
+            final MiniStorageBlock block = new MiniStorageBlock(tier.getBlockSettings().apply(properties), stat, hasRibbon);
+            final BlockItem item = new BlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
 
             miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, id, block));
             Registry.register(BuiltInRegistries.ITEM, id, item);
@@ -501,8 +311,8 @@ public final class CommonMain {
         private final Block.Properties copperBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(3, 6).sound(SoundType.WOOD);
 
         private void createCopperMiniStorageBlock(ResourceLocation id, WeatheringCopper.WeatherState weatherState) {
-            MiniStorageBlock block = new CopperMiniStorageBlock(Tiers.COPPER.getBlockSettings().apply(copperBarrelSettings), copperMiniBarrelStat, weatherState);
-            BlockItem item = new BlockItem(block, Tiers.COPPER.getItemSettings().apply(new Item.Properties()));
+            MiniStorageBlock block = new CopperMiniStorageBlock(TIERS_COPPER.getBlockSettings().apply(copperBarrelSettings), copperMiniBarrelStat, weatherState);
+            BlockItem item = new BlockItem(block, TIERS_COPPER.getItemSettings().apply(new Item.Properties()));
 
             miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, id, block));
             Registry.register(BuiltInRegistries.ITEM, id, item);
@@ -525,45 +335,38 @@ public final class CommonMain {
             final Block.Properties obsidianBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(50, 1200).sound(SoundType.WOOD);
             final Block.Properties netheriteBarrelSettings = Block.Properties.of().mapColor(MapColor.WOOD).strength(50, 1200).sound(SoundType.WOOD);
 
-            createMiniStorageBlock(Utils.id("vanilla_wood_mini_chest"), woodChestStat, Tiers.WOOD, Properties.WOOD, false);
-            createMiniStorageBlock(Utils.id("wood_mini_chest"), woodChestStat, Tiers.WOOD, Properties.WOOD, false);
-            createMiniStorageBlock(Utils.id("pumpkin_mini_chest"), stat("open_pumpkin_mini_chest"), Tiers.WOOD, Properties.PUMPKIN, false);
-            createMiniStorageBlock(Utils.id("red_mini_present"), stat("open_red_mini_present"), Tiers.WOOD, redPresentSettings, true);
-            createMiniStorageBlock(Utils.id("white_mini_present"), stat("open_white_mini_present"), Tiers.WOOD, whitePresentSettings, true);
-            createMiniStorageBlock(Utils.id("candy_cane_mini_present"), stat("open_candy_cane_mini_present"), Tiers.WOOD, candyCanePresentSettings, false);
-            createMiniStorageBlock(Utils.id("green_mini_present"), stat("open_green_mini_present"), Tiers.WOOD, greenPresentSettings, true);
-            createMiniStorageBlock(Utils.id("lavender_mini_present"), stat("open_lavender_mini_present"), Tiers.WOOD, lavenderPresentSettings, true);
-            createMiniStorageBlock(Utils.id("pink_amethyst_mini_present"), stat("open_pink_amethyst_mini_present"), Tiers.WOOD, pinkAmethystPresentSettings, true);
-            createMiniStorageBlock(Utils.id("iron_mini_chest"), stat("open_iron_mini_chest"), Tiers.IRON, Properties.IRON, false);
-            createMiniStorageBlock(Utils.id("gold_mini_chest"), stat("open_gold_mini_chest"), Tiers.GOLD, Properties.GOLD, false);
-            createMiniStorageBlock(Utils.id("diamond_mini_chest"), stat("open_diamond_mini_chest"), Tiers.DIAMOND, Properties.DIAMOND, false);
-            createMiniStorageBlock(Utils.id("obsidian_mini_chest"), stat("open_obsidian_mini_chest"), Tiers.OBSIDIAN, Properties.OBSIDIAN, false);
-            createMiniStorageBlock(Utils.id("netherite_mini_chest"), stat("open_netherite_mini_chest"), Tiers.NETHERITE, Properties.NETHERITE, false);
+            createMiniStorageBlock(Utils.id("vanilla_wood_mini_chest"), woodChestStat, TIERS_WOOD, PROPERTIES_WOOD, false);
+            createMiniStorageBlock(Utils.id("wood_mini_chest"), woodChestStat, TIERS_WOOD, PROPERTIES_WOOD, false);
+            createMiniStorageBlock(Utils.id("pumpkin_mini_chest"), stat("open_pumpkin_mini_chest"), TIERS_WOOD, PROPERTIES_PUMPKIN, false);
+            createMiniStorageBlock(Utils.id("red_mini_present"), stat("open_red_mini_present"), TIERS_WOOD, redPresentSettings, true);
+            createMiniStorageBlock(Utils.id("white_mini_present"), stat("open_white_mini_present"), TIERS_WOOD, whitePresentSettings, true);
+            createMiniStorageBlock(Utils.id("candy_cane_mini_present"), stat("open_candy_cane_mini_present"), TIERS_WOOD, candyCanePresentSettings, false);
+            createMiniStorageBlock(Utils.id("green_mini_present"), stat("open_green_mini_present"), TIERS_WOOD, greenPresentSettings, true);
+            createMiniStorageBlock(Utils.id("lavender_mini_present"), stat("open_lavender_mini_present"), TIERS_WOOD, lavenderPresentSettings, true);
+            createMiniStorageBlock(Utils.id("pink_amethyst_mini_present"), stat("open_pink_amethyst_mini_present"), TIERS_WOOD, pinkAmethystPresentSettings, true);
+            createMiniStorageBlock(Utils.id("iron_mini_chest"), stat("open_iron_mini_chest"), TIERS_IRON, PROPERTIES_IRON, false);
+            createMiniStorageBlock(Utils.id("gold_mini_chest"), stat("open_gold_mini_chest"), TIERS_GOLD, PROPERTIES_GOLD, false);
+            createMiniStorageBlock(Utils.id("diamond_mini_chest"), stat("open_diamond_mini_chest"), TIERS_DIAMOND, PROPERTIES_DIAMOND, false);
+            createMiniStorageBlock(Utils.id("obsidian_mini_chest"), stat("open_obsidian_mini_chest"), TIERS_OBSIDIAN, PROPERTIES_OBSIDIAN, false);
+            createMiniStorageBlock(Utils.id("netherite_mini_chest"), stat("open_netherite_mini_chest"), TIERS_NETHERITE, PROPERTIES_NETHERITE, false);
 
-            createMiniStorageBlock(Utils.id("mini_barrel"), stat("open_mini_barrel"), Tiers.WOOD, woodBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("mini_barrel"), stat("open_mini_barrel"), TIERS_WOOD, woodBarrelSettings, false);
             createCopperMiniStorageBlock(Utils.id("copper_mini_barrel"), WeatheringCopper.WeatherState.UNAFFECTED);
             createCopperMiniStorageBlock(Utils.id("exposed_copper_mini_barrel"), WeatheringCopper.WeatherState.EXPOSED);
             createCopperMiniStorageBlock(Utils.id("weathered_copper_mini_barrel"), WeatheringCopper.WeatherState.WEATHERED);
             createCopperMiniStorageBlock(Utils.id("oxidized_copper_mini_barrel"), WeatheringCopper.WeatherState.OXIDIZED);
-            createMiniStorageBlock(Utils.id("waxed_copper_mini_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("waxed_exposed_copper_mini_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("waxed_weathered_copper_mini_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("waxed_oxidized_copper_mini_barrel"), copperMiniBarrelStat, Tiers.COPPER, copperBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("iron_mini_barrel"), stat("open_iron_mini_barrel"), Tiers.IRON, ironBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("gold_mini_barrel"), stat("open_gold_mini_barrel"), Tiers.GOLD, goldBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("diamond_mini_barrel"), stat("open_diamond_mini_barrel"), Tiers.DIAMOND, diamondBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("obsidian_mini_barrel"), stat("open_obsidian_mini_barrel"), Tiers.OBSIDIAN, obsidianBarrelSettings, false);
-            createMiniStorageBlock(Utils.id("netherite_mini_barrel"), stat("open_netherite_mini_barrel"), Tiers.NETHERITE, netheriteBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("waxed_copper_mini_barrel"), copperMiniBarrelStat, TIERS_COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("waxed_exposed_copper_mini_barrel"), copperMiniBarrelStat, TIERS_COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("waxed_weathered_copper_mini_barrel"), copperMiniBarrelStat, TIERS_COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("waxed_oxidized_copper_mini_barrel"), copperMiniBarrelStat, TIERS_COPPER, copperBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("iron_mini_barrel"), stat("open_iron_mini_barrel"), TIERS_IRON, ironBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("gold_mini_barrel"), stat("open_gold_mini_barrel"), TIERS_GOLD, goldBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("diamond_mini_barrel"), stat("open_diamond_mini_barrel"), TIERS_DIAMOND, diamondBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("obsidian_mini_barrel"), stat("open_obsidian_mini_barrel"), TIERS_OBSIDIAN, obsidianBarrelSettings, false);
+            createMiniStorageBlock(Utils.id("netherite_mini_barrel"), stat("open_netherite_mini_barrel"), TIERS_NETHERITE, netheriteBarrelSettings, false);
 
-            CommonMain.miniStorageBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CommonMain.MINI_STORAGE_OBJECT_TYPE, BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.getMiniStorageBlockEntityType(), pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), miniStorageBlocks.toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, CommonMain.MINI_STORAGE_OBJECT_TYPE.toString())));
-
-            Predicate<Block> isMiniStorage = block -> block instanceof MiniStorageBlock;
-            CommonMain.registerMutationBehaviour(isMiniStorage, MutationMode.ROTATE, (useContext, level, state, pos, stack) -> {
-                if (!level.isClientSide()) {
-                    level.setBlockAndUpdate(pos, state.rotate(Rotation.CLOCKWISE_90));
-                }
-                return ToolUsageResult.slowSuccess();
-            });
+            final ResourceLocation miniStorageObjectType = Utils.id("mini_chest");
+            CommonMain.miniStorageBlockEntityType = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, miniStorageObjectType, BlockEntityType.Builder.of((pos, state) -> new MiniStorageBlockEntity(CommonMain.miniStorageBlockEntityType, pos, state, ((OpenableBlock) state.getBlock()).getBlockId(), lockable), miniStorageBlocks.toArray(MiniStorageBlock[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, miniStorageObjectType.toString())));
         }
 
         public List<OpenableBlock> getBlocks() {

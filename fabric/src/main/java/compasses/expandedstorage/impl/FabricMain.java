@@ -27,7 +27,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -81,12 +80,10 @@ public final class FabricMain implements ModInitializer {
 
         Supplier<Lockable> lockable = loader.isModLoaded("htm") ? HTMLockable::new : BasicLockable::new;
 
-        initializer.commonInit();
-        initializer.baseInit(true);
+        initializer.baseInit();
         initializer.chestInit(lockable);
         initializer.oldChestInit(lockable);
-        initializer.commonChestInit();
-        initializer.barrelInit(lockable, ConventionalBlockTags.WOODEN_BARRELS);
+        initializer.barrelInit(lockable);
         initializer.miniStorageBlockInit(lockable);
 
         //noinspection UnstableApiUsage
