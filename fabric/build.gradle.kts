@@ -173,7 +173,7 @@ runtimeDependencies["modmenu"] = mapOf(
 repositories {
     maven { // Cardinal Components
         name = "Ladysnake maven"
-        url = uri("https://ladysnake.jfrog.io/artifactory/mods")
+        url = uri("https://maven.ladysnake.org/releases")
         content {
             includeGroup("dev.onyxstudios.cardinal-components-api")
         }
