@@ -22,7 +22,8 @@ public interface PropertyRetriever<A> {
             BlockState state,
             LevelAccessor level,
             BlockPos pos,
-            BiPredicate<LevelAccessor, BlockPos> blockInaccessible) {
+            BiPredicate<LevelAccessor, BlockPos> blockInaccessible
+    ) {
         A entity = blockEntityType.getBlockEntity(level, pos);
         if (entity == null || blockInaccessible.test(level, pos))
             return new EmptyPropertyRetriever<>();

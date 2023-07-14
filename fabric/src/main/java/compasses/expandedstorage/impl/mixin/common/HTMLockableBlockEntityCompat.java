@@ -2,7 +2,7 @@ package compasses.expandedstorage.impl.mixin.common;
 
 import com.github.fabricservertools.htm.HTMContainerLock;
 import com.github.fabricservertools.htm.api.LockableObject;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
+import compasses.expandedstorage.impl.block.entity.OpenableBlockEntity;
 import compasses.expandedstorage.impl.compat.htm.HTMLockable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;

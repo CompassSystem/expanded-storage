@@ -4,7 +4,7 @@ import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.impl.block.AbstractChestBlock;
 import compasses.expandedstorage.impl.block.OpenableBlock;
 import compasses.expandedstorage.impl.block.entity.OldChestBlockEntity;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
+import compasses.expandedstorage.impl.block.entity.OpenableBlockEntity;
 import compasses.expandedstorage.impl.block.misc.BasicLockable;
 import compasses.expandedstorage.impl.block.misc.CopperBlockHelper;
 import compasses.expandedstorage.impl.block.strategies.Lockable;

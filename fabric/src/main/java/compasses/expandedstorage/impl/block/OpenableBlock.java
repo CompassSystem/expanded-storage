@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.block;
 
 import compasses.expandedstorage.impl.CommonMain;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
+import compasses.expandedstorage.impl.block.entity.OpenableBlockEntity;
 import compasses.expandedstorage.impl.inventory.OpenableInventoryProvider;
 import compasses.expandedstorage.impl.inventory.context.BlockContext;
 import compasses.expandedstorage.impl.registration.ModBlocks;

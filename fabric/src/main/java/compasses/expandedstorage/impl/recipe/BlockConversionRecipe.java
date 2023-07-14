@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.api.ExpandedStorageAccessors;
 import compasses.expandedstorage.impl.block.AbstractChestBlock;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
+import compasses.expandedstorage.impl.block.entity.OpenableBlockEntity;
 import compasses.expandedstorage.impl.item.StorageConversionKit;
 import compasses.expandedstorage.impl.item.ToolUsageResult;
 import compasses.expandedstorage.impl.recipe.conditions.RecipeCondition;

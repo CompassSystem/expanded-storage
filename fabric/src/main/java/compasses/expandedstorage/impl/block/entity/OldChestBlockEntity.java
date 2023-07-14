@@ -1,7 +1,6 @@
 package compasses.expandedstorage.impl.block.entity;
 
 import compasses.expandedstorage.impl.block.OpenableBlock;
-import compasses.expandedstorage.impl.block.entity.extendable.InventoryBlockEntity;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.inventory.VariableSidedInventory;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -16,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class OldChestBlockEntity extends InventoryBlockEntity {
+public class OldChestBlockEntity extends OpenableBlockEntity {
     private WorldlyContainer cachedDoubleInventory = null;
     private Storage<ItemVariant> cachedTransferStorage = null;
 

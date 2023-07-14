@@ -1,11 +1,13 @@
-package compasses.expandedstorage.impl.block.entity.extendable;
+package compasses.expandedstorage.impl.block.entity;
 
 import compasses.expandedstorage.impl.block.strategies.Lockable;
+import compasses.expandedstorage.impl.inventory.ExposedInventory;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -15,6 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,28 +27,52 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory, Nameable {
+import java.util.stream.IntStream;
+
+public abstract class OpenableBlockEntity extends BlockEntity implements OpenableInventory, Nameable, ExposedInventory, WorldlyContainer {
     private final ResourceLocation blockId;
     private final Component defaultName;
     private Lockable lockable;
     private Component customName;
+    private int[] availableSlots;
 
     protected Storage<ItemVariant> storage;
+    private final NonNullList<ItemStack> items;
 
-    public OpenableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName) {
+    public OpenableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation blockId, Component defaultName, int inventorySize) {
         super(type, pos, state);
         this.blockId = blockId;
         this.defaultName = defaultName;
+        items = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
+    }
+
+    @Override
+    public int @NotNull [] getSlotsForFace(Direction side) {
+        if (availableSlots == null) {
+            availableSlots = IntStream.range(0, this.getContainerSize()).toArray();
+        }
+        return availableSlots;
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
+        return true;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
+        return true;
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        //noinspection DataFlowIssue
+        return this.getLevel().getBlockEntity(this.getBlockPos()) == this && player.distanceToSqr(Vec3.atCenterOf(this.getBlockPos())) <= 36.0D;
     }
 
     @Override
     public boolean canBeUsedBy(ServerPlayer player) {
-        return this.isValidAndPlayerInRange(player) && this.getLockable().canPlayerOpenLock(player);
-    }
-
-    protected final boolean isValidAndPlayerInRange(Player player) {
-        //noinspection DataFlowIssue
-        return this.getLevel().getBlockEntity(this.getBlockPos()) == this && player.distanceToSqr(Vec3.atCenterOf(this.getBlockPos())) <= 36.0D;
+        return this.stillValid(player) && this.getLockable().canPlayerOpenLock(player);
     }
 
     @Override
@@ -53,7 +80,14 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         return this.getName();
     }
 
-    public abstract NonNullList<ItemStack> getItems();
+    public NonNullList<ItemStack> getItems() {
+        return items;
+    }
+
+    @Override
+    public final WorldlyContainer getInventory() {
+        return this;
+    }
 
     @Override
     public void load(CompoundTag tag) {
@@ -62,6 +96,7 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         if (tag.contains("CustomName", Tag.TAG_STRING)) {
             customName = Component.Serializer.fromJson(tag.getString("CustomName"));
         }
+        this.loadInventoryFromTag(tag);
     }
 
     @Override
@@ -71,6 +106,7 @@ public abstract class OpenableBlockEntity extends BlockEntity implements Openabl
         if (this.hasCustomName()) {
             tag.putString("CustomName", Component.Serializer.toJson(customName));
         }
+        this.saveInventoryToTag(tag);
     }
 
     public final ResourceLocation getBlockId() {

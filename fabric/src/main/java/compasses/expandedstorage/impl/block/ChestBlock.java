@@ -4,7 +4,7 @@ import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.impl.CommonMain;
 import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.block.entity.OldChestBlockEntity;
-import compasses.expandedstorage.impl.block.entity.extendable.OpenableBlockEntity;
+import compasses.expandedstorage.impl.block.entity.OpenableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
