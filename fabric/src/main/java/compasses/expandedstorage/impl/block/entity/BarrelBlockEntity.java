@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.block.entity;
 
 import compasses.expandedstorage.impl.block.OpenableBlock;
-import compasses.expandedstorage.impl.block.entity.extendable.ExposedInventoryBlockEntity;
+import compasses.expandedstorage.impl.block.entity.extendable.InventoryBlockEntity;
 import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import net.minecraft.core.BlockPos;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.function.Supplier;
 
-public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
+public final class BarrelBlockEntity extends InventoryBlockEntity {
     private final ContainerOpenersCounter manager = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(Level level, BlockPos pos, BlockState state) {
@@ -65,13 +65,19 @@ public final class BarrelBlockEntity extends ExposedInventoryBlockEntity {
 
     @Override
     public void startOpen(Player player) {
-        if (player.isSpectator()) return;
+        if (player.isSpectator()) {
+            return;
+        }
+
         manager.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
     }
 
     @Override
     public void stopOpen(Player player) {
-        if (player.isSpectator()) return;
+        if (player.isSpectator()) {
+            return;
+        }
+
         manager.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
     }
 

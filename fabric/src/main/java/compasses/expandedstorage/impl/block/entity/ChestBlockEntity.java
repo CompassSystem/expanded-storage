@@ -57,12 +57,20 @@ public final class ChestBlockEntity extends OldChestBlockEntity {
     }
 
     @Override
-    protected void playerStartViewing(Player player) {
+    public void startOpen(Player player) {
+        if (player.isSpectator()) {
+            return;
+        }
+
         manager.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
     }
 
     @Override
-    protected void playerStopViewing(Player player) {
+    public void stopOpen(Player player) {
+        if (player.isSpectator()) {
+            return;
+        }
+
         manager.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
     }
 
