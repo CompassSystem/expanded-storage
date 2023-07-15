@@ -5,7 +5,7 @@ import compasses.expandedstorage.impl.FabricClient;
 import compasses.expandedstorage.impl.client.gui.widget.PickButton;
 import compasses.expandedstorage.impl.client.gui.widget.ScreenPickButton;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

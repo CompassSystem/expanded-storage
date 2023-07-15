@@ -1,6 +1,6 @@
 package compasses.expandedstorage.impl.client.config;
 
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;

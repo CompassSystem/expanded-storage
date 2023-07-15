@@ -2,7 +2,7 @@ package compasses.expandedstorage.impl.datagen.providers;
 
 import compasses.expandedstorage.impl.datagen.content.ModTags;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.registration.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;

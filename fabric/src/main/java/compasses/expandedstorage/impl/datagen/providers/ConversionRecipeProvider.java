@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import compasses.expandedstorage.impl.datagen.content.ModEntityTypes;
 import compasses.expandedstorage.impl.datagen.content.ModTags;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.EntityConversionRecipe;
 import compasses.expandedstorage.impl.recipe.conditions.AndCondition;

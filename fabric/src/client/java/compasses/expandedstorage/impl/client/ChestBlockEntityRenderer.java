@@ -9,7 +9,7 @@ import compasses.expandedstorage.impl.block.ChestBlock;
 import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.block.misc.Property;
 import compasses.expandedstorage.impl.block.misc.PropertyRetriever;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.FabricClient;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;

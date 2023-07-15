@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import de.siphalor.amecs.api.AmecsKeyBinding;
 import de.siphalor.amecs.api.KeyModifiers;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

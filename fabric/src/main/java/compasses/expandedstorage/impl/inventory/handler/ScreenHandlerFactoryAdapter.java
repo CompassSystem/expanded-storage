@@ -1,6 +1,5 @@
-package compasses.expandedstorage.impl.misc;
+package compasses.expandedstorage.impl.inventory.handler;
 
-import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

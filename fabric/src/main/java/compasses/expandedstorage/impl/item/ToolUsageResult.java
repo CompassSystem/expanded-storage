@@ -1,6 +1,6 @@
 package compasses.expandedstorage.impl.item;
 
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.world.InteractionResult;
 
 public class ToolUsageResult {

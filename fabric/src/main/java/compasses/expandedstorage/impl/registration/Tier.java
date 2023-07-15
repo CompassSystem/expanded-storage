@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.misc;
+package compasses.expandedstorage.impl.registration;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

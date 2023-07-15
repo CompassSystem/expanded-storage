@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.client.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;

@@ -1,6 +1,6 @@
 package compasses.expandedstorage.impl.item;
 
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.impl.recipe.EntityConversionRecipe;

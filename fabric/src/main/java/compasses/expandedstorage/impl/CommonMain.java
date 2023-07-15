@@ -18,11 +18,11 @@ import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
+import compasses.expandedstorage.impl.item.MiniStorageBlockItem;
 import compasses.expandedstorage.impl.item.StorageConversionKit;
 import compasses.expandedstorage.impl.item.StorageMutator;
-import compasses.expandedstorage.impl.misc.ScreenHandlerFactoryAdapter;
-import compasses.expandedstorage.impl.misc.Tier;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.inventory.handler.ScreenHandlerFactoryAdapter;
+import compasses.expandedstorage.impl.registration.Tier;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -301,7 +301,7 @@ public final class CommonMain {
 
         private void createMiniStorageBlock(ResourceLocation id, ResourceLocation stat, Tier tier, Block.Properties properties, boolean hasRibbon) {
             final MiniStorageBlock block = new MiniStorageBlock(tier.getBlockSettings().apply(properties), stat, hasRibbon);
-            final BlockItem item = new BlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
+            final MiniStorageBlockItem item = new MiniStorageBlockItem(block, tier.getItemSettings().apply(new Item.Properties()));
 
             miniStorageBlocks.add(Registry.register(BuiltInRegistries.BLOCK, id, block));
             Registry.register(BuiltInRegistries.ITEM, id, item);

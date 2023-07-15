@@ -1,6 +1,6 @@
 package compasses.expandedstorage.impl.datagen.content;
 
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -14,8 +14,6 @@ public final class ModTags {
     public static class Blocks {
         public static final TagKey<Block> ES_WOODEN_CHESTS = tag(Registries.BLOCK, Utils.id("wooden_chests"));
         public static final TagKey<Block> COPPER_BARRELS = tag(Registries.BLOCK, Utils.id("copper_barrels"));
-//        public static final TagKey<Block> COPPER_CHESTS = tag(Registries.BLOCK, Utils.id("copper_chests"));
-//        public static final TagKey<Block> OLD_COPPER_CHESTS = tag(Registries.BLOCK, Utils.id("old_copper_chests"));
     }
 
     public static class Items {

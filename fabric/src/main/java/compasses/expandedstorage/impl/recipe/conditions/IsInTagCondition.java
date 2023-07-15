@@ -2,7 +2,7 @@ package compasses.expandedstorage.impl.recipe.conditions;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;

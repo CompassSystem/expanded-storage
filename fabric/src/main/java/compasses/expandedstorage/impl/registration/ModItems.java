@@ -1,7 +1,7 @@
 package compasses.expandedstorage.impl.registration;
 
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;

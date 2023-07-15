@@ -11,7 +11,6 @@ import compasses.expandedstorage.impl.block.strategies.Lockable;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.impl.item.EntityInteractableItem;
 import compasses.expandedstorage.impl.item.MutationMode;
-import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeReloadListener;

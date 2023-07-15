@@ -3,7 +3,7 @@ package compasses.expandedstorage.impl.client.gui.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import compasses.expandedstorage.impl.client.gui.TexturedRect;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;

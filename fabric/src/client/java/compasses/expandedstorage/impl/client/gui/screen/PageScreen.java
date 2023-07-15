@@ -5,7 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import compasses.expandedstorage.impl.client.gui.TexturedRect;
 import compasses.expandedstorage.impl.client.gui.widget.PageButton;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.FabricClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;

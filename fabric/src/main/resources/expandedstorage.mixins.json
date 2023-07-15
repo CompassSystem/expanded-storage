@@ -12,7 +12,6 @@
     "SpectatorEntityInventoryViewingFix",
     "HTMChestCompat",
     "HTMLockableBlockEntityCompat",
-    "MiniStorageHeadEquipment",
     "ToweletteCompat",
     "SyncRecipesMixin"
   ],

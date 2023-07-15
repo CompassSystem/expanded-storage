@@ -3,7 +3,7 @@ package compasses.expandedstorage.impl.block;
 import compasses.expandedstorage.impl.CommonMain;
 import compasses.expandedstorage.impl.inventory.OpenableInventory;
 import compasses.expandedstorage.impl.inventory.context.BlockContext;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

@@ -5,7 +5,7 @@ import compasses.expandedstorage.impl.block.AbstractChestBlock;
 import compasses.expandedstorage.impl.block.BarrelBlock;
 import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import compasses.expandedstorage.impl.block.entity.OpenableBlockEntity;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.impl.recipe.EntityConversionRecipe;

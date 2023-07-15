@@ -6,7 +6,7 @@ import compasses.expandedstorage.impl.client.gui.CopyFunction;
 import compasses.expandedstorage.impl.client.gui.SizedSimpleTexture;
 import compasses.expandedstorage.impl.inventory.handler.AbstractHandler;
 import compasses.expandedstorage.impl.client.gui.ErrorlessTextureGetter;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.FabricClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

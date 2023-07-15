@@ -7,7 +7,7 @@ import compasses.expandedstorage.impl.block.CopperBarrelBlock;
 import compasses.expandedstorage.impl.block.CopperMiniStorageBlock;
 import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import compasses.expandedstorage.impl.block.OpenableBlock;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;

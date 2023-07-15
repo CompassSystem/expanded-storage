@@ -62,9 +62,6 @@ val cardinalComponentsVersion = "5.2.0"
 compileDependencies["carrier"] = mapOf(
     compileScope to listOf(
         "curse.maven:carrier-409184:4605884",
-        "dev.onyxstudios.cardinal-components-api:cardinal-components-base:$cardinalComponentsVersion",
-        "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:$cardinalComponentsVersion",
-        "net.devtech:arrp:0.6.7"
     )
 )
 runtimeDependencies["carrier"] = mapOf(
@@ -105,8 +102,6 @@ runtimeDependencies["hey_thats_mine"] = mapOf(
 compileDependencies["inventory_profiles"] = mapOf(
     compileScope to listOf(
         "maven.modrinth:inventory-profiles-next:fabric-1.20-1.10.6",
-        "maven.modrinth:libipn:fabric-1.20-3.0.2",
-        "net.fabricmc:fabric-language-kotlin:1.9.6+kotlin.1.8.22"
     )
 )
 runtimeDependencies["inventory_profiles"] = mapOf(
@@ -158,7 +153,6 @@ runtimeDependencies["rei"] = mapOf(
 
 compileDependencies["towelette"] = mapOf(
     compileScope to listOf(
-        "maven.modrinth:statement:4.2.5+1.14.4-1.19.3",
         "maven.modrinth:towelette:5.0.0+1.14.4-1.19.3"
     )
 )

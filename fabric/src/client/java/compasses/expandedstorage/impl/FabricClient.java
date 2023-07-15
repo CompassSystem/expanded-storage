@@ -11,7 +11,6 @@ import compasses.expandedstorage.impl.entity.ChestMinecart;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
 import compasses.expandedstorage.impl.item.MutationMode;
 import compasses.expandedstorage.impl.item.StorageMutator;
-import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.recipe.BlockConversionRecipe;
 import compasses.expandedstorage.impl.recipe.ConversionRecipeManager;
 import compasses.expandedstorage.impl.recipe.EntityConversionRecipe;

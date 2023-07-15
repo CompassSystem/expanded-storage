@@ -1,6 +1,6 @@
 package compasses.expandedstorage.impl.inventory.handler;
 
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.FabricMain;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

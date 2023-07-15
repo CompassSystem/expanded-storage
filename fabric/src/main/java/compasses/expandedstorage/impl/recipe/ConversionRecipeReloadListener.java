@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import compasses.expandedstorage.impl.misc.Utils;
+import compasses.expandedstorage.impl.Utils;
 import compasses.expandedstorage.impl.recipe.conditions.RecipeCondition;
 import compasses.expandedstorage.impl.recipe.misc.JsonHelper;
 import compasses.expandedstorage.impl.recipe.misc.PartialBlockState;

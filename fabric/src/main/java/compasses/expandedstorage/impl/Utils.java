@@ -1,4 +1,4 @@
-package compasses.expandedstorage.impl.misc;
+package compasses.expandedstorage.impl;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
