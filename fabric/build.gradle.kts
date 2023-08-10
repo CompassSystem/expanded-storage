@@ -403,7 +403,7 @@ curseforge {
             add("Fabric")
             add("Quilt")
             add("Java " + project.extensions.getByType(JavaPluginExtension::class.java).targetCompatibility.majorVersion)
-            add(minecraftVersion)
+            add(findProperty("curseforge_version_override") ?: minecraftVersion)
         }
 
         relations(closureOf<CurseRelation> {
