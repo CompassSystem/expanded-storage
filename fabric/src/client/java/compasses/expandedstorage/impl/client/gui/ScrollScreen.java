@@ -221,18 +221,23 @@ public final class ScrollScreen extends AbstractScreen {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        if (super.mouseScrolled(mouseX, mouseY, delta)) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+        if (super.mouseScrolled(mouseX, mouseY, deltaX, deltaY)) {
             return true;
         }
         if (scrollingUnrestricted || this.isMouseOverTrack(mouseX, mouseY)) {
             int newTop;
-            if (delta < 0) {
+
+            if (deltaY < 0) {
                 newTop = Math.min(topRow + (hasShiftDown() ? inventoryHeight : 1), totalRows - inventoryHeight);
-            } else {
+            } else  if (deltaY > 0){
                 newTop = Math.max(topRow - (hasShiftDown() ? inventoryHeight : 1), 0);
+            } else {
+                newTop = topRow;
             }
+
             this.setTopRowAndMoveThumb(topRow, newTop);
+
             return true;
         }
         return false;

@@ -24,14 +24,14 @@ public class SyncRecipesMixin {
     }
 
     @Inject(
-            method = "placeNewPlayer(Lnet/minecraft/network/Connection;Lnet/minecraft/server/level/ServerPlayer;)V",
+            method = "placeNewPlayer(Lnet/minecraft/network/Connection;Lnet/minecraft/server/level/ServerPlayer;I)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/server/players/PlayerList;sendPlayerPermissionLevel(Lnet/minecraft/server/level/ServerPlayer;)V"
             )
     )
 
-    private void expandedstorage$sendResourcesToNewPlayer(Connection connection, ServerPlayer player, CallbackInfo ci) {
+    private void expandedstorage$sendResourcesToNewPlayer(Connection connection, ServerPlayer player, int latency, CallbackInfo ci) {
         FabricMain.sendConversionRecipesToClient(player, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
     }
 
