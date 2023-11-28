@@ -26,8 +26,8 @@ public final class CopperMiniStorageBlock extends MiniStorageBlock implements We
 
     @Override
     @SuppressWarnings("deprecation")
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource source) {
-        WeatheringCopper.super.onRandomTick(state, level, pos, source);
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        this.changeOverTime(state, level, pos, random);
     }
 
     @NotNull
