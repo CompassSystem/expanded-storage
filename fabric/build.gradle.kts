@@ -1,7 +1,4 @@
 import compasses.idk_plugin.JsonNormalizerReader
-import me.hypherionmc.cursegradle.CurseArtifact
-import me.hypherionmc.cursegradle.CurseProject
-import me.hypherionmc.cursegradle.CurseRelation
 import net.fabricmc.loom.task.RemapJarTask
 import org.codehaus.groovy.runtime.ProcessGroovyMethods
 import org.gradle.kotlin.dsl.version
@@ -11,7 +8,6 @@ plugins {
     `java-library`
     id("dev.architectury.loom") version "1.2-SNAPSHOT"
     id("io.github.juuxel.loom-quiltflower") version "1.10.0"
-    id("me.hypherionmc.cursegradle") version "2.0.1"
 }
 
 group = "compasses"
@@ -374,50 +370,50 @@ val modChangelog = buildString {
     append("\nCommit: ${property("repo_base_url")!!}/commit/${getGitCommit()}")
 }
 
-curseforge {
-    curseGradleOptions.apply {
-        debug = System.getProperty("MOD_UPLOAD_DEBUG", "false") == "true"
-        javaVersionAutoDetect = false
-        javaIntegration = false
-        forgeGradleIntegration = false
-        fabricIntegration = false
-        detectFabricApi = false
-    }
-
-    project(closureOf<CurseProject> {
-        apiKey = System.getenv("CURSEFORGE_TOKEN")
-        id  = project.property("curseforge_project_id")
-        releaseType = if (modVersion.contains("alpha")) "alpha" else if (modVersion.contains("beta")) "beta" else "release"
-
-        val minJar = project.tasks.getByName("minJar")
-
-        mainArtifact(minJar, closureOf<CurseArtifact> {
-            displayName = "Fabric/Quilt $modVersion"
-            artifact = minJar
-        })
-
-        changelogType = "markdown"
-        changelog = modChangelog
-
-        gameVersionStrings = buildList {
-            add("Fabric")
-            add("Quilt")
-            add("Java " + project.extensions.getByType(JavaPluginExtension::class.java).targetCompatibility.majorVersion)
-            add(minecraftVersion)
-        }
-
-        relations(closureOf<CurseRelation> {
-            requiredDependency("fabric-api")
-            optionalDependency("htm")
-            optionalDependency("carrier")
-            optionalDependency("towelette")
-            optionalDependency("roughly-enough-items")
-            optionalDependency("modmenu")
-            optionalDependency("amecs")
-            optionalDependency("inventory-profiles-next")
-            optionalDependency("emi")
-            optionalDependency("inventory-tabs-updated")
-            optionalDependency("jei")
-        })
-    })
-}
+//curseforge {
+//    curseGradleOptions.apply {
+//        debug = System.getProperty("MOD_UPLOAD_DEBUG", "false") == "true"
+//        javaVersionAutoDetect = false
+//        javaIntegration = false
+//        forgeGradleIntegration = false
+//        fabricIntegration = false
+//        detectFabricApi = false
+//    }
+//
+//    project(closureOf<CurseProject> {
+//        apiKey = System.getenv("CURSEFORGE_TOKEN")
+//        id  = project.property("curseforge_project_id")
+//        releaseType = if (modVersion.contains("alpha")) "alpha" else if (modVersion.contains("beta")) "beta" else "release"
+//
+//        val minJar = project.tasks.getByName("minJar")
+//
+//        mainArtifact(minJar, closureOf<CurseArtifact> {
+//            displayName = "Fabric/Quilt $modVersion"
+//            artifact = minJar
+//        })
+//
+//        changelogType = "markdown"
+//        changelog = modChangelog
+//
+//        gameVersionStrings = buildList {
+//            add("Fabric")
+//            add("Quilt")
+//            add("Java " + project.extensions.getByType(JavaPluginExtension::class.java).targetCompatibility.majorVersion)
+//            add(minecraftVersion)
+//        }
+//
+//        relations(closureOf<CurseRelation> {
+//            requiredDependency("fabric-api")
+//            optionalDependency("htm")
+//            optionalDependency("carrier")
+//            optionalDependency("towelette")
+//            optionalDependency("roughly-enough-items")
+//            optionalDependency("modmenu")
+//            optionalDependency("amecs")
+//            optionalDependency("inventory-profiles-next")
+//            optionalDependency("emi")
+//            optionalDependency("inventory-tabs-updated")
+//            optionalDependency("jei")
+//        })
+//    })
+//}

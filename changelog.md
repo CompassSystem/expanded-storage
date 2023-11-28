@@ -1,4 +1,1 @@
-- Update to 1.20.1
-- Make project fabric only whilst remaining quilt compatible.
-- Fix barrel breaking textures.
-- Fix error in logs from storage_mutator model.
+- Update to 1.20.2

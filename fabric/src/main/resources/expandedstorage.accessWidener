@@ -1,9 +1,7 @@
 accessWidener v1 named
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
-accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/tags/TagKey;)Lnet/minecraft/advancements/critereon/InventoryChangeTrigger$TriggerInstance;
 extendable method net/minecraft/world/entity/vehicle/AbstractMinecart getDropItem ()Lnet/minecraft/world/item/Item;
 accessible class net/minecraft/data/tags/TagsProvider$TagAppender
-accessible method net/minecraft/data/recipes/RecipeProvider has (Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/advancements/critereon/InventoryChangeTrigger$TriggerInstance;
 mutable field net/minecraft/world/item/HoneycombItem WAXABLES Ljava/util/function/Supplier;
 mutable field net/minecraft/world/inventory/Slot y I
 accessible field net/minecraft/world/inventory/AbstractContainerMenu remoteSlots Lnet/minecraft/core/NonNullList;

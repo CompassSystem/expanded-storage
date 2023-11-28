@@ -4,8 +4,8 @@ import compasses.expandedstorage.impl.datagen.content.ModTags;
 import compasses.expandedstorage.impl.item.ChestMinecartItem;
 import compasses.expandedstorage.impl.misc.Utils;
 import compasses.expandedstorage.impl.registration.ModItems;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -20,7 +20,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class RecipeHelper {
@@ -51,7 +50,7 @@ public class RecipeHelper {
     }
 
     @SuppressWarnings("SpellCheckingInspection")
-    private void smithingRecipe(Item output, Item base, TagKey<Item> addition, RecipeCategory category, String criterion, Consumer<FinishedRecipe> exporter) {
+    private void smithingRecipe(Item output, Item base, TagKey<Item> addition, RecipeCategory category, String criterion, RecipeOutput exporter) {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(base), Ingredient.of(addition), category, output)
                                       .unlocks(criterion, RecipeProvider.has(base))
                                       .save(exporter, itemIdGetter.apply(output));
@@ -65,7 +64,7 @@ public class RecipeHelper {
         return ShapedRecipeBuilder.shaped(category, output, count).unlockedBy(criterion, RecipeProvider.has(item));
     }
 
-    public void registerRecipes(Consumer<FinishedRecipe> exporter) {
+    public void registerRecipes(RecipeOutput exporter) {
         shapedRecipe(ModItems.STORAGE_MUTATOR, RecipeCategory.MISC, 1, "has_chest", ModTags.Items.ES_WOODEN_CHESTS)
                 .pattern("  C")
                 .pattern(" S ")
@@ -83,7 +82,7 @@ public class RecipeHelper {
         this.offerMiniStorageRecipes(exporter);
     }
 
-    private void offerConversionKitRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerConversionKitRecipes(RecipeOutput exporter) {
         shapedRecipe(ModItems.WOOD_TO_COPPER_CONVERSION_KIT, RecipeCategory.MISC, 1, Criterions.HAS_ITEM, ItemTags.PLANKS)
                 .pattern("III")
                 .pattern("IPI")
@@ -206,7 +205,7 @@ public class RecipeHelper {
                                       .save(exporter, itemIdGetter.apply(ModItems.OBSIDIAN_TO_NETHERITE_CONVERSION_KIT));
     }
 
-    private void offerChestRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerChestRecipes(RecipeOutput exporter) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.WOOD_CHEST)
                               .requires(Items.CHEST)
                               .group(id(ModItems.WOOD_CHEST))
@@ -283,7 +282,7 @@ public class RecipeHelper {
         smithingRecipe(ModItems.NETHERITE_CHEST, ModItems.OBSIDIAN_CHEST, netheriteIngots, RecipeCategory.MISC, Criterions.HAS_PREVIOUS_BLOCK, exporter);
     }
 
-    private void offerChestMinecartRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerChestMinecartRecipes(RecipeOutput exporter) {
         cartRecipe(ModItems.WOOD_CHEST, ModItems.WOOD_CHEST_MINECART, exporter);
         cartRecipe(ModItems.PUMPKIN_CHEST, ModItems.PUMPKIN_CHEST_MINECART, exporter);
         cartRecipe(ModItems.PRESENT, ModItems.PRESENT_MINECART, exporter);
@@ -295,7 +294,7 @@ public class RecipeHelper {
         cartRecipe(ModItems.NETHERITE_CHEST, ModItems.NETHERITE_CHEST_MINECART, exporter);
     }
 
-    private void cartRecipe(BlockItem chest, ChestMinecartItem cart, Consumer<FinishedRecipe> exporter) {
+    private void cartRecipe(BlockItem chest, ChestMinecartItem cart, RecipeOutput exporter) {
         shapedRecipe(cart, RecipeCategory.MISC, 1, "has_chest", chest)
                 .pattern("C")
                 .pattern("M")
@@ -304,7 +303,7 @@ public class RecipeHelper {
                 .save(exporter);
     }
 
-    private void offerOldChestRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerOldChestRecipes(RecipeOutput exporter) {
         shapedRecipe(ModItems.OLD_IRON_CHEST, RecipeCategory.MISC, 1, Criterions.HAS_PREVIOUS_BLOCK, ModItems.OLD_WOOD_CHEST)
                 .pattern("III")
                 .pattern("IBI")
@@ -341,7 +340,7 @@ public class RecipeHelper {
         smithingRecipe(ModItems.OLD_NETHERITE_CHEST, ModItems.OLD_OBSIDIAN_CHEST, netheriteIngots, RecipeCategory.MISC, Criterions.HAS_PREVIOUS_BLOCK, exporter);
     }
 
-    private void offerChestToOldChestRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerChestToOldChestRecipes(RecipeOutput exporter) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.OLD_WOOD_CHEST)
                               .requires(ModItems.WOOD_CHEST)
                               .group(id(ModItems.OLD_WOOD_CHEST))
@@ -374,7 +373,7 @@ public class RecipeHelper {
                               .save(exporter, Utils.id("netherite_to_old_netherite_chest"));
     }
 
-    private void offerOldChestToChestRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerOldChestToChestRecipes(RecipeOutput exporter) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.WOOD_CHEST)
                               .requires(ModItems.OLD_WOOD_CHEST)
                               .group(id(ModItems.WOOD_CHEST))
@@ -407,7 +406,7 @@ public class RecipeHelper {
                               .save(exporter, Utils.id("old_netherite_to_netherite_chest"));
     }
 
-    private void offerBarrelRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerBarrelRecipes(RecipeOutput exporter) {
         shapedRecipe(ModItems.COPPER_BARREL, RecipeCategory.MISC, 1, Criterions.HAS_PREVIOUS_BLOCK, woodenBarrels)
                 .pattern("III")
                 .pattern("IBI")
@@ -448,7 +447,7 @@ public class RecipeHelper {
         smithingRecipe(ModItems.NETHERITE_BARREL, ModItems.OBSIDIAN_BARREL, netheriteIngots, RecipeCategory.MISC, Criterions.HAS_PREVIOUS_BLOCK, exporter);
     }
 
-    private void offerMiniStorageRecipes(Consumer<FinishedRecipe> exporter) {
+    private void offerMiniStorageRecipes(RecipeOutput exporter) {
         shapedRecipe(ModItems.VANILLA_WOOD_MINI_CHEST, RecipeCategory.MISC, 4, Criterions.HAS_ITEM, Items.CHEST)
                 .pattern(" P ")
                 .pattern("PBP")
