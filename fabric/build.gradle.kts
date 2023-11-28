@@ -39,6 +39,19 @@ loom {
             sourceSet("client")
         }
     }
+
+    runs {
+        // This adds a new gradle task that runs the datagen API: "gradlew runDatagen"
+        create("datagen") {
+            inherit(named("client").get())
+            name("Data Generation")
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}")
+            vmArg("-Dfabric-api.datagen.modid=${modId}")
+
+            runDir("build/datagen")
+        }
+    }
 }
 
 // <editor-fold desc="// Dependencies">
