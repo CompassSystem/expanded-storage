@@ -28,6 +28,5 @@
     "recipes": [
       "expandedstorage:storage_mutator"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

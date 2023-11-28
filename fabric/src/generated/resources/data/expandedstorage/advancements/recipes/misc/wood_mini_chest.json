@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:wood_mini_chest"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

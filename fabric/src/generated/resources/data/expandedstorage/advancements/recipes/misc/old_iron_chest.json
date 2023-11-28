@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:old_iron_chest"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

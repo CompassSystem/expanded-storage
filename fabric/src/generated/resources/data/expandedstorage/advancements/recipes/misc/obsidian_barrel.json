@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:obsidian_barrel"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

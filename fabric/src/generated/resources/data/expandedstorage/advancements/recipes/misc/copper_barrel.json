@@ -28,6 +28,5 @@
     "recipes": [
       "expandedstorage:copper_barrel"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

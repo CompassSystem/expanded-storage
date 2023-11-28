@@ -28,6 +28,5 @@
     "recipes": [
       "expandedstorage:mini_barrel"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

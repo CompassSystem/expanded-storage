@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:present_minecart"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:copper_to_gold_conversion_kit"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

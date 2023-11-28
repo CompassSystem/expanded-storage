@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:old_gold_to_gold_chest"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
