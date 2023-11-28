@@ -12,6 +12,7 @@ plugins {
 
 group = "compasses"
 version = property("mod_version")!!
+base.archivesName.set(property("archives_base_name")!! as String)
 
 val minecraftVersion: String = property("minecraft_version") as String
 val javaVersion: JavaVersion = (property("java_version") as String).let { JavaVersion.toVersion(it) }
