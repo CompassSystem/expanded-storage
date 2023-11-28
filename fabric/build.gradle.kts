@@ -64,7 +64,7 @@ compileDependencies["carrier"] = mapOf(
         "curse.maven:carrier-409184:4605884",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-base:$cardinalComponentsVersion",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:$cardinalComponentsVersion",
-        "net.devtech:arrp:0.6.7"
+//        "net.devtech:arrp:0.6.7"
     )
 )
 runtimeDependencies["carrier"] = mapOf(
@@ -72,7 +72,7 @@ runtimeDependencies["carrier"] = mapOf(
         "curse.maven:carrier-409184:3873675",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-base:$cardinalComponentsVersion",
         "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:$cardinalComponentsVersion",
-        "net.devtech:arrp:0.6.7"
+//        "net.devtech:arrp:0.6.7"
     )
 )
 
@@ -173,22 +173,22 @@ runtimeDependencies["modmenu"] = mapOf(
 repositories {
     maven { // Cardinal Components
         name = "Ladysnake maven"
-        url = uri("https://ladysnake.jfrog.io/artifactory/mods")
+        url = uri("https://maven.ladysnake.org/releases")
         content {
             includeGroup("dev.onyxstudios.cardinal-components-api")
         }
     }
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "ARRP"
-                url = uri("https://ueaj.dev/maven")
-            }
-        }
-        filter {
-            includeGroup("net.devtech")
-        }
-    }
+//    exclusiveContent {
+//        forRepository {
+//            maven {
+//                name = "ARRP"
+//                url = uri("https://ueaj.dev/maven")
+//            }
+//        }
+//        filter {
+//            includeGroup("net.devtech")
+//        }
+//    }
     exclusiveContent { // Mod Menu
         forRepository {
             maven {
