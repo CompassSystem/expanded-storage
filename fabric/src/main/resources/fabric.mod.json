@@ -1,0 +1,46 @@
+{
+	"schemaVersion": 1,
+	"id": "expanded-storage",
+	"version": "${version}",
+	"name": "Expanded Storage",
+	"description": "Storage mod focusing on higher capacity storage options.",
+	"authors": [
+		"Compass System"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/expanded-storage/",
+		"sources": "https://github.com/CompassSystem/expanded-storage/"
+	},
+	"license": "ARR",
+	"icon": "assets/expanded-storage/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "compass_system.expanded_storage.ExpandedStorage",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "compass_system.expanded_storage.ExpandedStorageClient",
+				"adapter": "kotlin"
+			}
+		],
+		"fabric-datagen": [
+			{
+				"value": "compass_system.expanded_storage.ExpandedStorageDataGenerator",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+
+	],
+	"depends": {
+		"fabricloader": ">=0.14.25",
+		"minecraft": "~1.20.2",
+		"fabric-api": ">=0.91.1",
+		"fabric-language-kotlin": ">=1.9.21"
+	}
+}
