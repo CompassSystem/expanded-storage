@@ -1,1 +1,2 @@
-- Update to 1.20.2
+- Fix call loop in render background method.
+- Fix some extra darkening on some screens.
