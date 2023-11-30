@@ -9,39 +9,26 @@ plugins {
 version = requiredProp("mod_version")
 group = requiredProp("maven_group")
 base.archivesName = requiredProp("archives_base_name")
-val modId = requiredProp("mod_id")
+val modIdentifier = requiredProp("mod_id")
 val targetJdkVersion = JavaVersion.VERSION_17
 
 loom {
     splitEnvironmentSourceSets()
 
     mods {
-        create(modId) {
+        create(modIdentifier) {
             sourceSet("main")
             sourceSet("client")
-        }
-    }
-
-    runs {
-        create("datagen") {
-            inherit(named("client").get())
-            name = "Data Generation"
-            vmArg("-Dfabric-api.datagen")
-            vmArg("-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}")
-            vmArg("-Dfabric-api.datagen.modid=$modId")
-            runDir("build/datagen")
         }
     }
 
     silentMojangMappingsLicense()
 }
 
-// Add the generated resources to the main source set
-sourceSets {
-    main {
-        resources {
-            srcDir("src/generated/resources")
-        }
+fabricApi {
+    configureDataGeneration {
+        modId = modIdentifier
+        outputDirectory = file("src/generated/resources")
     }
 }
 
