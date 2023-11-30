@@ -41,7 +41,7 @@ public final class FakePickScreen extends AbstractScreen {
 
     @Override
     protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
-        this.renderBackground(graphics, mouseX, mouseY, delta);
+
     }
 
     @Override
