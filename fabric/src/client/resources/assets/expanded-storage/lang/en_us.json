@@ -1,0 +1,14 @@
+{
+  "block.expanded-storage.copper_barrel": "Copper Barrel",
+  "block.expanded-storage.exposed_copper_barrel": "Exposed Copper Barrel",
+  "block.expanded-storage.weathered_copper_barrel": "Weathered Copper Barrel",
+  "block.expanded-storage.oxidized_copper_barrel": "Oxidized Copper Barrel",
+  "block.expanded-storage.waxed_copper_barrel": "Waxed Copper Barrel",
+  "block.expanded-storage.waxed_exposed_copper_barrel": "Waxed Exposed Copper Barrel",
+  "block.expanded-storage.waxed_weathered_copper_barrel": "Waxed Weathered Copper Barrel",
+  "block.expanded-storage.waxed_oxidized_copper_barrel": "Waxed Oxidized Copper Barrel",
+  "block.expanded-storage.iron_barrel": "Iron Barrel",
+  "block.expanded-storage.gold_barrel": "Gold Barrel",
+  "block.expanded-storage.diamond_barrel": "Diamond Barrel",
+  "block.expanded-storage.netherite_barrel": "Netherite Barrel"
+}
