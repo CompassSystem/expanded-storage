@@ -34,6 +34,19 @@ fabricApi {
     }
 }
 
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                url = uri("https://cursemaven.com")
+            }
+        }
+        filter {
+            includeGroup("curse.maven")
+        }
+    }
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:${requiredProp("minecraft_version")}")
     mappings(loom.officialMojangMappings())
@@ -41,6 +54,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${requiredProp("fabric_loader")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${requiredProp("fabric_api")}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${requiredProp("fabric_kotlin")}")
+
+    modRuntimeOnly("curse.maven:variantbarrels-576766:4762229")
 }
 
 tasks {
