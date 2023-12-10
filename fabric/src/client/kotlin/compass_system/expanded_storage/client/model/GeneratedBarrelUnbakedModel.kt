@@ -1,7 +1,6 @@
 package compass_system.expanded_storage.client.model
 
 import com.mojang.datafixers.util.Either
-import compass_system.expanded_storage.ExpandedStorage
 import net.minecraft.client.renderer.block.model.BlockModel
 import net.minecraft.client.renderer.block.model.ItemTransforms
 import net.minecraft.client.renderer.block.model.MultiVariant
@@ -15,14 +14,25 @@ import java.util.function.Function
 
 class GeneratedBarrelUnbakedModel(
     private val baseModelId: ResourceLocation,
-    private val generatedSideTextureId: ResourceLocation
-) : UnbakedModel {
+    private val generatedSideTextureId: ResourceLocation,
+    private val textures: MutableMap<String, Either<Material, String>> = mutableMapOf()
+) : BlockModel(
+    barrelBaseModelId,
+    arrayListOf(),
+    textures,
+    null,
+    null,
+    ItemTransforms.NO_TRANSFORMS,
+    arrayListOf()
+) {
     companion object {
         val barrelBaseModelId = ResourceLocation("minecraft:block/cube_bottom_top")
     }
-
-    private var model: BlockModel? = null
-    override fun getDependencies(): Collection<ResourceLocation> = listOf(baseModelId, barrelBaseModelId)
+    override fun getDependencies(): Collection<ResourceLocation> {
+        val rv = super.getDependencies()
+        rv.add(baseModelId)
+        return rv
+    }
 
     override fun resolveParents(resolver: Function<ResourceLocation, UnbakedModel>) {
         val barrelModel = resolver.apply(baseModelId)
@@ -38,22 +48,12 @@ class GeneratedBarrelUnbakedModel(
             val topTexture = element.faces[Direction.UP]?.let { baseModel.getMaterial(it.texture) } ?: return
             val bottomTexture = element.faces[Direction.DOWN]?.let { baseModel.getMaterial(it.texture) } ?: return
 
-            model = BlockModel(
-                barrelBaseModelId,
-                arrayListOf(),
-                buildMap<String, Either<Material, String>> {
-                    put("top", Either.left(topTexture))
-                    put("side", Either.left(Material(TextureAtlas.LOCATION_BLOCKS, generatedSideTextureId)))
-                    put("bottom", Either.left(bottomTexture))
-                }.toMutableMap(),
-                null,
-                null,
-                ItemTransforms.NO_TRANSFORMS,
-                arrayListOf()
-            )
-
-            model?.resolveParents(resolver)
+            textures["top"] = Either.left(topTexture)
+            textures["side"] = Either.left(Material(TextureAtlas.LOCATION_BLOCKS, generatedSideTextureId))
+            textures["bottom"] = Either.left(bottomTexture)
         }
+
+        super.resolveParents(resolver)
     }
 
     override fun bake(
@@ -61,9 +61,9 @@ class GeneratedBarrelUnbakedModel(
         textureGetter: Function<Material, TextureAtlasSprite>,
         modelState: ModelState,
         modelId: ResourceLocation
-    ): BakedModel? {
-        val rv =  model?.bake(modelBaker, textureGetter, modelState, modelId)
-        ExpandedStorage.logger.info("GeneratedBarrelUnbakedModel.bake(): $rv")
-        return rv
+    ): BakedModel? = if (textures.isNotEmpty()) {
+        super.bake(modelBaker, textureGetter, modelState, modelId)
+    } else {
+        null
     }
 }

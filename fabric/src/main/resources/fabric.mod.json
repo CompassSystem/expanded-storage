@@ -29,11 +29,12 @@
 		],
 		"fabric-datagen": [
 			{
-				"value": "compass_system.expanded_storage.ExpandedStorageDataGenerator",
+				"value": "compass_system.expanded_storage.data.ExpandedStorageDataGenerator",
 				"adapter": "kotlin"
 			}
 		]
 	},
+	"accessWidener": "expanded-storage.accesswidener",
 	"mixins": [
 		{
 			"config": "expanded-storage.client.mixins.json",

@@ -29,7 +29,7 @@ public class GeneratedSpriteLoaderMixin {
         if (location.toString().equals("minecraft:textures/atlas/blocks.png")) {
             ArrayList<SpriteContents> sprites = new ArrayList<>(list);
 
-            ExpandedStorageClient.INSTANCE.getModelPlugin().generateBarrelSideSprites(list);
+            ExpandedStorageClient.INSTANCE.getModelPlugin().generateBarrelSideSprites(sprites);
 
             return sprites;
         }

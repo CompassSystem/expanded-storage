@@ -22,6 +22,8 @@ loom {
         }
     }
 
+    accessWidenerPath = file("src/main/resources/expanded-storage.accesswidener")
+
     silentMojangMappingsLicense()
 }
 
@@ -64,6 +66,15 @@ tasks {
 
         filesMatching("fabric.mod.json") {
             expand(inputs.properties)
+        }
+    }
+
+    afterEvaluate {
+        all {
+            if (name == "genSources" || name.startsWith("gen") && name.contains("Sources") && !name.contains("With")) {
+                println("$name : ${name}WithVineflower")
+                setDependsOn(setOf(named("${name}WithVineflower")))
+            }
         }
     }
 }
