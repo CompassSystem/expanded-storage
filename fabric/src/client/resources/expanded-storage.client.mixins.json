@@ -3,7 +3,6 @@
   "package": "compass_system.expanded_storage.client.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "FixBreakParticleMixin",
     "GeneratedSpriteLoaderMixin"
   ],
   "injectors": {

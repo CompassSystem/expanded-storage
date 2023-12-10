@@ -10,5 +10,7 @@
   "block.expanded-storage.iron_barrel": "Iron Barrel",
   "block.expanded-storage.gold_barrel": "Gold Barrel",
   "block.expanded-storage.diamond_barrel": "Diamond Barrel",
-  "block.expanded-storage.netherite_barrel": "Netherite Barrel"
+  "block.expanded-storage.netherite_barrel": "Netherite Barrel",
+
+  "item_group.expanded-storage": "Expanded Storage"
 }
