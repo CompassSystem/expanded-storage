@@ -11,7 +11,7 @@
 		"homepage": "https://modrinth.com/mod/expanded-storage/",
 		"sources": "https://github.com/CompassSystem/expanded-storage/"
 	},
-	"license": "ARR",
+	"license": [ "MIT", "CC-BY-NC-SA-4.0" ],
 	"icon": "assets/expanded-storage/icon.png",
 	"environment": "*",
 	"entrypoints": {
