@@ -49,7 +49,7 @@ class GeneratedBarrelUnbakedModel(
             val bottomTexture = element.faces[Direction.DOWN]?.let { baseModel.getMaterial(it.texture) } ?: return
 
             textures["top"] = Either.left(topTexture)
-            textures["side"] = Either.left(Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation("minecraft", "block/barrel_side"))) // generatedSideTextureId
+            textures["side"] = Either.left(Material(TextureAtlas.LOCATION_BLOCKS, generatedSideTextureId)) // generatedSideTextureId
             textures["bottom"] = Either.left(bottomTexture)
         }
 

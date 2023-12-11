@@ -33,10 +33,9 @@ open class BarrelBlock(properties: Properties, val tier: Tiers) : StorageBlock(p
 
     override fun getDescriptionId(): String {
         if (descriptionId == null) {
-            val idParts = BuiltInRegistries.BLOCK.getKey(this).path.split(".")
-            val first = idParts.take(idParts.size - 2).joinToString(".")
-            // expanded-storage:waxed_copper.minecraft.barrel
-            // block.expanded-storage.waxed_weathered_copper_barrel
+            val baseIdLength = BarrelInitializer.barrelBlocks[this]!!.toString().length
+            val idPath = BuiltInRegistries.BLOCK.getKey(this).path
+            val first = idPath.take(idPath.length - baseIdLength - 1)
             descriptionId = "block.expanded-storage.${first}_barrel"
         }
 

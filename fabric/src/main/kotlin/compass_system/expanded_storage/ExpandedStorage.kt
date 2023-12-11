@@ -22,7 +22,10 @@ object ExpandedStorage : ModInitializer {
 			.title(Component.translatable("item_group.expanded-storage"))
 			.displayItems { displayParams, output ->
 
-				val items = BarrelInitializer.barrelBlocks.groupBy { it.builtInRegistryHolder().key().location().path.split(".").takeLast(2)[0] }.toSortedMap()
+				val items = BarrelInitializer.barrelBlocks.entries
+					.groupBy { it.value.namespace }
+					.mapValues { it.value.map { it.key } }
+					.toSortedMap()
 
 				items.remove("minecraft")!!.forEach { output.accept(it) }
 
