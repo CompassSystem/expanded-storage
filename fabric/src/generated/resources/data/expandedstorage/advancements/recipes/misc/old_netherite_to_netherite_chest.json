@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:old_netherite_to_netherite_chest"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

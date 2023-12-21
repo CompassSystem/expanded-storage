@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:pumpkin_mini_chest"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

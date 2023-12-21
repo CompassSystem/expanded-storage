@@ -1,6 +1,5 @@
 accessWidener v1 named
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
-extendable method net/minecraft/world/entity/vehicle/AbstractMinecart getDropItem ()Lnet/minecraft/world/item/Item;
 accessible class net/minecraft/data/tags/TagsProvider$TagAppender
 mutable field net/minecraft/world/item/HoneycombItem WAXABLES Ljava/util/function/Supplier;
 mutable field net/minecraft/world/inventory/Slot y I
@@ -19,3 +18,4 @@ extendable method net/minecraft/data/models/ModelProvider getName ()Ljava/lang/S
 extendable method net/minecraft/data/loot/LootTableProvider getName ()Ljava/lang/String;
 
 accessible method net/minecraft/world/item/ItemStack <init> (Lnet/minecraft/nbt/CompoundTag;)V
+extendable method net/minecraft/world/entity/vehicle/VehicleEntity getDropItem ()Lnet/minecraft/world/item/Item;

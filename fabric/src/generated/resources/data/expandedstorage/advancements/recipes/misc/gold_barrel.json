@@ -30,6 +30,5 @@
     "recipes": [
       "expandedstorage:gold_barrel"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
