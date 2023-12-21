@@ -1,3 +1,1 @@
-- Port fixes from 11.0.1:
-  - Fix call loop in render background method.
-  - Fix some extra darkening on some screens.
+Update to 1.20.4
