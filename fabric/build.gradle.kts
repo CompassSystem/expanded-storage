@@ -161,11 +161,17 @@ repositories {
 
 dependencies {
     modDependencies.iterateCompileDependencies { dependency ->
-        add("modCompileOnly", dependency)
+        add("modCompileOnly", dependency) {
+            exclude(group = "net.fabricmc")
+            exclude(group = "net.fabricmc.fabric-api")
+        }
     }
 
     modDependencies.iterateRuntimeDependencies { dependency ->
-        add("modRuntimeOnly", dependency)
+        add("modRuntimeOnly", dependency) {
+            exclude(group = "net.fabricmc")
+            exclude(group = "net.fabricmc.fabric-api")
+        }
     }
 }
 
