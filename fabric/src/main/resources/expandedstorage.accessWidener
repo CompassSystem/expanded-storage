@@ -18,4 +18,4 @@ extendable method net/minecraft/data/models/ModelProvider getName ()Ljava/lang/S
 extendable method net/minecraft/data/loot/LootTableProvider getName ()Ljava/lang/String;
 
 accessible method net/minecraft/world/item/ItemStack <init> (Lnet/minecraft/nbt/CompoundTag;)V
-extendable method net/minecraft/world/entity/vehicle/VehicleEntity getDropItem ()Lnet/minecraft/world/item/Item;
+accessible method net/minecraft/world/entity/vehicle/AbstractMinecart getDropItem ()Lnet/minecraft/world/item/Item;

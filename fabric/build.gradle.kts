@@ -5,13 +5,15 @@ group = "compass_system"
 val modDependencies = ModDependencies().apply {
     add("amecs") {
         val amecsMcVersion = "1.20"
-        val amecsVersion = "1.5.6+mc1.20.2" // https://maven.siphalor.de/de/siphalor/
-        implementation("de.siphalor:amecsapi-$amecsMcVersion:$amecsVersion")
+        val amecsApiVersion = "1.3.9+mc1.20-pre1" // https://maven.siphalor.de/de/siphalor/amecsapi-1.20/
+        val amecsVersion = "1.3.10+mc.1.20.1" // https://maven.siphalor.de/de/siphalor/amecs-1.20/
+        compileOnly("de.siphalor:amecsapi-$amecsMcVersion:$amecsApiVersion")
+        runtimeOnly("de.siphalor:amecs-$amecsMcVersion:$amecsVersion")
     }
 
     add("carrier") {
         val carrierVersion = "1.12.0" // https://modrinth.com/mod/carrier/versions
-        val cardinalComponentsVersion = "5.4.0" // https://modrinth.com/mod/cardinal-components-api/versions
+        val cardinalComponentsVersion = "5.2.2" // https://modrinth.com/mod/cardinal-components-api/versions
         val arrpVersion = "0.8.0" // https://modrinth.com/mod/arrp/versions
         implementation("maven.modrinth:carrier:$carrierVersion")
         implementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:$cardinalComponentsVersion")
@@ -20,19 +22,19 @@ val modDependencies = ModDependencies().apply {
     }
 
     add("emi") {
-        val emiVersion = "1.0.28+1.20.4" // https://modrinth.com/mod/emi/versions
+        val emiVersion = "1.0.28+1.20.1" // https://modrinth.com/mod/emi/versions
         compileOnly("dev.emi:emi-fabric:${emiVersion}:api")
         runtimeOnly("dev.emi:emi-fabric:${emiVersion}")
     }
 
     add("htm") {
-        val htmVersion = "1.1.11" // https://modrinth.com/mod/htm/versions
+        val htmVersion = "1.1.9" // https://modrinth.com/mod/htm/versions
         implementation("maven.modrinth:htm:$htmVersion")
     }
 
     add("inventory_profiles", "inventory-profiles-next") {
-        val ipnVersion = "fabric-1.20.3-pre2-1.10.9" // https://modrinth.com/mod/inventory-profiles-next/versions
-        val libIpnVersion = "fabric-1.20.3-pre2-4.0.1" // https://modrinth.com/mod/libipn/versions
+        val ipnVersion = "fabric-1.20-1.10.9" // https://modrinth.com/mod/inventory-profiles-next/versions
+        val libIpnVersion = "fabric-1.20-4.0.1" // https://modrinth.com/mod/libipn/versions
         val flkVersion = "1.10.16+kotlin.1.9.21" // https://modrinth.com/mod/fabric-language-kotlin/versions
         implementation("maven.modrinth:inventory-profiles-next:$ipnVersion")
         implementation("maven.modrinth:libipn:$libIpnVersion")
@@ -40,20 +42,20 @@ val modDependencies = ModDependencies().apply {
     }
 
     add("jei") {
-        val jeiMcVersion = "1.20.2"
-        val jeiVersion = "16.0.0.28" // https://modrinth.com/mod/jei/versions
+        val jeiMcVersion = "1.20.1"
+        val jeiVersion = "15.2.0.27" // https://modrinth.com/mod/jei/versions
         compileOnly("mezz.jei:jei-$jeiMcVersion-common-api:$jeiVersion")
         compileOnly("mezz.jei:jei-$jeiMcVersion-fabric-api:$jeiVersion")
         runtimeOnly("mezz.jei:jei-$jeiMcVersion-fabric:$jeiVersion")
     }
 
     add("modmenu") {
-        val modmenuVersion = "9.0.0" // https://modrinth.com/mod/modmenu/versions
+        val modmenuVersion = "7.2.2" // https://modrinth.com/mod/modmenu/versions
         implementation("com.terraformersmc:modmenu:$modmenuVersion")
     }
 
     add("rei") {
-        val reiVersion = "14.0.680" // https://modrinth.com/mod/rei/versions
+        val reiVersion = "12.0.684" // https://modrinth.com/mod/rei/versions
         implementation("me.shedaniel:RoughlyEnoughItems-fabric:$reiVersion")
     }
 

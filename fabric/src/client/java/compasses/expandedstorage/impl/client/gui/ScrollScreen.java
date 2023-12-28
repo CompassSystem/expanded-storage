@@ -221,8 +221,8 @@ public final class ScrollScreen extends AbstractScreen {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
-        if (super.mouseScrolled(mouseX, mouseY, deltaX, deltaY)) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaY) {
+        if (super.mouseScrolled(mouseX, mouseY, deltaY)) {
             return true;
         }
         if (scrollingUnrestricted || this.isMouseOverTrack(mouseX, mouseY)) {

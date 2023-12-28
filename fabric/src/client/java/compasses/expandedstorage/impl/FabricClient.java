@@ -5,7 +5,6 @@ import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.client.ChestBlockEntityRenderer;
-import compasses.expandedstorage.impl.client.config.ConfigV0;
 import compasses.expandedstorage.impl.client.config.ConfigWrapper;
 import compasses.expandedstorage.impl.client.gui.AbstractScreen;
 import compasses.expandedstorage.impl.entity.ChestMinecart;

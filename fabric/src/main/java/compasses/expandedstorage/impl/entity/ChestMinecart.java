@@ -50,7 +50,7 @@ public class ChestMinecart extends AbstractMinecart implements ExposedInventory,
 
     @NotNull
     @Override
-    protected Item getDropItem() {
+    public Item getDropItem() {
         return dropItem;
     }
 

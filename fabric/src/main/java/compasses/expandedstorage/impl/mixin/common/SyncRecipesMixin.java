@@ -6,7 +6,6 @@ import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.network.Connection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.level.storage.PlayerDataStorage;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,14 +24,14 @@ public class SyncRecipesMixin {
     }
 
     @Inject(
-            method = "placeNewPlayer(Lnet/minecraft/network/Connection;Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/server/network/CommonListenerCookie;)V",
+            method = "placeNewPlayer(Lnet/minecraft/network/Connection;Lnet/minecraft/server/level/ServerPlayer;)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/server/players/PlayerList;sendPlayerPermissionLevel(Lnet/minecraft/server/level/ServerPlayer;)V"
             )
     )
 
-    private void expandedstorage$sendResourcesToNewPlayer(Connection connection, ServerPlayer player, CommonListenerCookie cookie, CallbackInfo ci) {
+    private void expandedstorage$sendResourcesToNewPlayer(Connection connection, ServerPlayer player, CallbackInfo ci) {
         FabricMain.sendConversionRecipesToClient(player, ConversionRecipeManager.INSTANCE.getBlockRecipes(), ConversionRecipeManager.INSTANCE.getEntityRecipes());
     }
 
