@@ -24,6 +24,7 @@ public final class ModTags {
 
     public static class Entities {
         public static final TagKey<EntityType<?>> ES_WOODEN_CHEST_MINECARTS = tag(Registries.ENTITY_TYPE, Utils.id("wooden_chest_minecarts"));
+        public static final TagKey<EntityType<?>> ES_CHEST_MINECARTS = tag(Registries.ENTITY_TYPE, Utils.id("chest_minecarts"));
     }
 
     private static <T> TagKey<T> tag(ResourceKey<Registry<T>> registry, ResourceLocation id) {

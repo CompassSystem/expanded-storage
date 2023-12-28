@@ -5,6 +5,7 @@ import compasses.expandedstorage.api.EsChestType;
 import compasses.expandedstorage.impl.block.MiniStorageBlock;
 import compasses.expandedstorage.impl.block.entity.ChestBlockEntity;
 import compasses.expandedstorage.impl.client.ChestBlockEntityRenderer;
+import compasses.expandedstorage.impl.client.compat.inventory_tabs.ExpandedBlockTabProvider;
 import compasses.expandedstorage.impl.client.config.ConfigWrapper;
 import compasses.expandedstorage.impl.client.gui.AbstractScreen;
 import compasses.expandedstorage.impl.entity.ChestMinecart;
@@ -191,8 +192,8 @@ public class FabricClient implements ClientModInitializer {
     }
 
     public static void registerInventoryTabsCompat() {
-        if (FabricClient.isModLoaded("inventorytabs")) {
-//                InventoryTabCompat.register();
+        if (FabricClient.isModLoaded("inventory-tabs")) {
+            ExpandedBlockTabProvider.register();
         }
     }
 

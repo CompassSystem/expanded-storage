@@ -260,5 +260,12 @@ public class TagHelper {
                 .add(entityType(ModEntityTypes.PRESENT_MINECART))
                 .add(entityType(ModEntityTypes.BAMBOO_CHEST_MINECART))
                 .add(entityType(ModEntityTypes.MOSS_CHEST_MINECART));
+        tagMaker.apply(ModTags.Entities.ES_CHEST_MINECARTS)
+                .addTag(ModTags.Entities.ES_WOODEN_CHEST_MINECARTS)
+                .add(entityType(ModEntityTypes.IRON_CHEST_MINECART))
+                .add(entityType(ModEntityTypes.GOLD_CHEST_MINECART))
+                .add(entityType(ModEntityTypes.DIAMOND_CHEST_MINECART))
+                .add(entityType(ModEntityTypes.OBSIDIAN_CHEST_MINECART))
+                .add(entityType(ModEntityTypes.NETHERITE_CHEST_MINECART));
     }
 }

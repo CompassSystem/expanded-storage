@@ -135,6 +135,17 @@
   "block.expandedstorage.obsidian_chest":                               "Obsidian Chest",
   "block.expandedstorage.netherite_chest":                              "Netherite Chest",
 
+  "entity.expandedstorage.wood_chest_minecart":                         "Minecart with Chest",
+  "entity.expandedstorage.pumpkin_chest_minecart":                      "Minecart with Pumpkin Chest",
+  "entity.expandedstorage.present_minecart":                            "Minecart with Present",
+  "entity.expandedstorage.bamboo_chest_minecart":                       "Minecart with Bamboo Chest",
+  "entity.expandedstorage.moss_chest_minecart":                         "Minecart with Moss Chest",
+  "entity.expandedstorage.iron_chest_minecart":                         "Minecart with Iron Chest",
+  "entity.expandedstorage.gold_chest_minecart":                         "Minecart with Gold Chest",
+  "entity.expandedstorage.diamond_chest_minecart":                      "Minecart with Diamond Chest",
+  "entity.expandedstorage.obsidian_chest_minecart":                     "Minecart with Obsidian Chest",
+  "entity.expandedstorage.netherite_chest_minecart":                    "Minecart with Netherite Chest",
+
   "item.expandedstorage.wood_chest_minecart":                           "Minecart with Chest",
   "item.expandedstorage.pumpkin_chest_minecart":                        "Minecart with Pumpkin Chest",
   "item.expandedstorage.present_minecart":                              "Minecart with Present",
