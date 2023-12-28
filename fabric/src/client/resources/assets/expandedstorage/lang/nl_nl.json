@@ -133,6 +133,17 @@
   "block.expandedstorage.obsidian_chest":                               "Obsidianen Kist",
   "block.expandedstorage.netherite_chest":                              "Netherieten Kist",
 
+  "entity.expandedstorage.wood_chest_minecart":                           "Mijnkar met Kist",
+  "entity.expandedstorage.pumpkin_chest_minecart":                        "Mijnkar met Pompoen Kist",
+  "entity.expandedstorage.present_minecart":                              "Mijnkar met Cadeau",
+  "entity.expandedstorage.bamboo_chest_minecart":                         "Mijnkar met Bamboe Kist",
+  "entity.expandedstorage.moss_chest_minecart":                           "Mijnkar met Mos Kist",
+  "entity.expandedstorage.iron_chest_minecart":                           "Mijnkar met IJzeren Kist",
+  "entity.expandedstorage.gold_chest_minecart":                           "Mijnkar met Gouden Kist",
+  "entity.expandedstorage.diamond_chest_minecart":                        "Mijnkar met Diamanten Kist",
+  "entity.expandedstorage.obsidian_chest_minecart":                       "Mijnkar met Obsidianen Kist",
+  "entity.expandedstorage.netherite_chest_minecart":                      "Mijnkar met Netherieten Kist",
+
   "item.expandedstorage.wood_chest_minecart":                           "Mijnkar met Kist",
   "item.expandedstorage.pumpkin_chest_minecart":                        "Mijnkar met Pompoen Kist",
   "item.expandedstorage.present_minecart":                              "Mijnkar met Cadeau",

@@ -133,6 +133,17 @@
   "block.expandedstorage.obsidian_chest":                               "Baú de Obsidiana",
   "block.expandedstorage.netherite_chest":                              "Baú de Netherita",
 
+  "entity.expandedstorage.wood_chest_minecart":                           "Carrinho de mina com Baú",
+  "entity.expandedstorage.pumpkin_chest_minecart":                        "Carrinho de mina com Baú de Abóbora",
+  "entity.expandedstorage.present_minecart":                              "Carrinho de mina com Presente",
+  "entity.expandedstorage.bamboo_chest_minecart":                         "Carrinho de mina com Baú de Bambu",
+  "entity.expandedstorage.moss_chest_minecart":                           "Carrinho de mina com Baú de Musgo",
+  "entity.expandedstorage.iron_chest_minecart":                           "Carrinho de mina com Baú de Ferro",
+  "entity.expandedstorage.gold_chest_minecart":                           "Carrinho de mina com Baú de Ouro",
+  "entity.expandedstorage.diamond_chest_minecart":                        "Carrinho de mina com Baú de Diamante",
+  "entity.expandedstorage.obsidian_chest_minecart":                       "Carrinho de mina com Baú de Obsidiana",
+  "entity.expandedstorage.netherite_chest_minecart":                      "Carrinho de mina com Baú de Netherita",
+
   "item.expandedstorage.wood_chest_minecart":                           "Carrinho de mina com Baú",
   "item.expandedstorage.pumpkin_chest_minecart":                        "Carrinho de mina com Baú de Abóbora",
   "item.expandedstorage.present_minecart":                              "Carrinho de mina com Presente",
