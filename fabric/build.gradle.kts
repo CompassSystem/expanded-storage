@@ -1,59 +1,10 @@
-import compasses.idk_plugin.JsonNormalizerReader
-import net.fabricmc.loom.task.RemapJarTask
-import org.codehaus.groovy.runtime.ProcessGroovyMethods
-import org.gradle.kotlin.dsl.version
-import java.nio.file.Files
-
 plugins {
     `java-library`
-    id("dev.architectury.loom") version "1.2-SNAPSHOT"
-    id("io.github.juuxel.loom-quiltflower") version "1.10.0"
+    id("dev.architectury.loom")
+    id("mod-gradle-plugin")
 }
 
-group = "compasses"
-version = property("mod_version")!!
-base.archivesName.set(property("archives_base_name")!! as String)
-
-val minecraftVersion: String = property("minecraft_version") as String
-val javaVersion: JavaVersion = (property("java_version") as String).let { JavaVersion.toVersion(it) }
-
-val modId = property("mod_id") as String
-val usesDatagen = findProperty("template.usesDataGen") == "true"
-val producesReleaseArtifact = findProperty("template.producesReleaseArtifact") == "true"
-
-loom {
-    silentMojangMappingsLicense()
-
-    findProperty("access_widener_path")?.let {
-        accessWidenerPath = file(it)
-    }
-
-    mixin {
-        defaultRefmapName = "$modId.refmap.json"
-    }
-
-    splitEnvironmentSourceSets()
-
-    mods {
-        create(modId) {
-            sourceSet("main")
-            sourceSet("client")
-        }
-    }
-
-    runs {
-        // This adds a new gradle task that runs the datagen API: "gradlew runDatagen"
-        create("datagen") {
-            inherit(named("client").get())
-            name("Data Generation")
-            vmArg("-Dfabric-api.datagen")
-            vmArg("-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}")
-            vmArg("-Dfabric-api.datagen.modid=${modId}")
-
-            runDir("build/datagen")
-        }
-    }
-}
+group = "compass_system"
 
 // <editor-fold desc="// Dependencies">
 val compileScope = "modCompileOnly"
@@ -268,19 +219,6 @@ repositories {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:$minecraftVersion")
-
-    mappings(loom.layered {
-        officialMojangMappings()
-
-        findProperty("parchment_version")?.let {
-            parchment("org.parchmentmc.data:parchment-${it}@zip")
-        }
-    })
-
-    modImplementation("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-
     compileDependencies.forEach { (_, dependencies) ->
         dependencies.forEach {
             for (dependency in it.value) {
@@ -298,91 +236,26 @@ dependencies {
             }
         }
     }
-
-    compileOnly("org.jetbrains:annotations:24.0.1")
-}
-
-sourceSets {
-    named("main") {
-        if (usesDatagen) {
-            resources.srcDir("src/generated/resources")
-        }
-    }
 }
 
 tasks {
-    processResources {
-        inputs.properties(mutableMapOf("version" to version))
-
-        filesMatching("fabric.mod.json") {
-            expand(inputs.properties)
-        }
-
-        exclude(".cache/*")
-    }
-
-    withType(JavaCompile::class.java).configureEach {
-        options.encoding = "UTF-8"
-        options.release = javaVersion.ordinal + 1
-    }
-
     getByName<Jar>("jar") {
         from("LICENSE")
-
-        if (usesDatagen) {
-            exclude("**/datagen")
-        }
-
-        if (producesReleaseArtifact) {
-            archiveClassifier = "dev"
-        }
     }
-
-    getByName<RemapJarTask>("remapJar") {
-        if (producesReleaseArtifact) {
-            injectAccessWidener = true
-
-            archiveClassifier = "fat"
-        }
-    }
-
-    create("minJar", Jar::class.java) {
-        inputs.files(getByName("remapJar").outputs.files)
-
-        duplicatesStrategy = DuplicatesStrategy.FAIL
-
-        inputs.files.forEach {
-            if (it.extension == "jar") {
-                this.from(zipTree(it)) {
-                    exclude("**/MANIFEST.MF")
-                }
-            }
-        }
-
-        filesMatching(listOf("**/*.json", "**/*.mcmeta")) {
-            filter(JsonNormalizerReader::class.java)
-        }
-
-        dependsOn("remapJar")
-    }
-
-    build.get().dependsOn("minJar")
 }
 
-val modVersion = version as String
-
-fun getGitCommit(): String {
-    return ProcessGroovyMethods.getText(ProcessGroovyMethods.execute("git rev-parse HEAD"))
-}
-
-fun getFileContents(file: java.nio.file.Path): String {
-    return Files.readString(file).replace("\r\n", "\n")
-}
-
-val modChangelog = buildString {
-    append(getFileContents(rootDir.toPath().resolve("changelog.md")))
-    append("\nCommit: ${property("repo_base_url")!!}/commit/${getGitCommit()}")
-}
+//fun getGitCommit(): String {
+//    return ProcessGroovyMethods.getText(ProcessGroovyMethods.execute("git rev-parse HEAD"))
+//}
+//
+//fun getFileContents(file: java.nio.file.Path): String {
+//    return Files.readString(file).replace("\r\n", "\n")
+//}
+//
+//val modChangelog = buildString {
+//    append(getFileContents(rootDir.toPath().resolve("changelog.md")))
+//    append("\nCommit: ${property("repo_base_url")!!}/commit/${getGitCommit()}")
+//}
 
 //curseforge {
 //    curseGradleOptions.apply {

@@ -22,8 +22,8 @@
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/expanded-storage",
-    "issues": "https://gitlab.com/BucketOfCompasses/expanded-storage/-/issues",
-    "sources": "https://gitlab.com/BucketOfCompasses/expanded-storage"
+    "issues": "https://github.com/CompassSystem/expanded-storage/issues",
+    "sources": "https://github.com/CompassSystem/expanded-storage"
   },
   "icon": "icon.png",
   "id": "expandedstorage",
