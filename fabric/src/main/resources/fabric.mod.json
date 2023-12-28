@@ -17,8 +17,14 @@
   "environment": "*",
   "authors": [ "Compasses" ],
   "mixins": [
-    "expandedstorage.mixins.json",
-    "client-expandedstorage.mixins.json"
+    {
+      "config": "expandedstorage.mixins.json",
+      "environment": "*"
+    },
+    {
+      "config": "client-expandedstorage.mixins.json",
+      "environment": "client"
+    }
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/expanded-storage",
