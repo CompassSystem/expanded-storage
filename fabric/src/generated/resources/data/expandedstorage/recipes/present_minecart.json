@@ -15,5 +15,6 @@
   ],
   "result": {
     "item": "expandedstorage:present_minecart"
-  }
+  },
+  "show_notification": true
 }

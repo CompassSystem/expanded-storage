@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_chest"
+      "has_chest",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "expandedstorage:bamboo_chest_minecart"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

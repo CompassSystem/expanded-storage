@@ -20,13 +20,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_previous_block"
+      "has_previous_block",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "expandedstorage:bamboo_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

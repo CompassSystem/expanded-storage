@@ -20,13 +20,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_item"
+      "has_item",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "expandedstorage:gold_to_diamond_conversion_kit"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
