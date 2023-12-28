@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ItemStack.class)
-public class SparrowItemIdFix {
+public abstract class SparrowItemIdFix {
     @Shadow
     @Final
     private static Logger LOGGER;

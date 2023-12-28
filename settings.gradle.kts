@@ -12,11 +12,6 @@ pluginManagement {
             name = "MinecraftForge Maven"
             url = uri("https://maven.minecraftforge.net/")
         }
-
-        maven {
-            name = "Cotton Maven"
-            url = uri("https://server.bbkr.space/artifactory/libs-release/")
-        }
         gradlePluginPortal()
         mavenLocal()
     }
