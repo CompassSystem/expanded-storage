@@ -1,3 +1,1 @@
-- Backport latest code to 1.20.1
-- Thanks to Sisby folk for implementing support for Inventory Tabs 4.
-- Thanks also to Sisby folk for implementing localisation that also improved Jade support.
+- Fix copper oxidising too quickly.

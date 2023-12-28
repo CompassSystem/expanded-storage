@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,7 @@ public final class CopperBarrelBlock extends BarrelBlock implements WeatheringCo
     @Override
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        this.applyChangeOverTime(state, level, pos, random);
+        this.onRandomTick(state, level, pos, random);
     }
 
     @NotNull
