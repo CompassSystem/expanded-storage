@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class GenericItemAccess implements ItemAccess {
     private final OpenableBlockEntity entity;
-    @SuppressWarnings("UnstableApiUsage")
     private InventoryStorage storage = null;
 
     public GenericItemAccess(OpenableBlockEntity entity) {
@@ -88,7 +87,6 @@ public class GenericItemAccess implements ItemAccess {
                     wrapped.stopOpen(player);
                 }
             };
-            //noinspection UnstableApiUsage
             storage = InventoryStorage.of(transferApiInventory, null);
         }
         return storage;

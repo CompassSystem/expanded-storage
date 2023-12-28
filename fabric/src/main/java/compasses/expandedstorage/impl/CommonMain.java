@@ -608,7 +608,6 @@ public final class CommonMain {
         }
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     public static Storage<ItemVariant> getItemAccess(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Direction direction) {
         if (blockEntity instanceof OldChestBlockEntity entity) {
             DoubleItemAccess access = entity.getItemAccess();
